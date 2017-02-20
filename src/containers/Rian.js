@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Header from '../components/Header';
-import App from '../components/App';
+import Header from '../components/Rian/Header';
+import App from '../components/Rian/App';
 import * as RianActions from '../actions';
 
 import '../styles/App.css';
