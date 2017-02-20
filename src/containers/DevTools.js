@@ -8,7 +8,7 @@ export default createDevTools(
   <DockMonitor toggleVisibilityKey='ctrl-h'
     changePositionKey='ctrl-q'
     defaultPosition='bottom'
-    defaultSize={0.15}
+    defaultSize={0.2}
     changeMonitorKey='ctrl-m'
   >
   	<SliderMonitor keyboardEnabled />
