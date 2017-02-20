@@ -5,7 +5,7 @@ import Header from '../components/Rian/Header';
 import App from '../components/Rian/App';
 import * as RianActions from '../actions';
 
-import '../styles/App.css';
+import '../styles/Rian.css';
 
 
 class RianApp extends Component {
