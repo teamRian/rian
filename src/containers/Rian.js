@@ -18,8 +18,8 @@ class RianApp extends Component {
 
     return (
       <div className="App">
-        <Header />
-        <App />
+        <Header/>
+        <App/>
       </div>
     );
   }
