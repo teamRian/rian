@@ -44,8 +44,8 @@ npm run start:server
 ## Built With
 
 * [React](https://facebook.github.io/react/) - Web framework
-* [Redux](http://redux.js.org/) - 
-* [Express](http://expressjs.com/) - 
+* [Redux](http://redux.js.org/) - JS Library
+* [Express](http://expressjs.com/) - Node server framework
 * [MongoDB](https://www.mongodb.com/) - Database
 * [Mongoose](http://mongoosejs.com/) - MongoDB object modeling
 * [Webpack v2](https://webpack.js.org/) - Bundler
