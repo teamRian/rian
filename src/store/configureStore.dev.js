@@ -14,12 +14,8 @@ const enhancer = compose(
         loggerMiddleware,
         promiseMiddleware
     ),
-    DevTools.instrument(),
-    persistState(
-        window.location.href.match(
-          /[?&]debug_session=([^&]+)\b/
-        )
-    )
+    DevTools.instrument()
+
 );
 
 // compose = Composes functions from right to left.

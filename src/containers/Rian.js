@@ -9,9 +9,9 @@ import '../styles/Rian.css';
 
 
 class RianApp extends Component {
-  static propTypes = {
-    actions: PropTypes.object
-  };
+  // static propTypes = {
+  //   actions: PropTypes.object
+  // };
 
   render() {
     // const { todos, actions } = this.props;
