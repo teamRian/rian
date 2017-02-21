@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import Rian from './Rian';
 import DevTools from './DevTools';
-// import '../styles/Rian.css';
+import '../styles/Rian.css';
 
 export default class Root extends Component {
   // static propTypes = {
@@ -18,6 +18,7 @@ export default class Root extends Component {
       <Provider store={store}>
         <div>
           <Rian />
+          sdfsdfsdfsdfsdfsdfs
           <DevTools />
         </div>
       </Provider>

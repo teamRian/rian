@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 
 module.exports = {
@@ -23,39 +23,42 @@ module.exports = {
   },
 
   output: {
-    path: '/',
+    path: __dirname,
     filename: '[name].js',
     publicPath: 'http://0.0.0.0:8000/',
   },
 
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-    modules: [
-      'src',
-      'node_modules',
-    ],
-  },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: 'css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap!postcss-loader',
-      }, {
-        test: /\.css$/,
-        include: /node_modules/,
-        loader: 'css-loader',
-      }, {
+        use: ['style-loader', 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: 'url-loader'
+      },
+      {
         test: /\.jsx*$/,
         exclude: [/node_modules/, /.+\.config.js/],
-        loader: 'babel'
-      }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        loader: 'url-loader?limit=10000',
-      }, {
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      }, 
+      {
+        test: /\.png$/,
+        use: { loader: 'url-loader', options: {limit: 100000} },
+      },
+      {
+        test: /\.jpg$/,
+        use: 'file-loader',
+      }, 
+      {
         test: /\.json$/,
-        loader: 'json-loader',
+        use: 'json-loader',
       },
     ],
   },
@@ -74,17 +77,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('development'),
       }
     }),
-    new ExtractTextPlugin('styles.css')
   ],
 
-  postcss: () => [
-    postcssFocus(),
-    cssnext({
-      browsers: ['last 2 versions', 'IE > 10'],
-    }),
-    postcssReporter({
-      clearMessages: true,
-    }),
-  ],
   
 };
