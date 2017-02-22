@@ -17,4 +17,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # mongoDB
-data/mongoDB
+/data/mongoDB
+
+# bower
+/bower_components
