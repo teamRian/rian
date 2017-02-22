@@ -18,7 +18,6 @@ export default class Root extends Component {
       <Provider store={store}>
         <div>
           <Rian />
-          sdfsdfsdfsdfsdfsdfs
           <DevTools />
         </div>
       </Provider>

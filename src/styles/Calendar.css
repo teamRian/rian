@@ -1,0 +1,32 @@
+#calendar {
+	width: 100%;
+	height: 100%;
+	border-collapse: separate;
+	border-spacing:10px;
+	font-family: Arial, "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+	font-size: 12px;
+}
+
+#calendar tbody td {
+	text-align: right;
+	vertical-align: top;
+    height: 116px;
+    width: 13%;
+    border-radius: 0;
+    margin: 0 10px;
+    border: none;
+    border-top: 2px solid #eee;
+    padding: 8px;
+}
+
+/*#calendar tbody td:hover {
+	background-color: #ebfaff;
+}*/
+#calendar td.empty{
+	border: none;
+}
+
+#calendar-container {
+	padding:20px;
+	height:100%;
+}
