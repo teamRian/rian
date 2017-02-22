@@ -108,7 +108,6 @@ app.get('/chat', (req,res)=>{
   res.redirect('/#/chat')
 })
 
-console.log("!!!@!@!@!@!@!@!@!@@!@!@");
 
 // Socketio Chat
 const server = require('http').createServer(app);
