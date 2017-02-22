@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 
 import * as NoteEditorReducer from './NoteEditorReducer.js'
+import * as CalendarReducer from './CalendarReducer'
+
 
 var initstate = {
 	data: "TEST!" 
@@ -19,7 +21,8 @@ const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
 		{ tempreducer },
-		NoteEditorReducer
+		NoteEditorReducer,
+		CalendarReducer
 	))
 
 export default rootReducer
