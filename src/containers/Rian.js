@@ -5,13 +5,13 @@ import Header from '../components/Rian/Header';
 import App from '../components/Rian/App';
 import * as RianActions from '../actions';
 
-import '../styles/Rian.css';
+//import '../styles/Rian.css';
 
 
 class RianApp extends Component {
-  static propTypes = {
-    actions: PropTypes.object
-  };
+  // static propTypes = {
+  //   actions: PropTypes.object
+  // };
 
   render() {
     // const { todos, actions } = this.props;
