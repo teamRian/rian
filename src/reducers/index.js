@@ -1,27 +1,25 @@
 import { combineReducers } from 'redux'
-import {
-  // SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
-  // REQUEST_POSTS, RECEIVE_POSTS
-} from '../actions'
+
+import * as NoteEditorReducer from './NoteEditorReducer.js'
+
 var initstate = {
-	data: 1 
+	data: "TEST!" 
 }
 
 var tempreducer = function(state = initstate, action){
 	switch(action.type) {
 		case "PASS":
-		return {
-
-		}
+			return 
 		default:
 			return state
 	}
 }
 
-
-
-const rootReducer = combineReducers({
-	tempreducer
-})
+const rootReducer = combineReducers(
+	Object.assign(
+		{}, 
+		{ tempreducer },
+		NoteEditorReducer
+	))
 
 export default rootReducer

@@ -21,8 +21,8 @@ const enhancer = compose(
 // compose = Composes functions from right to left.
 
 
-
 export default function configureStore(initialState) {
+  
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
