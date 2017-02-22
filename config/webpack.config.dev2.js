@@ -60,6 +60,9 @@ module.exports = {
         test: /\.json$/,
         use: 'json-loader',
       },
+      { test: /\.(woff|ttf|eot)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/, 
+        use: 'url-loader?limit=100000' 
+      }
     ],
   },
 

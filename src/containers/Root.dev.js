@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import Rian from './Rian';
 import DevTools from './DevTools';
 import '../styles/Rian.css';
+import NoteEditor from './NoteEditor/NoteEditorContainer.js'
+
 
 export default class Root extends Component {
   // static propTypes = {
@@ -18,7 +20,7 @@ export default class Root extends Component {
       <Provider store={store}>
         <div>
           <Rian />
-          sdfsdfsdfsdfsdfsdfs
+
           <DevTools />
         </div>
       </Provider>
