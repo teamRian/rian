@@ -19,7 +19,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <div>
-          <NoteEditor />
+          <Rian />
           <DevTools />
         </div>
       </Provider>

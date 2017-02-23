@@ -31,7 +31,7 @@ class RianApp extends Component {
       borderRight: "1px solid rgba(210,210,210,1)",
       padding: "0px 0px"
     }
-
+    // let App = 
     return (
       <div className="App">
         <div style={marginZero}>
@@ -43,7 +43,7 @@ class RianApp extends Component {
               <Navigation />
             </div>
             <div className="col-xs-11">
-              <TodoContainer />
+              <Calendar />
             </div>
           </div>
         </div>
