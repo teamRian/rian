@@ -1,9 +1,13 @@
-import { CALENDAR_REQUEST_DATA } from '../actions/CalendarActions.js'
-
+import moment from 'moment';
+var currentDate = moment().format('l').split('/').map(item=>parseInt(item));
 var CalendarState = {
 	type: 'month',
-	status: false,
-	data: {1:[{type:'repeat', title:'WORKING', startTime:'18:00', endTime:'20:00'}]}
+	loading: false,
+	day: currentDate[1],
+	month: currentDate[0],
+	year: currentDate[2],
+	locale: moment.locale(),
+	data: [] // [plan, plan, plan]
 }
  // CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA 
 
@@ -11,18 +15,30 @@ export function Calendar(state = CalendarState, action) {
 	switch (action.type){
 		case "CALENDAR_REQUEST_DATA":
 			return Object.assign({}, state, {
-				status: action.status,
-				data: action.data
+				loading: action.loading
 			})
 		case "CALENDAR_GET_DATA":
 			return Object.assign({}, state, {
-				status: action.status,
+				loading: action.loading,
 				data: action.data
 			})
 		case "CALENDAR_FAIL_DATA":
 			return Object.assign({}, state, {
-				status: action.status,
+				loading: action.loading,
 				data: action.data
+			})
+		case "CALENDAR_POST_SEND":
+			return Object.assign({}, state, {
+				loading: action.loading
+			})
+		case "CALENDAR_POST_SUCCESS":
+			return Object.assign({}, state, {
+				loading: action.loading,
+				data: [...state.data, action.data]
+			})
+		case "CALENDAR_POST_FAIL":
+			return Object.assign({}, state, {
+				loading: action.loading
 			})
 		default:
 			return state

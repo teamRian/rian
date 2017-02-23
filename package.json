@@ -103,6 +103,7 @@
     "redux-slider-monitor": "^1.0.7",
     "redux-thunk": "^2.2.0",
     "socket-io": "^1.0.0",
+    "url": "^0.11.0",
     "webpack": "^2.2.1"
   },
   "scripts": {
