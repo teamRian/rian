@@ -88,7 +88,6 @@
     "d3": "^4.6.0",
     "draft-js": "^0.10.0",
     "draft-js-ast-exporter": "0.0.4",
-    "draft-js-ast-importer": "0.0.4",
     "express": "^4.14.1",
     "font-awesome": "^4.3.0",
     "http": "0.0.0",
