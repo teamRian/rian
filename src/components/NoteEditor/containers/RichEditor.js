@@ -6,7 +6,9 @@ import {
   RichUtils,
   ContentState,
   CompositeDecorator,
-  AtomicBlockUtils
+  AtomicBlockUtils,
+  convertToRaw,
+  convertFromRaw
 } from 'draft-js';
 import {
   getSelectionRange,
@@ -18,6 +20,8 @@ import InlineToolbar from '../components/InlineToolbar';
 import ImageComponent from '../components/ImageComponent';
 import '../css/Draft.css'
 import '../css/styles.css'
+import exporter from 'draft-js-ast-exporter'
+import importer from 'draft-js-ast-importer'
 class RichEditor extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +32,9 @@ class RichEditor extends Component {
     };
 
     this.onChange = (editorState) => {
+    
+
+
       if (!editorState.getSelection().isCollapsed()) {
         const selectionRange = getSelectionRange();
         const selectionCoords = getSelectionCoords(selectionRange);
@@ -43,7 +50,6 @@ class RichEditor extends Component {
       } else {
         this.setState({ inlineToolbar: { show: false } });
       }
-
       this.setState({ editorState });
       setTimeout(this.updateSelection, 0);
     }
@@ -69,6 +75,21 @@ class RichEditor extends Component {
       }
       return null;
     }
+  }
+
+  hande(){
+        console.log('front', this.props.data)
+        var as = convertFromRaw(this.props.data)
+        console.log("as", as)
+
+        this.setState({ editorState: EditorState.moveFocusToEnd(EditorState.createWithContent(as)) });
+  }
+
+  hand2(){
+
+    var ast = convertToRaw( this.state.editorState.getCurrentContent() )
+    console.log(ast)
+    this.props.onChangeDispatch(ast)
   }
 
   _updateSelection() {
@@ -173,8 +194,11 @@ class RichEditor extends Component {
           readOnly={this.state.editingImage}
           ref="editor"
         />
+
         <input type="file" ref="fileInput" style={{display: 'none'}}
           onChange={this.handleFileInput} />
+        <button onClick={this.hande.bind(this)}>load </button>
+           <button onClick={this.hand2.bind(this)}>save </button>
       </div>
     );
   }
