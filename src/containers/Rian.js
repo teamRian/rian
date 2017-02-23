@@ -19,7 +19,6 @@ class RianApp extends Component {
     return (
       <div className="App">
         <Header/>
-        <Calendar/>
         <App/>
       </div>
     );
