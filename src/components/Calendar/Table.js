@@ -4,14 +4,17 @@ import * as d3 from 'd3'
 import { Calendar } from 'calendar';
 import moment from 'moment';
 
+const duration = 1500;
 const days = ['Sun','Mon','Tue','Wed','Thu','Fri',"Sat"]
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 class Table extends Component {
   constructor(props){
     super(props);
+    console.log("Table Props: ", this.props)
   }
 
   componentDidMount(){
+    var that = this;
     var initialTime = {
       locale: moment.locale(),
       currentDate: moment().format('l').split('/').map(function(item){
@@ -21,9 +24,24 @@ class Table extends Component {
     var time = this.getTime(initialTime);
     var weeks = this.renderTime(time);
     const node = this.refs.calendar
-    this.renderTable(weeks, time);
+    this.renderTable(weeks, time, duration);
 
+    var data = this.props.data
+    if(data !== null){
+      for (var key in data) {
+        if(Array.isArray(data[key])){
+          data[key].forEach((item)=>{
+            this.renderData(key,item)
+          })
+        }
+      }
+    }
 
+  }
+  renderData(id,data){
+    d3.select(`#id${id}`)
+      .append('div')
+      .text(`${data.title} ${data.startTime}~${data.endTime}`)
   }
   getTime(time){
     time.day = time.currentDate[1]; // 22
@@ -41,7 +59,7 @@ class Table extends Component {
     return weeks;
   }
 
-  renderTable(weeks, time) {
+  renderTable(weeks, time, duration) {
     const table = d3.select('#calendar');
     const header = table.append('thead');
     const body = table.append('tbody');
@@ -50,8 +68,12 @@ class Table extends Component {
       .append('tr')
       .append('td')
       .attr('colspan', 7)
-      .style('text-align', 'center')
       .text(`${months[time.month-1]}, ${time.year}`)
+      .style('text-align', 'center')
+      .style("opacity",0)
+    .transition()
+      .duration(duration)
+      .style("opacity",1)
 
     header
       .append('tr')
@@ -59,8 +81,12 @@ class Table extends Component {
       .data(days)
       .enter()
       .append('td')
-      .style('text-align', 'center')
       .text((d)=> d)
+      .style('text-align', 'center')
+      .style('opacity',0)
+    .transition()
+      .duration(duration)
+      .style("opacity",1)
 
     weeks.forEach(function(week){
       body
@@ -82,6 +108,10 @@ class Table extends Component {
             return d
           }
         })
+        .style("opacity",0)
+      .transition()
+        .duration(duration)
+        .style("opacity",1)
  
     })
 
@@ -96,6 +126,8 @@ class Table extends Component {
       .style('background-color', '#ffffff')
   }
   handleMouseClick(d,i){
+    console.log('inside click');
+    this.props.getPlan('2017')
     d3.select('#id'+d)
       .append('div')
       .text('HEY')

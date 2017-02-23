@@ -1,22 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { calendarRequest } from '../../actions/CalendarActions';
+
 import d3 from 'd3';
-import * as RianActions from '../../actions';
+import {} from '../../actions';
 import Table from '../../components/Calendar/Table';
 import '../../styles/Calendar.css';
+
 class Calendar extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      type: 'month'
-    }
+    console.log('props: ',this.props);
   }
-  onTypeChange(type) {
-    this.setState({
-      type,
-    });
-  }
+  // onTypeChange(type) {
+  //   this.setState({
+  //     type,
+  //   });
+  // }
 
   componentDidMount(){
   }
@@ -26,7 +27,7 @@ class Calendar extends Component {
 
     return (
       <div id="calendar-container" style={{ zIndex: 1000, position: 'relative' }}>
-        <Table time/>        
+        <Table data={this.props.data} status={this.props.status} type={this.props.type} getPlan={(query)=>this.props.getPlan.bind(this)(query)}/>        
       </div>
     );
   }
@@ -35,12 +36,18 @@ class Calendar extends Component {
 function mapState(state) {
   return {
     // todos: state.todos
+    data: state.Calendar.data,
+    status: state.Calendar.status,
+    type: state.Calendar.type
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    actions: bindActionCreators(RianActions, dispatch)
+    getPlan: (query)=> {
+      console.log('inside map dispatch');
+      dispatch(calendarRequest(query)
+    )}
   };
 }
 
