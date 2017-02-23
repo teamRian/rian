@@ -1,2 +1,6 @@
-export const ADD_TO_DO = "ADD_TO_DO"
 export const NOTE_WRITE = "NOTE_WRITE"
+
+// TO-DO LIST ACTIONS
+export const TODO_ADD = "TODO_ADD";
+export const TODO_CHANGE_STATUS = "TODO_CHANGE_STATUS";
+export const TODO_REMOVE = "TODO_REMOVE";

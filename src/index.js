@@ -7,6 +7,8 @@ import configureStore from './store/configureStore'
 import { AppContainer } from 'react-hot-loader';
 import './index.css';
 
+import todoList from './components/Todo/testData.js'
+
 // configs in './configureStore.js'
 const store = configureStore() 
 console.log("FIRST STORE", store.getState())
