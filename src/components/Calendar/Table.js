@@ -14,61 +14,75 @@ class Table extends Component {
   }
 
   componentDidMount(){
+    console.log()
+    const {data,day,locale,month,type,year} = this.props.Calendar
     var that = this;
     var initialTime = {
-      locale: moment.locale(),
+      locale: locale,
       currentDate: moment().format('l').split('/').map(function(item){
         return parseInt(item);
       })
     }
-    var time = this.getTime(initialTime);
-    var weeks = this.renderTime(time);
-    const node = this.refs.calendar
-    this.renderTable(weeks, time, duration);
+    var weeks = this.renderTime(year, month);
+    const table = d3.select('#calendar');
+    const header = table.append('thead');
+    const body = table.append('tbody');
+    this.renderTableHeader(table,header,body)
+    this.renderTable(table, header, body, duration, weeks, month, year);
+    this.renderTable(table, header, body, duration, weeks, month, year);
+    this.selectDate(day);
+    this.props.calendarRequest();
 
-    var data = this.props.data
-    if(data !== null){
-      for (var key in data) {
-        if(Array.isArray(data[key])){
-          data[key].forEach((item)=>{
-            this.renderData(key,item)
-          })
-        }
-      }
+  }
+
+
+  componentWillReceiveProps(nextProps){
+    console.log(this.props, ': WILL RECEIVE : ', nextProps)
+    console.log(nextProps.Calendar.loading)
+    if(!nextProps.Calendar.loading){
+      nextProps.Calendar.data.forEach(d=>{
+        this.renderData(d)
+      })
+
     }
-
+   
   }
-  renderData(id,data){
-    d3.select(`#id${id}`)
+
+  selectDate(day){
+    d3.select('#calendar tbody td.active')
+      .classed('active', false)
+    d3.select(`#id${day}`)
+      .classed('active', true);
+  }
+  renderData(data){
+      console.log(data);
+    d3.select(`#id${data.day}`)
       .append('div')
-      .text(`${data.title} ${data.startTime}~${data.endTime}`)
+      .text(`${data.title}`)
   }
-  getTime(time){
-    time.day = time.currentDate[1]; // 22
-    time.month = time.currentDate[0]; // 2
-    time.year = time.currentDate[2]; // 2017
-    time.currentDate = time.currentDate.join('/');
-    return time;
-  }
+  // getTime(time){
+  //   time.day = time.currentDate[1]; // 22
+  //   time.month = time.currentDate[0]; // 2
+  //   time.year = time.currentDate[2]; // 2017
+  //   time.currentDate = time.currentDate.join('/');
+  //   return time;
+  // }
 
 
-  renderTime(time) {
-    const cal = new Calendar();
-    var weeks = cal.monthDays(time.year, time.month-1); //[0,0,0,1,2,3,4], ....
+  renderTime(year, month) {
+    const cal = new Calendar(0);
+    var weeks = cal.monthDays(year, month-1); //[0,0,0,1,2,3,4], ....
         // var weeks = cal.monthDays(2017,1); // 2017,1** = 2017 Feb
     return weeks;
   }
 
-  renderTable(weeks, time, duration) {
-    const table = d3.select('#calendar');
-    const header = table.append('thead');
-    const body = table.append('tbody');
-    let that = this;
+  renderTableHeader(table, header, body, duration){
+    
     header
       .append('tr')
-      .append('td')
-      .attr('colspan', 7)
-      .text(`${months[time.month-1]}, ${time.year}`)
+      .append('button')
+      .text('Add')
+      .on('click', (d,i)=> that.handleButtonClick(d,i))
       .style('text-align', 'center')
       .style("opacity",0)
     .transition()
@@ -88,6 +102,24 @@ class Table extends Component {
       .duration(duration)
       .style("opacity",1)
 
+  }
+
+  renderTable(table, header, body, duration, weeks, month, year) {
+    let that = this;
+
+    body
+      .append('tr')
+      .attr('colspan', 7)
+      .text(`${months[month-1]}, ${year}`)
+      .style('text-align', 'left')
+      .style('font-weight', 'bold')
+      .style('font-size', '14px')
+      .style("opacity",0)
+    .transition()
+      .duration(duration)
+      .style("opacity",1)
+   
+
     weeks.forEach(function(week){
       body
         .append('tr')
@@ -100,9 +132,9 @@ class Table extends Component {
             return 'id'+ d
           }
         })
-        .on('mouseover', (d,i)=>that.handleMouseOver(d,i))
-        .on('mouseout', (d,i)=>that.handleMouseOut(d,i))
-        .on('click', (d,i)=>that.handleMouseClick(d,i))
+        // .on('mouseover', (d,i)=>that.handleMouseOver(d,i))
+        // .on('mouseout', (d,i)=>that.handleMouseOut(d,i))
+        .on('click', (d,i)=>that.selectDate(d,i))
         .text((d)=>{
           if (d !== 0){
             return d
@@ -117,6 +149,16 @@ class Table extends Component {
 
   }
 
+  handleButtonClick(d,i){
+    console.log('inside click');
+    const {year, month, day } = this.props.Calendar
+    this.props.calendarPost({
+      year, month, day, 
+      type: "once",
+      title: "New Event",
+    })
+  }
+
   handleMouseOver(d,i){
     d3.select('#id'+d)
       .style('background-color', '#ebfaff')
@@ -127,7 +169,10 @@ class Table extends Component {
   }
   handleMouseClick(d,i){
     console.log('inside click');
-    this.props.getPlan('2017')
+    this.props.calendarRequest({
+      year:2017,
+      month: 2
+    })
     d3.select('#id'+d)
       .append('div')
       .text('HEY')

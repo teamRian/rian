@@ -1,15 +1,30 @@
 import Plan from '../models/plan';
+import url from 'url';
 // import cuid from 'cuid';
 // import slug from 'limax';
 // import sanitizeHtml from 'sanitize-html';
-export function getPlan(req,res){
-  console.log('inside getplan', req.params)
-    Plan.find().exec((err,years)=>{
-      if(err) res.status(500).send(err);
-      res.json({years});
-    })
+export function calendarRequest(req,res){
+  // var parsed = url.parse(req.url, true).query; // true parse queryString
+    Plan.find()
+      .then(response=>{
+        console.log('response from database: ', response)
+        res.json(response)
+      })
+      .catch(err=>console.log(err))
 
 }
+
+export function calendarPost(req,res){
+  console.log('req:body!', req.body)
+  var post = new Plan(req.body);
+  post.save()
+    .then(form=>{
+      console.log('FORM!!!::', form)
+      res.json(form)
+    })
+    .catch(err=>console.log(err))
+}
+
 /**
  * Get all posts
  * @param req

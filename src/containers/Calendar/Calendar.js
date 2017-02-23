@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { calendarRequest } from '../../actions/CalendarActions';
+import { calendarRequest, calendarPost } from '../../actions/CalendarActions';
 
 import d3 from 'd3';
 import {} from '../../actions';
@@ -27,7 +27,11 @@ class Calendar extends Component {
 
     return (
       <div id="calendar-container" style={{ zIndex: 1000, position: 'relative' }}>
-        <Table data={this.props.data} status={this.props.status} type={this.props.type} getPlan={(query)=>this.props.getPlan.bind(this)(query)}/>        
+        <Table 
+          Calendar={this.props.Calendar}
+          calendarRequest={query=>this.props.calendarRequest.bind(this)(query)}
+          calendarPost={form=>this.props.calendarPost.bind(this)(form)}
+        />        
       </div>
     );
   }
@@ -35,19 +39,20 @@ class Calendar extends Component {
 
 function mapState(state) {
   return {
-    // todos: state.todos
-    data: state.Calendar.data,
-    status: state.Calendar.status,
-    type: state.Calendar.type
+    Calendar: state.Calendar
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    getPlan: (query)=> {
-      console.log('inside map dispatch');
-      dispatch(calendarRequest(query)
-    )}
+    calendarRequest: (query)=> {
+      console.log('request dispatch');
+      dispatch(calendarRequest(query));
+    },
+    calendarPost: (form)=> {
+      console.log('post dispatch: ', form);
+      dispatch(calendarPost(form));
+    }
   };
 }
 
