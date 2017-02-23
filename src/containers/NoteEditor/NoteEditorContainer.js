@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import NoteEditor from '../../components/NoteEditor/containers/RichEditor.js';
-import * as NoteEditorActions from '../../actions/NoteEditorActions.js';
+import RichEditor from '../../components/NoteEditor/containers/RichEditor.js';
+import * as actions from '../../actions/NoteEditorActions.js';
 
 class NoteEditorContainer extends Component {
   
@@ -9,20 +9,22 @@ class NoteEditorContainer extends Component {
     
     return (
       <div className="NoteEditor">
-        <NoteEditor />
+        <Richditor editorState={this.props.editorState} puttext={this.props.puttext}/>
       </div>
     );
   }
 }
 
 function mapState(state) {
-  return {    
-  };
+  return { 
+    data: state.NoteEditor.data 
+  }
 }
 
 function mapDispatch(dispatch) {
   return {
+    onChangeDispatch: (value) => dispatch(actions.onChangeDispatch(value)) 
   };
 }
 
-export default connect(mapState, mapDispatch)(NoteEditor);
+export default connect(mapState, mapDispatch)(RichEditor);
