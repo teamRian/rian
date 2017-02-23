@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Root from './containers/Root';
-import configureStore from './store/configureStore'
+import configureStore from './store/configureStore';
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 import { AppContainer } from 'react-hot-loader';

@@ -37,6 +37,11 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader', 'postcss-loader']
+      },
+      {
         test: /\.svg$/,
         use: 'url-loader'
       },
@@ -45,7 +50,7 @@ module.exports = {
         exclude: [/node_modules/, /.+\.config.js/],
         loader: 'babel-loader',
         query: {
-          presets: ['es2015']
+          presets: ['es2015', 'react']
         }
       }, 
       {
@@ -60,7 +65,7 @@ module.exports = {
         test: /\.json$/,
         use: 'json-loader',
       },
-      { test: /\.(woff|ttf|eot)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/, 
+      { test: /\.(woff|woff2|ttf|eot)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/, 
         use: 'url-loader?limit=100000' 
       }
     ],
