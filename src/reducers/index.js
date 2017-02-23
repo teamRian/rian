@@ -1,28 +1,14 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-import * as NoteEditorReducer from './NoteEditorReducer.js'
-import * as CalendarReducer from './CalendarReducer'
-
-
-var initstate = {
-	data: "TEST!" 
-}
-
-var tempreducer = function(state = initstate, action){
-	switch(action.type) {
-		case "PASS":
-			return 
-		default:
-			return state
-	}
-}
+// Import Reducers
+import * as NoteEditorReducer from './NoteEditorReducer.js';
+import * as TodosReducer from './TodosReducer.js';
 
 const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
-		{ tempreducer },
 		NoteEditorReducer,
-		CalendarReducer
+		TodosReducer
 	))
 
-export default rootReducer
+export default rootReducer;

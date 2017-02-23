@@ -20,10 +20,10 @@ const enhancer = compose(
 
 // compose = Composes functions from right to left.
 
-
 export default function configureStore() {
   
   const store = createStore(rootReducer, enhancer);
+
   if (module.hot) {
     module.hot.accept('../reducers', () =>
       store.replaceReducer(require('../reducers'))
