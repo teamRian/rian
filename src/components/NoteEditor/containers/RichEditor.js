@@ -82,7 +82,7 @@ class RichEditor extends Component {
         var as = convertFromRaw(this.props.data)
         console.log("as", as)
 
-        this.setState({ editorState: EditorState.moveFocusToEnd(EditorState.createWithContent(as)) });
+        this.setState({ editorState: EditorState.moveFocusToEnd(EditorState.createWithContent(as)s });
   }
 
   hand2(){
