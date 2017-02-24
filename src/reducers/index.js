@@ -1,4 +1,13 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
+import {
+  // SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
+  // REQUEST_POSTS, RECEIVE_POSTS
+} from '../actions'
+import * as ChatReducer from './ChatReducer';
+
+var initstate = {
+	data: 1 
+}
 
 // Import Reducers
 import * as NoteEditorReducer from './NoteEditorReducer.js';
@@ -10,7 +19,9 @@ const rootReducer = combineReducers(
 		{}, 
 		NoteEditorReducer,
 		TodosReducer,
-		CalendarReducer
+		CalendarReducer,
+		ChatReducer
 	))
 
 export default rootReducer;
+

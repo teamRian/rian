@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ChatApp from '../../containers/Chat/ChatApp';
 
 class App extends Component {
   render() {
@@ -7,6 +8,7 @@ class App extends Component {
         <p className="App-intro">
         Calendar | TodoList | Chatbox | Whiteboard
         </p>
+        <ChatApp/>
       </div>
     );
   }

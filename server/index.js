@@ -15,6 +15,9 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 // Initialize the Express App
 const app = new Express();
 
+
+
+
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(config);
@@ -95,8 +98,14 @@ app.get('/', function(req, res, next){
 })
 console.log("!!!@!@!@!@!@!@!@!@@!@!@");
 
+// Socketio Chat
+const server = require('http').createServer(app);
+const io = require('socket.io').listen(server);
+const socket = require('./routes/socket');
+
+io.on('connection', socket.bind(io))
 // start app
-app.listen(serverConfig.port, (error) => {
+server.listen(serverConfig.port, (error) => {
   if (!error) {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }

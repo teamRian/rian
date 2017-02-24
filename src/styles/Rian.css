@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+form {
+  text-align: left;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.btn.btn-sm {
+  margin-bottom: 30px;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -10,6 +22,11 @@
 .App-intro {
   font-size: large;
 }
+
+.changeNameBtn {
+  margin-bottom: 30px;
+}
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

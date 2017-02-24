@@ -8,7 +8,7 @@ import * as RianActions from '../actions';
 import {Grid, Col, Row} from 'react-bootstrap';
 import Navigation from '../components/Navigation/Navigation.js'
 
-//import '../styles/Rian.css';
+import '../styles/Rian.css';
 
 class RianApp extends Component {
   // static propTypes = {
