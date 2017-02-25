@@ -11,34 +11,53 @@ const styleMap = {
   },
 };
 
+// props =>
+// contentCurrentStateRaw
+// changeContentState
 
 class WhiteBoardPanel extends React.Component{
 
 	constructor(props) {
 		super(props);
+		console.log('props check :::', this.props);
 		this.state = { 
 			editorState : EditorState.createEmpty()
 		}
+
+		/* bind */
 		this.listenMessage.bind(this)();
+		this._onBoldClick.bind(this);
+		this.handleKeyCommand = this.handleKeyCommand.bind(this);
+
+		/* function */
 		this.onChange = (editorState) => {
+			
 			this.setState({editorState});
-			console.log('selectionState ::: ', editorState.getSelection().getAnchorKey());
+			// console.log('selectionState ::: ', editorState.getSelection().getAnchorKey());
 			var currentContent = editorState.getCurrentContent();			
 			var currentContentRaw = convertToRaw(currentContent);
 			this.props.socket.emit('editorState',  currentContentRaw);
-			this.handleKeyCommand = this.handleKeyCommand.bind(this);
+			
 		} 
+
 	}
 
 	listenMessage(){
 		
 		var panel = this;
 		
+		// this.props.socket.on('editorState', function(currentContentRaw){
+		// 	console.log('server sent me ', currentContentRaw);
+		// 	var currentContent = convertFromRaw(currentContentRaw);
+		// 	//console.log('currentContent ::: receive ::: ', currentContent)
+		// 	panel.setState({editorState : EditorState.moveSelectionToEnd(EditorState.createWithContent(currentContent)) });
+		// });
 		this.props.socket.on('editorState', function(currentContentRaw){
-			console.log('server sent me ', currentContentRaw);
-			var currentContent = convertFromRaw(currentContentRaw);
-			//console.log('currentContent ::: receive ::: ', currentContent)
-			panel.setState({editorState : EditorState.moveSelectionToEnd(EditorState.createWithContent(currentContent)) });
+			//1. store에 저장
+			panel.props.changeContentState(currentContentRaw);
+			let currentContent = convertFromRaw(currentContentRaw);
+			//2. editor 상태변경
+			panel.setState({editorState : EditorState.moveSelectionToEnd(EditorState.createWithContent(currentContent)) })
 		});
 
 	}
@@ -66,7 +85,7 @@ class WhiteBoardPanel extends React.Component{
 
 		return(
 			<div>
-				<button onClick={this._onBoldClick.bind(this)}>Bold</button>
+				<button onClick={this._onBoldClick}>Bold</button>
 				<Editor editorState={this.state.editorState}								
 								customStyleMap={styleMap}
                 ref="editor"
