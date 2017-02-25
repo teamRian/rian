@@ -32,6 +32,20 @@ export default class CalendarBody extends Component {
     this.props.calendarRequest();
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log(this.props, nextProps)
+
+    let next = nextProps.Calendar;
+    let nextWeeks = this.renderTime(next.year,next.month);
+    console.log('NEXTWEEKS:: ', nextWeeks);
+    if(nextProps.Calendar.month !== this.props.Calendar.month){
+      const table = d3.select('#calendar-body');
+      table.select('tbody').remove();
+      const header = table.select('thead')
+      const body = table.append('tbody');
+      this.renderTable(table, header, body, duration, nextWeeks, next.month, next.year );
+    }
+  }
 
   selectDate(day){
     d3.select('#calendar tbody td.active')
@@ -58,7 +72,9 @@ export default class CalendarBody extends Component {
     	if(lastMonth === 1){
     		lastMonth = 12;
     		lastYear--;
-    	}
+    	} else {
+        lastMonth--;
+      }
     	var lastWeek = cal.monthDays(lastYear, lastMonth-1);
     	weeks[0] = weeks[0].map((day,i)=>{
     		if(day === 0){
@@ -74,7 +90,9 @@ export default class CalendarBody extends Component {
     	if(nextMonth === 12){
     		nextMonth = 1
     		nextYear++;
-    	}
+    	} else {
+        nextMonth++
+      }
 
     	var nextWeek = cal.monthDays(nextYear, nextMonth-1);
 
@@ -118,7 +136,10 @@ export default class CalendarBody extends Component {
         .enter()
         .append('td')
         .attr('class', (d,i,q)=>{
+<<<<<<< HEAD
 
+=======
+>>>>>>> calendar added change month and remove console log
           if(i === 0 && d !== 0){
             return 'holiday'
           } else if (i === 6 && d !== 0){

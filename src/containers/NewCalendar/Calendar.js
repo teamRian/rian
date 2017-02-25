@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { calendarRequest, calendarPost } from '../../actions/CalendarActions';
+import { calendarRequest, calendarPost, calendarChangeDate } from '../../actions/CalendarActions';
 
 import d3 from 'd3';
 import {} from '../../actions';
@@ -27,8 +27,8 @@ class Calendar extends Component {
     return (
       <div id="calendar-container">
         <CalendarHeader
-          year={this.props.Calendar.year}
-          month={this.props.Calendar.month}
+          Calendar={this.props.Calendar}
+          calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
         />
         <CalendarBody 
           Calendar={this.props.Calendar}
@@ -49,12 +49,13 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     calendarRequest: (query)=> {
-      console.log('request dispatch');
       dispatch(calendarRequest(query));
     },
     calendarPost: (form)=> {
-      console.log('post dispatch: ', form);
       dispatch(calendarPost(form));
+    },
+    calendarChangeDate: (date)=>{
+      dispatch(calendarChangeDate(date))
     }
   };
 }

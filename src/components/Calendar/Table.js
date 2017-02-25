@@ -10,11 +10,9 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 class Table extends Component {
   constructor(props){
     super(props);
-    console.log("Table Props: ", this.props)
   }
 
   componentDidMount(){
-    console.log()
     const {data,day,locale,month,type,year} = this.props.Calendar
     var that = this;
     var initialTime = {
@@ -36,8 +34,6 @@ class Table extends Component {
 
 
   componentWillReceiveProps(nextProps){
-    console.log(this.props, ': WILL RECEIVE : ', nextProps)
-    console.log(nextProps.Calendar.loading)
     if(!nextProps.Calendar.loading){
       nextProps.Calendar.data.forEach(d=>{
         this.renderData(d)
@@ -127,7 +123,6 @@ class Table extends Component {
         .enter()
         .append('td')
         .attr('class', (d,i)=>{
-          console.log('DI CLASS', d,i)
           if(i === 0 && d !== 0){
             return 'holiday'
           } else if (i === 6 && d !== 0){
@@ -158,8 +153,6 @@ class Table extends Component {
   }
 
   handleButtonClick(d,i){
-    console.log('inside click');
-    const {year, month, day } = this.props.Calendar
     this.props.calendarPost({
       year, month, day, 
       type: "once",
@@ -176,7 +169,6 @@ class Table extends Component {
       .style('background-color', '#ffffff')
   }
   handleMouseClick(d,i){
-    console.log('inside click');
     this.props.calendarRequest({
       year:2017,
       month: 2
