@@ -13,17 +13,11 @@ class Calendar extends Component {
     super(props)
     console.log('props: ',this.props);
   }
-  // onTypeChange(type) {
-  //   this.setState({
-  //     type,
-  //   });
-  // }
 
   componentDidMount(){
   }
 
   render() {
-    // const { todos, actions } = this.props;
     return (
       <div id="calendar-container">
         <CalendarHeader

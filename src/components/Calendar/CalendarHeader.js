@@ -11,7 +11,6 @@ export default class CalendarHeader extends Component {
   // componentWillReceiveProps(nextProps){
   // }
   changeMonth(direction, date){
-    console.log(this.props.Calendar);
     const { day, month, year } = this.props.Calendar;
     var nextDay = day, nextMonth = month, nextYear = year;
     if(direction === 'left'){

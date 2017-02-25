@@ -33,11 +33,8 @@ export default class CalendarBody extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log(this.props, nextProps)
-
     let next = nextProps.Calendar;
     let nextWeeks = this.renderTime(next.year,next.month);
-    console.log('NEXTWEEKS:: ', nextWeeks);
     if(nextProps.Calendar.month !== this.props.Calendar.month){
       const table = d3.select('#calendar-body');
       table.select('tbody').remove();
@@ -64,7 +61,6 @@ export default class CalendarBody extends Component {
     const cal = new Calendar(0);
     var weeks = cal.monthDays(year, month-1); //[0,0,0,1,2,3,4], ....
         // var weeks = cal.monthDays(2017,1); // 2017,1** = 2017 Feb
-        // console.log("CAL MONTHDATES: ", cal.monthDates())
 
     if(weeks[0][0] === 0){
     	var lastYear = year;
