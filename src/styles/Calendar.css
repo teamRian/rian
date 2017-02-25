@@ -10,8 +10,24 @@
 }
 
 #calendar-header {
+	display:flex;
 	width: 100%;
-	text-align: center;
+	height: 100px;
+	background-color: #d9e6fc;
+	align-items:center;
+	justify-content: space-around;
+	font-size:30px;
+
+}
+
+#calendar-date {
+	display:flex;
+	justify-content: space-around;
+	font-size:30px;
+    border: 2px none;
+    border-radius: 10px;
+    background-color: white
+
 }
 
 #calendar-body {

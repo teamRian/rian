@@ -26,7 +26,10 @@ class Calendar extends Component {
     // const { todos, actions } = this.props;
     return (
       <div id="calendar-container">
-        <CalendarHeader />
+        <CalendarHeader
+          year={this.props.Calendar.year}
+          month={this.props.Calendar.month}
+        />
         <CalendarBody 
           Calendar={this.props.Calendar}
           calendarRequest={query=>this.props.calendarRequest.bind(this)(query)}

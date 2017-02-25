@@ -90,17 +90,7 @@ export default class CalendarBody extends Component {
   }
 
   renderTableHeader(table, header, body, duration){
-    // header
-    //   .append('tr')
-    //   .append('button')
-    //   .text('Add')
-    //   .on('click', (d,i)=> that.handleButtonClick(d,i))
-    //   .style('text-align', 'center')
-    //   .style("opacity",0)
-    // .transition()
-    //   .duration(duration)
-    //   .style("opacity",1)
-
+    
     header
       .append('tr')
       .selectAll('td')
