@@ -58,7 +58,7 @@ class RianApp extends Component {
             <div className="col-xs-1" style={navColor}>
               <Navigation />
             </div>
-            <div className="col-xs-11">
+            <div className="col-xs-11" style={fullheight}>
               {this.props.children}
             </div>
           </div>
