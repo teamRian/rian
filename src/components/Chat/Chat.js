@@ -25,7 +25,7 @@ export default class Chat extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     
-    this.socket = io();
+    this.socket = io('/chat');
 
     var room = 'testroom';
     this.socket.on('init', user => {

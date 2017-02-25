@@ -38,6 +38,7 @@ class Navigation extends React.Component {
                 <div style={contain}><span style={chatColor}><Link to='/todolist'>투두</Link></span></div>
                 <div style={contain}><span style={calColor}><Link to='/editor'>에디터</Link></span></div>
                 <div style={contain}><span style={tpColor}><Link to='/chat'>채팅</Link></span></div>
+                <div style={contain}><span style={tpColor}><Link to='/whiteboard'>화이트보드</Link></span></div>
             </div>
         )
     }

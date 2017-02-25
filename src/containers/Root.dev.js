@@ -7,6 +7,7 @@ import Calendar from './Calendar/Calendar.js';
 import TodoContainer from './Todo/TodoContainer.js';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
 import Chat from './Chat/ChatApp.js';
+import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
 
 
 
@@ -30,6 +31,7 @@ export default class Root extends Component {
                 <Route path="/todolist" component={TodoContainer} />
                 <Route path="/editor" component={NoteEditor} />
                 <Route path="/chat" component={Chat} />
+                <Route path="/whiteboard" component={WhiteBoard} />
             </Route>
         </Router>
         <DevTools/>

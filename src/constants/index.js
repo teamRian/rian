@@ -12,6 +12,7 @@ export const NOTE_ONCHANGE = "NOTE_ONCHANGE"
 // CALENDAR ACTIONS
 
 export const CALENDAR_GET_DATA = "CALENDAR_GET_DATA"
+
 export const CALENDAR_REQUEST_DATA = "CALENDAR_REQUEST_DATA"
 export const CALENDAR_FAIL_DATA = "CALENDAR_FAIL_DATA"
 
@@ -28,3 +29,9 @@ export const CHAT_USER_JOIN = "CHAT_USER_JOIN";
 export const CHAT_NEW_USER = "CHAT_NEW_USER";
 export const CHAT_USER_LEFT = "CHAT_USER_LEFT";
 export const CHAT_REQUEST_CHANGE = "CHAT_REQUEST_CHANGE";
+
+
+/* WhiteBoard - Start */
+export const CHANGE_CONTENT_STATE = "CHANGE_CONTENT_STATE"
+/* WhiteBoard - End */
+

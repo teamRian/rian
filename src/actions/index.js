@@ -4,7 +4,7 @@ let nextTodoId = 0
 
 export const addTodo = (text) => {
   return {
-    type: types.addToDo, //string value
+    type: types.ADD_TO_DO, //string value
     id: nextTodoId++,
     text
   }

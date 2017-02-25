@@ -49,3 +49,8 @@ body {
   font-family: sans-serif;
  
 }
+
+
+.white-board-box{
+	border:1px solid grey;
+}

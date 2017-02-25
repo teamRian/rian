@@ -3,16 +3,17 @@ import {
   // SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
   // REQUEST_POSTS, RECEIVE_POSTS
 } from '../actions'
+
+// Import Reducers
 import * as ChatReducer from './ChatReducer';
+import * as NoteEditorReducer from './NoteEditorReducer.js'
+import * as CalendarReducer from './CalendarReducer'
+import * as WhiteBoardReducer from './WhiteBoardReducer.js';
+import * as TodosReducer from './TodosReducer.js';
 
 var initstate = {
 	data: 1 
 }
-
-// Import Reducers
-import * as NoteEditorReducer from './NoteEditorReducer.js';
-import * as TodosReducer from './TodosReducer.js';
-import * as CalendarReducer from './CalendarReducer';
 
 const rootReducer = combineReducers(
 	Object.assign(
@@ -20,7 +21,8 @@ const rootReducer = combineReducers(
 		NoteEditorReducer,
 		TodosReducer,
 		CalendarReducer,
-		ChatReducer
+		ChatReducer,
+		WhiteBoardReducer
 	))
 
 export default rootReducer;
