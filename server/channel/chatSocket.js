@@ -52,6 +52,7 @@ var userNames = (function () {
 module.exports = function(socket) {
 
 		console.log('/chat channel connection success')
+
 		var name = userNames.getGuestName();
 		var io = this;
 		var to = socket.id;

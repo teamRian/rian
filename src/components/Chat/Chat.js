@@ -27,13 +27,14 @@ export default class Chat extends Component {
     
     this.socket = io('/chat');
 
+
     var room = 'testroom';
     this.socket.on('init', user => {
       this.socket.emit('room', room);
       dispatch(actions.newUser(user))
     });
     this.socket.on('message', function(data){
-        console.log('Wellcoming message: ', data);
+        console.log('Wellcoming message: ', alert(data));
     })
     this.socket.on('send:message', msg => {
       console.log('on:send:message')
