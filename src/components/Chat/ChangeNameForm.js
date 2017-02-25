@@ -24,7 +24,7 @@ export default class ChangeNameForm extends Component {
 
   render() {
     return (
-      <div className='change_name_form'>
+      <div className='change_name_form' style={{marginBottom: '20px'}}>
           
           <form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup>  
