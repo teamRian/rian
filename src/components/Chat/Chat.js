@@ -33,7 +33,7 @@ export default class Chat extends Component {
       dispatch(actions.newUser(user))
     });
     this.socket.on('message', function(data){
-        console.log('Wellcoming message: ', alert(data));
+        console.log('Wellcoming message: ', data);
     })
     this.socket.on('send:message', msg => {
       console.log('on:send:message')
@@ -45,7 +45,7 @@ export default class Chat extends Component {
       dispatch(actions.changeName(name))});
 
     this.socket.on('private message', function(data){
-        console.log('Private message: ', alert(data.message, data.userName))
+        console.log('Private message: ', data.message, data.userName)
     });
 
   }
