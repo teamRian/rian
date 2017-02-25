@@ -14,8 +14,8 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
 const app = new Express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+// const server = require('http').createServer(app);
+// const io = require('socket.io')(server);
 
 
 
@@ -112,32 +112,22 @@ app.get('/chat', (req,res)=>{
 })
 
 
-// Socketio Chat
+// Socketio 
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
-const socket = require('./routes/socket');
+const chatSocket = require('./channel/chatSocket.js');
+const whiteboardSocket = require('./channel/whiteboardSocket.js');
 
-io.on('connection', socket.bind(io))
+// io channels
+io.on('connection', function(socket){ console.log('default connection success'); })
+io.of('/chat').on('connection', chatSocket.bind(io));
+io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
+
 // start app
 server.listen(serverConfig.port, (error) => {
   if (!error) {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }
-});
-
-
-// socket io default
-io.on('connection', function (socket) {
-  console.log('io connected!!!!!!');
-  socket.emit('connectMsg', 'We Are Connected!!');
-
-  socket.on('editorState', function (editorState) {
-    //console.log(editorState)
-    //socket.emit('editorState', editorState); // 현재 연결된 socket 에만 send함
-    socket.broadcast.emit('editorState', editorState); // 서버에 연결된 모든 socket에 send함(자신 제외!)
-    
-  });
-
 });
 
 

@@ -5,7 +5,7 @@ import App from '../components/Rian/App';
 import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
-import WhiteBoard from './WhiteBoard/WhiteBoard';
+import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
 import * as RianActions from '../actions';
 import {Grid, Col, Row} from 'react-bootstrap';
 import Navigation from '../components/Navigation/Navigation.js'

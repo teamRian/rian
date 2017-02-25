@@ -13,7 +13,6 @@ class App extends Component {
         </p>
 
         <ChatApp/>
-        <WhiteBoard/>
 
       </div>
     );

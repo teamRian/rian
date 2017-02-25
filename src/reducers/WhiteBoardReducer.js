@@ -1,4 +1,4 @@
-import { changeContentState } from '../actions/WhiteBoard';
+import { changeContentState } from '../actions/WhiteBoardActions.js';
 
 const contentInitState = {
 	currentStateRaw : {}

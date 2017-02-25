@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-import { changeContentState } from '../../actions/WhiteBoard';
+import { changeContentState } from '../../actions/WhiteBoardActions.js';
 import WhiteBoard from '../../components/WhiteBoard/WhiteBoard';
 import '../../styles/WhiteBoard.css';
 

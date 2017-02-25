@@ -50,6 +50,8 @@ var userNames = (function () {
 
 // export function for listening to the socket
 module.exports = function(socket) {
+
+		console.log('/chat channel connection success')
 		var name = userNames.getGuestName();
 		var io = this;
 		var to = socket.id;
