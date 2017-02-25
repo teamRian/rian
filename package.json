@@ -115,7 +115,6 @@
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "socket.io-react": "^1.1.2",
-    "socket-io": "^1.0.0",
     "url": "^0.11.0",
     "webpack": "^2.2.1"
   },
