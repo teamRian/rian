@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import Root from './containers/Root';
 import configureStore from './store/configureStore';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Provider } from 'react-redux';
 
 
 import { AppContainer } from 'react-hot-loader';
@@ -15,10 +16,12 @@ const store = configureStore()
 console.log("FIRST STORE", store.getState())
 
 render(
-	<AppContainer>
-  	<Root store={store} />
-  </AppContainer>,
-  document.getElementById('root')
+    <Provider store={store}>
+      <AppContainer>
+      	 <Root store={store} />
+       </AppContainer>
+    </Provider>
+  ,document.getElementById('root')
 );
 
 
