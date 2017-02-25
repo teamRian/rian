@@ -1,6 +1,7 @@
 import { 
 	CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA,
-	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL  } from '../constants';
+	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL,
+	CALENDAR_CHANGE_DATE   } from '../constants';
 import axios from 'axios';
 
 export function calendarRequestData(){
@@ -73,5 +74,14 @@ export function calendarPost(form){
 				dispatch(calendarPostSuccess(res));
 			})
 			.catch(err=>dispatch(calendarPostFail()));
+	}
+}
+
+export function calendarChangeDate(date){
+	return {
+		type: CALENDAR_CHANGE_DATE,
+		day: date.day,
+		month: date.month,
+		year: date.year
 	}
 }

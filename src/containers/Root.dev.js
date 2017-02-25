@@ -3,7 +3,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import Rian from './Rian';
 import DevTools from './DevTools';
 import '../styles/Rian.css';
-import Calendar from './NewCalendar/Calendar.js';
+import Calendar from './Calendar/Calendar.js';
 import TodoContainer from './Todo/TodoContainer.js';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
 import Chat from './Chat/ChatApp.js';
