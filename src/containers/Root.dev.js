@@ -21,6 +21,7 @@ export default class Root extends Component {
   render() {
     const { store } = this.props;
     return (
+
       <div>
         <Router history={browserHistory}>
             <Route path="/" component={Rian}>
@@ -33,6 +34,7 @@ export default class Root extends Component {
         </Router>
         <DevTools/>
       </div>
+
     );
   }
 }
