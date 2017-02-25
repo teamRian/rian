@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ChatApp from '../../containers/Chat/ChatApp';
+import ChatApp from '../../containers/NoteEditor/NoteEditorContainer.js';
 
 class App extends Component {
   render() {

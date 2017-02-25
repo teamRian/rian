@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import RichEditor from '../../components/NoteEditor/containers/RichEditor.js';
+import NoteEditor from '../../components/NoteEditor/NoteEditor.js';
 import * as actions from '../../actions/NoteEditorActions.js';
 
 class NoteEditorContainer extends Component {
@@ -8,9 +8,11 @@ class NoteEditorContainer extends Component {
   render() {
     
     return (
+     <div className='col-xs-6 col-xs-offset-3'>
       <div className="NoteEditor">
-        <Richditor editorState={this.props.editorState} puttext={this.props.puttext}/>
+        <NoteEditor editorState={this.props.editorState} puttext={this.props.puttext}/>
       </div>
+     </div>
     );
   }
 }
@@ -27,4 +29,4 @@ function mapDispatch(dispatch) {
   };
 }
 
-export default connect(mapState, mapDispatch)(RichEditor);
+export default connect(mapState, mapDispatch)(NoteEditorContainer);

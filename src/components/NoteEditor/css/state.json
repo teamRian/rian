@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "kind": "block",
+      "type": "paragraph",
+      "nodes": [
+        {
+          "kind": "text",
+          "ranges": [
+            {
+              "text": "아시아 대학생들을 위한 협업 플랫폼 "
+            },
+            {
+              "text": "Rian",
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ]
+            },
+            {
+              "text": " 입니다. "
+            },
+            {
+              "text": "당신의",
+              "marks": [
+                {
+                  "type": "italic"
+                }
+              ]
+            },
+            {
+              "text": " 팀플을 위한 모든 것들이 "
+            },
+            {
+              "text": "제공됩니다",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "text": "!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "block",
+      "type": "paragraph",
+      "nodes": [
+        {
+          "kind": "text",
+          "ranges": [
+            {
+              "text": "Rian과 함께, 팀플의 추억은 하나하나"
+            },
+            {
+              "text": " 쌓여갑니다.",
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ]
+            },{
+              "text": " Rian과 함께 캠퍼스의 하루는 더욱 깊어져 갑니다."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "block",
+      "type": "block-quote",
+      "nodes": [
+        {
+          "kind": "text",
+          "text": "'Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma — which is living with the results of other people's thinking. Don't let the noise of others' opinions drown out your own inner voice. And most important, have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.' (당신의 인생은 한정되 있습니다. 그러니 다른 사람의 삶을 사느라 낭비하지 마세요. 다른 사람들의 생각이 당신의 인생을 옭아매도록 하지 마세요. 다른 사람들의 목소리가 당신 내면의 목소리를 방해하도록 두지 마세요. 당신의 가슴은 이미 당신이 무엇을 원하는지 알고 있습니다. 다른 것들은 부차적인 것일 뿐입니다.-Steve Jobs' 2005 Stanford Commencement Address )"
+        }
+      ]
+    },
+    {
+      "kind": "block",
+      "type": "paragraph",
+      "nodes": [
+        {
+          "kind": "text",
+          "text": "지금 바로 시작해보세요!"
+        }
+      ]
+    }
+  ]
+}
