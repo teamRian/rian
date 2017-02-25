@@ -12,7 +12,6 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 export default class CalendarBody extends Component {
   constructor(props){
     super(props);
-    console.log('Body Props', this.props)
   }
 
   componentDidMount(){
@@ -42,7 +41,6 @@ export default class CalendarBody extends Component {
   }
 
   renderData(data){
-      console.log(data);
     d3.select(`#id${data.day}`)
       .append('div')
       .text(`${data.title}`)
@@ -131,7 +129,6 @@ export default class CalendarBody extends Component {
         .append('td')
         .attr('class', (d,i,q)=>{
 
-          console.log('DI CLASS', d,i,q)
           if(i === 0 && d !== 0){
             return 'holiday'
           } else if (i === 6 && d !== 0){
@@ -162,7 +159,6 @@ export default class CalendarBody extends Component {
   }
 
   handleButtonClick(d,i){
-    console.log('inside click');
     const {year, month, day } = this.props.Calendar
     this.props.calendarPost({
       year, month, day, 
