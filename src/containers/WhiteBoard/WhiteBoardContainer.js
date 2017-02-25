@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 
 import { changeContentState } from '../../actions/WhiteBoardActions.js';
-import WhiteBoard from '../../components/WhiteBoard/WhiteBoard';
+import WhiteBoard from '../../components/WhiteBoard/WhiteBoard.js';
 import '../../styles/WhiteBoard.css';
 
 class WhiteBoardContainer extends React.Component {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import ChatApp from '../../containers/Chat/ChatApp';
-import WhiteBoard from '../whiteboard/WhiteBoard';
 
 
 class App extends Component {
