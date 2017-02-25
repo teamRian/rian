@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import * as d3 from 'd3'
 import { Calendar } from 'calendar';
 import moment from 'moment';
@@ -7,16 +7,16 @@ import moment from 'moment';
 const duration = 1500;
 const days = ['Sun','Mon','Tue','Wed','Thu','Fri',"Sat"]
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-class Table extends Component {
+
+
+export default class CalendarBody extends Component {
   constructor(props){
     super(props);
-    console.log("Table Props: ", this.props)
+    console.log('Body Props', this.props)
   }
 
   componentDidMount(){
-    console.log()
-    const {data,day,locale,month,type,year} = this.props.Calendar
-    var that = this;
+  	const {data,day,locale,month,type,year} = this.props.Calendar
     var initialTime = {
       locale: locale,
       currentDate: moment().format('l').split('/').map(function(item){
@@ -24,28 +24,15 @@ class Table extends Component {
       })
     }
     var weeks = this.renderTime(year, month);
-    const table = d3.select('#calendar');
+    const table = d3.select('#calendar-body');
     const header = table.append('thead');
     const body = table.append('tbody');
-    this.renderTableHeader(table,header,body)
+    this.renderTableHeader(table,header,body, duration)
     this.renderTable(table, header, body, duration, weeks, month, year);
     this.selectDate(day);
     this.props.calendarRequest();
-
   }
 
-
-  componentWillReceiveProps(nextProps){
-    console.log(this.props, ': WILL RECEIVE : ', nextProps)
-    console.log(nextProps.Calendar.loading)
-    if(!nextProps.Calendar.loading){
-      nextProps.Calendar.data.forEach(d=>{
-        this.renderData(d)
-      })
-
-    }
-   
-  }
 
   selectDate(day){
     d3.select('#calendar tbody td.active')
@@ -53,40 +40,68 @@ class Table extends Component {
     d3.select(`#id${day}`)
       .classed('active', true);
   }
+
   renderData(data){
       console.log(data);
     d3.select(`#id${data.day}`)
       .append('div')
       .text(`${data.title}`)
   }
-  // getTime(time){
-  //   time.day = time.currentDate[1]; // 22
-  //   time.month = time.currentDate[0]; // 2
-  //   time.year = time.currentDate[2]; // 2017
-  //   time.currentDate = time.currentDate.join('/');
-  //   return time;
-  // }
-
 
   renderTime(year, month) {
     const cal = new Calendar(0);
     var weeks = cal.monthDays(year, month-1); //[0,0,0,1,2,3,4], ....
         // var weeks = cal.monthDays(2017,1); // 2017,1** = 2017 Feb
+        // console.log("CAL MONTHDATES: ", cal.monthDates())
+
+    if(weeks[0][0] === 0){
+    	var lastYear = year;
+    	var lastMonth = month;
+    	if(lastMonth === 1){
+    		lastMonth = 12;
+    		lastYear--;
+    	}
+    	var lastWeek = cal.monthDays(lastYear, lastMonth-1);
+    	weeks[0] = weeks[0].map((day,i)=>{
+    		if(day === 0){
+    			return lastWeek[lastWeek.length-1][i];
+    		} else {
+    			return day
+    		}
+    	})
+    }
+    if(weeks[weeks.length-1][6] === 0){
+    	var nextYear = year;
+    	var nextMonth = month;
+    	if(nextMonth === 12){
+    		nextMonth = 1
+    		nextYear++;
+    	}
+
+    	var nextWeek = cal.monthDays(nextYear, nextMonth-1);
+
+    	weeks[weeks.length-1] = weeks[weeks.length-1].map((day,i)=>{
+    		if(day === 0){
+    			return nextWeek[0][i]
+    		} else {
+    			return day
+    		}
+    	})
+    }
     return weeks;
   }
 
   renderTableHeader(table, header, body, duration){
-    
-    header
-      .append('tr')
-      .append('button')
-      .text('Add')
-      .on('click', (d,i)=> that.handleButtonClick(d,i))
-      .style('text-align', 'center')
-      .style("opacity",0)
-    .transition()
-      .duration(duration)
-      .style("opacity",1)
+    // header
+    //   .append('tr')
+    //   .append('button')
+    //   .text('Add')
+    //   .on('click', (d,i)=> that.handleButtonClick(d,i))
+    //   .style('text-align', 'center')
+    //   .style("opacity",0)
+    // .transition()
+    //   .duration(duration)
+    //   .style("opacity",1)
 
     header
       .append('tr')
@@ -103,21 +118,9 @@ class Table extends Component {
 
   }
 
+
   renderTable(table, header, body, duration, weeks, month, year) {
     let that = this;
-
-    body
-      .append('tr')
-      .attr('colspan', 7)
-      .text(`${months[month-1]}, ${year}`)
-      .style('text-align', 'left')
-      .style('font-weight', 'bold')
-      .style('font-size', '14px')
-      .style("opacity",0)
-    .transition()
-      .duration(duration)
-      .style("opacity",1)
-   
 
     weeks.forEach(function(week){
       body
@@ -126,8 +129,9 @@ class Table extends Component {
         .data(week)
         .enter()
         .append('td')
-        .attr('class', (d,i)=>{
-          console.log('DI CLASS', d,i)
+        .attr('class', (d,i,q)=>{
+
+          console.log('DI CLASS', d,i,q)
           if(i === 0 && d !== 0){
             return 'holiday'
           } else if (i === 6 && d !== 0){
@@ -167,30 +171,11 @@ class Table extends Component {
     })
   }
 
-  handleMouseOver(d,i){
-    d3.select('#id'+d)
-      .style('background-color', '#ebfaff')
-  }
-  handleMouseOut(d,i){
-    d3.select('#id'+d)
-      .style('background-color', '#ffffff')
-  }
-  handleMouseClick(d,i){
-    console.log('inside click');
-    this.props.calendarRequest({
-      year:2017,
-      month: 2
-    })
-    d3.select('#id'+d)
-      .append('div')
-      .text('HEY')
-  }
+
   render() {
     return (
-    	<table id="calendar" ref="calendar">
-    	</table>
+      <table id="calendar-body">
+      </table>
     );
   }
 }
-
-export default Table;

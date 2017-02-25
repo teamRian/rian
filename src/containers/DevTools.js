@@ -9,9 +9,12 @@ export default createDevTools(
     changePositionKey='ctrl-q'
     defaultPosition='bottom'
     defaultSize={0.2}
+    defaultIsVisible={false}
     changeMonitorKey='ctrl-m'
   >
   	<SliderMonitor keyboardEnabled />
   	<LogMonitor />
   </DockMonitor>
 );
+
+//NOTE: Press ctrl-h to show monitors

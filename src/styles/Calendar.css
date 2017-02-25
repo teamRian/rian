@@ -1,11 +1,17 @@
-#calendar {
-	overflow-y: auto;
+#calendar-body {
 	width: 100%;
 	height: 100%;
 	border-collapse: separate;
 	border-spacing:10px;
 	font-family: Arial, "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
 	font-size: 12px;
+	padding:20px;
+	background-color: white;
+}
+
+#calendar-header {
+	width: 100%;
+	text-align: center;
 }
 #calendar tbody {
 	overflow-y: auto;
@@ -41,35 +47,45 @@ tbody {
 #calendar thead td {
     margin: 0 10px;
     padding: 8px;
+    width:13%;
+
+}
+
+#calendar-body {
+	width:100%;
+	height:100%;
+	text-align:center;
+}
+
+#calendar-container .holiday {
+	background-color: #c4fffb;
+}
+
+#calendar-container thead td {
+    margin: 0 10px;
+    padding: 8px;
     width:12%;
 
 }
 
-#calendar tbody td {
+#calendar-container tbody td {
 	text-align: right;
 	vertical-align: top;
     height: 116px;
     width: 12%;
-    border-radius: 0;
-    margin: 0 10px;
     border: none;
     border-top: 2px solid #eee;
     padding: 8px;
 }
 
-#calendar tbody td:hover {
+#calendar-container tbody td:hover {
 	background-color: #ebfaff;
 }
-#calendar td.empty{
+
+#calendar-container td.empty{
 	border: none;
 }
 
-#calendar-container {
-	padding:20px;
-	height:100%;
-	background-color: white;
-}
-
-#calendar tbody td.active {
+#calendar-container tbody td.active {
 	background-color: #00bfff;
 }

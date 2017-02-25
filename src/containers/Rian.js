@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Rian/Header';
 import App from '../components/Rian/App';
-import Calendar from './Calendar/Calendar.js';
+import Calendar from './NewCalendar/Calendar.js';
 import TodoContainer from './Todo/TodoContainer.js';
 import * as RianActions from '../actions';
 import {Grid, Col, Row} from 'react-bootstrap';
@@ -31,6 +31,22 @@ class RianApp extends Component {
       borderRight: "1px solid rgba(210,210,210,1)",
       padding: "0px 0px"
     }
+
+      // <div className="App">
+      //   <div style={marginZero}>
+      //     <div className="row" style={marginZero}>             
+      //         <Header />
+      //     </div>
+      //     <div className="row" style={marginZero}>
+      //       <div className="col-xs-1" style={navColor}>
+      //         <Navigation />
+      //       </div>
+      //       <div className="col-xs-11">
+      //         <Calendar />
+      //       </div>
+      //     </div>
+      //   </div>
+      // </div>
     // let App = 
     return (
       <div className="App">
@@ -43,7 +59,7 @@ class RianApp extends Component {
               <Navigation />
             </div>
             <div className="col-xs-11">
-              <Calendar />
+              {this.props.children}
             </div>
           </div>
         </div>

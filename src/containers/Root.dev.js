@@ -1,9 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { Provider } from 'react-redux';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import Rian from './Rian';
 import DevTools from './DevTools';
 import '../styles/Rian.css';
-import NoteEditor from './NoteEditor/NoteEditorContainer.js'
+import Calendar from './NewCalendar/Calendar.js';
+import TodoContainer from './Todo/TodoContainer.js';
+import NoteEditor from './NoteEditor/NoteEditorContainer';
+import Chat from './Chat/ChatApp.js';
+
 
 
 export default class Root extends Component {
@@ -17,12 +21,18 @@ export default class Root extends Component {
   render() {
     const { store } = this.props;
     return (
-      <Provider store={store}>
-        <div>
-          <Rian />
-          <DevTools />
-        </div>
-      </Provider>
+      <div>
+        <Router history={browserHistory}>
+            <Route path="/" component={Rian}>
+                <IndexRoute component = {Calendar} />
+                <Route path="/calendar" component={Calendar} />
+                <Route path="/todolist" component={TodoContainer} />
+                <Route path="/editor" component={NoteEditor} />
+                <Route path="/chat" component={Chat} />
+            </Route>
+        </Router>
+        <DevTools/>
+      </div>
     );
   }
 }
