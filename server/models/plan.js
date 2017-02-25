@@ -14,16 +14,4 @@ const planSchema = new Schema({
 	dateAdded: { type: 'Date', default: Date.now, required: true },
 });
 
-// const monthSchema = new Schema({
-// 	month: Number,
-// 	days: [daySchema]
-// })
-// const yearSchema = new Schema({
-// 	year: Number,
-// 	months: [monthSchema]
-// })
-// const planSchema = new Schema({
-// 	years : [yearSchema]
-// })
-
 export default mongoose.model('Plan', planSchema);

@@ -97,6 +97,20 @@ app.get('/', function(req, res, next){
 
     );
 })
+
+app.get('/calendar', (req,res)=>{
+  res.redirect('/#/calendar');
+})
+app.get('/todolist', (req,res)=>{
+  res.redirect('/#/todolist');
+})
+app.get('/editor', (req,res)=>{
+  res.redirect('/#/editor');
+})
+app.get('/chat', (req,res)=>{
+  res.redirect('/#/chat')
+})
+
 console.log("!!!@!@!@!@!@!@!@!@@!@!@");
 
 // Socketio Chat

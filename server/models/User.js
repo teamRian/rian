@@ -1,32 +1,30 @@
 import mongoose from 'mongoose';
-import Plan from './plan.js'
-const PlanSchema = plan
-mongoose.promise = global.promise
 const Schema = mongoose.Schema;
+mongoose.promise = global.promise
 
-const PlanSchema = new Schema({
-  	day: Number,
-  	year: Number,
-  	month: Number,
-  	plans: 
-	type: { type: 'String', required: true},
-	title: { type: 'String', required: true },
-	content: String,
-	startTime: String,
-	endTime: String,
-	dateAdded: { type: 'Date', default: Date.now, required: true },
+// 다른 모델의 스키마 가져오는방법 ! 아래와 같습니다
+import Plan from './plan.js'
+const PlanSchema = mongoose.model('Plan').schema;
+
+const UserSchema = new Schema({
+	local : {
+		username: String,
+		token: String,
+	    name: String,
+	    email: String,
+	    picture: String
+	}
+
+	facebook : {
+	    id: String,
+	    token: String,
+	    name: String,
+	    email: String,
+	    picture: String
+ 	},
+
+ 	plans : [PlanSchema]
+
 });
-
-// const monthSchema = new Schema({
-// 	month: Number,
-// 	days: [daySchema]
-// })
-// const yearSchema = new Schema({
-// 	year: Number,
-// 	months: [monthSchema]
-// })
-// const planSchema = new Schema({
-// 	years : [yearSchema]
-// })
 
 export default mongoose.model('Plan', PlanSchema);
