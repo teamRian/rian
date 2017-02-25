@@ -27,7 +27,7 @@ export default class MessageForm extends Component {
       <div>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup>  
-              <ControlLabel>Enter Message</ControlLabel>
+              {/*<ControlLabel>Enter Message</ControlLabel>*/}
               <FormControl
                 type='text'
                 placeholder='Enter text'

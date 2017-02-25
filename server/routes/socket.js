@@ -52,17 +52,34 @@ var userNames = (function () {
 module.exports = function(socket) {
 		var name = userNames.getGuestName();
 		var io = this;
+		var to = socket.id;
 		// send the new user their name and a list of users
 		socket.emit('init', {
 				name: name,
 				users: userNames.get()
 		});
 
+		// TEST for private message
+		
+
 		// notify other clients that a new user has joined
 		socket.broadcast.emit('user:join', {
 				name: name
 		});
 
+		// test joining room
+		socket.on('room', function(room){
+				socket.join(room);
+
+				io.sockets.in(room)
+									.emit('message', 'Welcome to the party!!');
+
+				io.sockets.to(to).emit('private message', {userName: socket.username, message: 'Hello world!'} );					
+				io.sockets.in('foobar').emit('message', 'anyone in this room yer?');					
+		})
+
+
+		
 		// broadcast a user's message to other users
 
 		socket.on('send:message', function(data){
@@ -102,3 +119,6 @@ module.exports = function(socket) {
 				userNames.free(name);
 		});
 };
+
+
+

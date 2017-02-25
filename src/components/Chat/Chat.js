@@ -16,12 +16,25 @@ export default class Chat extends Component {
   constructor(props) {
     super(props);
     this.handleChangeName.bind(this);
+    this.state = {
+      privateChannelModal: false,
+      targetedUser: ''
+    }
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
+    
     this.socket = io();
-    this.socket.on('init', user => dispatch(actions.newUser(user)));
+
+    var room = 'testroom';
+    this.socket.on('init', user => {
+      this.socket.emit('room', room);
+      dispatch(actions.newUser(user))
+    });
+    this.socket.on('message', function(data){
+        console.log('Wellcoming message: ', alert(data));
+    })
     this.socket.on('send:message', msg => {
       console.log('on:send:message')
       dispatch(actions.newMessage(msg))});
@@ -30,6 +43,11 @@ export default class Chat extends Component {
     this.socket.on('change:name', name => {
       console.log('on:change:name', name)
       dispatch(actions.changeName(name))});
+
+    this.socket.on('private message', function(data){
+        console.log('Private message: ', alert(data.message, data.userName))
+    });
+
   }
 
  
@@ -45,45 +63,45 @@ export default class Chat extends Component {
           }
       });
   }
+  
+
+
 
   render() {
-    const dropDownMenu = (
-      <div style={{'width': '21rem', 'top': '0', alignSelf: 'baseline', padding: '0', margin: '0', order: '1'}}>
-        <DropdownButton key={1} style={{'width': '21rem'}} id="user-menu"  bsSize="large" bsStyle="primary" >
-          {/*<MenuItem style={{'width': '21rem'}} eventKey="4" onSelect={this.handleSignOut}>Sign out</MenuItem>*/}
-        </DropdownButton>
-      </div>
-    );
-    const bigNav = (
-      <div className="nav">
-        {dropDownMenu}
-        <section style={{order: '2', marginTop: '1.5em'}}>
-          {/*<Channels socket={socket} onClick={this.changeActiveChannel} channels={channels} messages={messages} dispatch={dispatch} />*/}
-        </section>
-      </div>
-    );
+    
 
+    var style = {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      borderRight: '1px solid rgba(0, 0, 0, .12)',
+      backgroundColor: 'rgba(249,249,249,1)'
+    }
     return (
       <Grid>
         
         <Row className='show-grid'>
-          <Col md={4}>
+          <Col md={4}  >
             <UsersList
               users={this.props.users}
             />
             <ChangeNameForm
               onChangeName={this.handleChangeName.bind(this)}
-            />  
+            /> 
+            
           </Col>
-          <Col md={8}>
+          <Col md={8} >
+
             <MessageList
               messages={this.props.messages}
             />
             
             <MessageForm
+              
               onMessageSubmit={this.handleMessageSubmit.bind(this)}  
               user={this.props.user}
-            /> 
+            />  
             
           </Col>  
         </Row>  

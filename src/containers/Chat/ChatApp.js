@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Chat from '../../components/Chat/Chat';
 import * as chatActions from '../../actions/chatActions';
+import '../../styles/Chat.css';
 
 class ChatApp extends Component {
 		constructor(props) {

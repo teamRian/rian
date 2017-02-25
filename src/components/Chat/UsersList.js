@@ -14,19 +14,19 @@ export default class UsersList extends Component {
   render() {
     return (
 
-      <div className='users well'>
+      <div>
           <h3> Online Users </h3>
-          <ListGroup>
+          <ul>
               {
                   this.props.users.map((user, i) => {
                       return (
-                          <ListGroupItem key={i}>
-                              {user}
-                          </ListGroupItem>
+                          <li key={i}>
+                              <button>{user}</button>
+                          </li>
                       )
                   })
               }
-          </ListGroup>
+          </ul>
       </div>
     );
   }
