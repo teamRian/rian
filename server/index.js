@@ -75,23 +75,17 @@ app.get('/', function(req, res, next){
     <html>
       <head>
         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin-ext" >
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
       </head>
       <body>
-
         <div id="root"></div>
         
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/manifest.js'] : '/manifest.js'}'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/app.js'] : '/app.js'}'></script>
-
                  
-
       </body>
     </html>
   `
@@ -99,6 +93,20 @@ app.get('/', function(req, res, next){
 
     );
 })
+
+app.get('/calendar', (req,res)=>{
+  res.redirect('/#/calendar');
+})
+app.get('/todolist', (req,res)=>{
+  res.redirect('/#/todolist');
+})
+app.get('/editor', (req,res)=>{
+  res.redirect('/#/editor');
+})
+app.get('/chat', (req,res)=>{
+  res.redirect('/#/chat')
+})
+
 console.log("!!!@!@!@!@!@!@!@!@@!@!@");
 
 // Socketio Chat

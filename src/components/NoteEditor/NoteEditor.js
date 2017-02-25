@@ -5,7 +5,6 @@ import { Editor, Raw } from 'slate'
 
 
 
-
 const DEFAULT_NODE = 'paragraph'
 
 /**
@@ -234,6 +233,10 @@ class RichText extends React.Component {
    */
 
   render(){
+    // const note = {
+
+    // }
+
     return (
       <div>
         {this.renderToolbar()}
