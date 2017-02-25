@@ -164,6 +164,7 @@ input:focus {
 }
 
 .button {
+  margin: 10px;
   color: #ccc;
   cursor: pointer;
 }
@@ -173,8 +174,8 @@ input:focus {
 }
 
 .toolbar-menu {
-  padding: 1px 0 17px 18px;
-  margin: 0 -20px;
+  margin: 5px -20px;
+  border-top: 2px solid #eee;
   border-bottom: 2px solid #eee;
   margin-bottom: 20px;
 }
