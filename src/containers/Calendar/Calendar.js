@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { calendarRequest, calendarPost } from '../../actions/CalendarActions';
+import { calendarRequest, calendarPost, calendarChangeDate } from '../../actions/CalendarActions';
 
 import d3 from 'd3';
 import {} from '../../actions';
-import Table from '../../components/Calendar/Table';
+import CalendarHeader from '../../components/Calendar/CalendarHeader'
+import CalendarBody from '../../components/Calendar/CalendarBody';
 import '../../styles/Calendar.css';
 
 class Calendar extends Component {
@@ -24,14 +24,17 @@ class Calendar extends Component {
 
   render() {
     // const { todos, actions } = this.props;
-
     return (
-      <div id="calendar-container" style={{ zIndex: 1000, position: 'relative' }}>
-        <Table 
+      <div id="calendar-container">
+        <CalendarHeader
+          Calendar={this.props.Calendar}
+          calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
+        />
+        <CalendarBody 
           Calendar={this.props.Calendar}
           calendarRequest={query=>this.props.calendarRequest.bind(this)(query)}
           calendarPost={form=>this.props.calendarPost.bind(this)(form)}
-        />        
+        />
       </div>
     );
   }
@@ -46,12 +49,13 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     calendarRequest: (query)=> {
-      console.log('request dispatch');
       dispatch(calendarRequest(query));
     },
     calendarPost: (form)=> {
-      console.log('post dispatch: ', form);
       dispatch(calendarPost(form));
+    },
+    calendarChangeDate: (date)=>{
+      dispatch(calendarChangeDate(date))
     }
   };
 }
