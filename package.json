@@ -112,9 +112,7 @@
     "redux-promise": "^0.5.3",
     "redux-slider-monitor": "^1.0.7",
     "redux-thunk": "^2.2.0",
-
     "slate": "^0.16.26",
-
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "socket.io-react": "^1.1.2",

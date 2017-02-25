@@ -40,6 +40,12 @@ export function Calendar(state = CalendarState, action) {
 			return Object.assign({}, state, {
 				loading: action.loading
 			})
+		case "CALENDAR_CHANGE_DATE":
+			return Object.assign({}, state, {
+				day: action.day,
+				month: action.month,
+				year: action.year
+			})
 		default:
 			return state
 	}
