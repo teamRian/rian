@@ -132,10 +132,6 @@ export default class CalendarBody extends Component {
         .enter()
         .append('td')
         .attr('class', (d,i,q)=>{
-<<<<<<< HEAD
-
-=======
->>>>>>> calendar added change month and remove console log
           if(i === 0 && d !== 0){
             return 'holiday'
           } else if (i === 6 && d !== 0){

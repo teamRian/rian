@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Rian/Header';
 import App from '../components/Rian/App';
-import Calendar from './NewCalendar/Calendar.js';
+import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
 import * as RianActions from '../actions';
