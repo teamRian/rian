@@ -10,7 +10,7 @@ class NoteEditorContainer extends Component {
     return (
      <div className='col-xs-6 col-xs-offset-3'>
       <div className="NoteEditor">
-        <NoteEditor editorState={this.props.editorState} puttext={this.props.puttext}/>
+        <NoteEditor data={this.props.data} onChangeDispatch={this.props.onChangeDispatch} />
       </div>
      </div>
     );
