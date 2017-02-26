@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './css/index.css'
 import initialState from './css/state.json'
 import { Editor, Raw } from 'slate'
-
+import { renderToString } from 'react-dom/server'
+const io = require('socket.io-client')  
 
 
 const DEFAULT_NODE = 'paragraph'
@@ -70,11 +71,21 @@ class RichText extends React.Component {
     this.renderBlockButton = this.renderBlockButton.bind(this)
     this.renderMarkButton = this.renderMarkButton.bind(this)
     this.onClickBlock = this.onClickBlock.bind(this)
-  
+    this.socket = io()
+    var that =this
+    this.socket.on('sendslate', function(state){
+        
+          const decontent = Raw.deserialize( JSON.parse(state) ) 
+          that.props.onChangeDispatch(decontent)
+    })
+    this.socket.emit('joinroom', 1)
 
    }
 
-  
+  componentDidMount() {
+    
+
+  }
 
   /**
    * Check if the current selection has a mark with `type` in it.
@@ -107,7 +118,11 @@ class RichText extends React.Component {
    */
 
   onChange (state){
-    this.setState({ state })
+    
+    const content = JSON.stringify( Raw.serialize(state) )
+    this.props.onChangeDispatch(state)
+    this.socket.emit('getslate', content)
+    // this.setState({ state })
   }
 
   /**
@@ -120,9 +135,9 @@ class RichText extends React.Component {
    */
 
   onKeyDown(e, data, state){
+
     if (!data.isMod) return
     let mark
-
     switch (data.key) {
       case 'b':
         mark = 'bold'
@@ -318,7 +333,7 @@ class RichText extends React.Component {
           spellCheck
           placeholder={'Enter some rich text...'}
           schema={schema}
-          state={this.state.state}
+          state={this.props.data}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
         />

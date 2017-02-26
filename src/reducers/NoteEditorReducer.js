@@ -1,8 +1,9 @@
 import { NoteWrite } from '../actions/NoteEditorActions.js'
 import { NOTE_WRITE, NOTE_ONCHANGE } from '../constants/index.js'
-import { EditorState } from 'draft-js';
+import { Editor, Raw } from 'slate'
+import initialState from '../components/NoteEditor/css/state.json'
 var NoteState = {
-	data: "HEllO, RIAN!!"
+	data: Raw.deserialize(initialState, { terse: true })
 }
 
 
