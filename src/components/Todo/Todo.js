@@ -104,12 +104,14 @@ const Todo = React.createClass({
     
         return (
             <div className="todoItemCard">
-              <Table className="modalHeaderText">
+              <table className="tableContainer">
                 <thead className="todo-card-table-head-box">
-                  <td className="todo-card-table-head-index">No</td>
-                  <td className="todo-card-table-head-title">제목</td>
-                  <td className="todo-card-table-head-player">참여자</td>
-                  <td className="todo-card-table-head-button">작업</td>
+                  <tr>
+                    <th className="todo-card-table-head-index">No</th>
+                    <th className="todo-card-table-head-title">제목</th>
+                    <th className="todo-card-table-head-player">참여자</th>
+                    <th className="todo-card-table-head-button">작업</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>
@@ -137,7 +139,7 @@ const Todo = React.createClass({
                     </td>
                   </tr>
                 </tbody>
-              </Table>
+              </table>
 
               {/* Todo Item Delete Modal */}
               <Modal show={this.state.showModal} onHide={this.close}>

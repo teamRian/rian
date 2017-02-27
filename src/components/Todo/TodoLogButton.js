@@ -23,11 +23,10 @@ class TodoLogButton extends React.Component {
     })
   }
 
-
   render() {
     return (
       <div>
-        <Button bsStyle="warning" onCLick={this.open}>Log</Button>
+        <Button bsStyle="warning" onClick={this.open}>Log</Button>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header></Modal.Header>
           <Modal.Body></Modal.Body>

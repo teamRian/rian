@@ -23,8 +23,8 @@
 }
 
 .todo-grid-head-text {
-    background-color: rgba(148,178,189,1);
+    border-bottom: 1px solid rgba(148,178,189,1);
     text-align: center;
-    color: white;
+    color: rgba(148,178,189,1);
     padding: 5px 0px;
 }

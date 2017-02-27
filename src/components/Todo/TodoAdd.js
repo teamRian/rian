@@ -66,10 +66,10 @@ const TodoAdd = React.createClass({
                     placeholder="작성자를 입력하세요" 
                     inputRef={ref => {this.author = ref;}} /><hr />
 
-                <h5>책임자</h5>
+                <h5>참여자</h5>
                 <FormControl 
                     componentClass="input" 
-                    placeholder="책임자를 입력하세요" 
+                    placeholder="참여자를 입력하세요" 
                     inputRef={ref => {this.player = ref;}} /><hr />
                 
                 <h5>제목</h5>
