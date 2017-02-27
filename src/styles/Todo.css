@@ -1,0 +1,73 @@
+.modalHeaderText {
+    font-size: 13px;
+    font-weight: lighter;
+    margin-bottom: 0px;
+    padding: 0px 0px;
+    text-align: center;
+    overflow-x: scroll;
+}
+
+.textCircle {
+    padding: 0px 2px;
+}
+
+.closeBox {
+    padding: 0px 0px;
+}
+
+.closeBox2 {
+    padding: 5px 0px;
+}
+.oneLine {
+    display: flex;
+}
+
+.todo-card-table-head-box {
+    background-color: rgba(215,225,225,1);
+}
+
+
+.todo-card-table-head-index {
+    width: 10%;
+    padding: 0px 0px;
+}
+
+.todo-card-table-body-index {
+    width: 10%;
+    padding: 5px 0px;
+}
+
+.todo-card-table-head-title {
+    width: 50%;
+    padding: 0px 0px;
+}
+
+.todo-card-table-body-title {
+    width: 50%;
+    padding: 5px 0px;
+}
+
+.todo-card-table-head-player {
+    width: 30%;
+    padding: 0px 0px;
+}
+
+.todo-card-table-body-player {
+    width: 30%;
+    padding: 5px 0px;
+}
+
+.todo-card-table-head-button {
+    width: 10%;
+    padding: 0px 0px;
+}
+
+.todo-card-table-body-button {
+    width: 10%;
+    padding: 5px 0px;
+}
+
+#todo-card-table-body-button-show {
+    padding: 0px 0px;
+    border: 0px; 
+}

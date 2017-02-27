@@ -1,6 +1,6 @@
 import { TODO_ADD, TODO_CHANGE_STATUS, TODO_REMOVE } from '../constants';
 
-export const addTodo = (newId, author, player, title, text, index) => {
+export const addTodo = (newId, author, player, title, text, importance, index) => {
   return {
     type: TODO_ADD,
     newId,
@@ -8,15 +8,18 @@ export const addTodo = (newId, author, player, title, text, index) => {
     player,
     title,
     text,
+    importance,
     index
   }
 }
 
-export const changeStatus = (status, id) => {
+export const changeStatus = (status, id, startdate, enddate) => {
   return {
     type: TODO_CHANGE_STATUS,
     status,
-    id
+    id,
+    startdate,
+    enddate
   }
 }
 

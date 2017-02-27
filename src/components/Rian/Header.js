@@ -1,27 +1,13 @@
 import React, { Component } from 'react';
+import moment from 'moment';
+import '../../styles/Header.css';
 
 export default class Header extends Component {
 
   render() {
-    const backColor = {
-      display: "flex",
-      alignItems: "center",
-      background: "linear-gradient(180deg, white, rgba(210,210,210,0.6))",
-      margin: "0px",
-      height: "3em",
-      borderBottom: "1px solid rgba(200,200,200,1)"
-    }
-
-    const alignRight = {
-      textAlign: "right"
-    }
-    
-    const svgmargin = {
-      marginRight: "10px"
-    }
-
-    const today = new Date();
-
+  
+    const today = moment().format('YYYY MMM Do');
+  
     return (
       <div>
         <div style={backColor}>

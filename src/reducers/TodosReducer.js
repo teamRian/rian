@@ -7,10 +7,11 @@ export function TodosReducer (state = todoList, action) {
             return [...state, {
                 id: action.newId,
                 author: action.author,
-                player: action.player, 
+                player: [action.player], 
                 title: action.title,
                 text: action.text,
                 index: action.index,
+                importance: action.importance,
                 status: "created"
             }]
         case 'TODO_REMOVE':
@@ -40,8 +41,16 @@ export function TodosReducer (state = todoList, action) {
                     break;
                 }
             }
-
+            
             state[changeIndex].status = action.status;
+            
+            if(action.startdate.length !== 0) {
+                state[changeIndex].startdate = action.startdate;
+            }
+
+            if(action.enddate.length !== 0) {
+                state[changeIndex].enddate = action.enddate;
+            }
 
             return [
                 ...state

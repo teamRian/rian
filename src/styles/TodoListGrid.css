@@ -1,0 +1,30 @@
+.textCenter {
+    text-align: center;
+    background-color: black;
+    color: white;
+    padding: 5px 0px;
+}
+
+.alignCenter {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.todoHeaderText {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.todo-grid-head-text {
+    background-color: rgba(148,178,189,1);
+    text-align: center;
+    color: white;
+    padding: 5px 0px;
+}
