@@ -1,3 +1,7 @@
+.todo-contribute-container {
+	margin-bottom: 10px;
+}
+
 .todo-contribute-title {
   display: flex;
   justify-content: space-between;
@@ -21,15 +25,15 @@
 }
 
 .todo-contribute-box-header-left {
-  width: 50%  
+  width: 40%  
 }
 
 .todo-contribute-box-header-center {
-  width: 30%  
+  width: 40%  
 }
 
 .todo-contribute-box-header-right {
-  width: 20%  
+  width: 30%  
 }
 
 .todo-contribute-box-body {
@@ -42,6 +46,14 @@
   border: 0px;
   border-top: 1px solid #E0E0E0;
   font-weight: bold;    
+}
+
+.percentBox {
+	width: 100%;
+	background-color: rgba(245,245,245,1);
+	border-radius: 5px;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+	margin-bottom: 10px
 }
 
 .slideDown{

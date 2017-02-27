@@ -7,7 +7,7 @@ import TodoAdd from './TodoAdd';
 import TodoContributeButton from './TodoContributeButton';
 import TodoLogButton from './TodoLogButton'
 
-// import Css
+// import CSS
 import '../../styles/TodoListGrid.css';
 
 class TodoListGrid extends React.Component {
@@ -76,6 +76,9 @@ class TodoListGrid extends React.Component {
           contributionList.push(item);
         }
 
+        let todoTotalListNumber = this.props.todoList.length;
+        let todoDoneListNumber = completedItem.length;
+
         return(
             <div>
                 <div className="row alignCenter">
@@ -84,7 +87,11 @@ class TodoListGrid extends React.Component {
                         id={this.props.todoList[this.props.todoList.length - 1] ? this.props.todoList[this.props.todoList.length - 1].projectId : ''} 
                         index={this.props.todoList[this.props.todoList.length - 1]? this.props.todoList[this.props.todoList.length - 1].index: ''}
                     />
-                    <TodoContributeButton contributionList={contributionList} total={total}/>
+                    <TodoContributeButton 
+                        contributionList={contributionList} 
+                        total={total} 
+                        todoTotalListNumber={todoTotalListNumber} 
+                        todoDoneListNumber={todoDoneListNumber}/>
                     <TodoLogButton />
                 </div>
                 <div  className="row">

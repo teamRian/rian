@@ -32,29 +32,7 @@ class TodoContributeButton extends React.Component {
 
   render() {
 
-    let data = {
-        labels: [
-            "Red",
-            "Blue",
-            "Yellow"
-        ],
-        datasets: [
-            {
-                data: [300, 50, 100],
-                backgroundColor: [
-                    "#FF6384",
-                    "#36A2EB",
-                    "#FFCE56"
-                ],
-                hoverBackgroundColor: [
-                    "#F7464A",
-                    "#36A2EB",
-                    "#FFCE56"
-                ]
-            }]
-    };
-
-    const colorData = ["#f69195", "#f9bb94", "#fdca95", "#ffe18b", "#fffa85", "#c7fc86", "#84d4c9", "#85cae7", "#86acd3", "#b7a5cd", "#d3a4ce", "#f1a3cd"];
+    const colorData = ["#f69195", "#ffe18b", "#84d4c9", "#b7a5cd", "#f9bb94", "#fffa85", "#85cae7", "#d3a4ce", "#fdca95", "#c7fc86", "#86acd3", "#f1a3cd"];
     const doughnutData = {
       labels: [],
       datasets: [
@@ -80,6 +58,41 @@ class TodoContributeButton extends React.Component {
       }
     }
 
+    const totalNumber = this.props.todoTotalListNumber;
+    const doneNumber = this.props.todoDoneListNumber
+    const donePercent = Math.round(doneNumber / totalNumber * 100);
+
+    const fontSizeAdj = {
+      fontSize: "10px"
+    }
+
+    const bottom = {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "middle",
+      marginBottom: "10px",
+      textAlign: "center"
+    }
+
+    const left = {
+      width: "20%",
+      fontSize: "13px"
+    }
+
+    const right = {
+      width: "80%",
+      borderRadius: "4px",
+      backgroundColor: "rgba(245,245,245,1)"
+    }
+
+    const rightContent = {
+      width: donePercent + "%",
+      textAlign: "center",
+      backgroundColor: "#4d5360",      
+      color: "white",
+      borderRadius: "4px"
+    }
+
     return (
       <div>
         <Button bsStyle="info" onClick={this.open}>Contribution</Button>
@@ -90,10 +103,21 @@ class TodoContributeButton extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>전체정보</p>
-            <Doughnut data={doughnutData} />
+            <p>전체 정보</p>
+            <div style={bottom}>
+              <div style={left}>
+                진행률
+              </div>
+              <div style={right}>
+                <div style={rightContent}>
+                  {donePercent + "%"}
+                </div>
+              </div>
+            </div>
+            <Doughnut data={doughnutData} /><hr/>
+            <p>개별 정보</p>
             {this.props.contributionList.map((list,i) => 
-            <TodoContribute {...this.props} key={i} i={i} total={this.props.total} list={list}/>)}
+            <TodoContribute {...this.props} key={i} i={i} color={i<13? colorData[i]: colorData[i%12]} total={this.props.total} list={list}/>)}
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
