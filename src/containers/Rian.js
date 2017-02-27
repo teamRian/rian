@@ -1,21 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {Grid, Col, Row} from 'react-bootstrap';
+
+// Import Actions
+import * as RianActions from '../actions';
+
+// Import Component
 import Header from '../components/Rian/Header';
 import App from '../components/Rian/App';
 import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
-import * as RianActions from '../actions';
-import {Grid, Col, Row} from 'react-bootstrap';
 import Navigation from '../components/Navigation/Navigation.js'
-
 import '../styles/Rian.css';
 
 class RianApp extends Component {
-  // static propTypes = {
-  //   actions: PropTypes.object
-  // };
 
   render() {
     const marginZero = {
@@ -46,8 +46,7 @@ class RianApp extends Component {
               <Navigation />
             </div>
             <div className="col-xs-11" style={fullheight}>
-              {this.props.children}
-
+            {this.props.children}
             </div>
           </div>
         </div>
