@@ -12,13 +12,7 @@ import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
 
 
 export default class Root extends Component {
-  // static propTypes = {
-  //   store: PropTypes.object
-  // };
-
-  // <Rian />
-  // <DevTools />
-
+ 
   render() {
     const { store } = this.props;
     return (

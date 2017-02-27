@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Barrio|Righteous');
+
+.backColor {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, white, rgba(210,210,210,0.6));
+    margin: 0px;
+    height: 3em;
+    border-bottom: 1px solid rgba(200,200,200,1);
+}
+
+.alignRight {
+    text-align: right;
+    border-right: 1px solid rgba(200,200,200,1);
+}
+
+.alignRight2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.tableRight {
+    float: right;
+}
+
+.svgmargin {
+    margin-right: 10px;
+    margin-bottom: -5px;
+}
+
+.svgmargin2 {
+    margin-right: 10px;
+    margin-bottom: -8px;
+}
+
+.svgmargin3 {
+    margin-right: 10px;
+}
+
+.fullHeight {
+    height: 100%;
+}
+
+.LogoFont {
+    font-size: 30px;
+    font-weight: bold;
+    color: #64B5F6;
+    font-family: 'Righteous', cursive;
+    animation: logoColorChange 15s infinite;
+    -moz-animation: logoColorChange 15s infinite; /* Firefox */
+    -webkit-animation: logoColorChange 15s infinite; /* Safari and Chrome */
+}
+
+@-moz-keyframes logoColorChange /* Firefox */
+    {
+    0%   {color:#64B5F6;}
+    50%  {color:#FF9800;}
+    100%   {color:#64B5F6;}
+    }
+
+@-webkit-keyframes logoColorChange /* Safari and Chrome */
+    {
+    0%   {color:#64B5F6;}
+    50%  {color:#FF9800;}
+    100%   {color:#64B5F6;}
+    }
