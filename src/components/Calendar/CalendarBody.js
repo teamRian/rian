@@ -15,7 +15,7 @@ export default class CalendarBody extends Component {
   }
 
   componentDidMount(){
-  	const {data,day,locale,month,type,year} = this.props.Calendar
+  	const {data, day, locale, month, type, year, currentDay, currentMonth, currentYear} = this.props.Calendar
     var initialTime = {
       locale: locale,
       currentDate: moment().format('l').split('/').map(function(item){
@@ -27,8 +27,7 @@ export default class CalendarBody extends Component {
     const header = table.append('thead');
     const body = table.append('tbody');
     this.renderTableHeader(table,header,body, duration)
-    this.renderTable(table, header, body, duration, weeks, month, year);
-    this.selectDate(day);
+    this.renderTable(table, header, body, duration, weeks, month, year, currentDay, currentMonth, currentYear);
     this.props.calendarRequest();
   }
 
@@ -42,6 +41,11 @@ export default class CalendarBody extends Component {
       const body = table.append('tbody');
       this.renderTable(table, header, body, duration, nextWeeks, next.month, next.year );
     }
+  }
+
+  displayToday(day){
+    d3.select(`#id${day}`)
+      .classed('today', true);
   }
 
   selectDate(day){
@@ -74,7 +78,7 @@ export default class CalendarBody extends Component {
     	var lastWeek = cal.monthDays(lastYear, lastMonth-1);
     	weeks[0] = weeks[0].map((day,i)=>{
     		if(day === 0){
-    			return lastWeek[lastWeek.length-1][i];
+    			return "l" + lastWeek[lastWeek.length-1][i];
     		} else {
     			return day
     		}
@@ -94,7 +98,7 @@ export default class CalendarBody extends Component {
 
     	weeks[weeks.length-1] = weeks[weeks.length-1].map((day,i)=>{
     		if(day === 0){
-    			return nextWeek[0][i]
+    			return "n" + nextWeek[0][i]
     		} else {
     			return day
     		}
@@ -121,7 +125,7 @@ export default class CalendarBody extends Component {
   }
 
 
-  renderTable(table, header, body, duration, weeks, month, year) {
+  renderTable(table, header, body, duration, weeks, month, year, currentDay, currentMonth, currentYear) {
     let that = this;
 
     weeks.forEach(function(week){
@@ -131,24 +135,28 @@ export default class CalendarBody extends Component {
         .data(week)
         .enter()
         .append('td')
-        .attr('class', (d,i,q)=>{
-          if(i === 0 && d !== 0){
-            return 'holiday'
-          } else if (i === 6 && d !== 0){
-            return 'holiday'
-          }
-
-        })
         .attr('id', (d)=>{
           if(d !== 0){
             return 'id'+ d
           }
         })
+        .classed('holiday', (d,i)=>{
+          if(i === 0 || i === 6){
+            return true
+          }
+        })
+        .classed('unactive',(d)=>{
+          if (d[0] === 'l' || d[0] === 'n'){
+            return true
+          } 
+        })
         // .on('mouseover', (d,i)=>that.handleMouseOver(d,i))
         // .on('mouseout', (d,i)=>that.handleMouseOut(d,i))
         .on('click', (d,i)=>that.selectDate(d,i))
         .text((d)=>{
-          if (d !== 0){
+          if (d[0] === 'l' || d[0] === 'n'){
+            return d.slice(1);
+          } else {
             return d
           }
         })
@@ -158,6 +166,12 @@ export default class CalendarBody extends Component {
         .style("opacity",1)
  
     })
+
+    if(currentYear === year && currentMonth === month){
+      console.log('DISPLAY TODAY')
+      this.displayToday(currentDay);
+    }
+
 
   }
 

@@ -6,6 +6,9 @@ var CalendarState = {
 	day: currentDate[1],
 	month: currentDate[0],
 	year: currentDate[2],
+	currentDay: currentDate[1],
+	currentMonth: currentDate[0],
+	currentYear: currentDate[2],
 	locale: moment.locale(),
 	data: [] // [plan, plan, plan]
 }

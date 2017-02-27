@@ -34,10 +34,6 @@
 }
 
 
-#calendar-container .holiday {
-	background-color: #c4fffb;
-}
-
 #calendar-container thead td {
     margin: 0 10px;
     padding: 8px;
@@ -63,6 +59,15 @@
 	border: none;
 }
 
-#calendar-container tbody td.active {
+
+#calendar-container tbody td.holiday {
+	background-color: #c4fffb;
+}
+
+#calendar-container tbody td.today {
 	background-color: #00bfff;
+}
+
+#calendar-container tbody td.unactive {
+	background-color: grey;
 }
