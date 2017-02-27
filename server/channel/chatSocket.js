@@ -87,10 +87,14 @@ module.exports = function(socket) {
 
 		socket.on('send:message', function(data){
 				
-				io.sockets.emit('send:message', {
+				socket.emit('send:message', {
 						user: name,
 						text: data.text
 				});
+				socket.broadcast.emit('send:message', {
+						user: name,
+						text: data.text
+				});				
 		});
 
 		// validate a user's name change, and broadcast it on success
@@ -103,7 +107,15 @@ module.exports = function(socket) {
 
 						name = data.name;
 
-						io.sockets.emit('change:name', {
+						// io.sockets.in('testroom').emit('change:name', {
+						// 		oldName: oldName,
+						// 		newName: name
+						// });
+						socket.emit('change:name', {
+								oldName: oldName,
+								newName: name
+						})
+						socket.broadcast.emit('change:name', {
 								oldName: oldName,
 								newName: name
 						});

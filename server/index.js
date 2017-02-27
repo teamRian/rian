@@ -126,15 +126,6 @@ io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
 const chatRoom = io.of('/chat');
 const whiteboardRoom = io.of('/whiteboard');
 
-chatRoom.on('connection', function(socket){
-  console.log('chat room connection!!!');
-});
-
-whiteboardRoom.on('connection', function(socket){
-  console.log('whiteboard room connection!!!');
-})
-
-io.on('connection', socket.bind(io))
 
 // start app
 server.listen(serverConfig.port, (error) => {

@@ -37,10 +37,24 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
 	return {
-			getMessage: (q) => dispatch(chatActions.newMessage(q))
+			getMessage: (msg) => {
+				dispatch(chatActions.newMessage(msg))
+			},
+			newUser: (user) => {
+				dispatch(chatActions.newUser(user))
+			},
+			userJoin: (user) => {
+				dispatch(chatActions.userJoin(user))
+			},
+			userLeft: (user) => {
+				dispatch(chatActions.userLeft(user))
+			},
+			changeName: (name) => {
+				dispatch(chatActions.changeName(name))
+			}
 	};
 
 }
 
 
-export default connect(mapState)(ChatApp);
+export default connect(mapState, mapDispatch)(ChatApp);

@@ -7,7 +7,7 @@ import * as actions from '../../actions/chatActions';
 import {Grid, Row, Col, Clearfix} from 'react-bootstrap';
 import { Modal, DropdownButton, MenuItem, Button, Navbar, NavDropdown, Nav, NavItem } from 'react-bootstrap';
 const io = require('socket.io-client');
-
+const socket = io('/chat');
 export default class Chat extends Component {
   // static propTypes = {
   //   addTodo: PropTypes.func.isRequired
@@ -20,45 +20,43 @@ export default class Chat extends Component {
       privateChannelModal: false,
       targetedUser: ''
     }
+
+    
+    var room = 'testroom';
+    socket.on('init', user => {
+      socket.emit('room', room);
+      this.props.newUser(user);
+    });
+    socket.on('message', function(data){
+        console.log('Wellcoming message: ', alert(data));
+    })
+    socket.on('send:message', msg => {
+      console.log('on:send:message')
+      this.props.getMessage(msg)});
+    socket.on('user:join', user => this.props.userJoin(user));
+    socket.on('user:left', user => this.props.userLeft(user));
+    socket.on('change:name', name => {
+      console.log('on:change:name', name)
+      this.props.changeName(name)});
+
+    socket.on('private message', function(data){
+        console.log('Private message: ', data.message, data.userName)
+    });
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    
-    this.socket = io('/chat');
 
-
-    var room = 'testroom';
-    this.socket.on('init', user => {
-      this.socket.emit('room', room);
-      dispatch(actions.newUser(user))
-    });
-    this.socket.on('message', function(data){
-        console.log('Wellcoming message: ', alert(data));
-    })
-    this.socket.on('send:message', msg => {
-      console.log('on:send:message')
-      dispatch(actions.newMessage(msg))});
-    this.socket.on('user:join', user => dispatch(actions.userJoin(user)));
-    this.socket.on('user:left', user => dispatch(actions.userLeft(user)));
-    this.socket.on('change:name', name => {
-      console.log('on:change:name', name)
-      dispatch(actions.changeName(name))});
-
-    this.socket.on('private message', function(data){
-        console.log('Private message: ', data.message, data.userName)
-    });
 
   }
 
- 
+   
 
   handleMessageSubmit(message){
-    this.socket.emit('send:message', message)
+    socket.emit('send:message', message)
   }
 
   handleChangeName(newName) {
-      this.socket.emit('change:name', {name: newName}, (result) => {
+      socket.emit('change:name', {name: newName}, (result) => {
           if(!result) {
               return alert('There was an error changing your name');
           }
