@@ -7,12 +7,11 @@ import * as RianActions from '../actions';
 
 // Import Component
 import Header from '../components/Rian/Header';
-import App from '../components/Rian/App';
+import Navigation from '../components/Rian/Navigation.js'
 import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
-import Navigation from '../components/Navigation/Navigation.js'
 import '../styles/Rian.css';
 
 class RianApp extends Component {
