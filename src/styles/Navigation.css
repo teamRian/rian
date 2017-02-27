@@ -1,43 +1,4 @@
-.home {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: white;
-    border-bottom: 1px solid rgba(236,236,236,1);
-    color: rgba(184,184,184,1);
-    height: 3em;
-    font-size: 14px;
-    transition-property: background;
-    transition-duration: 1s;
-}
-
-.home:hover {
-    background-color: rgba(184,184,184,1);
-    color: white;
-}
-
-.chat {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: white;
-    color: rgba(117,192,253,1);
-    border-bottom: 1px solid rgba(236,236,236,1);
-    height: 3em;
-    font-size: 14px;
-    transition-property: background;
-    transition-duration: 1s;
-
-}
-
-.chat:hover {
-    background-color: rgba(117,192,253,1);
-    color: white;
-}
-
-.cal {
+#navigation div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,26 +12,51 @@
     transition-duration: 1s;
 }
 
-.cal:hover {
+#home {
+}   
+
+#home:hover {
+    background-color: rgba(184,184,184,1);
+    color: white;
+}
+
+#chat {
+}
+
+#chat:hover {
+    background-color: rgba(117,192,253,1);
+    color: white;
+}
+
+#calendar {
+
+}
+
+#calendar:hover {
     background-color: rgba(115,202,116,1);
     color: white;
 }
 
-.tp {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: white;
-    color: rgba(153,165,166,1);
-    border-bottom: 1px solid rgba(236,236,236,1);
-    height: 3em;
-    font-size: 14px;
-    transition-property: background;
-    transition-duration: 1s;
+#editor {
 }
 
-.tp:hover {
+#editor:hover {
+    background-color: rgba(153,165,166,1);
+    color: white;
+}
+
+#whiteboard {
+}
+
+#whiteboard:hover {
+    background-color: rgba(153,165,166,1);
+    color: white;
+}
+
+#todolist {
+}
+
+#todolist:hover {
     background-color: rgba(153,165,166,1);
     color: white;
 }
