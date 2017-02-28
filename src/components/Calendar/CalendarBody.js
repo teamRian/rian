@@ -35,9 +35,7 @@ export default class CalendarBody extends Component {
     }
     if(this.props.Calendar.selectedDay !== null){
         this.selectDate(this.props.Calendar.selectedDay)
-        debugger
     }
-    debugger
   }
 
   componentWillReceiveProps(nextProps){
