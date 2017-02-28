@@ -6,7 +6,12 @@ import ChangeNameForm from './ChangeNameForm';
 import * as actions from '../../actions/chatActions';
 import {Grid, Row, Col, Clearfix} from 'react-bootstrap';
 import { Modal, DropdownButton, MenuItem, Button, Navbar, NavDropdown, Nav, NavItem } from 'react-bootstrap';
-const io = require('socket.io-client');
+import io from 'socket.io-client';
+import { SocketProvider } from 'socket.io-react';
+const socket = io('/chat');
+      socket.on('connectMsg', (data) => {console.log('connected!!!', data)});
+      
+
 
 export default class Chat extends Component {
   // static propTypes = {
@@ -15,69 +20,51 @@ export default class Chat extends Component {
 
   constructor(props) {
     super(props);
-    this.handleChangeName.bind(this);
     this.state = {
       privateChannelModal: false,
       targetedUser: ''
     }
+    this.updateMessage = this.getMessages.bind(this);
+    this.updateUser = this.joinUsers.bind(this);
+  
+    // var room = 'testroom';
+    socket.emit('init', 'good!')
+    socket.on('init', user => {
+      // this.socket.emit('room', room);
+      if(this.props.users.indexOf(user.name) === -1){
+        this.props.newUser(user);  
+      }
+    }); 
+
   }
+
+  getMessages(msg){
+      this.props.getMessage(msg)
+  }
+
+  joinUsers(user){
+      this.props.userJoin(user)
+  }
+
+  componentWillUnmount() {
+    socket.off('send:message', this.updateMessage);
+    socket.off('user:join', this.updateUser)
+  }
+
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    
-    this.socket = io('/chat');
-
-    var room = 'testroom';
-    this.socket.on('init', user => {
-      this.socket.emit('room', room);
-      dispatch(actions.newUser(user))
-    });
-    this.socket.on('message', function(data){
-        console.log('Wellcoming message: ', data);
-    })
-    this.socket.on('send:message', msg => {
-      console.log('on:send:message')
-      dispatch(actions.newMessage(msg))});
-    this.socket.on('user:join', user => dispatch(actions.userJoin(user)));
-    this.socket.on('user:left', user => dispatch(actions.userLeft(user)));
-    this.socket.on('change:name', name => {
-      console.log('on:change:name', name)
-      dispatch(actions.changeName(name))});
-
-    this.socket.on('private message', function(data){
-        console.log('Private message: ', data.message, data.userName)
-    });
-
+    socket.on('send:message', this.updateMessage);   
+    socket.on('user:join', this.updateUser);
+    socket.on('user:left', user => this.props.userLeft(user));
   }
-
- 
 
   handleMessageSubmit(message){
-    this.socket.emit('send:message', message)
-  }
-
-  handleChangeName(newName) {
-      this.socket.emit('change:name', {name: newName}, (result) => {
-          if(!result) {
-              return alert('There was an error changing your name');
-          }
-      });
+    socket.emit('send:message', message);
+    this.props.getMessage(message)
   }
   
-
-
-
   render() {
     
-
-    var style = {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      borderRight: '1px solid rgba(0, 0, 0, .12)',
-      backgroundColor: 'rgba(249,249,249,1)'
-    }
     return (
       <Grid>
         
@@ -86,23 +73,19 @@ export default class Chat extends Component {
             <UsersList
               users={this.props.users}
             />
-            <ChangeNameForm
-              onChangeName={this.handleChangeName.bind(this)}
-            /> 
             
           </Col>
           <Col md={8} >
-
+            
             <MessageList
               messages={this.props.messages}
             />
-            
+            <SocketProvider socket={socket}>
             <MessageForm
-              
               onMessageSubmit={this.handleMessageSubmit.bind(this)}  
-              user={this.props.user}
+              users={this.props.users}
             />  
-            
+            </SocketProvider>
           </Col>  
         </Row>  
       </Grid>

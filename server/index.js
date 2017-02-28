@@ -114,14 +114,20 @@ app.get('/chat', (req,res)=>{
 
 // Socketio 
 const server = require('http').createServer(app);
-const io = require('socket.io').listen(server);
+const io = require('socket.io')(server);
 const chatSocket = require('./channel/chatSocket.js');
 const whiteboardSocket = require('./channel/whiteboardSocket.js');
 
 // io channels
 io.on('connection', function(socket){ console.log('default connection success'); })
-io.of('/chat').on('connection', chatSocket.bind(io));
+io.of('/chat').on('connection', function(socket){
+    chatSocket(socket, io);
+});
 io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
+
+const chatRoom = io.of('/chat');
+const whiteboardRoom = io.of('/whiteboard');
+
 
 // start app
 server.listen(serverConfig.port, (error) => {

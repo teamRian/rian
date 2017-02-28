@@ -20,11 +20,12 @@ export default class UsersList extends Component {
               {
                   this.props.users.map((user, i) => {
                       return (
-                          <li key={i}>
-                              <button>{user}</button>
-                          </li>
+                          <ListGroup key={i}>
+                              <ListGroupItem>{user}</ListGroupItem>
+                          </ListGroup>
                       )
                   })
+
               }
           </ul>
       </div>

@@ -11,6 +11,7 @@ export default class Message extends Component {
     
     return (
       <div className='message well'>
+        
           <strong>{this.props.user} : </strong>   
           <span>{this.props.text}</span>
           &nbsp;

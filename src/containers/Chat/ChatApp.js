@@ -5,20 +5,18 @@ import Chat from '../../components/Chat/Chat';
 import * as chatActions from '../../actions/chatActions';
 import '../../styles/Chat.css';
 
+
 class ChatApp extends Component {
 		constructor(props) {
 			super(props);
 			
 		}
 
-		componentWillMount() {
-			const { dispatch, user } = this.props;	
-		}
 
 		render() {
 				return (
 						<div>
-								<Chat changeName={this.props.changeName} {...this.props}/>
+								<Chat {...this.props}/>
 						</div>
 				);
 		}
@@ -28,19 +26,29 @@ class ChatApp extends Component {
 function mapState(state) {
 
 	return {
-			user: state.chatUser.user,
+			user: state.chatApp.user,
 			users: state.chatUser.joinusers,
-			messages: state.chatApp.messages,
-			changeName: state.chatApp.text//[] array지
+			messages: state.chatApp.messages
 	};
 }
 
 function mapDispatch(dispatch) {
 	return {
-			getMessage: (q) => dispatch(chatActions.newMessage(q))
+			getMessage: (msg) => {
+				dispatch(chatActions.newMessage(msg))
+			},
+			newUser: (user) => {
+				dispatch(chatActions.newUser(user))
+			},
+			userJoin: (user) => {
+				dispatch(chatActions.userJoin(user))
+			},
+			userLeft: (user) => {
+				dispatch(chatActions.userLeft(user))
+			}
 	};
 
 }
 
 
-export default connect(mapState)(ChatApp);
+export default connect(mapState, mapDispatch)(ChatApp);
