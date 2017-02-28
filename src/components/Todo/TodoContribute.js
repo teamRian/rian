@@ -35,47 +35,73 @@ class TodoContribute extends React.Component {
         
         return (
           <tr key={i}>
-            <td className="todo-contribute-box-body">{item.title}</td> {/* 완료된 item 제목 */}
-            <td className="todo-contribute-box-body">{point + " ("+item.importance+")"}</td> {/* 완료된 item에 대한 개별 기여점수(item 중요도)*/}
-            <td className="todo-contribute-box-body">{item.ratio + '%'}</td> {/* 완료된 item에 대한 개별 기여 Percentage */}
+            <td className="todo-contribute-box-body"></td>
+            <td className="todo-contribute-box-body">{item.title}</td>
+            <td className="todo-contribute-box-body">{point + "("+item.importance+")"}</td>
+            <td className="todo-contribute-box-body">{item.ratio + '%'}</td>
+            <td className="todo-contribute-box-body"></td>
           </tr>
         )
       })
     }
 
-    const todoContributeBoxPercentageGraph = {
-      marginBottom: "10px"
+    const percentBar = {
+      textAlign: "center",
+      color: "#757575",
+      width: value + "%",
+      backgroundColor: `rgba(${this.props.color},0.2)`,
+      border: `1px solid rgba(${this.props.color},1)`,
+      borderRadius: "4px",
+      fontSize: "12px"
+    }
+
+    const totalBackground = {
+      backgroundColor: `rgba(${this.props.color},1)`,
+      color: "white"
     }
 
     return (
-        <div>
+        <div className="todo-contribute-container">
           <div className="todo-contribute-title">
-            <span>{key}</span>
-            <span className="show-history-text" onClick={this.toggle}>{this.state.showToggle ? "Close History" : "Show History"}</span>
+            <div className="todo-contribute-title-left">{key}</div>
+            <div className="todo-contribute-title-center">
+              <div className="percentBox">
+                <div style={percentBar}>
+                  {value + '%'}
+                </div>
+              </div>
+            </div>
+            <div className="show-history-text todo-contribute-title-right" onClick={this.toggle}>
+              {this.state.showToggle ? "Close History" : "Show History"}
+            </div>
           </div>
-          <ProgressBar bsStyle="warning" style={todoContributeBoxPercentageGraph} now={value} label={`${value}%`}/>
           {this.state.showToggle ?
             <table className="todo-contribute-box slideDown">
               <thead>
                 <tr>
+                  <td className="todo-contribute-box-header-blank"></td>
                   <td className="todo-contribute-box-header todo-contribute-box-header-left">To-Do</td>
                   <td className="todo-contribute-box-header todo-contribute-box-header-center">Point(중요도)</td>
                   <td className="todo-contribute-box-header todo-contribute-box-header-right">참여도</td>
+                  <td className="todo-contribute-box-header-blank"></td>
                 </tr>
               </thead>
               <tbody>
-              {partItem(this.props.list[key].participatedList)}
-              <tr>
-                <td className="todo-contribute-box-footer-center">Total</td>
-                <td className="todo-contribute-box-footer-center">{this.props.list[key].value + "("+ this.props.total + ")"}</td>
-                <td className="todo-contribute-box-footer-center">{value + "%"}</td>
-              </tr>
+                {partItem(this.props.list[key].participatedList)}
+                <tr>
+                  <td className="todo-contribute-box-header-blank"></td>
+                  <td className="todo-contribute-box-footer-center">Total</td>
+                  <td className="todo-contribute-box-footer-center">{this.props.list[key].value + "("+ this.props.total + ")"}</td>
+                  <td className="todo-contribute-box-footer-center" style={totalBackground}>{value + "%"}</td>
+                  <td className="todo-contribute-box-header-blank"></td>
+                </tr>
               </tbody>
             </table>
-          : null}<hr />
+          : null}
         </div>          
     )
   }
 }
 
 export default TodoContribute;
+

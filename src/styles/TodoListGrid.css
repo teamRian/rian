@@ -8,6 +8,7 @@
 .alignCenter {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-top: 10px;
     margin-left: 5px;
 }
@@ -22,9 +23,23 @@
     text-align: right;
 }
 
-.todo-grid-head-text {
-    border-bottom: 1px solid rgba(148,178,189,1);
+.todo-grid-head-text-ready {
     text-align: center;
-    color: rgba(148,178,189,1);
+    padding: 5px 0px;
+    border-bottom: 1px solid rgba(246,145,149,0.4);
+    color: rgba(246,145,149,1);
+}
+
+.todo-grid-head-text-progress {
+    border-bottom: 1px solid rgba(249,187,148,0.4);
+    text-align: center;
+    color: rgba(249,187,148,1);
+    padding: 5px 0px;
+}
+
+.todo-grid-head-text-done {
+    border-bottom: 1px solid rgba(133,202,231,0.4);
+    text-align: center;
+    color: rgba(133,202,231,1);
     padding: 5px 0px;
 }

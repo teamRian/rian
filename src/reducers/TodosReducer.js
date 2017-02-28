@@ -1,7 +1,7 @@
 // import Data
 import todoList from '../components/Todo/testData';
 
-export function TodosReducer (state = todoList, action) {    
+export function TodosListReducer (state = todoList.todos, action) {    
     switch(action.type){
         case 'TODO_ADD':
             return [...state, {
@@ -59,3 +59,18 @@ export function TodosReducer (state = todoList, action) {
             return state;
     }
 }
+
+
+export function TodosLogsReducer (state = todoList.logs, action) {    
+    switch(action.type){
+        case 'TODO_ADD':
+            return Object.assign({}, state, action.log);
+        case 'TODO_REMOVE':
+            return Object.assign({}, state, action.log);
+        case 'TODO_CHANGE_STATUS':
+            return Object.assign({}, state, action.log);
+        default:
+            return state;
+    }
+}
+

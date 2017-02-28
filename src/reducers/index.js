@@ -11,10 +11,6 @@ import * as CalendarReducer from './CalendarReducer'
 import * as WhiteBoardReducer from './WhiteBoardReducer.js';
 import * as TodosReducer from './TodosReducer.js';
 
-var initstate = {
-	data: 1 
-}
-
 const rootReducer = combineReducers(
 	Object.assign(
 		{}, 

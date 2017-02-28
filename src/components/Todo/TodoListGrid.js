@@ -7,7 +7,7 @@ import TodoAdd from './TodoAdd';
 import TodoContributeButton from './TodoContributeButton';
 import TodoLogButton from './TodoLogButton'
 
-// import Css
+// import CSS
 import '../../styles/TodoListGrid.css';
 
 class TodoListGrid extends React.Component {
@@ -76,30 +76,46 @@ class TodoListGrid extends React.Component {
           contributionList.push(item);
         }
 
+        let todoTotalListNumber = this.props.todoList.length;
+        let todoDoneListNumber = completedItem.length;
+
+        const wrap = {
+            display: "flex",
+            padding: "5px 5px"
+        }
+
         return(
             <div>
-                <div className="row alignCenter">
-                    <span className="todoHeaderText">To-Do List</span>
-                    <TodoAdd {...this.props} 
-                        id={this.props.todoList[this.props.todoList.length - 1] ? this.props.todoList[this.props.todoList.length - 1].projectId : ''} 
-                        index={this.props.todoList[this.props.todoList.length - 1]? this.props.todoList[this.props.todoList.length - 1].index: ''}
-                    />
-                    <TodoContributeButton contributionList={contributionList} total={total}/>
-                    <TodoLogButton />
+                <div className="row">
+                    <div className="col-xs-12 alignCenter">
+                        <span className="todoHeaderText">To-Do List</span>
+                        <div style={wrap}>
+                            <TodoAdd {...this.props}
+                                id={this.props.todoList[this.props.todoList.length - 1] ? this.props.todoList[this.props.todoList.length - 1].projectId : ''} 
+                                index={this.props.todoList[this.props.todoList.length - 1]? this.props.todoList[this.props.todoList.length - 1].index: ''}
+                            />
+                            <TodoContributeButton
+                                contributionList={contributionList} 
+                                total={total} 
+                                todoTotalListNumber={todoTotalListNumber} 
+                                todoDoneListNumber={todoDoneListNumber}/>
+                            <TodoLogButton logs={this.props.logs}/>
+                        </div>
+                    </div>
                 </div>
-                <div  className="row">
+                <div className="row">
                     <div className="col-xs-12 col-md-4">
-                        <h5 className="todo-grid-head-text">Ready</h5>
+                        <h5 className="todo-grid-head-text-ready">Ready</h5>
                         {readyItem.map((todo,i) => 
                             <Todo {...this.props} key={i} i={i} todo={todo}/>)}
                     </div>
                     <div className="col-xs-12 col-md-4">
-                        <h5 className="todo-grid-head-text">Progress</h5>
+                        <h5 className="todo-grid-head-text-progress">Progress</h5>
                         {progressItem.map((todo,i) => 
                             <Todo {...this.props} key={i} i={i} todo={todo}/>)}
                     </div>
                     <div className="col-xs-12 col-md-4">
-                        <h5 className="todo-grid-head-text">Done</h5>
+                        <h5 className="todo-grid-head-text-done">Done</h5>
                         {completedItem.map((todo,i) => 
                             <Todo {...this.props} key={i} i={i} todo={todo}/>)}
                     </div>

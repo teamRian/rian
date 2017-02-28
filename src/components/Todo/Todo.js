@@ -40,22 +40,27 @@ const Todo = React.createClass({
       // Next Button
     handleNext(e) {
       e.preventDefault();
+
       let changeStatus = '';
       let id = this.props.todo.id;
       let enddate = this.props.todo.enddate;
       let startdate = this.props.todo.startdate;
+      let changedAt = moment().format('YYYY-MM-DD hh:mm:ss a');
+      let log = {};
 
       if(this.props.todo.status === 'created') {
         changeStatus = 'progress';
         startdate = moment().format("YYYY-MM-DD");
+        log[changedAt] = `${this.props.todo.title}이(가) 진행중으로 이동 by User`;
       } else if (this.props.todo.status === 'progress'){
         changeStatus = 'completed';
         enddate = moment().format("YYYY-MM-DD");
+        log[changedAt] = `${this.props.todo.title}이(가) 완료로 이동 by User`;
       } else {
         changeStatus = 'completed';
       }
 
-      this.props.changeStatus(changeStatus, id, startdate ,enddate);
+      this.props.changeStatus(changeStatus, id, startdate ,enddate, log);
       this.detailClose();
     },
       // Prev Button
@@ -65,24 +70,32 @@ const Todo = React.createClass({
       let id = this.props.todo.id;
       let startdate = this.props.todo.startdate;
       let enddate = this.props.todo.enddate;
+      let changedAt = moment().format('YYYY-MM-DD hh:mm:ss a');
+      let log = {};
 
       if(this.props.todo.status === 'progress') {
         changeStatus = 'created';
         startdate = "";
+        log[changedAt] = `${this.props.todo.title}이(가) 준비로 이동 by User`;
       } else if (this.props.todo.status === 'completed'){
         changeStatus = 'progress';
         enddate = "";
+        log[changedAt] = `${this.props.todo.title}이(가) 진행중으로 이동 by User`;
       } else {
         changeStatus = 'created';
       }
 
-      this.props.changeStatus(changeStatus, id, startdate ,enddate);
+      this.props.changeStatus(changeStatus, id, startdate, enddate, log);
       this.detailClose();
     },
       // Remove Button
     handleRemove(e) {
       e.preventDefault();
-      this.props.removeTodo(this.props.todo.id);
+      const removedAt = moment().format('YYYY-MM-DD hh:mm:ss a')
+      const log = {}
+      log[removedAt] = `${this.props.todo.title}가(이) 삭제되었습니다 by User`
+
+      this.props.removeTodo(this.props.todo.id, log);
       this.close();
     },
 
@@ -100,12 +113,28 @@ const Todo = React.createClass({
               <Pager.Item next onClick={this.handleNext}>다음 단계로 &rarr;</Pager.Item>
             </Pager>
           </div>
-        ) 
+        )
+
+        let backgroundColorSelect;
+
+        if(status === "created") {
+          backgroundColorSelect = "rgba(246,145,149,0.8)";
+        } else if (status === "progress") {
+          backgroundColorSelect = "rgba(249,187,148,0.8)";
+        } else if (status === "completed") {
+          backgroundColorSelect = "rgba(133,202,231,0.8)"
+        }
+
+        let todoCardTableHeadBox = {
+          backgroundColor: backgroundColorSelect,
+          fontSize: "13px",
+          color: "white"
+        }
     
         return (
             <div className="todoItemCard">
               <table className="tableContainer">
-                <thead className="todo-card-table-head-box">
+                <thead style={todoCardTableHeadBox}>
                   <tr>
                     <th className="todo-card-table-head-index">No</th>
                     <th className="todo-card-table-head-title">제목</th>
