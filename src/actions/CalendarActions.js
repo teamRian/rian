@@ -1,7 +1,7 @@
 import { 
 	CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA,
 	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL,
-	CALENDAR_CHANGE_DATE   } from '../constants';
+	CALENDAR_CHANGE_DATE, CALENDAR_SELECT_DATE   } from '../constants';
 import axios from 'axios';
 
 export function calendarRequestData(){
@@ -15,25 +15,24 @@ export function calendarReceiveData(res){
 	return {
 		type: CALENDAR_GET_DATA,
 		loading: false,
-		data: res
+		plans: res
 	}
 }
 
 export function calendarFailData(err){
 	return {
 		type: CALENDAR_FAIL_DATA,
-		loading: false,
-		data: null
+		loading: false
 	}
 }
-export function calendarRequest(query){
+export function calendarRequest(user, query){
 	return function(dispatch){
 		
 		dispatch(calendarRequestData())
 
-		return axios.get('/plan', { params: query })
+		return axios.post('/plan/getPlans', { params: {user, query} })
       			.then(res => {
-        			dispatch(calendarReceiveData(res.data))
+        			dispatch(calendarReceiveData(res.plans))
       			})
       			.catch(err => {
         			dispatch(calendarFailData(err));
@@ -50,11 +49,10 @@ export function calendarPostSend(){
 }
 
 export function calendarPostSuccess(res){
-	console.log("CALENDAR POST SUCCESS: RES:", res.data)
 	return {
 		type: CALENDAR_POST_SUCCESS,
 		loading: false,
-		data: res.data
+		plans: [res.data]
 	}
 }
 
@@ -69,10 +67,8 @@ export function calendarPost(form){
 	return function(dispatch){
 		dispatch(calendarPostSend());
 
-		return axios.post('/plan', form)
-			.then(res=>{
-				dispatch(calendarPostSuccess(res));
-			})
+		return axios.post('/plan/newPlan', {form})
+			.then(res=>dispatch(calendarPostSuccess(res)))
 			.catch(err=>dispatch(calendarPostFail()));
 	}
 }
@@ -83,5 +79,14 @@ export function calendarChangeDate(date){
 		day: date.day,
 		month: date.month,
 		year: date.year
+	}
+}
+
+export function calendarSelectDate(date){
+	return {
+		type: CALENDAR_SELECT_DATE,
+		selectedDay: date.day,
+		selectedMonth: date.month,
+		selectedYear: date.year
 	}
 }

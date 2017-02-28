@@ -2,14 +2,12 @@ import { Router } from 'express';
 import * as PlanController from '../controllers/plan.controller';
 const router = new Router();
 
-// Get all Posts
-router.route('/').get((req,res)=>{
-	console.log('inside router route get: ');
+// Get all Plan
+router.route('/getPlans').post((req,res)=>{
 	PlanController.calendarRequest(req,res);
 });
 
-router.route('/').post((req,res)=>{
-	console.log('inside plan router post: ', req.body);
+router.route('/newPlan').post((req,res)=>{
 	PlanController.calendarPost(req,res);
 })
 

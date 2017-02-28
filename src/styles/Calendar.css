@@ -9,8 +9,6 @@
 	padding:20px;
 	background-color: white;
 	text-align:center;
-
-
 }
 
 #calendar-header {
@@ -38,7 +36,8 @@
     margin: 0 10px;
     padding: 8px;
     width:12%;
-
+    border: none;
+    opacity: 0.5;
 }
 
 #calendar-container tbody td {
@@ -49,25 +48,29 @@
     border: none;
     border-top: 2px solid #eee;
     padding: 8px;
+    opacity: 0.5;
 }
 
 #calendar-container tbody td:hover {
-	background-color: #ebfaff;
+	background-color: #ebfaff !important;
 }
 
+#calendar-container tbody td.active {
+	background-color: #a8ffae !important;
+}
 #calendar-container td.empty{
 	border: none;
 }
 
 
 #calendar-container tbody td.holiday {
-	background-color: #c4fffb;
+	background-color: #ffeaf3;
 }
 
 #calendar-container tbody td.today {
-	background-color: #00bfff;
+	background-color: #fff2ea;
 }
 
 #calendar-container tbody td.unactive {
-	background-color: grey;
+	background-color: #e5e6e8;
 }
