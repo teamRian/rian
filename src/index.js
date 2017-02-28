@@ -5,11 +5,8 @@ import configureStore from './store/configureStore';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux';
 
-
 import { AppContainer } from 'react-hot-loader';
 import './index.css';
-
-import todoList from './components/Todo/testData.js'
 
 // configs in './configureStore.js'
 const store = configureStore() 

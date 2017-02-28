@@ -20,7 +20,8 @@ class TodoContainer extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    todoList: state.TodosReducer
+    todoList: state.TodosListReducer,
+    logs: state.TodosLogsReducer
   }
 }
 

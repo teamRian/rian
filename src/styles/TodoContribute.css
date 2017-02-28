@@ -24,22 +24,26 @@
   font-weight: bold;
 }
 
+.todo-contribute-box-header-blank {
+  width: 20%;
+	border: 0px;  
+}
+
 .todo-contribute-box-header-left {
-  width: 40%  
+  width: 30%  
 }
 
 .todo-contribute-box-header-center {
-  width: 40%  
+  width: 15%  
 }
 
 .todo-contribute-box-header-right {
-  width: 30%  
+  width: 15%  
 }
 
 .todo-contribute-box-body {
   border: 0px;
   color: #9E9E9E;
-
 }
 
 .todo-contribute-box-footer-center {
@@ -50,9 +54,8 @@
 
 .percentBox {
 	width: 100%;
-	background-color: rgba(245,245,245,1);
 	border-radius: 5px;
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+	border: 1px solid rgba(0, 0, 0, .1);
 	margin-bottom: 10px
 }
 
@@ -109,4 +112,24 @@
 	100% {
 		-webkit-transform: translateY(0%);
 	}	
+}
+
+
+.todo-contribute-title-left {
+	width: 20%;
+	margin-right: 10px;
+	padding-right: 10px;
+	border-right: 1px solid #EEEEEE;
+	color: #757575;
+	text-align: right;
+}
+
+
+.todo-contribute-title-center {
+	width: 60%;
+}
+
+.todo-contribute-title-right {
+	width: 20%;
+	text-align: center;
 }
