@@ -74,7 +74,6 @@ class RichText extends React.Component {
     this.socket = io()
     var that =this
     this.socket.on('sendslate', function(state){
-        
           const decontent = Raw.deserialize( JSON.parse(state) ) 
           that.props.onChangeDispatch(decontent)
     })

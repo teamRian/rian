@@ -5,20 +5,18 @@ import Chat from '../../components/Chat/Chat';
 import * as chatActions from '../../actions/chatActions';
 import '../../styles/Chat.css';
 
+
 class ChatApp extends Component {
 		constructor(props) {
 			super(props);
 			
 		}
 
-		componentWillMount() {
-			const { dispatch, user } = this.props;	
-		}
 
 		render() {
 				return (
 						<div>
-								<Chat changeName={this.props.changeName} {...this.props}/>
+								<Chat {...this.props}/>
 						</div>
 				);
 		}
@@ -28,10 +26,9 @@ class ChatApp extends Component {
 function mapState(state) {
 
 	return {
-			user: state.chatUser.user,
+			user: state.chatApp.user,
 			users: state.chatUser.joinusers,
-			messages: state.chatApp.messages,
-			changeName: state.chatApp.text//[] array지
+			messages: state.chatApp.messages
 	};
 }
 
@@ -48,9 +45,6 @@ function mapDispatch(dispatch) {
 			},
 			userLeft: (user) => {
 				dispatch(chatActions.userLeft(user))
-			},
-			changeName: (name) => {
-				dispatch(chatActions.changeName(name))
 			}
 	};
 

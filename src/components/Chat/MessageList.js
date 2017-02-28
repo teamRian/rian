@@ -19,14 +19,12 @@ export default class MessageList extends Component {
 							{
 									this.props.messages.map((message, i) => {
 											return (
-													<div>
-													
 													<Message
 														key={i}
 														user={message.user}
 														text={message.text}
 													/>	
-													</div>
+													
 											);
 									})
 							}
