@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { calendarRequest, calendarPost, calendarChangeDate } from '../../actions/CalendarActions';
+import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate } from '../../actions/CalendarActions';
 
 import d3 from 'd3';
 import {} from '../../actions';
@@ -11,7 +11,6 @@ import '../../styles/Calendar.css';
 class Calendar extends Component {
   constructor(props){
     super(props)
-    console.log('props: ',this.props);
   }
 
   componentDidMount(){
@@ -21,13 +20,16 @@ class Calendar extends Component {
     return (
       <div id="calendar-container">
         <CalendarHeader
+          User={this.props.User}
           Calendar={this.props.Calendar}
           calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
         />
         <CalendarBody 
+          User={this.props.User}
           Calendar={this.props.Calendar}
-          calendarRequest={query=>this.props.calendarRequest.bind(this)(query)}
-          calendarPost={form=>this.props.calendarPost.bind(this)(form)}
+          calendarRequest={(user, query)=>this.props.calendarRequest.bind(this)(user, query)}
+          calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
+          calendarSelectDate={(date)=>this.props.calendarSelectDate.bind(this)(date)}
         />
       </div>
     );
@@ -36,20 +38,24 @@ class Calendar extends Component {
 
 function mapState(state) {
   return {
+    User: state.User,
     Calendar: state.Calendar
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    calendarRequest: (query)=> {
-      dispatch(calendarRequest(query));
+    calendarRequest: (user, query)=> {
+      dispatch(calendarRequest(user, query));
     },
     calendarPost: (form)=> {
       dispatch(calendarPost(form));
     },
     calendarChangeDate: (date)=>{
       dispatch(calendarChangeDate(date))
+    },
+    calendarSelectDate: (date)=>{
+      dispatch(calendarSelectDate(date))
     }
   };
 }

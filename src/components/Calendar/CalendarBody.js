@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as d3 from 'd3'
 import { Calendar } from 'calendar';
+import CalendarPostModal from './CalendarPostModal';
 import moment from 'moment';
 
 const duration = 1500;
@@ -15,7 +16,8 @@ export default class CalendarBody extends Component {
   }
 
   componentDidMount(){
-  	const {data, day, locale, month, type, year, currentDay, currentMonth, currentYear} = this.props.Calendar
+    const {_userId, username} = this.props.User;
+  	const {data, day, locale, month, type, year, currentDay, currentMonth, currentYear} = this.props.Calendar;
     var initialTime = {
       locale: locale,
       currentDate: moment().format('l').split('/').map(function(item){
@@ -28,7 +30,14 @@ export default class CalendarBody extends Component {
     const body = table.append('tbody');
     this.renderTableHeader(table,header,body, duration)
     this.renderTable(table, header, body, duration, weeks, month, year, currentDay, currentMonth, currentYear);
-    this.props.calendarRequest();
+    if(this.props.User._id !== null){
+        this.props.calendarRequest({_userId},{month,year});
+    }
+    if(this.props.Calendar.selectedDay !== null){
+        this.selectDate(this.props.Calendar.selectedDay)
+        debugger
+    }
+    debugger
   }
 
   componentWillReceiveProps(nextProps){
@@ -49,10 +58,38 @@ export default class CalendarBody extends Component {
   }
 
   selectDate(day){
-    d3.select('#calendar tbody td.active')
+
+    d3.select('.active')
       .classed('active', false)
     d3.select(`#id${day}`)
       .classed('active', true);
+
+    var date = {
+      month: this.props.Calendar.month,
+      year: this.props.Calendar.year
+    }
+
+    if(day[0] === 'n'){
+      if(date.month !== 12){
+        date.month++;
+      } else {
+        date.month = 1;
+        date.year++;
+      }
+      date.day= day.slice(1)
+    } else if(day[0] === 'l'){
+      if(date.month !== 1){
+        date.month--;
+      } else {
+        date.month = 12;
+        date.year--
+      }
+      date.day= day.slice(1);
+    } else {
+      date.day = day;
+    }
+
+    this.props.calendarSelectDate(date);
   }
 
   renderData(data){
@@ -108,7 +145,6 @@ export default class CalendarBody extends Component {
   }
 
   renderTableHeader(table, header, body, duration){
-    
     header
       .append('tr')
       .selectAll('td')
@@ -121,7 +157,6 @@ export default class CalendarBody extends Component {
     .transition()
       .duration(duration)
       .style("opacity",1)
-
   }
 
 
@@ -168,27 +203,37 @@ export default class CalendarBody extends Component {
     })
 
     if(currentYear === year && currentMonth === month){
-      console.log('DISPLAY TODAY')
       this.displayToday(currentDay);
     }
 
 
   }
 
-  handleButtonClick(d,i){
-    const {year, month, day } = this.props.Calendar
-    this.props.calendarPost({
-      year, month, day, 
-      type: "once",
-      title: "New Event",
-    })
+  handleButtonClick(){
+    const {year, month, day } = this.props.Calendar;
+    const {username} = this.props.User;
+    const _userId = this.props.User._id;
+    this.props.calendarPost(
+      {
+        _userId, username,year,month,day,
+        type:"once", 
+        title: "New Event"
+      }
+    )
   }
 
 
   render() {
     return (
-      <table id="calendar-body">
-      </table>
+      <div>
+        <button onClick={()=>this.handleButtonClick()}/>
+        <CalendarPostModal
+          User={this.props.User}
+          Calendar={this.props.Calendar}
+        />
+        <table id="calendar-body">
+        </table>
+      </div>
     );
   }
 }

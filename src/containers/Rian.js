@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Grid, Col, Row} from 'react-bootstrap';
 
 // Import Actions
-import * as RianActions from '../actions';
+import { userSignUp, userLogIn } from '../actions/UserActions';
 
 // Import Component
 import Header from '../components/Rian/Header';
@@ -38,7 +38,11 @@ class RianApp extends Component {
       <div className="App">
         <div style={marginZero}>
           <div className="row" style={marginZero}>             
-              <Header />
+              <Header 
+                User={this.props.User}
+                userLogIn={form=>this.props.userLogIn.bind(this)(form)}
+                userSignUp={form=>this.props.userSignUp.bind(this)(form)} 
+              />
           </div>
           <div className="row" style={marginZero}>
             <div className="col-xs-1" style={navColor}>
@@ -57,11 +61,18 @@ class RianApp extends Component {
 
 function mapState(state) {
   return {
+    User: state.User
   };
 }
 
 function mapDispatch(dispatch) {
   return {
+    userSignUp: (form)=> {
+      dispatch(userSignUp(form))
+    },
+    userLogIn: (form)=>{
+      dispatch(userLogIn(form))
+    }
   };
 }
 
