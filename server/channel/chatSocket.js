@@ -6,19 +6,17 @@ module.exports = function(socket, io) {
 		console.log('/chat channel connection success', socket.id)
 		var name =  `GuestID ${socket.id.split('/chat#')[1]}`
 
-		students[name] = socket.id;
-
 		// check the connection
 		socket.emit('connectMsg', 'hi');
 
 		// send the new user their name and a list of users
 		socket.on('init', function(){
-				socket.emit('init', { name: name })
+				students[name] = socket.id;
+				socket.emit('init', { name: Object.keys(students) })
 		})
 		
 		// testing for private message
 		socket.on('user:clicked', function(data){
-				console.log(data.student, data.msg, students[data.student]);
 				socket.broadcast.to(students[data.student]).emit('private msg', data.msg, name);
 				
 		})
@@ -60,6 +58,7 @@ module.exports = function(socket, io) {
 				socket.broadcast.emit('user:left', {
 						name: name
 				});
+				delete students[name]
 				// userNames.free(name);
 		});
 };

@@ -137,15 +137,12 @@ const chatSocket = require('./channel/chatSocket.js');
 const whiteboardSocket = require('./channel/whiteboardSocket.js');
 
 // io channels
-io.on('connection', function(socket){ console.log('default connection success'); })
+// io.on('connection', function(socket){ console.log('default connection success'); })
 io.of('/chat').on('connection', function(socket){
     chatSocket(socket, io);
 });
-io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
+// io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
 
-
-const chatRoom = io.of('/chat');
-const whiteboardRoom = io.of('/whiteboard');
 
 
 // start app

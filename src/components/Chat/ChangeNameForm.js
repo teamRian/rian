@@ -11,9 +11,6 @@ export default class ChangeNameForm extends Component {
     
   }
 
-  // componentDidMount() {
-  //   this.socket = io();
-  // }
 
   handleSubmit(e){
       e.preventDefault();
