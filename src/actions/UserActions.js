@@ -1,6 +1,7 @@
 import { 
 	USER_REQUEST_LOG_IN, USER_SUCCESS_LOG_IN, USER_FAIL_LOG_IN,
-    USER_REQUEST_SIGN_UP, USER_SUCCESS_SIGN_UP, USER_FAIL_SIGN_UP   
+    USER_REQUEST_SIGN_UP, USER_SUCCESS_SIGN_UP, USER_FAIL_SIGN_UP,
+    USER_LOG_OUT  
 } from '../constants';
 import axios from 'axios';
 
@@ -76,5 +77,13 @@ export function userLogIn(form){
 			.catch(err=>{
 				dispatch(userFailLogIn(err))
 			})
+	}
+}
+
+export function userLogOut(){
+	return {
+		type: USER_LOG_OUT,
+		username: null,
+		_id: null
 	}
 }

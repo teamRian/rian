@@ -1,0 +1,9 @@
+.home {
+	display:flex;
+	height:300px;
+	justify-content: center;
+	align-items:center;
+	text-align:center;
+	font-size: 30px;
+	font-family: Arial, "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+}

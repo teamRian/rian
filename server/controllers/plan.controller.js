@@ -15,6 +15,7 @@ export function calendarRequest(req,res){
 }
 
 export function calendarPost(req,res){
+  console.log("POST:::", req.body.form)
   var post = new Plan(req.body.form);
 
   post.save()

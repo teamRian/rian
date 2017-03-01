@@ -203,31 +203,15 @@ export default class CalendarBody extends Component {
     if(currentYear === year && currentMonth === month){
       this.displayToday(currentDay);
     }
-
-
   }
-
-  handleButtonClick(){
-    const {year, month, day } = this.props.Calendar;
-    const {username} = this.props.User;
-    const _userId = this.props.User._id;
-    this.props.calendarPost(
-      {
-        _userId, username,year,month,day,
-        type:"once", 
-        title: "New Event"
-      }
-    )
-  }
-
 
   render() {
     return (
       <div>
-        <button onClick={()=>this.handleButtonClick()}/>
         <CalendarPostModal
           User={this.props.User}
           Calendar={this.props.Calendar}
+          calendarPost={(form)=>this.props.calendarPost(form)}
         />
         <table id="calendar-body">
         </table>

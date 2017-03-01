@@ -3,6 +3,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import Rian from './Rian';
 import DevTools from './DevTools';
 import '../styles/Rian.css';
+import Home from '../components/Rian/Home';
 import Calendar from './Calendar/Calendar.js';
 import TodoContainer from './Todo/TodoContainer.js';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
@@ -20,7 +21,7 @@ export default class Root extends Component {
       <div>
         <Router history={browserHistory}>
             <Route path="/" component={Rian}>
-                <IndexRoute component = {Calendar} />
+                <IndexRoute component = {Home} />
                 <Route path="/calendar" component={Calendar} />
                 <Route path="/todolist" component={TodoContainer} />
                 <Route path="/editor" component={NoteEditor} />
