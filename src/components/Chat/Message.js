@@ -6,18 +6,40 @@ export default class Message extends Component {
   // static propTypes = {
   //   addTodo: PropTypes.func.isRequired
   // };
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   time: moment(new Date()).fromNow()
+    // } 
+  }
+
+  // update() {
+  //     let currentTime = moment(new Date()).fromNow();
+  //     this.updateTime.value = currentTime;
+  // }
+  // componentDidMount() {
+
+  //   var that = this
+  //   setInterval(function(){
+  //       console.log('come?')
+  //       that.setState({
+  //         time: moment(new Date()).fromNow()
+  //       })
+  //   }, 3000)
+
+  // }
 
   render() {
-    
+  
     return (
       <div className='message well'>
-        
           <strong>{this.props.user} : </strong>   
           <span>{this.props.text}</span>
           &nbsp;
           &nbsp;
-          <span>{moment([2007,0,29]).fromNow()}</span>
+          <span ref={ref => {this.updateTime = ref;}} ></span>
       </div>
     );
   }
 }
+

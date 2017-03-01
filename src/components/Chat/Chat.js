@@ -31,11 +31,10 @@ export default class Chat extends Component {
     socket.emit('init', 'good!')
     socket.on('init', user => {
       // this.socket.emit('room', room);
-      if(this.props.users.indexOf(user.name) === -1){
+      // if(this.props.users.indexOf(user.name) === -1){
         this.props.newUser(user);  
-      }
+      // }
     }); 
-
   }
 
   getMessages(msg){
@@ -51,11 +50,11 @@ export default class Chat extends Component {
     socket.off('user:join', this.updateUser)
   }
 
-
   componentDidMount() {
     socket.on('send:message', this.updateMessage);   
     socket.on('user:join', this.updateUser);
     socket.on('user:left', user => this.props.userLeft(user));
+    
   }
 
   handleMessageSubmit(message){
@@ -64,16 +63,17 @@ export default class Chat extends Component {
   }
   
   render() {
-    
     return (
       <Grid>
         
         <Row className='show-grid'>
           <Col md={4}  >
+            <SocketProvider socket={socket}>
             <UsersList
               users={this.props.users}
+              updateMessage={this.updateMessage}
             />
-            
+            </SocketProvider>
           </Col>
           <Col md={8} >
             
