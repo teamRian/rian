@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-mongoose.Promise = global.Promise
+mongoose.promise = global.promise
 
 // 다른 모델의 스키마 가져오는방법 ! 아래와 같습니다
-// import Plan from './plan.js'
-// const PlanSchema = mongoose.model('Plan').schema;
+import Plan from './plan.js'
+import Note from './Note.js'
 
+const PlanSchema = mongoose.model('Plan').schema;
+const NoteSchema = mongoose.model("Note").schema;
 const UserSchema = new Schema({
-	username: { type: String, required: true },
+	id: String,
 
 	local : {
 		username: String,
@@ -25,9 +27,13 @@ const UserSchema = new Schema({
 	    picture: String
  	},
 
- 	plans : [{ type: Schema.Types.ObjectId, ref: 'Plan'}]
- 	// Populate 하는 방법
+ 	plans : [PlanSchema],
+
+ 	note : [NoteSchema]
+ 		 
 
 });
 
-export default mongoose.model('User', UserSchema);
+
+ 
+export default mongoose.model('User', UserSchema)

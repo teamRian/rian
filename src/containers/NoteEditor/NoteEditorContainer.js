@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import NoteEditor from '../../components/NoteEditor/NoteEditor.js';
+import RockofRianCollaboEidtor from '../../components/NoteEditor/RockofRianCollaboEidtor.js'
 import * as actions from '../../actions/NoteEditorActions.js';
 
 class NoteEditorContainer extends Component {
@@ -8,10 +9,8 @@ class NoteEditorContainer extends Component {
   render() {
     
     return (
-     <div className='col-xs-6 col-xs-offset-3'>
-      <div className="NoteEditor">
-        <NoteEditor data={this.props.data} onChangeDispatch={this.props.onChangeDispatch} />
-      </div>
+     <div style={{height: "100%"}}>
+        <RockofRianCollaboEidtor  />
      </div>
     );
   }

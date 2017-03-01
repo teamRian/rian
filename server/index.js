@@ -14,9 +14,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
 const app = new Express();
-// const server = require('http').createServer(app);
-// const io = require('socket.io')(server);
-
 
 
 
@@ -79,19 +76,37 @@ app.get('/', function(req, res, next){
     <!doctype html>
     <html>
       <head>
+        <meta charset="utf-8" />
         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        
+        <script src="https://www.gstatic.com/firebasejs/3.6.10/firebase.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css"/>
+        
+        <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+        <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+
+        <style>
+           html { height: 100%; }
+           body { margin: 0; height: 100%; position: relative; }
+            
+           #firepad-container {
+             width: 100%;
+             height: 100%;
+           }
+        </style>
+
       </head>
       <body>
         <div id="root"></div>
-        
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/manifest.js'] : '/manifest.js'}'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
         <script src='${process.env.NODE_ENV === 'production' ? assetsManifest['/app.js'] : '/app.js'}'></script>
-                 
+              
       </body>
     </html>
   `
@@ -113,8 +128,9 @@ app.get('/chat', (req,res)=>{
   res.redirect('/#/chat')
 })
 
+console.log("!!!@!@!@!@!@!@!@!@@!@!@");
 
-// Socketio 
+// Socketio Chat
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const chatSocket = require('./channel/chatSocket.js');
@@ -127,6 +143,7 @@ io.of('/chat').on('connection', function(socket){
 });
 io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
 
+
 const chatRoom = io.of('/chat');
 const whiteboardRoom = io.of('/whiteboard');
 
@@ -137,12 +154,5 @@ server.listen(serverConfig.port, (error) => {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }
 });
-
-
-// app.listen(serverConfig.port, (error) => {
-//   if (!error) {
-//     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
-//   }
-// });
 
 export default app;
