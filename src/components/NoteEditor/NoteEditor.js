@@ -72,7 +72,7 @@ class RichText extends React.Component {
     this.renderMarkButton = this.renderMarkButton.bind(this)
     this.onClickBlock = this.onClickBlock.bind(this)
     this.socket = io()
-    var that =this
+    var that = this
     this.socket.on('sendslate', function(state){
           const decontent = Raw.deserialize( JSON.parse(state) ) 
           that.props.onChangeDispatch(decontent)
@@ -81,10 +81,6 @@ class RichText extends React.Component {
 
    }
 
-  componentDidMount() {
-    
-
-  }
 
   /**
    * Check if the current selection has a mark with `type` in it.
@@ -117,11 +113,9 @@ class RichText extends React.Component {
    */
 
   onChange (state){
-    
     const content = JSON.stringify( Raw.serialize(state) )
     this.props.onChangeDispatch(state)
     this.socket.emit('getslate', content)
-    // this.setState({ state })
   }
 
   /**
@@ -292,7 +286,6 @@ class RichText extends React.Component {
   renderMarkButton(type, icon){
     const isActive = this.hasMark(type)
     const onMouseDown = e => this.onClickMark(e, type)
-
     return (
       <span className="button" onMouseDown={onMouseDown} data-active={isActive}>
         <span className="material-icons">{icon}</span>
