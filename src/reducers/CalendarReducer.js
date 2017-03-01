@@ -1,7 +1,7 @@
 import moment from 'moment';
 var currentDate = moment().format('l').split('/').map(item=>parseInt(item));
 var CalendarState = {
-	type: 'month',
+	kind: 'month',
 	loading: false,
 	day: currentDate[1],
 	month: currentDate[0],
@@ -57,6 +57,10 @@ export function Calendar(state = CalendarState, action) {
 				selectedDay: action.selectedDay,
 				selectedMonth: action.selectedMonth,
 				selectedYear: action.selectedYear
+			})
+		case "CALENDAR_TOGGLE":
+			return Object.assign({}, state, {
+				kind: action.kind
 			})
 		default:
 			return state
