@@ -41,6 +41,11 @@ export function User(state = UserState, action) {
 			return Object.assign({}, state, {
 				loading: action.loading
 			})
+		case "USER_LOG_OUT":
+			return Object.assign({}, state, {
+				_id: action._id,
+				username: action.username
+			})
 		default:
 			return state
 	}

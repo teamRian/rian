@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Grid, Col, Row} from 'react-bootstrap';
 
 // Import Actions
-import { userSignUp, userLogIn } from '../actions/UserActions';
+import { userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
 
 // Import Component
 import Header from '../components/Rian/Header';
@@ -42,6 +42,7 @@ class RianApp extends Component {
                 User={this.props.User}
                 userLogIn={form=>this.props.userLogIn.bind(this)(form)}
                 userSignUp={form=>this.props.userSignUp.bind(this)(form)} 
+                userLogOut={()=>this.props.userLogOut.bind(this)()}
               />
           </div>
           <div className="row" style={marginZero}>
@@ -72,6 +73,9 @@ function mapDispatch(dispatch) {
     },
     userLogIn: (form)=>{
       dispatch(userLogIn(form))
+    },
+    userLogOut: ()=>{
+      dispatch(userLogOut())
     }
   };
 }

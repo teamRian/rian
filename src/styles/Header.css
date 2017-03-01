@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Barrio|Righteous');
 
+.modalButtons {
+    display: inline-block;
+}
 .backColor {
     display: flex;
     align-items: center;

@@ -8,6 +8,7 @@ export const USER_FAIL_LOG_IN = "USER_FAIL_LOG_IN";
 export const USER_REQUEST_SIGN_UP = "USER_REQUEST_SIGN_UP";
 export const USER_SUCCESS_SIGN_UP = "USER_SUCCESS_SIGN_UP";
 export const USER_FAIL_SIGN_UP = "USER_FAIL_SIGN_UP";
+export const USER_LOG_OUT = "USER_LOG_OUT";
 
 // TO-DO LIST ACTIONS
 export const TODO_ADD = "TODO_ADD";
