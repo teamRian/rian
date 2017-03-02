@@ -14,7 +14,7 @@ class MessageForm extends Component {
   
   findUser(){
       for (var i = 0; i <= this.props.users.length; i++) {
-        if(this.props.users[i].includes(this.props.socket.id.slice(18))){
+        if(this.props.users[i].includes(this.props.socket.id.slice(6))){
             return this.props.users[i]
         }
       }

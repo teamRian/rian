@@ -29,8 +29,8 @@ export function chatUser(state = userState, action){
 		switch (action.type){
 				case 'CHAT_NEW_USER':
 							return Object.assign({}, state, {
-									joinusers: [...state.joinusers, action.data.name],
-									alertmsg: action.data.name + ' Joined'
+									joinusers: [...state.joinusers, ...action.data.name],
+									alertmsg: `${action.data.name} Joined`
 							})
 				case 'CHAT_USER_JOIN':
 							return Object.assign({}, state, {

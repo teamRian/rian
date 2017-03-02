@@ -1,24 +1,29 @@
 import Chatuser from '../models/Chatuser';
-var count = 1;
+let students = {};
 // export function for listening to the socket
 module.exports = function(socket, io) {
 
-		console.log('/chat channel connection success')
+		console.log('/chat channel connection success', socket.id)
+		var name =  `GuestID ${socket.id.split('/chat#')[1]}`
 
-		var name =  `Guest ID ${socket.id.slice(18)}`
-	
+		// check the connection
 		socket.emit('connectMsg', 'hi');
-		socket.on('init', function(){
-				socket.emit('init', { name: name })
-		})
+
 		// send the new user their name and a list of users
-		// socket.on('init', function(msg){
-		// 	console.log('헐?')
-			
-		// })
+		socket.on('init', function(){
+				if(students[name]) {
+					return;
+				} else {
+					students[name] = socket.id;
+					socket.emit('init', { name: Object.keys(students) });	
+				}
+		})
 		
-		
-		
+		// testing for private message
+		socket.on('user:clicked', function(data){
+				socket.broadcast.to(students[data.student]).emit('private msg', data.msg, name);
+				
+		})
 
 		// notify other clients that a new user has joined
 		socket.broadcast.emit('user:join', {
@@ -26,9 +31,9 @@ module.exports = function(socket, io) {
 		});
 
 		// test joining room
-		socket.on('room', function(room){
-			console.log('HELLW???')
-				socket.join(room);
+		socket.on('join', function(data){
+			console.log('HELLW???', data)
+				socket.join(data.studentId);
 		})
 
 
@@ -43,15 +48,6 @@ module.exports = function(socket, io) {
 				// }, function(err, data){
 				// 		if(err) return console.error(err);
 				// });
-				// io.sockets.emit('send:message', {
-				// 	user: data.user,
-				// 	text: data.text
-				// })
-				// socket.emit('send:message', {
-				// 		user: data.user,
-				// 		text: data.text
-				// });
-				// 
 				socket.broadcast.emit('send:message', {
 						user: data.user,
 						text: data.text
@@ -66,6 +62,7 @@ module.exports = function(socket, io) {
 				socket.broadcast.emit('user:left', {
 						name: name
 				});
+				delete students[name]
 				// userNames.free(name);
 		});
 };
