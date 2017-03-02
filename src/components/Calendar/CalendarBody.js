@@ -44,8 +44,9 @@ export default class CalendarBody extends Component {
     let next = nextProps.Calendar;
     const table = d3.select('#calendar-body');
     if(next.kind !== this.props.Calendar.kind){
-      var thisWeek = table.transition(1500).select('.today').raise();
-      // table.select('tbody').transition(1500).remove()
+      // var thisWeek = table.transition(1500).select('.today').raise();
+      console.log(table.select('tbody').selectAll('tr'))
+      table.select('tbody').selectAll('tr').transition().duration(1500).style('opacity',0).remove()
       // table.append('tbody').node().appendChild(thisWeek);
       // console.log(thisWeek);
     }

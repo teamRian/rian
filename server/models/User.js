@@ -9,8 +9,8 @@ import Note from './Note.js'
 const PlanSchema = mongoose.model('Plan').schema;
 const NoteSchema = mongoose.model("Note").schema;
 const UserSchema = new Schema({
-	id: String,
-
+	username: { type: String, required: true },	
+  
 	local : {
 		username: String,
 		token: String,
@@ -27,7 +27,7 @@ const UserSchema = new Schema({
 	    picture: String
  	},
 
- 	plans : [PlanSchema],
+ 	plans : [{ type: Schema.Types.ObjectId, ref: 'Plan'}],
 
  	note : [NoteSchema]
  		 
