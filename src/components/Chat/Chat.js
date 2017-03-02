@@ -83,10 +83,12 @@ export default class Chat extends Component {
             </SocketProvider>
           </Col>
           <Col md={8} >
-            
+            <SocketProvider socket={socket}>
             <MessageList
+              users={this.props.users}
               messages={this.props.messages}
             />
+            </SocketProvider>
             <SocketProvider socket={socket}>
             <MessageForm
               onMessageSubmit={this.handleMessageSubmit.bind(this)}  

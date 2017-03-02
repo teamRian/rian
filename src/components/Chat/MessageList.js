@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Message from './Message';
 
+
 const io = require('socket.io-client');
 
 export default class MessageList extends Component {
@@ -19,12 +20,15 @@ export default class MessageList extends Component {
 							{
 									this.props.messages.map((message, i) => {
 											return (
+												
 													<Message
 														key={i}
-														user={message.user}
+														user={message.user}													
 														text={message.text}
-													/>	
-													
+														socket={this.props.socket}
+														users={this.props.users}
+													/>
+												
 											);
 									})
 							}

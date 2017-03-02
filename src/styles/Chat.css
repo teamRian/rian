@@ -1,0 +1,21 @@
+.message.well button#likeBtn {
+	 visibility: hidden;
+}
+
+.message.well span#likeMsg {
+  display: none;	
+}
+
+.message.well:hover button#likeBtn {
+	visibility: visible;
+}
+
+.message.well:hover span#likeMsg.showLikeMsg {
+	display: inline;
+	font-size: 12px;
+}
+
+.likeTest.btn-default {
+	background-color: #e6e6e6;
+	border-color: #adadad;
+}
