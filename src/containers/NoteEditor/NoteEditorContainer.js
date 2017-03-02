@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import NoteEditor from '../../components/NoteEditor/NoteEditor.js';
-import RockofRianCollaboEidtor from '../../components/NoteEditor/RockofRianCollaboEidtor.js'
+import QrofRian from '../../components/QRofRian/QrofRian.js'
 import * as actions from '../../actions/NoteEditorActions.js';
 
 class NoteEditorContainer extends Component {
@@ -10,7 +9,7 @@ class NoteEditorContainer extends Component {
     
     return (
      <div style={{height: "100%"}}>
-        <RockofRianCollaboEidtor  />
+        <QrofRian  />
      </div>
     );
   }
@@ -18,13 +17,13 @@ class NoteEditorContainer extends Component {
 
 function mapState(state) {
   return { 
-    data: state.NoteEditor.data 
+    // data: state.NoteEditor.data 
   }
 }
 
 function mapDispatch(dispatch) {
   return {
-    onChangeDispatch: (value) => dispatch(actions.onChangeDispatch(value)) 
+    // onChangeDispatch: (value) => dispatch(actions.onChangeDispatch(value)) 
   };
 }
 

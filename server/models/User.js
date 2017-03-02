@@ -9,7 +9,11 @@ import Note from './Note.js'
 const PlanSchema = mongoose.model('Plan').schema;
 const NoteSchema = mongoose.model("Note").schema;
 const UserSchema = new Schema({
-	username: { type: String, required: true },	
+
+	username: { 
+		type: String, 
+		required: true 
+	},	
   
 	local : {
 		username: String,
@@ -29,9 +33,9 @@ const UserSchema = new Schema({
 
  	plans : [{ type: Schema.Types.ObjectId, ref: 'Plan'}],
 
- 	note : [NoteSchema]
- 		 
+ 	mynote : [{ type: Schema.Types.ObjectId, ref: 'Note' }]
 
+ 		 
 });
 
 
