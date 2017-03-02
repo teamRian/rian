@@ -4,6 +4,8 @@ import * as d3 from 'd3'
 import { Calendar } from 'calendar';
 import CalendarPostModal from './CalendarPostModal';
 import moment from 'moment';
+import { Button } from 'react-bootstrap';
+
 
 const duration = 1500;
 const days = ['Sun','Mon','Tue','Wed','Thu','Fri',"Sat"]
@@ -30,26 +32,53 @@ export default class CalendarBody extends Component {
     const body = table.append('tbody');
     this.renderTableHeader(table,header,body, duration)
     this.renderTable(table, header, body, duration, weeks, month, year, currentDay, currentMonth, currentYear);
-    if(this.props.User._id !== null){
-        this.props.calendarRequest({_userId},{month,year});
-    }
     if(this.props.Calendar.selectedDay !== null){
         this.selectDate(this.props.Calendar.selectedDay)
+    }
+    if(this.props.User._id !== null){
+        this.calendarGetData()
     }
   }
 
   componentWillReceiveProps(nextProps){
     let next = nextProps.Calendar;
+    const table = d3.select('#calendar-body');
+    if(next.kind !== this.props.Calendar.kind){
+      // var thisWeek = table.transition(1500).select('.today').raise();
+      console.log(table.select('tbody').selectAll('tr'))
+      table.select('tbody').selectAll('tr').transition().duration(1500).style('opacity',0).remove()
+      // table.append('tbody').node().appendChild(thisWeek);
+      // console.log(thisWeek);
+    }
     let nextWeeks = this.renderTime(next.year,next.month);
-    if(nextProps.Calendar.month !== this.props.Calendar.month){
-      const table = d3.select('#calendar-body');
+    if(next.month !== this.props.Calendar.month){
       table.select('tbody').remove();
       const header = table.select('thead')
       const body = table.append('tbody');
       this.renderTable(table, header, body, duration, nextWeeks, next.month, next.year );
+      this.calendarFillData(next.plans, next.month, next.year);   
     }
+
+
+    
   }
 
+  calendarGetData(){
+    var _userId = this.props.User._id
+    var { month, year } = this.props.Calendar;
+    var form = {
+      _userId, month, year
+    }
+    this.props.calendarRequest(form);
+  }
+
+  calendarFillData(plans, month, year){
+    var filtered = plans.filter(item=>{if(item.month === month && item.year === year){ return true } else { return false }});
+    console.log(filtered);
+    filtered.forEach(item=>{
+      this.renderData(item);
+    })
+  }
   displayToday(day){
     d3.select(`#id${day}`)
       .classed('today', true);
@@ -205,6 +234,12 @@ export default class CalendarBody extends Component {
     }
   }
 
+  calendarToggle(e){
+    e.preventDefault();
+    var kind = this.props.Calendar.kind === 'month' ? 'week' : 'month'
+    this.props.calendarToggle(kind); 
+  }
+
   render() {
     return (
       <div>
@@ -213,6 +248,9 @@ export default class CalendarBody extends Component {
           Calendar={this.props.Calendar}
           calendarPost={(form)=>this.props.calendarPost(form)}
         />
+        <Button type="submit" bsStyle="danger" onClick={(e)=>this.calendarToggle(e)}>
+              Weekly / Monthly
+        </Button>
         <table id="calendar-body">
         </table>
       </div>

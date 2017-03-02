@@ -1,7 +1,7 @@
 import { 
 	CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA,
 	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL,
-	CALENDAR_CHANGE_DATE, CALENDAR_SELECT_DATE   } from '../constants';
+	CALENDAR_CHANGE_DATE, CALENDAR_SELECT_DATE, CALENDAR_TOGGLE   } from '../constants';
 import axios from 'axios';
 
 export function calendarRequestData(){
@@ -25,14 +25,14 @@ export function calendarFailData(err){
 		loading: false
 	}
 }
-export function calendarRequest(user, query){
+export function calendarRequest(form){
 	return function(dispatch){
 		
 		dispatch(calendarRequestData())
 
-		return axios.post('/plan/getPlans', { params: {user, query} })
+		return axios.post('/plan/getPlans', {form})
       			.then(res => {
-        			dispatch(calendarReceiveData(res.plans))
+        			dispatch(calendarReceiveData(res.data.plans))
       			})
       			.catch(err => {
         			dispatch(calendarFailData(err));
@@ -88,5 +88,12 @@ export function calendarSelectDate(date){
 		selectedDay: date.day,
 		selectedMonth: date.month,
 		selectedYear: date.year
+	}
+}
+
+export function calendarToggle(kind){
+	return {
+		type: CALENDAR_TOGGLE,
+		kind: kind
 	}
 }

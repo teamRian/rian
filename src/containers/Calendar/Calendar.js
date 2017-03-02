@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate } from '../../actions/CalendarActions';
+import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
 
 import d3 from 'd3';
 import {} from '../../actions';
@@ -30,6 +30,7 @@ class Calendar extends Component {
           calendarRequest={(user, query)=>this.props.calendarRequest.bind(this)(user, query)}
           calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
           calendarSelectDate={(date)=>this.props.calendarSelectDate.bind(this)(date)}
+          calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         />
       </div>
     );
@@ -56,6 +57,9 @@ function mapDispatch(dispatch) {
     },
     calendarSelectDate: (date)=>{
       dispatch(calendarSelectDate(date))
+    },
+    calendarToggle: (kind)=>{
+      dispatch(calendarToggle(kind))
     }
   };
 }

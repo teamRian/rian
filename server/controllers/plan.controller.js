@@ -5,13 +5,10 @@ import url from 'url';
 // import slug from 'limax';
 // import sanitizeHtml from 'sanitize-html';
 export function calendarRequest(req,res){
-  var parsed = url.parse(req.url, true).query; // true parse queryString
-  User.findOne(parsed.user) 
+  User.findById(req.body.form._userId)
     .populate('plans')
-    .exec((err, plans)=>{
-      if(err) console.log(err);
-      res.json(plans)
-    })
+    .then(user=>res.json(user))
+    .catch(err=>console.log(err));
 }
 
 export function calendarPost(req,res){
