@@ -9,7 +9,11 @@ import { Modal, DropdownButton, MenuItem, Button, Navbar, NavDropdown, Nav, NavI
 import io from 'socket.io-client';
 import { SocketProvider } from 'socket.io-react';
 const socket = io('/chat');
-      socket.on('connectMsg', (data) => {console.log('connected!!!', data)});
+      socket.on('connectMsg', (data) => {
+          console.log('connected!!!', data)
+
+        });
+
       
 
 
@@ -24,17 +28,17 @@ export default class Chat extends Component {
       privateChannelModal: false,
       targetedUser: ''
     }
+    this.newUser = this.newUser.bind(this);
     this.updateMessage = this.getMessages.bind(this);
     this.updateUser = this.joinUsers.bind(this);
-  
+    
     // var room = 'testroom';
     socket.emit('init', 'good!')
-    socket.on('init', user => {
-      // this.socket.emit('room', room);
-      // if(this.props.users.indexOf(user.name) === -1){
-        this.props.newUser(user);  
-      // }
-    }); 
+    
+  }
+
+  newUser(user){
+      this.props.newUser(user)
   }
 
   getMessages(msg){
@@ -46,16 +50,19 @@ export default class Chat extends Component {
   }
 
   componentWillUnmount() {
+    socket.off('init', this.newUser)
     socket.off('send:message', this.updateMessage);
     socket.off('user:join', this.updateUser)
   }
 
   componentDidMount() {
+    
+    socket.on('init', this.newUser); 
     socket.on('send:message', this.updateMessage);   
     socket.on('user:join', this.updateUser);
     socket.on('user:left', user => this.props.userLeft(user));
-    
-  }
+  }  
+  
 
   handleMessageSubmit(message){
     socket.emit('send:message', message);

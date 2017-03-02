@@ -11,8 +11,12 @@ module.exports = function(socket, io) {
 
 		// send the new user their name and a list of users
 		socket.on('init', function(){
-				students[name] = socket.id;
-				socket.emit('init', { name: Object.keys(students) })
+				if(students[name]) {
+					return;
+				} else {
+					students[name] = socket.id;
+					socket.emit('init', { name: Object.keys(students) });	
+				}
 		})
 		
 		// testing for private message
