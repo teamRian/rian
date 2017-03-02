@@ -38,13 +38,7 @@ class RockofRianEditor extends Component {
 
 	componentDidMount() {
 
-		   var config = {
-                apiKey: "AIzaSyCr-xd_s4NGQ3z8FWq0VwEG8loZQ9EypkI",
-                authDomain: "samplefirepad.firebaseapp.com",
-                databaseURL: "https://samplefirepad.firebaseio.com",
-                storageBucket: "samplefirepad.appspot.com",
-                messagingSenderId: "842518987644"
-              };
+		  
               firebase.initializeApp(config);
 
               var firepadRef = firebase.database().ref();
@@ -65,24 +59,10 @@ class RockofRianEditor extends Component {
                   firepad.setHtml('<span style="font-size: 24px;">Rich-text editing with <span style="color: red">Firepad!</span></span><br/><br/>Collaborative-editing made easy.');
                 }
               });
+              firepad.dispose()
            
 
 
-            function getExampleRef() {
-
-              var ref = firebase.database().ref();
-              var hash = window.location.hash.replace(/#/g, '');
-              if (hash) {
-               ref = ref.child(hash);
-              } else {
-               ref = ref.push(); // generate unique location.
-               window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
-              }
-              if (typeof console !== 'undefined') {
-                console.log('Firebase data: ', ref.toString());
-              }
-              return ref;
-            }
 		
 	}
 
