@@ -1,9 +1,11 @@
 import { NoteWrite } from '../actions/NoteEditorActions.js'
 import { NOTE_WRITE, NOTE_ONCHANGE } from '../constants/index.js'
-import { Editor, Raw } from 'slate'
-import initialState from '../components/NoteEditor/css/state.json'
+import mockdata from '../components/NoteTimeline/mockTimelinedata.js'
+
+
 var NoteState = {
-	data: Raw.deserialize(initialState, { terse: true })
+	data: "",
+	noteTimeline: mockdata
 }
 
 
@@ -21,5 +23,6 @@ export function NoteEditor(state = NoteState, action) {
 		default:
 			return state
 	}
+
 }
 

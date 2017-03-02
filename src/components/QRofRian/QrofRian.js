@@ -16,7 +16,6 @@ class QrofRian extends Component {
 		})
 	}
 
-
 	render(){
 		return (
 		  <div>

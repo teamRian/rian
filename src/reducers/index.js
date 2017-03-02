@@ -8,6 +8,7 @@ import {
 import * as UserReducer from './UserReducer';
 import * as ChatReducer from './ChatReducer';
 import * as CalendarReducer from './CalendarReducer';
+import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer.js';
 import * as TodosReducer from './TodosReducer.js';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers(
 		{}, 
 		UserReducer,
 		TodosReducer,
+		NoteEditorReducer,
 		CalendarReducer,
 		ChatReducer,
 		WhiteBoardReducer
