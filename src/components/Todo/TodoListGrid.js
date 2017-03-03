@@ -5,7 +5,8 @@ import React from 'react';
 import Todo from './Todo';
 import TodoAdd from './TodoAdd';
 import TodoContributeButton from './TodoContributeButton';
-import TodoLogButton from './TodoLogButton'
+import TodoLogButton from './TodoLogButton';
+import UploadTest from './fileUploadTest';
 
 // import CSS
 import '../../styles/TodoListGrid.css';
@@ -89,6 +90,7 @@ class TodoListGrid extends React.Component {
                 <div className="row">
                     <div className="col-xs-12 alignCenter">
                         <span className="todoHeaderText">To-Do List</span>
+                        <UploadTest />
                         <div style={wrap}>
                             <TodoAdd {...this.props}
                                 id={this.props.todoList[this.props.todoList.length - 1] ? this.props.todoList[this.props.todoList.length - 1].projectId : ''} 

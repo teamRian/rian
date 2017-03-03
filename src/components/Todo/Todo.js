@@ -161,9 +161,9 @@ const Todo = React.createClass({
                         }
                       })}</td>
                     <td className="todo-card-table-body-button">
-                      <DropdownButton title="" id="todo-card-table-body-button-show">
-                        <MenuItem onClick={this.open}>삭제하기</MenuItem>
+                      <DropdownButton title="" id="todo-card-table-body-button-show" pullRight>
                         <MenuItem onClick={this.detailOpen}>자세히 보기</MenuItem>
+                        <MenuItem onClick={this.open}>삭제하기</MenuItem>
                       </DropdownButton>
                     </td>
                   </tr>
