@@ -1,5 +1,5 @@
 import User from '../models/User';
-import Plan from '../models/plan';
+import Plan from '../models/Plan';
 import url from 'url';
 // import cuid from 'cuid';
 // import slug from 'limax';

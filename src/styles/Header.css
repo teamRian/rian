@@ -1,5 +1,57 @@
 @import url('https://fonts.googleapis.com/css?family=Barrio|Righteous');
 
+#header {
+    display:flex;
+    flex-direction: column;
+    padding:5px;
+}
+
+.headerMenu {
+    display:flex;
+    flex: 0 0 80px;
+    font-size: 23px;
+    align-items: center;
+    justify-content: center;
+    border-radius:5px;
+    border: 1px solid rgba(200,200,200,1);
+    box-shadow: 0 8px 0 rgba(170,170,170,1), 0 5px 10px rgba(0, 0, 0, .35);
+    margin:5px;
+}
+
+
+#addButton {
+    display:flex;   
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    flex: 1;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 25px;
+    border: 1px solid #337ab7;
+    color: #337ab7;
+    align-self:center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .15);
+}
+
+#addButton:hover{
+    cursor:pointer;
+    background-color: #337ab7;
+    color: white;
+}
+
+
+#home {
+    color: #337ab7;
+}   
+
+#home:hover {
+    background-color: #337ab7;
+    color: white;   
+    cursor: pointer;
+}
+
 .modalButtons {
     display: inline-block;
 }

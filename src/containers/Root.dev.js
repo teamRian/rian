@@ -4,6 +4,7 @@ import Rian from './Rian';
 import DevTools from './DevTools';
 import '../styles/Rian.css';
 import Home from '../components/Rian/Home';
+import NewProject from '../components/Rian/NewProject';
 import Calendar from './Calendar/Calendar.js';
 import TodoContainer from './Todo/TodoContainer.js';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
@@ -27,6 +28,7 @@ export default class Root extends Component {
                 <Route path="/editor" component={NoteEditor} />
                 <Route path="/chat" component={Chat} />
                 <Route path="/whiteboard" component={WhiteBoard} />
+                <Route path="/newProject" component={NewProject} />
             </Route>
         </Router>
         <DevTools/>

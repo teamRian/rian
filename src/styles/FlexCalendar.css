@@ -1,0 +1,94 @@
+#FlexCalendar {
+	height:100%;
+}
+
+#FlexCalendarHeader {
+	display:flex;
+	flex-direction: column;
+	height:15%;
+	background-color: lightpink;
+	justify-content: center;
+	align-items: stretch;
+	font-size:25px;
+}
+
+#DateControl {
+	display:flex;
+	flex:1;
+	height:15%;
+	background-color: lightpink;
+	justify-content: space-around;
+	align-items: center;
+	font-size:25px;
+}
+
+#FlexCalendarBody {
+	display:flex;
+	flex-direction: column;
+	height:85%;
+	padding:5px;
+	background-color: white;
+}
+
+#CalendarButtons {
+	display:flex;
+	justify-content: flex-start;
+}
+
+.month {
+
+}
+.weekDays {
+	display: flex;
+	flex: 0 0 50px;
+	justify-content: space-around;
+}
+
+.weekDay{
+	display:flex;
+	flex: 1;
+	margin:8px;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	background-color: LightCoral;
+	color: white;
+}
+/*
+.weekEnd{
+	display:flex;
+	flex: 1;
+	margin:8px;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	background-color: LightCoral;
+	color:white;
+}*/
+
+.holiday.day{
+	color: LightCoral;
+	border-top: 1px solid LightCoral;
+}
+.week {
+	display: flex;
+	flex:1;
+	height: 80px;
+	justify-content: space-around;
+}
+
+.day {
+	display:flex;
+	padding:5px;
+	margin:8px;
+	flex:1;
+	background: white;
+	border-top: 1px solid rgba(236,236,236,1);
+	border-radius:5px;
+	align-items: top;
+	justify-content: flex-end;
+}
+
+.day:hover{
+	background-color: #ebfaff;
+}

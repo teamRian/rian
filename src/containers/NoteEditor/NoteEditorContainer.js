@@ -17,7 +17,7 @@ class NoteEditorContainer extends Component {
         <div className='col-xs-8' style={{ margin: "0", height: "800px", position: "relative"}}>
           <RockofRian  />
         </div>
-     </div>
+      </div>
     );
   }
 }

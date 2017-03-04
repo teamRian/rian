@@ -25,6 +25,13 @@ export default class CalendarSignUpModal extends Component {
       }
   	}
 
+
+	handleKeyPress(e){
+		if(e.charCode === 13){
+		  this.handleSubmit(e)
+		}
+	}
+
 	render(){
 		return (
 			<div className="modalButtons">
@@ -43,6 +50,7 @@ export default class CalendarSignUpModal extends Component {
 		                	autoFocus
 		                    componentClass="input" 
 		                    placeholder="사용하실 아이디를 입력하세요" 
+		                    onKeyPress={(e)=>this.handleKeyPress(e)}
 		                    inputRef={ref => {this.username = ref}} />
 		              </FormGroup>
 		            </Form>

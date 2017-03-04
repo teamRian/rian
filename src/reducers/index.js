@@ -6,20 +6,22 @@ import {
 
 // Import Reducers
 import * as UserReducer from './UserReducer';
-import * as ChatReducer from './ChatReducer';
 import * as CalendarReducer from './CalendarReducer';
-import * as NoteEditorReducer from './NoteEditorReducer';
-import * as WhiteBoardReducer from './WhiteBoardReducer.js';
 import * as TodosReducer from './TodosReducer.js';
 import * as FileUploadReducer from './FileUploadReducer'
+import * as ProjectReducer from './ProjectReducer';
+import * as NoteEditorReducer from './NoteEditorReducer';
+import * as WhiteBoardReducer from './WhiteBoardReducer';
+import * as ChatReducer from './ChatReducer';
 
 const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
 		UserReducer,
 		TodosReducer,
-		NoteEditorReducer,
+		ProjectReducer,
 		CalendarReducer,
+		NoteEditorReducer,
 		ChatReducer,
 		WhiteBoardReducer,
 		FileUploadReducer

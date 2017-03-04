@@ -46,6 +46,7 @@ import users from './routes/user.routes';
 import plans from './routes/plan.routes';
 import files from './routes/file.routes';
 import chatLogs from './routes/chatlogs.routes';
+import projects from './routes/project.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -78,6 +79,8 @@ app.use('/file', files);
 
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
+
+app.use('/project', projects);
 
 app.get('/', function(req, res, next){
 
@@ -156,6 +159,12 @@ app.get('/chat', (req,res)=>{
 })
 app.get('/upload', (req,res)=>{
   res.redirect('/#/upload')
+})
+app.get('/whiteboard', (req,res)=>{
+  res.redirect('/#/whiteboard')
+})
+app.get('*', (req,res)=>{
+  res.redirect('/')
 })
 
 

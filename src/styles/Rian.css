@@ -1,3 +1,38 @@
+#logIn {
+  display:flex;
+  height:100vh;
+  justify-content: center;
+  align-items:center;
+}
+#logIn Button {
+  margin:20px;
+}
+
+.App {
+  display:flex;
+  height:100vh;
+}
+
+.Header {
+  flex: 0 0 100px;
+  height:100vh;
+  border-right: 1px solid rgba(236,236,236,1);
+}
+
+.Navigation {
+  flex: 0 0 300px;
+  height:100vh;
+  border-right: 1px solid rgba(236,236,236,1);
+}
+
+.MainContent {
+  justify-content: center;
+  align-items:center;
+  left:400px;
+  flex:1;
+  height:100vh;
+}
+
 /*.App {
   text-align: center;
 }

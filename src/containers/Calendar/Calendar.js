@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
-
-import d3 from 'd3';
 import {} from '../../actions';
-import CalendarHeader from '../../components/Calendar/CalendarHeader'
-import CalendarBody from '../../components/Calendar/CalendarBody';
-import '../../styles/Calendar.css';
+import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
+import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendar';
+import '../../styles/FlexCalendar.css';
 
 class Calendar extends Component {
   constructor(props){
@@ -16,19 +14,32 @@ class Calendar extends Component {
   componentDidMount(){
   }
 
+        //   <CalendarHeader
+        //   User={this.props.User}
+        //   Calendar={this.props.Calendar}
+        //   calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
+        // />
+        // <CalendarBody 
+        //   User={this.props.User}
+        //   Calendar={this.props.Calendar}
+        //   calendarRequest={(user, query)=>this.props.calendarRequest.bind(this)(user, query)}
+        //   calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
+        //   calendarSelectDate={(date)=>this.props.calendarSelectDate.bind(this)(date)}
+        //   calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
+        // />
   render() {
     return (
-      <div id="calendar-container">
-        <CalendarHeader
+      <div id="FlexCalendar">
+        <FlexCalendarHeader
           User={this.props.User}
           Calendar={this.props.Calendar}
           calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
+          calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
         />
-        <CalendarBody 
+        <FlexCalendarBody
           User={this.props.User}
           Calendar={this.props.Calendar}
           calendarRequest={(user, query)=>this.props.calendarRequest.bind(this)(user, query)}
-          calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
           calendarSelectDate={(date)=>this.props.calendarSelectDate.bind(this)(date)}
           calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         />
