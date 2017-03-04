@@ -29,7 +29,6 @@ export function chatPost(logs){
 
 			return axios.post('/chatLog/postChat', {logs})
 							.then(res => {
-									console.log('Actions/res', res);
 									dispatch(chatPostSuccess(res));
 							})
 							.catch(err => {
@@ -66,7 +65,7 @@ export function chatRequest(){
 			
 			return axios.get('/chatLog/getChat')
 									.then(res => {
-											console.log('chatREQ;;', res);
+
 											dispatch(chatReceiveData(res));
 									})
 									.catch(err => {
