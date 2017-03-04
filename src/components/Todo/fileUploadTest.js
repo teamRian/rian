@@ -1,16 +1,16 @@
 import React from 'react';
-var Dropzone = require('react-dropzone');
 import { Button, Modal } from 'react-bootstrap';
 
 class fileUploadTest extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            showModal: false
+            showModal: false,
+            showUpload: "Upload File"
         }
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
-        this.onDrop = this.onDrop.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     open() {
@@ -25,11 +25,15 @@ class fileUploadTest extends React.Component {
         })
     }
 
-    onDrop(files) {
-        console.log('Received files: ', files);
+    handleChange(e) {
+        console.log('Selected file:', e.target.files[0]);
+        this.setState({
+            showUpload: e.target.files[0].name
+        })
     }
-
+   
     render() {
+
         return (
             <div>
                 <Button bsStyle="warning" onClick={this.open}>FILE UPLOAD TEST</Button>
@@ -38,9 +42,20 @@ class fileUploadTest extends React.Component {
                         File Upload
                     </Modal.Header>
                     <Modal.Body>
-                        <Dropzone onDrop={this.onDrop}>
-                            <div>Try dropping some files here, or click to select files to upload.</div>
-                        </Dropzone>
+                        <div className="uploadTest">
+                            <form ref='uploadForm' 
+                                id='uploadForm'
+                                action='http://localhost:8000/file/upload' 
+                                method='post' 
+                                encType="multipart/form-data"
+                                >
+                                    <label for="file" className="fileContainer">
+                                        {this.state.showUpload}
+                                        <input type="file" name="uploadFile" id="file" className="inputfile" onChange={this.handleChange}/>
+                                    </label>
+                                    <input type='submit' value='Upload!' />
+                            </form>
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.close}>Close</Button>
@@ -52,58 +67,3 @@ class fileUploadTest extends React.Component {
 }
 
 export default fileUploadTest;
-/*
-import React from 'react';
-import { Dropzone } from 'react-dropzone';
-import { Button, Modal } from 'react-bootstrap';
-
-class fileUploadTest extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            showModal: false
-        }
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
-        this.onDrop = this.onDrop.bind(this);
-    }
-
-    open() {
-        this.setState({
-            showModal: true
-        })
-    }
-
-    close() {
-        this.setState({
-            showModal: true
-        })
-    }
-
-    onDrop(files) {
-        console.log('Received files: ', files);
-    }
-
-    render() {
-        return (
-            <div>
-                <Button bsStyle="warning">FILE UPLOAD TEST</Button>
-                <Modal show={this.state.showModal} onHide={this.close}>
-                    <Modal.Header>
-                        File Upload
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Dropzone onDrop={this.onDrop}>
-                            <div>Try dropping some files here, or click to select files to upload.</div>
-                        </Dropzone>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.close}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        )
-    }
-}
-
-export default fileUploadTest;*/
