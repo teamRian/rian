@@ -23,15 +23,10 @@ class WhiteBoard extends React.Component{
 		this.state = {
 			editorCnt : 1
 		}
-		socket.emit('hi','hi');
-		socket.on('ioMsg', function(msg){
-			console.log('IOMSG!!!!!!!!!!!!!!!!!!!')
-		})
 		
 	}
 
 	addEditor(){
-		console.log("clicked");
 		this.props.addEditorState({ key : 'value' });
 	}
 

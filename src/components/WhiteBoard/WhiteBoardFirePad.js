@@ -93,7 +93,6 @@ class WhiteBoardFirePad extends React.Component{
         firepadRef.on('child_changed', function(snapshot){
         	
         	var users = snapshot.val();
-        			console.log('child_change ::: users ', users, typeof users);
         			allUsers = users;
         	var lines = [];
         	
@@ -113,7 +112,6 @@ class WhiteBoardFirePad extends React.Component{
         firepad.editor_.on('cursorActivity', function(editor){
         	
         	//데이터베이스에 저장된 커서
-        	console.log('cursorActivity ::: takenLines ::: ', takenLines);
         	var nowCursor = firepad.editor_.doc.getCursor();        		
         	var nowLine = nowCursor.line;       	
 
@@ -127,8 +125,6 @@ class WhiteBoardFirePad extends React.Component{
         		firepadRef.child('users').child(userId).child('customCursor').set(nowCursor);	
         	}else{ // 현재 line을 누가 take하고 있다면
         		
-        		console.log('someone already took this line,,,, allUsers ::: ', allUsers, userId, allUsers[userId]);
-
         		// setCursor를 통해서 원래있던 커서 위치로 되돌려보냄!
         		firepad.editor_.doc.setCursor({ line : allUsers[userId].customCursor.line, ch : allUsers[userId].customCursor.ch });
         	}
@@ -159,12 +155,9 @@ class WhiteBoardFirePad extends React.Component{
         firepad.editor_.on('beforeChange', function(editor, changeObj){
         	//이때 확인해서 누군가 차지하고 있으면 튕겨냄
 
-        	console.log(editor, changeObj);
-        	console.log('beforeChange fireddddd')
       //   	debugger;
 			  	// firepadRef.child('users').child(userId).child('cursor').set(1);
 			  	// debugger;
-			  	console.log('successs!!!')        	
         });
 
       });
@@ -177,7 +170,6 @@ class WhiteBoardFirePad extends React.Component{
 
 
 			  if(isSynced){
-			  	console.log('synced!!');
 			  	//내가 뭔가 작업하려는 커서가 stor에 저장되어있는 커서와 line이 같으면 
 
 			  	//다른 사람이 사용중이라는 팝업을 띄워주고
