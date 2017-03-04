@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
-
-import d3 from 'd3';
 import {} from '../../actions';
 import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
 import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendar';
