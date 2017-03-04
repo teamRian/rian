@@ -6,12 +6,11 @@ export function chatLogPost(req, res){
 
 	chatLog.save()
 				.then(logs => {
-						console.log('LOGS?', logs)
 						res.json(logs);
 				})
 				.catch(err => console.error(err))
 }
 
 export function chatLogRequest(req, res){
-	console.log('THIOS IS CHAT REQUESGT!!!!!!', req)
+// 	console.log('THIOS IS CHAT REQUESGT!!!!!!', req)
 }
