@@ -46,6 +46,7 @@
   border-left: 1px solid black;
   border-right: none;
   width: 0;
+  background-image: url("https://d30y9cdsu7xlg0.cloudfront.net/png/26475-200.png")
 }
 /* Shown when moving in bi-directional text */
 .CodeMirror div.CodeMirror-secondarycursor {
@@ -67,6 +68,7 @@
   -moz-animation: blink 1.06s steps(1) infinite;
   animation: blink 1.06s steps(1) infinite;
   background-color: #7e7;
+
 }
 @-moz-keyframes blink {
   0% {}

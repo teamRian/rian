@@ -42,6 +42,7 @@ class RockofRianEditor extends Component {
             firepad.setHtml('<span style="font-size: 24px;">Rian에서 당신의 꿈을 기록하세요.</span>');
           }
         });
+      
 
         
 	}
