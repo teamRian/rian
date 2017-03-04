@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 import { SocketProvider } from 'socket.io-react';
 const socket = io('/chat');
       socket.on('connectMsg', (data) => {
-          console.log('connected!!!', data)
+//           console.log('connected!!!', data)
 
         });
 
@@ -56,7 +56,6 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
-    console.log('USER:::',this.props.User._id)
     
     if(!!this.props.User._id){
         // get chat logs from DB
