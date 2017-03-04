@@ -19,6 +19,12 @@ class Header extends React.Component {
   	this.props.projectGet(this.props.User._id)
   }	
 
+  // componentWillReceiveProps(nextProps){
+  // 	if(this.props.Project.projects.length !== nextProps.Project.projects.length){
+  // 		this.props.projectGet(this.props.User._id);
+  // 	}
+  // }
+
   render() {
     const Projects = this.props.Project.projects;
 
@@ -27,7 +33,7 @@ class Header extends React.Component {
         <div className='headerMenu' id='home'>RIAN</div>
         {Projects.map((project,i)=>{
         	return (
-        		<div key={project.projectName }className='headerMenu'>{project.projectName}</div>
+        		<div key={project.projectName} className='headerMenu'>{project.projectName}</div>
         	)
         })}
         <Button id='addButton' onClick={()=>this.clickNewProject()}>+</Button>
