@@ -30,16 +30,14 @@ class WhiteBoardFirePad extends React.Component{
 			var takenLines = [];
 			var prevCursor = {};
 			var projectId = 1;
+			var userId = Math.floor(Math.random() * 10).toString();
+
 			// Get Firebase Database reference.
 			// firebase.database().ref() => 이렇게 생성할 경우 default root ( / )에 생성된다.
-
-      var firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
+			var firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
 
 			// Create CodeMirror (with lineWrapping on).
 			var codeMirror = CodeMirror(document.getElementById('firepad'), { lineWrapping: true });
-
-			// Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
-			var userId = Math.floor(Math.random() * 10).toString();
 
 			// Create Firepad (with rich text toolbar and shortcuts enabled).
 			var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
@@ -55,8 +53,11 @@ class WhiteBoardFirePad extends React.Component{
       
       // Initialize contents.
       firepad.on('ready', function() {
+      	
       	//firepad 준비되면 처음 커서는 맨 마지막 줄에 셋팅해주기!
-      	firepad.editor_.doc.setCursor( { line : 14 , ch : 0 } );
+      	debugger
+      	firepad.editor_.doc.setCursor( { line : 1 , ch : 2 } );
+      	debugger
         if (firepad.isHistoryEmpty()) {
           firepad.setHtml(
               '<span style="font-size: 24px;">Rich-text editing with <span style="color: red">Firepad!</span></span><br/>\n' +
@@ -175,7 +176,6 @@ class WhiteBoardFirePad extends React.Component{
 			  	//다른 사람이 사용중이라는 팝업을 띄워주고
 
 			  	//다시 원래 커서가 있던 자리로로 셋팅!
-			  	//firepad.editor_.doc.setCursor({line:0, ch:5});
 
 			  	//console.log(firepad.editor_.doc.getCursor());
 			  		
@@ -199,6 +199,7 @@ class WhiteBoardFirePad extends React.Component{
 			<div>
 				<div id="userlist"></div>
 				<div id="firepad"></div>
+				
 			</div>
 		)
 
