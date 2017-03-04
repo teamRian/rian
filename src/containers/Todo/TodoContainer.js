@@ -21,7 +21,10 @@ class TodoContainer extends React.Component {
 function mapStateToProps(state) {
   return {
     todoList: state.TodosListReducer,
-    logs: state.TodosLogsReducer
+    logs: state.TodosLogsReducer,
+    user: state.User,
+    filefolder: state.filefolder,
+    uploadfile: state.uploadfile
   }
 }
 

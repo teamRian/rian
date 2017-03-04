@@ -11,6 +11,7 @@ import * as CalendarReducer from './CalendarReducer';
 import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer.js';
 import * as TodosReducer from './TodosReducer.js';
+import * as FileUploadReducer from './FileUploadReducer'
 
 const rootReducer = combineReducers(
 	Object.assign(
@@ -20,7 +21,8 @@ const rootReducer = combineReducers(
 		NoteEditorReducer,
 		CalendarReducer,
 		ChatReducer,
-		WhiteBoardReducer
+		WhiteBoardReducer,
+		FileUploadReducer
 	))
 
 export default rootReducer;

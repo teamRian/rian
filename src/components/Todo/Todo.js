@@ -51,11 +51,11 @@ const Todo = React.createClass({
       if(this.props.todo.status === 'created') {
         changeStatus = 'progress';
         startdate = moment().format("YYYY-MM-DD");
-        log[changedAt] = `${this.props.todo.title}이(가) 진행중으로 이동 by User`;
+        log[changedAt] = `${this.props.todo.title}이(가) 진행중으로 이동 by ${this.props.user.username}`;
       } else if (this.props.todo.status === 'progress'){
         changeStatus = 'completed';
         enddate = moment().format("YYYY-MM-DD");
-        log[changedAt] = `${this.props.todo.title}이(가) 완료로 이동 by User`;
+        log[changedAt] = `${this.props.todo.title}이(가) 완료로 이동 by ${this.props.user.username}`;
       } else {
         changeStatus = 'completed';
       }
@@ -76,11 +76,11 @@ const Todo = React.createClass({
       if(this.props.todo.status === 'progress') {
         changeStatus = 'created';
         startdate = "";
-        log[changedAt] = `${this.props.todo.title}이(가) 준비로 이동 by User`;
+        log[changedAt] = `${this.props.todo.title}이(가) 준비로 이동 by ${this.props.user.username}`;
       } else if (this.props.todo.status === 'completed'){
         changeStatus = 'progress';
         enddate = "";
-        log[changedAt] = `${this.props.todo.title}이(가) 진행중으로 이동 by User`;
+        log[changedAt] = `${this.props.todo.title}이(가) 진행중으로 이동 by ${this.props.user.username}`;
       } else {
         changeStatus = 'created';
       }
@@ -93,7 +93,7 @@ const Todo = React.createClass({
       e.preventDefault();
       const removedAt = moment().format('YYYY-MM-DD hh:mm:ss a')
       const log = {}
-      log[removedAt] = `${this.props.todo.title}가(이) 삭제되었습니다 by User`
+      log[removedAt] = `${this.props.todo.title}가(이) 삭제되었습니다 by ${this.props.user.username}`
 
       this.props.removeTodo(this.props.todo.id, log);
       this.close();
@@ -161,9 +161,9 @@ const Todo = React.createClass({
                         }
                       })}</td>
                     <td className="todo-card-table-body-button">
-                      <DropdownButton title="" id="todo-card-table-body-button-show">
-                        <MenuItem onClick={this.open}>삭제하기</MenuItem>
+                      <DropdownButton title="" id="todo-card-table-body-button-show" pullRight>
                         <MenuItem onClick={this.detailOpen}>자세히 보기</MenuItem>
+                        <MenuItem onClick={this.open}>삭제하기</MenuItem>
                       </DropdownButton>
                     </td>
                   </tr>

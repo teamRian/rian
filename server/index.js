@@ -5,6 +5,9 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
 
+// File Upload 
+var busboy = require('connect-busboy');
+var fs = require('fs-extra');
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -15,8 +18,8 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 // Initialize the Express App
 const app = new Express();
 
-
-
+// File Upload
+app.use(busboy());
 
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
@@ -41,6 +44,7 @@ import { fetchComponentData } from './util/fetchData';
 //import posts from './routes/post.routes';
 import users from './routes/user.routes';
 import plans from './routes/plan.routes';
+import files from './routes/file.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -67,6 +71,12 @@ app.use(Express.static(path.resolve(__dirname, '../dist')));
 //app.use('/api', posts);
 app.use('/user', users);
 app.use('/plan', plans);
+
+// Upload File Test
+app.use('/file', files);
+
+
+
 app.get('/', function(req, res, next){
 
   // const head = Helmet.rewind();
@@ -123,8 +133,9 @@ app.get('/editor', (req,res)=>{
 app.get('/chat', (req,res)=>{
   res.redirect('/#/chat')
 })
-
-console.log("!!!@!@!@!@!@!@!@!@@!@!@");
+app.get('/upload', (req,res)=>{
+  res.redirect('/#/upload')
+})
 
 // Socketio Chat
 const server = require('http').createServer(app);
