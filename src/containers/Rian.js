@@ -4,7 +4,7 @@ import {Grid, Col, Row} from 'react-bootstrap';
 
 // Import Actions
 import { userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
-
+import { projectGet, projectPost } from '../actions/ProjectActions';
 // Import Component
 import Header from '../components/Rian/Header';
 import Navigation from '../components/Rian/Navigation.js'
@@ -12,57 +12,49 @@ import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
+
+import LogIn from '../components/Rian/LogIn';
+
 import '../styles/Rian.css';
 
 class RianApp extends Component {
 
   render() {
-    const marginZero = {
-      margin: "0px 0px",
-      padding: "0px 0px"
-    }
+    if(this.props.User.username === null){
+      return (
+        <LogIn
+          userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
+          userLogIn={(form)=>this.props.userLogIn.bind(this)(form)}
+        />
+      )
+    } else {
 
-    const fullheight = {
-      height: "100vh"
-    }
+      return (
 
-    const navColor = {
-      backgroundColor: "rgba(245,245,245,1)",
-      height: "100vh",
-      borderRight: "1px solid rgba(210,210,210,1)",
-      padding: "0px 0px"
-    }
-
-    return (
-
-      <div className="App">
-        <div style={marginZero}>
-          <div className="row" style={marginZero}>             
-              <Header 
-                User={this.props.User}
-                userLogIn={form=>this.props.userLogIn.bind(this)(form)}
-                userSignUp={form=>this.props.userSignUp.bind(this)(form)} 
-                userLogOut={()=>this.props.userLogOut.bind(this)()}
-              />
-          </div>
-          <div className="row" style={marginZero}>
-            <div className="col-xs-1" style={navColor}>
-              <Navigation />
-            </div>
-            <div className="col-xs-11" style={fullheight}>
-            {this.props.children}
-            </div>
-          </div>
+        <div className="App">
+              <div className="Header">
+                <Header 
+                  User={this.props.User}
+                  Project={this.props.Project}
+                  projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
+                />
+              </div>
+              <div className="Navigation">
+                <Navigation />
+              </div>
+              <div className="MainContent">
+                {this.props.children}
+              </div>
         </div>
-
-      </div>
-    );
+      )
+    }
   }
 }
 
 function mapState(state) {
   return {
-    User: state.User
+    User: state.User,
+    Project: state.Project
   };
 }
 
@@ -76,6 +68,9 @@ function mapDispatch(dispatch) {
     },
     userLogOut: ()=>{
       dispatch(userLogOut())
+    },
+    projectGet: (userId)=>{
+      dispatch(projectGet(userId))
     }
   };
 }

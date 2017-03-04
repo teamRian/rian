@@ -2,12 +2,8 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 mongoose.promise = global.promise
 
-// 다른 모델의 스키마 가져오는방법 ! 아래와 같습니다
-import Plan from './plan.js'
-import Note from './Note.js'
+// import Note from './Note';
 
-const PlanSchema = mongoose.model('Plan').schema;
-const NoteSchema = mongoose.model("Note").schema;
 const UserSchema = new Schema({
 
 	username: { 
@@ -31,8 +27,8 @@ const UserSchema = new Schema({
 	    picture: String
  	},
 
+ 	projects : [{ type: Schema.Types.ObjectId, ref: 'Project'}],
  	plans : [{ type: Schema.Types.ObjectId, ref: 'Plan'}],
-
  	mynote : [{ type: Schema.Types.ObjectId, ref: 'Note' }]
 
  		 

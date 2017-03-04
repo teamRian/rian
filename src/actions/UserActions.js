@@ -12,12 +12,12 @@ export function userRequestSignUp(){
 	}
 }
 
-export function userSuccessSignUp(res){
-	return {
-		type: USER_SUCCESS_SIGN_UP,
-		loading: false
-	}
-}
+// export function userSuccessSignUp(res){
+// 	return {
+// 		type: USER_SUCCESS_SIGN_UP,
+// 		loading: false
+// 	}
+// }
 
 export function userFailSignUp(err){
 	return {
@@ -34,7 +34,7 @@ export function userSignUp(form){
 		return axios.post('/user/signUp', {form})
       			.then(res => {
       				console.log("USER POST::!!!", res)
-        			dispatch(userSuccessSignUp(res.data))
+        			dispatch(userLogIn(res.data))
       			})
       			.catch(err => {
         			dispatch(userFailSignUp(err));
@@ -54,7 +54,8 @@ export function userSuccessLogIn(res){
 		type: USER_SUCCESS_LOG_IN,
 		loading: false,
 		username: res.username,
-		_id: res._id
+		_id: res._id,
+		projects: res.projects
 	}
 }
 
@@ -68,10 +69,8 @@ export function userFailLogIn(){
 export function userLogIn(form){
 	return function(dispatch){
 		dispatch(userRequestLogIn())
-
 		return axios.post('/user/logIn', {form})
 			.then(res=>{
-				console.log("USER!!!!! RES", res)
 				dispatch(userSuccessLogIn(res.data))
 			})
 			.catch(err=>{

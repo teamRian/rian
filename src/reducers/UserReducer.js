@@ -3,7 +3,8 @@ var UserState = {
 	username: null,
 	profilePhoto: null,
 	token: null,
-	loading: false
+	loading: false,
+	projects: []
 }
 
 export function User(state = UserState, action) {
@@ -13,10 +14,13 @@ export function User(state = UserState, action) {
 				loading: action.loading
 			})
 		case "USER_SUCCESS_LOG_IN":
+
+
 			return Object.assign({}, state, {
 				loading: action.loading,
 				_id: action._id,
 				username: action.username,
+				projects: action.projects
 				// profilePhoto: action.profilePhoto,
 				// token: action.token
 			})

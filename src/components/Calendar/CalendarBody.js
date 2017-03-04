@@ -46,7 +46,7 @@ export default class CalendarBody extends Component {
     if(next.kind !== this.props.Calendar.kind){
       // var thisWeek = table.transition(1500).select('.today').raise();
       console.log(table.select('tbody').selectAll('tr'))
-      table.select('tbody').selectAll('tr').transition().duration(1500).style('opacity',0).remove()
+      table.select('tbody').selectAll('tr').filter((item)=>console.log(item)).transition().duration(1500).style('opacity',0).remove()
       // table.append('tbody').node().appendChild(thisWeek);
       // console.log(thisWeek);
     }
@@ -190,9 +190,10 @@ export default class CalendarBody extends Component {
   renderTable(table, header, body, duration, weeks, month, year, currentDay, currentMonth, currentYear) {
     let that = this;
 
-    weeks.forEach(function(week){
+    weeks.forEach(function(week,i){
       body
         .append('tr')
+        .attr('class', i)
         .selectAll('td')
         .data(week)
         .enter()
