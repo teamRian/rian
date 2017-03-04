@@ -5,14 +5,14 @@ import './css/RockofRianStyle.css';
 import './css/firepad.css';
 // var headless = new Firepad.Headless('https://<DATABASE_NAME>.firebaseio.com');
 
-var config = { 
-			   apiKey: "AIzaSyCr-xd_s4NGQ3z8FWq0VwEG8loZQ9EypkI",
-               authDomain: "samplefirepad.firebaseapp.com",
-               databaseURL: "https://samplefirepad.firebaseio.com",
-               storageBucket: "samplefirepad.appspot.com",
-               messagingSenderId: "842518987644"
-             };
-firebase.initializeApp(config);
+// var config = { 
+// 			   apiKey: "AIzaSyCr-xd_s4NGQ3z8FWq0VwEG8loZQ9EypkI",
+//                authDomain: "samplefirepad.firebaseapp.com",
+//                databaseURL: "https://samplefirepad.firebaseio.com",
+//                storageBucket: "samplefirepad.appspot.com",
+//                messagingSenderId: "842518987644"
+//              };
+// firebase.initializeApp(config);
 
 
 
