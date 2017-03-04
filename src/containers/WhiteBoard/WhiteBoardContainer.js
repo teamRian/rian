@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-import { changeContentState } from '../../actions/WhiteBoardActions.js';
+import { changeContentState, changeEditorState, addEditorState } from '../../actions/WhiteBoardActions.js';
 import WhiteBoard from '../../components/WhiteBoard/WhiteBoard.js';
 import '../../styles/WhiteBoard.css';
 
@@ -13,25 +13,37 @@ class WhiteBoardContainer extends React.Component {
   }
 
   render() {
+    
     return (
       
-      <WhiteBoard 
+      <WhiteBoard
         contentCurrentStateRaw={this.props.contentCurrentStateRaw}
-        changeContentState={this.props.changeContentState}  />
-
+        changeContentState={this.props.changeContentState}
+        editors={this.props.editors}
+        changeEditorState={this.props.changeEditorState}
+        addEditorState={this.props.addEditorState}
+      />
+    
     );
+
   }
+
 }
 
 function mapStateToProp(state) {
   return {
-    contentCurrentStateRaw : state.content.currentStateRaw
+    contentCurrentStateRaw : state.content.currentStateRaw,
+    editors : state.editorStore.editors
   };
 }
 
 function mapDispatchToProp(dispatch) {
   return {
-    changeContentState : (currentStateRaw) => dispatch(changeContentState(currentStateRaw))
+    changeContentState : (currentStateRaw) => dispatch(changeContentState(currentStateRaw)),
+    changeEditorState : function(editorState, idx){
+      dispatch(changeEditorState(editorState, idx))
+    },
+    addEditorState : (editorState) => dispatch(addEditorState(editorState))
   };
 }
 

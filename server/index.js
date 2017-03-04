@@ -94,9 +94,13 @@ app.get('/', function(req, res, next){
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <!-- Codemirror -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css"/>
         
+        <!-- Firepad Css-->
+        <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
 
         <style>
            html { height: 100%; }
@@ -106,8 +110,23 @@ app.get('/', function(req, res, next){
              width: 100%;
              height: 100%;
            }
-        </style>
 
+          #firepad {
+            width: 700px;
+            height: 450px;
+            background-color: #f62; /* dark orange background */
+          }
+
+          #userlist {
+            position: absolute; left: 0; top: 0; bottom: 0; height: auto;
+            width: 175px;
+          }          
+
+          .CodeMirror {
+            background-color: #f62;
+          }           
+        </style>
+        
       </head>
       <body>
         <div id="root"></div>
@@ -147,12 +166,11 @@ const chatSocket = require('./channel/chatSocket.js');
 const whiteboardSocket = require('./channel/whiteboardSocket.js');
 
 // io channels
-// io.on('connection', function(socket){ console.log('default connection success'); })
+io.on('connection', function(socket){ console.log('default connection success'); })
 io.of('/chat').on('connection', function(socket){
     chatSocket(socket, io);
 });
 io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
-
 
 
 // start app

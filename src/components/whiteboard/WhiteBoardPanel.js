@@ -15,14 +15,23 @@ const styleMap = {
 // contentCurrentStateRaw
 // changeContentState
 
+// editors
+// changeEditorState
+// addEditorState
+
 class WhiteBoardPanel extends React.Component{
 
 	constructor(props) {
 		super(props);
-		console.log('props check :::', this.props);
 		this.state = { 
 			editorState : EditorState.createEmpty()
 		}
+		console.log(this.props);
+		console.log(this.state.editorState)
+		/* 생성될때 editorState를 editors reducer에 추가! */
+		
+		this.props.changeEditorState(this.state.editorState, this.props.idx);
+		/* 그리고, socket으로 보내야함! 개발! */
 
 		/* bind */
 		this.listenMessage.bind(this)();
@@ -38,7 +47,7 @@ class WhiteBoardPanel extends React.Component{
 			var currentContentRaw = convertToRaw(currentContent);
 			this.props.socket.emit('editorState',  currentContentRaw);
 			
-		} 
+		}
 
 	}
 
@@ -52,12 +61,16 @@ class WhiteBoardPanel extends React.Component{
 		// 	//console.log('currentContent ::: receive ::: ', currentContent)
 		// 	panel.setState({editorState : EditorState.moveSelectionToEnd(EditorState.createWithContent(currentContent)) });
 		// });
+
 		this.props.socket.on('editorState', function(currentContentRaw){
 			//1. store에 저장
-			panel.props.changeContentState(currentContentRaw);
+			// panel.props.changeContentState(currentContentRaw);
+
 			let currentContent = convertFromRaw(currentContentRaw);
-			//2. editor 상태변경
-			panel.setState({editorState : EditorState.moveSelectionToEnd(EditorState.createWithContent(currentContent)) })
+			//1. editor 상태변경
+			panel.setState({editorState : EditorState.moveSelectionToEnd(EditorState.createWithContent(currentContent)) });
+			//2. stor에 저장
+			panel.props.changeEditorState(panel.state.editorState, panel.props.key);
 		});
 
 	}
@@ -85,7 +98,7 @@ class WhiteBoardPanel extends React.Component{
 
 		return(
 			<div>
-				<button onClick={this._onBoldClick}>Bold</button>
+				
 				<Editor editorState={this.state.editorState}								
 								customStyleMap={styleMap}
                 ref="editor"
