@@ -1,5 +1,64 @@
 import * as chatActions from '../actions/chatActions';
 
+let logState = {
+	  messages: [],
+		// username: [],
+		// text: [],
+		// date_added: [],
+		status: ''
+}
+
+export function chatLogs(state = logState, action){
+		switch (action.type){
+				case 'CHAT_POSTSEND_DATA':
+							return Object.assign({}, state, {
+									status: action.status
+							})
+				case 'CHAT_POSTFAIL_DATA':
+							return Object.assign({}, state, {
+									status: action.status
+							})
+				case 'CHAT_POSTSUCCESS_DATA':
+							return Object.assign({}, state, {
+									status: action.status,
+									messages: [
+										...state.messages,
+										action.chatlogs.data
+									] 
+							})	
+				default:
+						return state;								
+		}
+}
+
+let getChatState = {
+		messages: [],
+		status: ''
+}
+
+export function chatReq(state = getChatState, action){
+		switch (action.type){
+				case 'CHAT_REQUEST_DATA':
+							return Object.assign({}, state, {
+									status: action.status
+							})
+				case 'CHAT_FAIL_DATA':
+							return Object.assign({}, state, {
+									status: action.status
+							})
+				case 'CHAT_RECEIVE_DATA':
+							return Object.assign({}, state, {
+									status: action.status,
+									messages: [
+										...state.messages,
+										action.chathistory.data
+									]
+							})
+				default:
+							return state;									
+		}
+}
+
 let chatState = {	
     messages: [],
     user: 'TESTUSER!!'

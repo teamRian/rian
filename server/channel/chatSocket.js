@@ -1,4 +1,4 @@
-import Chatuser from '../models/Chatuser';
+import Chatuser from '../models/Chat';
 let students = {};
 // export function for listening to the socket
 module.exports = function(socket, io) {
@@ -49,8 +49,9 @@ module.exports = function(socket, io) {
 				// 		if(err) return console.error(err);
 				// });
 				socket.broadcast.emit('send:message', {
-						user: data.user,
-						text: data.text
+						username: data.username,
+						text: data.text,
+						date_added: data.date_added
 				})
 
 					

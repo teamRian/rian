@@ -26,14 +26,22 @@ class ChatApp extends Component {
 function mapState(state) {
 
 	return {
+			User: state.User,
+			Chatlog: state.chatLogs,
 			user: state.chatApp.user,
 			users: state.chatUser.joinusers,
-			messages: state.chatApp.messages
+			ChatHistory: state.chatReq
 	};
 }
 
 function mapDispatch(dispatch) {
 	return {
+			chatRequest: () => {
+				dispatch(chatActions.chatRequest())
+			},
+			chatPost: (logs) => {
+				dispatch(chatActions.chatPost(logs))
+			},
 			getMessage: (msg) => {
 				dispatch(chatActions.newMessage(msg))
 			},
