@@ -45,11 +45,6 @@ class Message extends Component {
 
   handleClick(){
       
-      if(!this.refs.likeUser.className){
-          console.log('생겨라!')
-      } else {
-        console.log('없어져라!')
-      }
       if(!this.state.isPressed){
           this.setState({
             isPressed: true
