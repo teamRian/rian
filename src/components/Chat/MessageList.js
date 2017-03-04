@@ -16,18 +16,18 @@ export default class MessageList extends Component {
 	render() {
 		return (
 			<div className='messages chat'>
-					
 							{
 									this.props.messages.map((message, i) => {
 											return (
-												
+													
 													<Message
 														key={i}
-														user={message.user}													
+														username={message.username}													
 														text={message.text}
-														socket={this.props.socket}
+														date={message.date_added}
 														users={this.props.users}
-													/>
+														socket={this.props.socket}
+													/>										
 												
 											);
 									})

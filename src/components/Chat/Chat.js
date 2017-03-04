@@ -31,9 +31,9 @@ export default class Chat extends Component {
     this.newUser = this.newUser.bind(this);
     this.updateMessage = this.getMessages.bind(this);
     this.updateUser = this.joinUsers.bind(this);
-    
     // var room = 'testroom';
     socket.emit('init', 'good!')
+
     
   }
 
@@ -56,7 +56,12 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
+    console.log('USER:::',this.props.User._id)
     
+    if(!!this.props.User._id){
+        // get chat logs from DB
+        this.props.chatRequest()
+    }
     socket.on('init', this.newUser); 
     socket.on('send:message', this.updateMessage);   
     socket.on('user:join', this.updateUser);
@@ -66,7 +71,7 @@ export default class Chat extends Component {
 
   handleMessageSubmit(message){
     socket.emit('send:message', message);
-    this.props.getMessage(message)
+    this.props.chatPost(message)
   }
   
   render() {
@@ -86,11 +91,13 @@ export default class Chat extends Component {
             <SocketProvider socket={socket}>
             <MessageList
               users={this.props.users}
-              messages={this.props.messages}
+              messages={this.props.Chatlog.messages}
+              // Chatlog={this.props.Chatlog}
             />
             </SocketProvider>
             <SocketProvider socket={socket}>
             <MessageForm
+              chatPost={this.props.chatPost}
               onMessageSubmit={this.handleMessageSubmit.bind(this)}  
               users={this.props.users}
             />  

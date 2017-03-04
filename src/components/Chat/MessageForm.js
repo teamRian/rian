@@ -23,11 +23,14 @@ class MessageForm extends Component {
 
   handleSubmit(e){
       e.preventDefault();
+      
       let message = {
-          user: this.findUser(),
-          text: this.memo.value
+          username: this.findUser(),
+          text: this.memo.value,
+          date_added: new Date()
       }
       this.props.onMessageSubmit(message);
+      // this.props.chatPost(logs);
       this.memo.value = '';
   }
 

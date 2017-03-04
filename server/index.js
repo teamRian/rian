@@ -45,6 +45,7 @@ import { fetchComponentData } from './util/fetchData';
 import users from './routes/user.routes';
 import plans from './routes/plan.routes';
 import files from './routes/file.routes';
+import chatLogs from './routes/chatlogs.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -75,7 +76,8 @@ app.use('/plan', plans);
 // Upload File Test
 app.use('/file', files);
 
-
+// chatlogs endpoint
+app.use('/chatLog', chatLogs);
 
 app.get('/', function(req, res, next){
 
@@ -137,6 +139,7 @@ app.get('/upload', (req,res)=>{
   res.redirect('/#/upload')
 })
 
+
 // Socketio Chat
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -148,7 +151,7 @@ const whiteboardSocket = require('./channel/whiteboardSocket.js');
 io.of('/chat').on('connection', function(socket){
     chatSocket(socket, io);
 });
-// io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
+io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
 
 
 

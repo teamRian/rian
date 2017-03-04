@@ -14,7 +14,7 @@ class Message extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.findUser = this.findUser.bind(this);
     this.state = {
-      // time: moment(new Date()).fromNow()
+      time: moment(new Date()).fromNow(),
       isPressed: false
     } 
   }
@@ -23,17 +23,17 @@ class Message extends Component {
   //     let currentTime = moment(new Date()).fromNow();
   //     this.updateTime.value = currentTime;
   // }
-  // componentDidMount() {
+  componentDidMount() {
 
-  //   var that = this
-  //   setInterval(function(){
-  //       console.log('come?')
-  //       that.setState({
-  //         time: moment(new Date()).fromNow()
-  //       })
-  //   }, 3000)
+    var that = this
+    setInterval(function(){
+        // console.log('come?')
+        that.setState({
+          time: moment(new Date()).fromNow()
+        })
+    }, 60000)
 
-  // }
+  }
 
   findUser(){
       for (var i = 0; i <= this.props.users.length; i++) {
@@ -44,6 +44,12 @@ class Message extends Component {
   }
 
   handleClick(){
+      
+      if(!this.refs.likeUser.className){
+          console.log('생겨라!')
+      } else {
+        console.log('없어져라!')
+      }
       if(!this.state.isPressed){
           this.setState({
             isPressed: true
@@ -65,13 +71,13 @@ class Message extends Component {
     })
     return (
       <div className='message well'>
-          <strong>{this.props.user} : </strong>   
+          <strong>{this.props.username} : </strong>   
           <span>{this.props.text}</span>
           &nbsp;
           &nbsp;
-          <span ref={ref => {this.updateTime = ref;}} ></span>
+          <span className='time' ref={ref => {this.updateTime = ref;}} >{moment(this.props.date).fromNow()}</span>
           <Button id='likeBtn' className={likeClass} onClick={this.handleClick} bsSize="xsmall"><Glyphicon glyph="thumbs-up" /> Like</Button>
-          <span id='likeMsg' className={showClass}>{this.findUser()} 님이 좋아합니다!!</span>
+          <span id='likeMsg' ref='likeUser' className={showClass}>{this.findUser()} 님이 좋아합니다!!</span>
       </div>
     );
   }
