@@ -61,7 +61,7 @@ class FileList extends Component {
       } else if(key.indexOf('.pptx') !== -1 || key.indexOf('ppt') !== -1) {
         return (<img src="http://icons.iconarchive.com/icons/blackvariant/button-ui-ms-office-2016/256/PowerPoint-2-icon.png"/>)
       } else if(key.indexOf('.pdf') !== -1) {
-        return (<img src="../../../pdf.png"/>)
+        return (<img src="./pdf.png"/>)
       } else {
         return (<img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/file-text-icon.png"/>)
       }
