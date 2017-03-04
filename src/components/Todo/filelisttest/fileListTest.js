@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import moment from 'moment';
 
 import './fileListTest.css';
+import FileIcon from './fileIcon.js';
+import FileTag from './fileTag.js';
 
 class FileList extends Component {
   constructor(props) {
@@ -28,43 +30,42 @@ class FileList extends Component {
 
   render() {
 
-    let listKeys = Object.keys(this.props.uploadfile)
+    let listKeys = Object.keys(this.props.uploadfile);
+
+    const tagText = {
+      fontSize: "5px",
+      padding: "2px 2px",
+      marginRight: "2px",
+      border: "1px solid #9E9E9E",
+      borderRadius: "2px",
+      color: "#9E9E9E"
+    }
+
+    const overflowX = {
+      overflowX: "scroll",
+      height: "30px",
+      paddingLeft: "10px"
+    }
 
     function showTag(Tag) {
        console.log("Tag:::: ", Tag)
       if (Tag.length === 0) {
         return (
-          <div>No Tag</div>
+          <span>No Tag</span>
         )
       } else {
         return (
-          <span>{"#" + Tag}</span>
+          <span style={tagText}>{Tag}</span>
         )
       }
-    } 
+    }
 
-    const imageIcon = (
-      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-         viewBox="0 0 58 58" style={{enableBackground: "new 0 0 58 58"}} xmlSpace="preserve">
-        <rect x="1" y="7" style={{fill:"#C3E1ED",stroke:"#E7ECED", strokeWidth:"2", strokeMiterlimit:"10"}} width="56" height="44"/>
-        <circle style={{fill:"#ED8A19"}} cx="16" cy="17.569" r="6.569"/>
-        <polygon style={{fill:"#1A9172"}} points="56,36.111 55,35 43,24 32.5,35.5 37.983,40.983 42,45 56,45 "/>
-        <polygon style={{fill:"#1A9172"}} points="2,49 26,49 21.983,44.983 11.017,34.017 2,41.956 "/>
-        <rect x="2" y="45" style={{fill:"#6B5B4B"}} width="54" height="5"/>
-        <polygon style={{fill:"#25AE88"}} points="37.983,40.983 27.017,30.017 10,45 42,45 "/>
-      </svg>
-    )
-
-    function iconSelector(key) {
-      if(key.indexOf('.svg') !== -1 || key.indexOf('.png') !== -1 || key.indexOf('.jpg') !== -1 || key.indexOf('.jpeg') !== -1) {
-        return (<img src="http://www.freeiconspng.com/uploads/multimedia-photo-icon-31.png"/>)
-      } else if(key.indexOf('.pptx') !== -1 || key.indexOf('ppt') !== -1) {
-        return (<img src="http://icons.iconarchive.com/icons/blackvariant/button-ui-ms-office-2016/256/PowerPoint-2-icon.png"/>)
-      } else if(key.indexOf('.pdf') !== -1) {
-        return (<img src="./pdf.png"/>)
-      } else {
-        return (<img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/file-text-icon.png"/>)
-      }
+    function tooltip(key) {
+      return (
+        <Tooltip>
+          {key}
+        </Tooltip>
+      )
     }
 
     return (
@@ -80,13 +81,26 @@ class FileList extends Component {
                 {listKeys.map((key,i) => 
                   <li className="filedashboarditem">
                     <div className="iconImage">
-                      {iconSelector(key)}
+                      <FileIcon list={key}/>
                     </div>
                     <div className="filedashboardinfo">
-                      <h4 className="filedashboardinfo-name">{key}</h4>
-                      {this.props.uploadfile[key].tag.map((tag,i) => 
-                        showTag(tag)
-                      )}
+                      <OverlayTrigger overlay={tooltip(key)} placement="top">
+                        <h4 className="filedashboardinfo-name">{key}</h4>
+                      </OverlayTrigger>
+                      <button className="showInfo">
+                        <svg width="28" height="28" viewBox="0 0 28 28" className="showInfoIcon">
+                          <path d="M25.436 2.566a7.98 7.98 0 0 0-2.078-1.51C22.638.703 21.906.5 21.198.5a3 3 0 0 0-1.023.17 2.436 2.436 0 0 0-.893.562L2.292 18.217.5 27.5l9.28-1.796 16.99-16.99c.255-.254.444-.56.562-.888a3 3 0 0 0 .17-1.023c0-.708-.205-1.44-.555-2.16a8 8 0 0 0-1.51-2.077zM9.01 24.252l-4.313.834c0-.03.008-.06.012-.09.007-.944-.74-1.715-1.67-1.723-.04 0-.078.007-.118.01l.83-4.29L17.72 5.024l5.264 5.264L9.01 24.252zm16.84-16.96a.818.818 0 0 1-.194.31l-1.57 1.57-5.26-5.26 1.57-1.57a.82.82 0 0 1 .31-.194 1.45 1.45 0 0 1 .492-.074c.397 0 .917.126 1.468.397.55.27 1.13.678 1.656 1.21.53.53.94 1.11 1.208 1.655.272.55.397 1.07.393 1.468.004.193-.027.358-.074.488z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                    <FileTag tags={this.props.uploadfile[key].tag} name={key}/>
+                    <div className="removeButtonContainer">
+                      <button className="removeButton">
+                        <svg width="22" height="21" viewBox="0 0 18 17" className="removeIcon">
+                          <ellipse cx="8.62" cy="8.383" rx="8.62" ry="8.383"></ellipse>
+                          <path stroke="#FFF" fill="#FFF" d="M11 6.147L10.85 6 8.5 8.284 6.15 6 6 6.147 8.35 8.43 6 10.717l.15.146L8.5 8.578l2.35 2.284.15-.146L8.65 8.43z"></path>
+                        </svg>
+                      </button>
                     </div>
                   </li>
                 )}
@@ -103,3 +117,128 @@ class FileList extends Component {
 }
 
 export default FileList;
+
+
+// import React, { Component } from 'react';
+// import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+// import moment from 'moment';
+
+// import './fileListTest.css';
+// import FileIcon from './fileIcon.js';
+// import FileTag from './fileTag.js';
+
+// class FileList extends Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       showModal: false
+//     }
+//     this.open = this.open.bind(this);
+//     this.close = this.close.bind(this);
+//   }
+
+//   open() {
+//     this.setState({
+//       showModal: true
+//     })
+//   }
+
+//   close() {
+//     this.setState({
+//       showModal: false
+//     })
+//   }
+
+//   render() {
+
+//     let listKeys = Object.keys(this.props.uploadfile);
+
+//     const tagText = {
+//       fontSize: "5px",
+//       padding: "2px 2px",
+//       marginRight: "2px",
+//       border: "1px solid #9E9E9E",
+//       borderRadius: "2px",
+//       color: "#9E9E9E"
+//     }
+
+//     const overflowX = {
+//       overflowX: "scroll",
+//       height: "30px",
+//       paddingLeft: "10px"
+//     }
+
+//     function showTag(Tag) {
+//        console.log("Tag:::: ", Tag)
+//       if (Tag.length === 0) {
+//         return (
+//           <span>No Tag</span>
+//         )
+//       } else {
+//         return (
+//           <span style={tagText}>{Tag}</span>
+//         )
+//       }
+//     }
+
+//     function tooltip(key) {
+//       return (
+//         <Tooltip>
+//           {key}
+//         </Tooltip>
+//       )
+//     }
+
+//     return (
+//       <div>
+//         <Button bsStyle="info" onClick={this.open}>File List</Button>
+//         <Modal show={this.state.showModal} onHide={this.close}>
+//           <Modal.Header closeButton>
+//             Project File List
+//           </Modal.Header>
+//           <Modal.Body>
+//             <div className="fileListContainer">
+//               <ul className="filedashboard">
+//                 {listKeys.map((key,i) => 
+//                   <li className="filedashboarditem">
+//                     <div className="iconImage">
+//                       <FileIcon list={key}/>
+//                     </div>
+//                     <div className="filedashboardinfo">
+//                       <OverlayTrigger overlay={tooltip(key)} placement="top">
+//                         <h4 className="filedashboardinfo-name">{key}</h4>
+//                       </OverlayTrigger>
+//                       <button className="showInfo">
+//                         <svg width="28" height="28" viewBox="0 0 28 28" className="showInfoIcon">
+//                           <path d="M25.436 2.566a7.98 7.98 0 0 0-2.078-1.51C22.638.703 21.906.5 21.198.5a3 3 0 0 0-1.023.17 2.436 2.436 0 0 0-.893.562L2.292 18.217.5 27.5l9.28-1.796 16.99-16.99c.255-.254.444-.56.562-.888a3 3 0 0 0 .17-1.023c0-.708-.205-1.44-.555-2.16a8 8 0 0 0-1.51-2.077zM9.01 24.252l-4.313.834c0-.03.008-.06.012-.09.007-.944-.74-1.715-1.67-1.723-.04 0-.078.007-.118.01l.83-4.29L17.72 5.024l5.264 5.264L9.01 24.252zm16.84-16.96a.818.818 0 0 1-.194.31l-1.57 1.57-5.26-5.26 1.57-1.57a.82.82 0 0 1 .31-.194 1.45 1.45 0 0 1 .492-.074c.397 0 .917.126 1.468.397.55.27 1.13.678 1.656 1.21.53.53.94 1.11 1.208 1.655.272.55.397 1.07.393 1.468.004.193-.027.358-.074.488z"></path>
+//                         </svg>
+//                       </button>
+//                     </div>
+//                     <div style={overflowX}>
+//                       {this.props.uploadfile[key].tag.map((tag,i) => 
+//                         showTag(tag)
+//                       )}
+//                     </div>
+//                     <div className="removeButtonContainer">
+//                       <button className="removeButton">
+//                         <svg width="22" height="21" viewBox="0 0 18 17" className="removeIcon">
+//                           <ellipse cx="8.62" cy="8.383" rx="8.62" ry="8.383"></ellipse>
+//                           <path stroke="#FFF" fill="#FFF" d="M11 6.147L10.85 6 8.5 8.284 6.15 6 6 6.147 8.35 8.43 6 10.717l.15.146L8.5 8.578l2.35 2.284.15-.146L8.65 8.43z"></path>
+//                         </svg>
+//                       </button>
+//                     </div>
+//                   </li>
+//                 )}
+//               </ul>
+//             </div>
+//           </Modal.Body>
+//           <Modal.Footer>
+//             <Button onClick={this.close}>Close</Button>
+//           </Modal.Footer>
+//         </Modal>
+//       </div>
+//     )
+//   }
+// }
+
+// export default FileList;

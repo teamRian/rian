@@ -60,7 +60,8 @@
   justify-content: center;
   -ms-flex-align: center;
   align-items: center;
-  border-right: 1px solid hsla(0, 0%, 58%, .2);
+  /*border-right: 1px solid hsla(0, 0%, 58%, .2);*/
+  border-bottom: 1px solid hsla(0,0%,58%,.2);
 }
 
 .iconImage img {
@@ -71,7 +72,7 @@
 
 .filedashboardinfo {
   max-width: 100%;
-  height: 60px;
+  height: 30px;
 }
 
 .filedashboardinfo {
@@ -94,9 +95,61 @@
   max-height: 28px;
   margin-bottom: 5px;
   text-overflow: ellipsis;
-  /*white-space: nowrap;*/
+  white-space: nowrap;
   overflow: hidden;
 }
+
+.removeButtonContainer {
+  top: -8px;
+  right: -8px;
+  position: absolute;
+}
+
+.removeButton {
+  align-items: flex-start;
+  text-align: center;
+  width: 20px;
+  color: #525252;
+  background: none;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.removeIcon {
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: text-top;
+  overflow: hidden;
+}
+
+.showInfo {
+  top: 8px;
+  right: 8px;
+  background: none;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  font-size: 12px;
+  text-align: left;
+  position: absolute;
+  cursor: pointer;
+}
+
+.showInfoIcon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: text-top;
+  overflow: hidden;
+  color: #525252;
+}
+
 
 
 
