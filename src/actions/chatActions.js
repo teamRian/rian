@@ -59,7 +59,7 @@ export function chatReceiveData(data){
 	}
 }
 
-export function chatRequest(){
+export function chatRequest(query){
 	return function(dispatch){
 			dispatch(chatRequestData())
 			

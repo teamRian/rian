@@ -12,5 +12,11 @@ export function chatLogPost(req, res){
 }
 
 export function chatLogRequest(req, res){
-// 	console.log('THIOS IS CHAT REQUESGT!!!!!!', req)
+	Chat.find().sort('date_added')
+	.exec((err, chatlogs) => {
+			if(err) {
+					res.status(500).send(err);
+			}
+			res.json({chatlogs});
+	})
 }

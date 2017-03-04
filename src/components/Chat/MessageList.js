@@ -11,13 +11,29 @@ export default class MessageList extends Component {
 	
 	constructor(props) {
 		super(props);
-
+		this.state = {
+				messages: []
+		}
 	}
+
+	componentDidMount() {
+			// if(!!this.props.User._id){
+			// 		this.setState({
+			// 				messages: this.props.ChatHistory
+			// 		})
+			// } else {
+			// 		this.setState({
+			// 				messages: this.props.messages
+			// 		})
+			// }
+	}
+
 	render() {
+		let messages = !!this.props.User._id ? this.props.ChatHistory.messages : this.props.messages;
 		return (
 			<div className='messages chat'>
 							{
-									this.props.messages.map((message, i) => {
+									messages.map((message, i) => {
 											return (
 													
 													<Message
