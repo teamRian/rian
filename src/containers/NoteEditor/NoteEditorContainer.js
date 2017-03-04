@@ -14,7 +14,7 @@ class NoteEditorContainer extends Component {
         <div className='col-xs-4'>  
           <NoteTimeline timeline={this.props.timeline}/>
         </div>
-        <div className='col-xs-8' style={{height: "100%"}}>
+        <div className='col-xs-8' style={{ margin: "0", height: "800px", position: "relative"}}>
           <RockofRian  />
         </div>
      </div>

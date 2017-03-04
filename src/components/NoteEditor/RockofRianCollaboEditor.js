@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Firepad from 'firepad'
-import firebase from 'firebase'
+import Firepad from 'firepad';
+import firebase from 'firebase';
+import './css/RockofRianStyle.css';
+import './css/firepad.css';
 // var headless = new Firepad.Headless('https://<DATABASE_NAME>.firebaseio.com');
 
 var config = { 
@@ -22,8 +24,7 @@ class RockofRianEditor extends Component {
 
 	componentDidMount() {
 
-        var firepadRef = firebase.database().ref();
-      
+        var firepadRef = firebase.database().ref('testrock/1');
         var codeMirror = CodeMirror(this.refs.firepadContainer, { lineWrapping: 
           true });
       
@@ -35,11 +36,14 @@ class RockofRianEditor extends Component {
 
         firepad.on('ready', function() {
           console.log("firepad ready")
+          console.log(firepad.getText())
+          firepad.setUserColor("#FF0000")
           if (firepad.isHistoryEmpty()) {
-            firepad.setHtml('<span style="font-size: 24px;">Rich-text editing with <span style="color: red">Firepad!</span></span><br/><br/>Collaborative-editing made easy.');
+            firepad.setHtml('<span style="font-size: 24px;">Rian에서 당신의 꿈을 기록하세요.</span>');
           }
         });
-           
+
+        
 	}
 
 	render(){
