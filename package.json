@@ -139,7 +139,9 @@
     "mongo": "mongod --dbpath ./data/mongoDB",
     "mocha": "NODE_ENV=test mocha --require ./testSetup.js --compilers babel-core/register ./test/*.spec.js",
     "mocha:watch": "npm test -- -w",
-    "start:please": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch server --inspect"
+    "start:please": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch server --inspect",
+    "start:inspect": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch --inspect server"
+
   },
   "jest": {
     "collectCoverageFrom": [

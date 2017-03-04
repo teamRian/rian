@@ -1,8 +1,12 @@
 module.exports = function(socket){
 
-	var io = this;
-	var to = socket.id;
-
+	let io = this;
+	let to = socket.id;
+	
+	socket.on('hi', function(msg){
+		console.log('client msg hi!!!1')
+		io.emit('ioMsg', 'ioMsg');	
+	})
   console.log('/whiteboard channel connection success')
   socket.emit('connectMsg', 'We Are Connected!!');
 
