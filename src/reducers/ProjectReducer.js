@@ -13,7 +13,7 @@ export function Project(state = ProjectState, action) {
 		case "PROJECT_SUCCESS_GET":
 			return Object.assign({}, state, {
 				loading: action.loading,
-				projects: action.projects
+				projects: [...action.projects]
 			})
 		case "PROJECT_FAIL_GET":
 			return Object.assign({}, state, {

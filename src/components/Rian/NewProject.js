@@ -15,18 +15,14 @@ class NewProject extends Component {
 
   	const projectName = this.title.value;
   	const _creatorId = this.props.User._id;
- 	const _creatorUsername = this.props.User.username;
- 	const users = [this.props.User._id];
+ 	  const _creatorUsername = this.props.User.username;
+ 	  const users = [this.props.User._id];
   	const project = { projectName, _creatorId, _creatorUsername, users};
-  	console.log(project);
-  	// let post = {
-  	// 	projectName = this.title.value
-  	// }
+
   	if(projectName.length === 0){
   		alert('제목을 입력하세요');
   	} else {
   		this.props.projectPost(project)
-  			.then(res=>console.log(res));
   	}
   }
 
