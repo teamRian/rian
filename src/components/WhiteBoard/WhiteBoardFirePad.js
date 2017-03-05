@@ -37,7 +37,14 @@ class WhiteBoardFirePad extends React.Component{
 			var firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
 
 			// Create CodeMirror (with lineWrapping on).
-			var codeMirror = CodeMirror(document.getElementById('firepad'), { lineWrapping: true });
+			// cursorBlinkRate : -1
+			var codeMirror = CodeMirror(document.getElementById('firepad'), 
+
+			{ 
+				lineWrapping: true
+				
+
+			});
 
 			// Create Firepad (with rich text toolbar and shortcuts enabled).
 			var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
@@ -51,13 +58,29 @@ class WhiteBoardFirePad extends React.Component{
       // Create FirepadUserList (with our desired userId).
       var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'), document.getElementById('userlist'), userId);			
       
+
+
+      // default line setting
+      firepadRef.child('users').once('value', function(snapshot){
+      	
+      	var users = snapshot.val();
+      			allUsers = users;
+      	var lines = [];
+      	
+      	// users의 chid들이 변화할때마다, takenLines를 최신으로 업데이트 해줌
+      	for(var key in users){
+      		if(key !== userId && !!users[key].customCursor){
+      			lines.push(users[key].customCursor.line);
+      		}
+      	}
+
+      	takenLines = lines;
+
+      });      
+
       // Initialize contents.
       firepad.on('ready', function() {
       	
-      	//firepad 준비되면 처음 커서는 맨 마지막 줄에 셋팅해주기!
-      	debugger
-      	firepad.editor_.doc.setCursor( { line : 1 , ch : 2 } );
-      	debugger
         if (firepad.isHistoryEmpty()) {
           firepad.setHtml(
               '<span style="font-size: 24px;">Rich-text editing with <span style="color: red">Firepad!</span></span><br/>\n' +
@@ -108,10 +131,20 @@ class WhiteBoardFirePad extends React.Component{
 
         });
 
+        //
+        //firepadRef.child('users').child(userId).child('customCursor').set({ line : firepad.editor_.doc.lastLine(), ch : 0 });	
+      	//firepad 준비되면 처음 커서는 맨 마지막 줄에 셋팅해주기!
+      	console.log(firepad.editor_.doc.lastLine());
+      	//firepad.editor_.doc.setCursor( { line : 1 , ch : 2 } );
 
+
+      	firepad.editor_.on('beforeCursorEnter', function(e){
+      		console.log('beforeCursorEnter !! ', e);
+
+      	})
 
         firepad.editor_.on('cursorActivity', function(editor){
-        	
+        	console.log('getAllMarks ::: ', firepad.editor_.doc.getAllMarks())
         	//데이터베이스에 저장된 커서
         	var nowCursor = firepad.editor_.doc.getCursor();        		
         	var nowLine = nowCursor.line;       	
@@ -123,11 +156,18 @@ class WhiteBoardFirePad extends React.Component{
 
         	if(ableTakeThisLine){ // 현재 line을 take할 수 있으면
         		//database에 현재 커서 정보 저장
-        		firepadRef.child('users').child(userId).child('customCursor').set(nowCursor);	
+        		firepadRef.child('users').child(userId).child('customCursor').set(nowCursor);
         	}else{ // 현재 line을 누가 take하고 있다면
         		
         		// setCursor를 통해서 원래있던 커서 위치로 되돌려보냄!
-        		firepad.editor_.doc.setCursor({ line : allUsers[userId].customCursor.line, ch : allUsers[userId].customCursor.ch });
+        		if(!!allUsers[userId].customCursor){ // customCursor에 대한 정보가 있는경우 해당 원위치로 이동시킴
+        			firepad.editor_.doc.setCursor({ line : allUsers[userId].customCursor.line, ch : allUsers[userId].customCursor.ch });	
+        		}else{ // // customCursor에 대한 정보가 없는 경우 맨 마지막줄로 보내고 firebase에 업데이트
+        			var willMoveCursor = { line : firepad.editor_.doc.lastLine() + 1, ch : 0 };
+        			firepadRef.child('users').child(userId).child('customCursor').set(willMoveCursor);
+        			firepad.editor_.doc.setCursor(willMoveCursor);
+        		}
+        		
         	}
         	
 
