@@ -4,10 +4,7 @@ mongoose.Promise = global.Promise
 
 const UserSchema = new Schema({
 
-	username: { 
-		type: String, 
-		required: true 
-	},	
+	username: {type: String},	
   
 	local : {
 		username: String,

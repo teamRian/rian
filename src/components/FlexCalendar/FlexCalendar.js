@@ -106,6 +106,9 @@ export default class FlexCalendarBody extends Component {
 		      	{ days.map((day, n)=>{
 		      		return <div key={day} className='weekDay'>{day}</div>
 		      	})}
+		      	{
+		      		<div className='magnet'>Mag</div>
+		      	}
 		    </div>
 		    <div 
 		    	className='month'
@@ -128,8 +131,11 @@ export default class FlexCalendarBody extends Component {
 				    			onClick={(d,i)=>this.calendarSelectDate(d,i)}
 				    			>
 				    				{day.day} 
-				    			</div>
-		    		})}
+				    			</div> })
+				    }
+				    {
+				    	<div className='magnet'>Mag</div>
+				    }
 		    	</div>)
 		    })}
 		    </div>

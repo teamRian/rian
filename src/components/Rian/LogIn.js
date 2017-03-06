@@ -35,6 +35,7 @@ export default class LogIn extends Component {
               inputRef={ref => {this.username = ref}} />
         </div>
             <Button bsStyle="primary" onClick={(e)=>this.handleSubmit(e)}>로그인</Button>
+            <a href="/auth/facebook" className="btn btn-primary">Facebook</a>
             <SignUpModal
               userSignUp={(form)=>this.props.userSignUp(form)}
               userLogIn={(form)=>this.props.userLogIn(form)}

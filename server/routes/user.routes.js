@@ -9,6 +9,6 @@ router.route('/signUp').post((req,res)=>{
 
 router.route('/logIn').post((req,res)=>{
 	UserController.userLogIn(req,res);
-})
+});
 
 export default router;

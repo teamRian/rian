@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // Import Actions
-import { userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
+import { userCheckAuth, userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
 import { projectGet, projectPost } from '../actions/ProjectActions';
+
 // Import Component
 import Header from '../components/Rian/Header';
 import Navigation from '../components/Rian/Navigation.js'
@@ -18,9 +19,17 @@ import '../styles/Rian.css';
 
 class RianApp extends Component {
 
+  constructor(props){
+    super(props);
+    this.props.userCheckAuth();
+  }
+
   render() {
+    if(this.props.User.loading){
+      return <div>Loading...</div>
+    }
     const { main, side } = this.props
-    if(this.props.User.username === null){
+    if(this.props.User._id === null){
       return (
         <LogIn
           userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
@@ -61,6 +70,9 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
+    userCheckAuth: ()=> {
+      dispatch(userCheckAuth())
+    },
     userSignUp: (form)=> {
       dispatch(userSignUp(form))
     },
