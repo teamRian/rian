@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-mongoose.promise = global.promise
+mongoose.Promise = global.Promise
 
 const ProjectSchema = new Schema({
 	projectName: { type: String, required: true },

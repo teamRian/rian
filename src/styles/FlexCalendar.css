@@ -36,7 +36,9 @@
 }
 
 .month {
-
+	display:flex;
+	flex-direction: column;
+	height:100%;
 }
 .weekDays {
 	display: flex;
@@ -67,8 +69,12 @@
 }*/
 
 .holiday.day{
-	color: LightCoral;
-	border-top: 1px solid LightCoral;
+	color: lightcoral;
+	border-color: lightcoral;
+}
+.today.day {
+	color: seagreen;
+	border-color: seagreen;
 }
 .week {
 	display: flex;

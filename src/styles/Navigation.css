@@ -1,55 +1,28 @@
-#navigation div {
-    display: flex;
-    align-items: center;
+#Navigation {
+
+}
+
+#nav-bar {
+    display: flex; 
+    align-items: stretch;
+    flex: 0 0 50px;
+}
+
+#nav-bar div {
+    display:flex;
+    flex: 1;
     justify-content: center;
+    align-items: center;
     background-color: white;
-    color: rgba(115,202,116,1);
-    border-bottom: 1px solid rgba(236,236,236,1);
-    height: 3em;
-    font-size: 14px;
-    transition-property: background;
-    transition-duration: 1s;
-    padding:0px;
+    color: #337ab7;
+    border: 1px solid rgba(236,236,236,1);
+    cursor: pointer;
 }
 
-
-#chat {
+#nav-bar div:hover{
+    color:white;
+    background-color: #337ab7;
 }
-
-#chat:hover {
-    background-color: rgba(117,192,253,1);
-    color: white;
-}
-
-#calendar {
-
-}
-
-#calendar:hover {
-    background-color: rgba(115,202,116,1);
-    color: white;
-}
-
-#editor {
-}
-
-#editor:hover {
-    background-color: rgba(153,165,166,1);
-    color: white;
-}
-
-#whiteboard {
-}
-
-#whiteboard:hover {
-    background-color: rgba(153,165,166,1);
-    color: white;
-}
-
-#todolist {
-}
-
-#todolist:hover {
-    background-color: rgba(153,165,166,1);
-    color: white;
+#nav-bar #nav-whiteboard {
+    flex:1.5;
 }

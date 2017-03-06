@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Calendar } from 'calendar';
+import classNames from 'classnames';
+// import {Motion, spring, TransitionMotion} from 'react-motion';
 
 export default class FlexCalendarBody extends Component {
 	constructor(props){
@@ -11,6 +13,20 @@ export default class FlexCalendarBody extends Component {
 	// 	}
 	// }
 
+	willEnter(){
+		
+	}
+
+	componentDidMount(){
+		if(this.props.Calendar.selectedDay){
+
+		}
+		console.log("REF :", this.month)
+	}
+	
+	calendarSelectDate(d,i){
+		console.log(d,i);
+	}
 
 	renderTime(year, month) {
 		const cal = new Calendar(0);
@@ -29,6 +45,7 @@ export default class FlexCalendarBody extends Component {
 		    				red: false,
 		    				day: day,
 		    				month: month,
+		    				year: year,
 		    				week: i
 		    			}
 		    		} else {
@@ -36,6 +53,7 @@ export default class FlexCalendarBody extends Component {
 		    				red: false,
 		    				day: lastMonthWeeks[lastMonthWeeks.length-1][n],
 		    				month: lastMonth,
+		    				year: year,
 		    				week: i
 
 		    			}
@@ -48,6 +66,7 @@ export default class FlexCalendarBody extends Component {
 		    				red: false,
 		    				day: day,
 		    				month: month,
+		    				year: year,
 		    				week: i
 
 		    			}
@@ -56,6 +75,7 @@ export default class FlexCalendarBody extends Component {
 		    				red: false,
 		    				day: nextMonthWeeks[0][n],
 		    				month: nextMonth,
+		    				year: year,
 		    				week: i
 		    			}
 		    		}
@@ -66,6 +86,7 @@ export default class FlexCalendarBody extends Component {
 						red: false,
 						day: day,
 						month: month,
+						year: year,
 						week: i
 					}
 				})
@@ -86,16 +107,32 @@ export default class FlexCalendarBody extends Component {
 		      		return <div key={day} className='weekDay'>{day}</div>
 		      	})}
 		    </div>
+		    <div 
+		    	className='month'
+		    	ref={(month)=>{this.month = month}}
+		    >
 		    {monthDays.map((weeks,i)=>{
-		    	console.log(i);
 		    	return (<div key={`week${i}`} className={`week week${i}`}>
 		    		{ weeks.map((day,k)=>{
-		    			return <div key={day.day} className={k === 0 | k === 6 ? `holiday day month${day.month} week${day.week} day${day.day}` :
-		    			 `day month${day.month} week${day.week} day${day.day}` }>
-		    			{day.day} </div>
+		    			let dayClass = classNames({
+		    				day: true,
+		    				[`month${day.month}`]: true,
+		    				[`week${day.week}`]: true,
+		    				[`week${day.day}`]: true,
+		    				holiday: k === 6 || k === 0,
+		    				today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear 
+		    			})
+		    			return <div 
+				    			key={day.day} 
+				    			className={dayClass}
+				    			onClick={(d,i)=>this.calendarSelectDate(d,i)}
+				    			>
+				    				{day.day} 
+				    			</div>
 		    		})}
 		    	</div>)
 		    })}
+		    </div>
 	      </div>
 	    );
 	}

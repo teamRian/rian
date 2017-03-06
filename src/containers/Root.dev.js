@@ -5,11 +5,12 @@ import DevTools from './DevTools';
 import '../styles/Rian.css';
 import Home from '../components/Rian/Home';
 import NewProject from '../components/Rian/NewProject';
-import Calendar from './Calendar/Calendar.js';
-import TodoContainer from './Todo/TodoContainer.js';
+import Calendar from './Calendar/Calendar';
+import CalendarSub from './Calendar/CalendarSub'
+import TodoContainer from './Todo/TodoContainer';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
-import Chat from './Chat/ChatApp.js';
-import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
+import Chat from './Chat/ChatApp';
+import WhiteBoard from './WhiteBoard/WhiteBoardContainer';
 
 
 
@@ -23,12 +24,12 @@ export default class Root extends Component {
         <Router history={browserHistory}>
             <Route path="/" component={Rian}>
                 <IndexRoute component = {Home} />
-                <Route path="/calendar" component={Calendar} />
-                <Route path="/todolist" component={TodoContainer} />
-                <Route path="/editor" component={NoteEditor} />
-                <Route path="/chat" component={Chat} />
-                <Route path="/whiteboard" component={WhiteBoard} />
-                <Route path="/newProject" component={NewProject} />
+                <Route path="/calendar" component={{main:Calendar, side:CalendarSub}}/>
+                <Route path="/todolist" component={{main:TodoContainer}}/>
+                <Route path="/editor" component={{main:NoteEditor}}/>
+                <Route path="/chat" component={{main:Chat}}/>
+                <Route path="/whiteboard" component={{main:WhiteBoard}}/>
+                <Route path="/newProject" component={{main:NewProject}}/>
             </Route>
         </Router>
         <DevTools/>
