@@ -9,6 +9,7 @@ import Calendar from './Calendar/Calendar';
 import CalendarSub from './Calendar/CalendarSub'
 import TodoContainer from './Todo/TodoContainer';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
+import NoteTimeline from './NoteTimeline/NotetimelineContainer';
 import Chat from './Chat/ChatApp';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer';
 
@@ -26,7 +27,7 @@ export default class Root extends Component {
                 <IndexRoute component={Home} />
                 <Route path="/calendar" component={{main:Calendar, side:CalendarSub}}/>
                 <Route path="/todolist" component={{main:TodoContainer}}/>
-                <Route path="/editor" component={{main:NoteEditor}}/>
+                <Route path="/editor" component={{main:NoteEditor, side:NoteTimeline}}/>
                 <Route path="/chat" component={{main:Chat}}/>
                 <Route path="/whiteboard" component={{main:WhiteBoard}}/>
                 <Route path="/newProject" component={{main:NewProject}}/>
