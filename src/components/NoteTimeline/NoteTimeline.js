@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Waypoint from 'react-waypoint';
 import './css/timeline.css'
 
 
@@ -43,15 +44,30 @@ class NoteTimeline extends Component {
 		})
 	}
 
+	renderWaypoint(){
+		return(
+			<Waypoint 
+			  onEnter={ () => {
+			 	 console.log("Waypoint!!!!")		  
+			  } 
+			 }
+			/>
+		)
+	}
+
 	componentWillReceiveProps(nextProps) {
 		this.renderTimeline(nextProps)
 	}
 
 	render(){
 		return (
-			<div>
+		  <div className='parentWaypoint'>
+			<div className='renderWaypoint'>
+				{this.state.renderTimeline}
+				{this.renderWaypoint()}
 				{this.state.renderTimeline}
 			</div>
+	      </div>
 		)
 	}
 }

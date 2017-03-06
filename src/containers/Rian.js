@@ -12,7 +12,7 @@ import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
-
+import NoteTimeline from '../components/NoteTimeline/NoteTimeline.js'
 import LogIn from '../components/Rian/LogIn';
 
 import '../styles/Rian.css';

@@ -1,3 +1,15 @@
+.parentWaypoint {
+  height: 800px;
+    overflow-y: scroll;
+}
+
+
+
+.renderWaypoint {
+  height: 10000px;
+  position: relative;
+}  
+
 .timelinebox {
   border-top: 2px solid #eee;
   border-bottom: 2px solid #eee;;
@@ -10,3 +22,4 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
