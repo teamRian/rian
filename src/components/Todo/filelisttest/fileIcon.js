@@ -106,23 +106,23 @@ class fileIcon extends React.Component {
 
     function iconSelector(key) {
       if(key.indexOf('.svg') !== -1 || key.indexOf('.png') !== -1 || key.indexOf('.jpg') !== -1 || key.indexOf('.jpeg') !== -1) {
-        return imageIcon
+        return imageIcon;
       } else if(key.indexOf('.pptx') !== -1 || key.indexOf('ppt') !== -1) {
-        return pptIcon
+        return pptIcon;
       } else if(key.indexOf('.pdf') !== -1) {
-        return pdfIcon
+        return pdfIcon;
       } else if(key.indexOf('.doc') !== -1 || key.indexOf('.docx') !== -1 ){
-        return wordIcon
+        return wordIcon;
       } else if(key.indexOf('.txt') !== -1) {
-        return txtIcon
-      } else if(key.indeoxOf('.xlsx') !== -1) {
-        return excelIcon
+        return txtIcon;
+      } else if(key.indexOf('.xlsx') !== -1) {
+        return excelIcon;
       } else {
-        return otherIcon
+        return otherIcon;
       }
     }
 
-    return iconSelector(this.props.list)
+    return iconSelector(this.props.list);
   }
 }
 
