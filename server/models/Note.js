@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-mongoose.promise = global.promise
+mongoose.Promise = global.Promise
 const Schema = mongoose.Schema;
 
 const noteSchema = new Schema({

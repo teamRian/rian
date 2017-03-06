@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {Grid, Col, Row} from 'react-bootstrap';
 
 // Import Actions
 import { userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
@@ -20,6 +19,7 @@ import '../styles/Rian.css';
 class RianApp extends Component {
 
   render() {
+    const { main, side } = this.props
     if(this.props.User.username === null){
       return (
         <LogIn
@@ -41,9 +41,10 @@ class RianApp extends Component {
               </div>
               <div className="Navigation">
                 <Navigation />
+                {side}
               </div>
               <div className="MainContent">
-                {this.props.children}
+                {main}
               </div>
         </div>
       )

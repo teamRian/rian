@@ -35,6 +35,7 @@ class Calendar extends Component {
           Calendar={this.props.Calendar}
           calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
           calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
+          calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         />
         <FlexCalendarBody
           User={this.props.User}

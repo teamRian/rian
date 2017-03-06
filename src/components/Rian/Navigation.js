@@ -1,26 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router';
-import {Grid, Col, Row} from 'react-bootstrap';
+import { browserHistory } from 'react-router';
 import '../../styles/Navigation.css';
 
 class Navigation extends React.Component {
 
-  render() {
-    const marginZero = {
-      margin: "0px 0px",
-      padding: "0px 0px"
-    }
-    const textWhite = {
-      color: "white"
-    }
+  clickLink(link){
+    browserHistory.push(link);
+  }
 
+  render() {
     return (
-      <div id="navigation" className="row" style={marginZero}>
-          <div className="col-xs-3" id="calendar"><span><Link to='/calendar'>캘린더</Link></span></div>
-          <div className="col-xs-2" id="todolist"><span><Link to='/todolist'>투두</Link></span></div>
-          <div className="col-xs-2" id="editor"><span><Link to='/editor'>노트</Link></span></div>
-          <div className="col-xs-2" id="chat"><span><Link to='/chat'>채팅</Link></span></div>
-          <div className="col-xs-3" id="whiteboard"><span><Link to='/whiteboard'>화이트보드</Link></span></div>
+      <div id="nav-bar">
+        <div onClick={()=>this.clickLink('/calendar')}>캘린더</div>
+        <div onClick={()=>this.clickLink('/todolist')}>투두</div>
+        <div onClick={()=>this.clickLink('/editor')}>노트</div>
+        <div onClick={()=>this.clickLink('/chat')}>채팅</div>
+        <div id="nav-whiteboard" 
+             onClick={()=>this.clickLink('/whiteboard')}
+        >
+            화이트보드
+        </div>
       </div>
     )
   }
