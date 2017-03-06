@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import { Popover, Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import { socketConnect } from 'socket.io-react';
 const io = require('socket.io-client');
 
@@ -34,11 +34,20 @@ class MessageForm extends Component {
       this.memo.value = '';
   }
 
+  handleKeypress(e){
+      console.log('뭐가눌렸어?', e.keyCode, e.key)
+      if(e.key === '@'){
+        e.preventDefault()
+        alert('트랩!!')
+      }
+  }
+
   componentWillReceiveProps(nextProps) {
     console.log("NEXT PROPS::", nextProps)
   }
 
   render() {
+      
     return (
       <div>
           <form onSubmit={this.handleSubmit.bind(this)}>
@@ -48,10 +57,12 @@ class MessageForm extends Component {
                 type='text'
                 placeholder='Enter text'
                 inputRef={ref => {this.memo = ref;}}
+                onKeyPress={this.handleKeypress.bind(this)}
               />
             </FormGroup>  
             <Button type='submit'bsStyle="primary" bsSize='small'>Send Message</Button>
            </form>       
+        }
       </div>
     );
   }

@@ -1,8 +1,11 @@
 import React from 'react';
+
 import { browserHistory } from 'react-router';
+
 import '../../styles/Navigation.css';
 
 class Navigation extends React.Component {
+
 
   clickLink(link){
     browserHistory.push(link);
@@ -20,6 +23,7 @@ class Navigation extends React.Component {
         >
             화이트보드
         </div>
+
       </div>
     )
   }
