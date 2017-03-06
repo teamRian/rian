@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-mongoose.promise = global.promise
+mongoose.Promise = global.Promise
 
 
-// 다른 모델의 스키마 가져오는방법 ! 아래와 같습니다
-import Plan from './plan.js'
-import Note from './Note.js'
-import Chat from './Chat.js'
+// // 다른 모델의 스키마 가져오는방법 ! 아래와 같습니다
+// import Plan from './plan.js'
+// import Note from './Note.js'
+// import Chat from './Chat.js'
 
 
 const UserSchema = new Schema({

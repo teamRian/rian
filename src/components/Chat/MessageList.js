@@ -17,20 +17,18 @@ export default class MessageList extends Component {
 	}
 
 	componentDidMount() {
-			// if(!!this.props.User._id){
-			// 		this.setState({
-			// 				messages: this.props.ChatHistory
-			// 		})
-			// } else {
-			// 		this.setState({
-			// 				messages: this.props.messages
-			// 		})
-			// }
+			if(this.props.ChatHistory.messages.length){
+					this.props.ChatHistory.messages = []
+			}
+			if(this.props.Chatlog.messages.length){
+					this.props.Chatlog.messages = []
+			}
 	}
 
 	render() {
-		let messages = !!this.props.User._id ? this.props.ChatHistory.messages : this.props.messages;
+		let messages = [...this.props.ChatHistory.messages, ...this.props.Chatlog.messages];
 		return (
+
 			<div className='messages chat'>
 							{
 									messages.map((message, i) => {

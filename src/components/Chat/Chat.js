@@ -92,7 +92,7 @@ export default class Chat extends Component {
             <MessageList
               User={this.props.User}
               users={this.props.users}
-              messages={this.props.Chatlog.messages}
+              Chatlog={this.props.Chatlog}
               ChatHistory={this.props.ChatHistory}
             />
             </SocketProvider>
