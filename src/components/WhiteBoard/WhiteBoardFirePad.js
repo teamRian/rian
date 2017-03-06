@@ -34,7 +34,8 @@ class WhiteBoardFirePad extends React.Component{
 
 			// Get Firebase Database reference.
 			// firebase.database().ref() => 이렇게 생성할 경우 default root ( / )에 생성된다.
-			var firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
+			//var firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
+			var firepadRef = firebase.database().ref('chan/whiteboard/test/'+projectId);
 
 			// Create CodeMirror (with lineWrapping on).
 			// cursorBlinkRate : -1

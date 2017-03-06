@@ -10,7 +10,7 @@ import {Grid, Row, Col, Clearfix} from 'react-bootstrap';
 //import WhiteBoardPanel from './WhiteBoardPanel';
 import WhiteBoardPanels from './WhiteBoardPanels';
 //import WhiteBoardState from './WhiteBoardState';
-import WhiteBoardFirePad from './WhiteBoardFirePad';
+import WhiteBoardFirePad from './WhiteBoardFirePad2';
 
 //const socket = io.connect(process.env.SOCKET_URL || 'localhost:8000');
 const socket = io('/whiteboard');
