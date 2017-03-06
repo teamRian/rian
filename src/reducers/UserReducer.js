@@ -9,13 +9,15 @@ var UserState = {
 
 export function User(state = UserState, action) {
 	switch (action.type){
+		case "USER_REQUEST_CHECK_AUTH":
+			return Object.assign({}, state, {
+				loading: action.loading
+			})
 		case "USER_REQUEST_LOG_IN":
 			return Object.assign({}, state, {
 				loading: action.loading
 			})
 		case "USER_SUCCESS_LOG_IN":
-
-
 			return Object.assign({}, state, {
 				loading: action.loading,
 				_id: action._id,

@@ -98,3 +98,12 @@
 .day:hover{
 	background-color: #ebfaff;
 }
+
+.magnet {
+	display:flex;
+	flex:0.4;
+	justify-content: center;
+	align-items: center;
+	margin:8px 0px 8px 0px;
+	border-top: 1px solid lightcoral;
+	border-radius:5px;}

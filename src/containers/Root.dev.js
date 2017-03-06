@@ -23,7 +23,7 @@ export default class Root extends Component {
       <div>
         <Router history={browserHistory}>
             <Route path="/" component={Rian}>
-                <IndexRoute component = {Home} />
+                <IndexRoute component={Home} />
                 <Route path="/calendar" component={{main:Calendar, side:CalendarSub}}/>
                 <Route path="/todolist" component={{main:TodoContainer}}/>
                 <Route path="/editor" component={{main:NoteEditor}}/>

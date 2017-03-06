@@ -2,6 +2,7 @@ import Express from 'express';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 
@@ -36,6 +37,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
+import passport from 'passport';
 // import Helmet from 'react-helmet';
 
 // Import required modules
@@ -45,6 +47,8 @@ import { fetchComponentData } from './util/fetchData';
 import users from './routes/user.routes';
 import plans from './routes/plan.routes';
 import files from './routes/file.routes';
+import passportConfig from './passport';
+import passportRoutes from './routes/auth.routes';
 import chatLogs from './routes/chatlogs.routes';
 import projects from './routes/project.routes';
 import dummyData from './dummyData';
@@ -64,12 +68,26 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   dummyData();
 });
 
+
+passportConfig(passport);
+
 // Apply body Parser and server public assets and routes
 app.use(cors());
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
-app.use(Express.static(path.resolve(__dirname, '../dist')));
+// app.use(Express.static(path.resolve(__dirname, '../dist')));
+
+app.use(session({
+  cookie : {
+    maxAge: 1000 * 1000 // see below
+  },
+  secret: 'mySecret',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 //app.use('/api', posts);
 app.use('/user', users);
 app.use('/plan', plans);
@@ -145,6 +163,10 @@ app.get('/', function(req, res, next){
     );
 })
 
+passportRoutes(app, passport);
+
+
+
 app.get('/calendar', (req,res)=>{
   res.redirect('/#/calendar');
 })
@@ -163,9 +185,18 @@ app.get('/upload', (req,res)=>{
 app.get('/whiteboard', (req,res)=>{
   res.redirect('/#/whiteboard')
 })
+
+
+app.get('/checkAuth', isLoggedIn,(req, res) => {
+  res.status(200).send(req.session);
+})
+
 app.get('*', (req,res)=>{
   res.redirect('/')
 })
+
+
+
 
 
 // Socketio Chat
@@ -190,3 +221,17 @@ server.listen(serverConfig.port, (error) => {
 });
 
 export default app;
+
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated()){
+      console.log('LOG IN CHECK')
+      return next();
+    } else {
+      console.log('LOG IN FAILED')
+      res.status(404).send('Not Logged In, FAIL');
+    }
+
+    // if they aren't redirect them to the home page
+}

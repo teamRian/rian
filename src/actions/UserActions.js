@@ -1,10 +1,30 @@
 import { 
+	USER_REQUEST_CHECK_AUTH,
 	USER_REQUEST_LOG_IN, USER_SUCCESS_LOG_IN, USER_FAIL_LOG_IN,
     USER_REQUEST_SIGN_UP, USER_SUCCESS_SIGN_UP, USER_FAIL_SIGN_UP,
     USER_LOG_OUT  
 } from '../constants';
 import axios from 'axios';
 
+export function userRequestCheckAuth(){
+	return {
+		type: USER_REQUEST_CHECK_AUTH,
+		loading: true
+	}
+}
+
+export function userCheckAuth(){
+	return function(dispatch){
+		dispatch(userRequestCheckAuth())
+
+		return axios.get('/checkAuth')
+			.then(res =>{
+				console.log("REQUEST AUTH:: ", res);
+				dispatch(userLogIn(res.data))
+			})
+			.catch(err=>console.log(err))
+	}
+}
 export function userRequestSignUp(){
 	return { 
 		type: USER_REQUEST_SIGN_UP,
