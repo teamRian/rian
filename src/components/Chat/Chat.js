@@ -59,7 +59,8 @@ export default class Chat extends Component {
     
     if(!!this.props.User._id){
         // get chat logs from DB
-        this.props.chatRequest()
+        let Id = {id: this.props.User._id}
+        this.props.chatRequest(Id)
     }
     socket.on('init', this.newUser); 
     socket.on('send:message', this.updateMessage);   
@@ -89,9 +90,10 @@ export default class Chat extends Component {
           <Col md={8} >
             <SocketProvider socket={socket}>
             <MessageList
+              User={this.props.User}
               users={this.props.users}
-              messages={this.props.Chatlog.messages}
-              // Chatlog={this.props.Chatlog}
+              Chatlog={this.props.Chatlog}
+              ChatHistory={this.props.ChatHistory}
             />
             </SocketProvider>
             <SocketProvider socket={socket}>

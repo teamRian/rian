@@ -41,13 +41,6 @@ module.exports = function(socket, io) {
 		// broadcast a user's message to other users
 
 		socket.on('send:message', function(data){
-				// Chatuser.create({messages: {
-				// 	user: name,
-				// 	text: data.text
-				// 	}
-				// }, function(err, data){
-				// 		if(err) return console.error(err);
-				// });
 				socket.broadcast.emit('send:message', {
 						username: data.username,
 						text: data.text,

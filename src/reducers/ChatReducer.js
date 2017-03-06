@@ -51,7 +51,7 @@ export function chatReq(state = getChatState, action){
 									status: action.status,
 									messages: [
 										...state.messages,
-										action.chathistory.data
+										...action.chathistory.data.chatlogs
 									]
 							})
 				default:
