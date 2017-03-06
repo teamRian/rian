@@ -23,8 +23,8 @@ class RockofRianEditor extends Component {
 	}
 
 	componentDidMount() {
-
-        var firepadRef = firebase.database().ref('testrock/1');
+        
+        var firepadRef = firebase.database().ref(this.props.user + '/1');
         var codeMirror = CodeMirror(this.refs.firepadContainer, { lineWrapping: 
           true });
       
@@ -42,6 +42,7 @@ class RockofRianEditor extends Component {
             firepad.setHtml('<span style="font-size: 24px;">Rian에서 당신의 꿈을 기록하세요.</span>');
           }
         });
+      
 
         
 	}

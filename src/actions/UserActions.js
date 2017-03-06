@@ -22,7 +22,9 @@ export function userCheckAuth(){
 				console.log("REQUEST AUTH:: ", res);
 				dispatch(userLogIn(res.data))
 			})
-			.catch(err=>console.log(err))
+			.catch(err=>{console.log(err)
+				dispatch(userFailSignUp())
+			})
 	}
 }
 export function userRequestSignUp(){

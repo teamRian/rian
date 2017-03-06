@@ -12,7 +12,7 @@ import Calendar from './Calendar/Calendar.js';
 import Chat from './Chat/ChatApp';
 import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
-
+import NoteTimeline from '../components/NoteTimeline/NoteTimeline.js'
 import LogIn from '../components/Rian/LogIn';
 
 import '../styles/Rian.css';
@@ -25,39 +25,40 @@ class RianApp extends Component {
   }
 
   render() {
-    if(this.props.User.loading){
-      return <div>Loading...</div>
-    }
-    const { main, side } = this.props
-    if(this.props.User._id === null){
+    if(this.props.User._id === null && this.props.User.loading === false){
       return (
         <LogIn
           userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
           userLogIn={(form)=>this.props.userLogIn.bind(this)(form)}
         />
       )
-    } else {
-
-      return (
-
-        <div className="App">
-              <div className="Header">
-                <Header 
-                  User={this.props.User}
-                  Project={this.props.Project}
-                  projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
-                />
-              </div>
-              <div className="Navigation">
-                <Navigation />
-                {side}
-              </div>
-              <div className="MainContent">
-                {main}
-              </div>
-        </div>
-      )
     }
+    if(this.props.User.loading){
+      return <div>Loading...</div>
+    }
+    const { main, side } = this.props
+    
+
+    return (
+
+      <div className="App">
+            <div className="Header">
+              <Header 
+                User={this.props.User}
+                Project={this.props.Project}
+                projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
+              />
+            </div>
+            <div className="Navigation">
+              <Navigation />
+              {side}
+            </div>
+            <div className="MainContent">
+              {main}
+            </div>
+      </div>
+    )
+    
   }
 }
 
