@@ -26,7 +26,8 @@ export default class Chat extends Component {
     super(props);
     this.state = {
       privateChannelModal: false,
-      targetedUser: ''
+      targetedUser: '',
+      hiddenFlag: true
     }
     this.newUser = this.newUser.bind(this);
     this.updateMessage = this.getMessages.bind(this);
@@ -73,21 +74,33 @@ export default class Chat extends Component {
     socket.emit('send:message', message);
     this.props.chatPost(message)
   }
+
+  handleKeyPress(val){
+      if(val === '@'){
+        this.setState({
+            hiddenFlag: false
+        })
+      } else {
+        this.setState({
+            hiddenFlag: true
+        })
+      }
+  }
   
   render() {
     return (
       <Grid>
         
         <Row className='show-grid'>
-          <Col md={4}  >
+          <Col md={12}  >
             <SocketProvider socket={socket}>
             <UsersList
               users={this.props.users}
               updateMessage={this.updateMessage}
+              hiddenFlag={this.state.hiddenFlag}
             />
             </SocketProvider>
-          </Col>
-          <Col md={8} >
+          
             <SocketProvider socket={socket}>
             <MessageList
               User={this.props.User}
@@ -101,6 +114,7 @@ export default class Chat extends Component {
               chatPost={this.props.chatPost}
               onMessageSubmit={this.handleMessageSubmit.bind(this)}  
               users={this.props.users}
+              handleKey={this.handleKeyPress.bind(this)}
             />  
             </SocketProvider>
           </Col>  
