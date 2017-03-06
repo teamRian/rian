@@ -24,7 +24,7 @@ class RockofRianEditor extends Component {
 
 	componentDidMount() {
 
-        var firepadRef = firebase.database().ref('testrock/editor/1');
+        var firepadRef = firebase.database().ref('testrock/1');
         var codeMirror = CodeMirror(this.refs.firepadContainer, { lineWrapping: 
           true });
       
