@@ -31,9 +31,11 @@ export default class MessageList extends Component {
 				height: '520px',
 				overflow: 'auto'
 		}
+		
 		return (
 
 			<div className='messages chat' style={msgListStyle}>
+
 							{
 									messages.map((message, i) => {
 											return (

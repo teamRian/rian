@@ -50,6 +50,15 @@ module.exports = function(socket, io) {
 					
 		});
 
+		// broadcast users' typing to other users
+
+		socket.on('user:typing', function(data){
+				socket.broadcast.emit('user:typing', {
+						status: data
+				})
+
+		})
+
 
 		// clean up when a user leaves, and broadcast it to otehr users
 		socket.on('disconnect', function(){
