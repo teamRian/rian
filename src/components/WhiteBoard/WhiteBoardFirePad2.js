@@ -15,8 +15,8 @@ var config = {
 
 
 firebase.initializeApp(config);
-
-
+    
+    
 class WhiteBoardFirePad extends React.Component{
 
 	constructor(props) {
@@ -60,7 +60,7 @@ class WhiteBoardFirePad extends React.Component{
     	var users = snapshot.val();
     			wbfp.allUsers = users;
     	var lines = [];
-    	
+    
     	// users의 chid들이 변화할때마다, takenLines를 최신으로 업데이트 해줌
     	for(var key in users){
     		if(key !== wbfp.userId && !!users[key].customCursor){
@@ -106,7 +106,7 @@ class WhiteBoardFirePad extends React.Component{
             '</div>');
       }
 
-        
+      
       // users에 변화가 생기면 감지함
       wbfp.firepadRef.on('child_changed', function(snapshot){
       	
@@ -115,23 +115,34 @@ class WhiteBoardFirePad extends React.Component{
       	var lines = [];
       	
       	// users의 chid들이 변화할때마다, takenLines를 최신으로 업데이트 해줌
+        var usersCnt = Object.keys(users);
+        var counter = 0;
       	for(var key in users){
       		if(key !== wbfp.userId && !!users[key].customCursor){
       			lines.push(users[key].customCursor.line);
       		}
-      	}
+          counter++;
+          if(usersCnt === counter){
+            wbfp.takenLines = lines;    
+          }
+      	} 
 
-      	wbfp.takenLines = lines;
+      	
 
       });
 
+      wbfp.firepad.editor_.on('beforeCursorEnter', function(){
+        console.log('beforeCursorEnter ::: ');
+      })
 
       wbfp.firepad.editor_.on('cursorActivity', function(editor){
       	//console.log('getAllMarks ::: ', wbfp.firepad.editor_.doc.getAllMarks())
+        console.log(wbfp.firepad.editor_.doc.getSelection());
       	//데이터베이스에 저장된 커서
       	var nowCursor = wbfp.firepad.editor_.doc.getCursor();        		
       	var nowLine = nowCursor.line;       	
 
+        console.log('cursorActivity ::: ', wbfp.takenLines);
       	//line이 이미 있는지 없는지 체크
       	var ableTakeThisLine = wbfp.takenLines.every(function(line){
       		return line !== nowLine;
@@ -173,8 +184,7 @@ class WhiteBoardFirePad extends React.Component{
 		return (
 			<div>
 				<div id="userlist"></div>
-				<div id="firepad"></div>
-				
+				<div id="firepad"></div>	
 			</div>
 		)
 

@@ -16,6 +16,23 @@ import WhiteBoardFirePad from './WhiteBoardFirePad2';
 const socket = io('/whiteboard');
 			socket.on('connectMsg', (data) => { console.log('connected data : ', data) } );		
 
+/*
+
+				<p>Im WhiteBoard</p>
+				<div  className="white-board-wrapper">
+					<SocketProvider socket={socket}>
+							<WhiteBoardPanels
+								contentCurrentStateRaw={this.props.contentCurrentStateRaw}
+								changeContentState={this.props.changeContentState}
+								editors={this.props.editors}
+								changeEditorState={this.props.changeEditorState}
+								addEditorState={this.props.addEditorState}
+							/>
+					</SocketProvider>					
+				</div>
+
+*/
+
 class WhiteBoard extends React.Component{
 	
 	constructor(props) {
@@ -34,18 +51,6 @@ class WhiteBoard extends React.Component{
 		//onClick={this.addEditor.bind(this)}
 		return (
 			<div className="white-board-box">
-				<p>Im WhiteBoard</p>
-				<div  className="white-board-wrapper">
-					<SocketProvider socket={socket}>
-							<WhiteBoardPanels
-								contentCurrentStateRaw={this.props.contentCurrentStateRaw}
-								changeContentState={this.props.changeContentState}
-								editors={this.props.editors}
-								changeEditorState={this.props.changeEditorState}
-								addEditorState={this.props.addEditorState}
-							/>
-					</SocketProvider>					
-				</div>
 				<p>Im Firepad</p>
 				<WhiteBoardFirePad />
 			</div>
