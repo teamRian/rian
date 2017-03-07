@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Waypoint from 'react-waypoint';
 import './css/timeline.css'
 
 
@@ -11,38 +10,52 @@ class NoteTimeline extends Component {
 		super(props);
 		this.state = {
 			renderTimeline: [],
-			keyNowRender: 1
+			keyNowRender: 1,
+			
 		}
 		this.renderTimeline = this.renderTimeline.bind(this)
 		this.count = 0
-		this.topSpacer = -800
+		this.topSpacer = 0
 		this.bottomSpacer = 0
+		this.currentScrollPosition = 0
+		this.divNum = 450
 	}
 
 	componentWillMount() {
-		this.renderTimeline(this.props.timeline)
+
+		this.renderTimeline(this.props.timeline, 0)
 	}
 
-	renderTimeline(asset){
-		var result = asset.slice(this.state.keyNowRender, this.state.keyNowRender+9)
+
+    
+
+	renderTimeline(asset, position){
+		var sink = position*3
+		var result = asset.slice(sink, 10+sink)
+		console.log('result', result)
 		result = result.map( a => {
-			this.count++
+		
 			
 			return (
 			
-					<div className="timelinebox" key={this.count}>
+					<div className="timelinebox" key={a.objectId} style={{height: "150px"}}>
 						  <div className="timelineTitle">
-						  	{a.title}
+							{a.title + "####" + a.objectId}
 						  </div>
 					 	
 					 	  <div>
-						 	 {a.content.slice(0, 100)}
+						 	{a.content.slice(0, 160)}
 						  </div>
 					</div>
 				 
 			)
 		})
-	
+
+		if (result.length !== 10) {
+			this.topSpacer = 150000 - result.length*150 
+			this.bottomSpacer = 0
+		}
+
 		this.setState({
 			renderTimeline: result
 		})
@@ -51,56 +64,63 @@ class NoteTimeline extends Component {
 	}
 
 
+	findDomScrollPosition(){
+		console.log("ScrollTop", this.refs.parentContainer.scrollTop)
+		console.log(this.currentScrollPosition, Math.floor(this.refs.parentContainer.scrollTop/this.divNum))
 
-	renderWaypoint(){
-		var a = this.props.timeline
-		return(
-			<Waypoint 
-			  fireOnRapidScroll={true}
-			  onEnter={ ({onPositionChange, previousPosition, currentPosition, event, waypointTop, viewportTop, viewportBottom}) => {
-			 
-			  	console.log("Waypoint Enter!!!!!!")		
-			  	console.log("previousPosition", previousPosition)
-			  	console.log("currentPosition", currentPosition)
-			  	console.log("event", event)
-			  	console.log("waypointTop", waypointTop)
-			  	console.log("viewportTop", viewportTop)
-			  	console.log("viewportBottom", viewportBottom)
-			  	this.renderTimeline(a)    	
-			  	} 
-			  }
-			  onLeave={ ({onPositionChange, previousPosition, currentPosition, event, waypointTop, viewportTop, viewportBottom}) => {
-			 	console.log("Waypoint Leave!!!!!!")		 
-			 	console.log("Waypoint Enter!!!!!!")		
-			  	console.log("previousPosition", previousPosition)
-			  	console.log("currentPosition", currentPosition)
-			  	console.log("event", event)
-			  	console.log("waypointTop", waypointTop)
-			  	console.log("viewportTop", viewportTop)
-			  	console.log("viewportBottom", viewportBottom) 
-			  	this.renderTimeline(a)    	
-			  	}
-			  }
-			/>
-		)
+		if (Math.floor(this.refs.parentContainer.scrollTop/this.divNum) === 0 ) {
+
+			this.topSpacer = 0
+			this.bottomSpacer = 150000 - this.topSpacer - 150*10
+			this.renderTimeline(this.props.timeline, 0)
+			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
+			console.log("Arrive")
+
+		} else if ( this.refs.parentContainer.scrollTop > (150000-400) ) {
+
+			console.log("Stop")
+			
+			this.renderTimeline(this.props.timeline, 332)
+			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
+
+		} else if (  this.currentScrollPosition === Math.floor(this.refs.parentContainer.scrollTop/this.divNum) ) {
+			console.log("inside")
+
+		} else if ( this.currentScrollPosition !== Math.floor(this.refs.parentContainer.scrollTop/this.divNum) && this.currentScrollPosition !== Math.floor(this.refs.parentContainer.scrollTop/this.divNum)) {
+			
+			var position = this.refs.parentContainer.scrollTop/this.divNum 
+			this.topSpacer = (position*3*150) - 300
+			this.bottomSpacer = 150000 - this.topSpacer - 150*10
+			this.renderTimeline(this.props.timeline, this.refs.parentContainer.scrollTop/this.divNum)
+			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
+			console.log("Down Scroll Rerender!!!!")
+
+		} 
+
 	}
+
+
+	
 
 	componentWillReceiveProps(nextProps) {
 		this.renderTimeline(nextProps)
 	}
 
+	
+
 	render(){
 		return (
-		  <div className='parentWaypoint'>
-			<div className='renderWaypoint'>
-			    <div className="topspacer" style={ {height: this.topSpacer + "px"} }></div>
-				{this.state.renderTimeline}
-				{this.renderWaypoint()}
-				<div className="bottomspacer" style={ {height: this.bottomSpacer + "px"} }></div>
-			</div>
+		  <div ref='parentContainer' className='parentWaypoint' onScroll={ this.findDomScrollPosition.bind(this) }>
+		  		<div className='renderWaypoint'>
+					<div className="topspacer" style={ {height: this.topSpacer + "px"} }></div>
+					{this.state.renderTimeline}
+					<div className="bottomspacer" style={ {height: this.bottomSpacer + "px"} }></div>
+				</div>
+				
 	      </div>
 		)
 	}
 }
+
 
 export default NoteTimeline
