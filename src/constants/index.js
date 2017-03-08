@@ -68,5 +68,5 @@ export const ADD_EDITOR_STATE = "ADD_EDITOR_STATE";
 // FILE ACTIONS
 export const ADD_FILE = "ADD_FILE"
 export const DELETE_FILE = "DELETE_FILE";
-export const ADD_FILE_FOLDER = "ADD_FILE_FOLDER";
-export const DELETE_FILE_FOLDER = "DELETE_FILE_FOLDER";
+export const DOWNLOAD_FILE = "DOWNLOAD_FILE";
+export const EDIT_FILE = "EDIT_FILE";
