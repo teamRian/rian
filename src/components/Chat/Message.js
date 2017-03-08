@@ -25,13 +25,13 @@ class Message extends Component {
   // }
   componentDidMount() {
 
-    var that = this
-    setInterval(function(){
-        // console.log('come?')
-        that.setState({
-          time: moment(new Date()).fromNow()
-        })
-    }, 60000)
+    // var that = this
+    // setInterval(function(){
+    //     // console.log('come?')
+    //     that.setState({
+    //       time: moment(new Date()).fromNow()
+    //     })
+    // }, 60000)
 
   }
 

@@ -8,11 +8,12 @@ import {Grid, Row, Col, Clearfix} from 'react-bootstrap';
 import { Modal, DropdownButton, MenuItem, Button, Navbar, NavDropdown, Nav, NavItem } from 'react-bootstrap';
 import io from 'socket.io-client';
 import { SocketProvider } from 'socket.io-react';
+import debounce from 'lodash.debounce';
+
 const socket = io('/chat');
       socket.on('connectMsg', (data) => {
-//           console.log('connected!!!', data)
-
-        });
+          // console.log('connected!!!', data)
+      });
 
       
 
@@ -26,11 +27,19 @@ export default class Chat extends Component {
     super(props);
     this.state = {
       privateChannelModal: false,
-      targetedUser: ''
+      targetedUser: '',
+      hiddenFlag: true,
+      typeStatus: ''
+      
     }
     this.newUser = this.newUser.bind(this);
     this.updateMessage = this.getMessages.bind(this);
     this.updateUser = this.joinUsers.bind(this);
+    this.handleTypingStatus = debounce(this.handleTypingStatus, 2000, {
+      "leading": true,
+      "trailing": false,
+      "maxWait": 2000
+    })
     // var room = 'testroom';
     socket.emit('init', 'good!')
 
@@ -52,7 +61,8 @@ export default class Chat extends Component {
   componentWillUnmount() {
     socket.off('init', this.newUser)
     socket.off('send:message', this.updateMessage);
-    socket.off('user:join', this.updateUser)
+    socket.off('user:join', this.updateUser);
+    
   }
 
   componentDidMount() {
@@ -62,16 +72,42 @@ export default class Chat extends Component {
         let Id = {id: this.props.User._id}
         this.props.chatRequest(Id)
     }
+    if(!this.state.typeStatus){
+      // console.log('타임아웃!')
+      var that = this;
+      setTimeout(that.setState({typeStatus: ''}) , 5000)
+    }
     socket.on('init', this.newUser); 
     socket.on('send:message', this.updateMessage);   
     socket.on('user:join', this.updateUser);
     socket.on('user:left', user => this.props.userLeft(user));
+    // socket.on('user:typing', data => this.handleTypingStatus.bind(this)(data))
   }  
   
+
+  handleTypingStatus(data){
+      console.log('디바운싱')
+      this.setState({
+        typeStatus: data.status
+      })
+  }  
+
 
   handleMessageSubmit(message){
     socket.emit('send:message', message);
     this.props.chatPost(message)
+  }
+
+  handleKeyPress(val){
+      if(val === '@'){
+        this.setState({
+            hiddenFlag: false
+        })
+      } else {
+        this.setState({
+            hiddenFlag: true
+        })
+      }
   }
   
   render() {
@@ -79,15 +115,15 @@ export default class Chat extends Component {
       <Grid>
         
         <Row className='show-grid'>
-          <Col md={4}  >
+          <Col md={12}  >
             <SocketProvider socket={socket}>
             <UsersList
               users={this.props.users}
               updateMessage={this.updateMessage}
+              hiddenFlag={this.state.hiddenFlag}
             />
             </SocketProvider>
-          </Col>
-          <Col md={8} >
+          
             <SocketProvider socket={socket}>
             <MessageList
               User={this.props.User}
@@ -101,6 +137,7 @@ export default class Chat extends Component {
               chatPost={this.props.chatPost}
               onMessageSubmit={this.handleMessageSubmit.bind(this)}  
               users={this.props.users}
+              handleKey={this.handleKeyPress.bind(this)}
             />  
             </SocketProvider>
           </Col>  

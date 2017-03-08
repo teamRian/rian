@@ -27,9 +27,15 @@ export default class MessageList extends Component {
 
 	render() {
 		let messages = [...this.props.ChatHistory.messages, ...this.props.Chatlog.messages];
+		let msgListStyle={
+				height: '520px',
+				overflow: 'auto'
+		}
+		
 		return (
 
-			<div className='messages chat'>
+			<div className='messages chat' style={msgListStyle}>
+
 							{
 									messages.map((message, i) => {
 											return (

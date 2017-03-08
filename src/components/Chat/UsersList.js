@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, ListGroup, ListGroupItem, FormGroup, FormControl } from 'react-bootstrap';
 import { socketConnect } from 'socket.io-react';
+import classNames from 'classnames';
 const io = require('socket.io-client');
 
 class UsersList extends Component {
@@ -33,7 +34,6 @@ class UsersList extends Component {
         userId: e.target.innerHTML
     })
     this.props.socket.emit('join', {studentId: this.state.userId});
-    console.log('HI!!!')
   }
 
   handlePrivateMessageSubmit(e){
@@ -43,6 +43,10 @@ class UsersList extends Component {
   }
 
   render() {
+    let testClass = classNames({
+          'inactive hidden': this.props.hiddenFlag
+    })  
+
     let closePM = () => this.setState({ showPM: false });
     let closeDM = () => this.setState({ showDM: false });
     const PrivateMessageModal = (
@@ -97,9 +101,19 @@ class UsersList extends Component {
           </Modal>  
         </div>
     )
-    
+
+    let divStyle = {
+        position: "absolute",
+        top: '50px',
+        left: '-320px',
+        textAlign: 'center',
+        width: '300px'
+      }
+
+
     return (
-      <div>
+      
+      <div style={divStyle} className={testClass}>
         {PrivateMessageModal}
         {DeliverdMessageModal}
           <h3> Online Users </h3>
@@ -108,7 +122,7 @@ class UsersList extends Component {
               {
                   this.props.users.map((user, i) => {
                       return (    
-                          <ListGroup key={i}>
+                          <ListGroup key={i} >
                               <ListGroupItem ref={(student) => {this.student = student}} onClick={(e)=>this.handleClick(e)} style={{cursor: 'pointer'}}>{user}</ListGroupItem>
                           </ListGroup>
                       )

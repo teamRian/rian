@@ -11,6 +11,7 @@ import TodoContainer from './Todo/TodoContainer';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
 import NoteTimeline from './NoteTimeline/NotetimelineContainer';
 import Chat from './Chat/ChatApp';
+import UsersList from '../components/Chat/UsersList';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer';
 
 
