@@ -119,6 +119,7 @@
     "react-chartjs-2": "^2.0.5",
     "react-codemirror": "^0.3.0",
     "react-dom": "^15.4.2",
+    "react-file-download": "^0.3.2",
     "react-fileupload-progress": "^0.4.0",
     "react-helmet": "^4.0.0",
     "react-motion": "^0.4.7",

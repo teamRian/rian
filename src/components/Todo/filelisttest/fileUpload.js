@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Modal, Table } from 'react-bootstrap';
 import FileUploadProgressBar  from './fileUploadProgressBar.js';
+import './fileUpload.css';
 
-class fileUploadTest extends React.Component {
+class fileUpload extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -45,16 +46,17 @@ class fileUploadTest extends React.Component {
             width: "100%"
         }
 
+
         return (
             <div>
-                <Button bsStyle="warning" onClick={this.open}>FILE UPLOAD</Button>
+                <Button bsClass="fileUploadButton" onClick={this.open}>FILE UPLOAD</Button>
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header>
                         File Upload
                     </Modal.Header>
                     <Modal.Body>
                         <div style={uploadContainer}>
-                            <FileUploadProgressBar key='ex1' url='http://localhost:8000/file/upload'
+                            <FileUploadProgressBar {...this.props} key='ex1' url='http://localhost:8000/file/upload'
                                 onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
                                 onLoad={ (e, request) => {console.log('load', e, request);}}
                                 onError={ (e, request) => {console.log('error', e, request);}}
@@ -71,4 +73,4 @@ class fileUploadTest extends React.Component {
     }
 }
 
-export default fileUploadTest;
+export default fileUpload;

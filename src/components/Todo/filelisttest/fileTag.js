@@ -13,7 +13,7 @@ class FileTag extends React.Component {
       marginRight: "2px",
       border: "1px solid #9E9E9E",
       borderRadius: "2px",
-      color: "#9E9E9E",
+      color: "#212121",
       backgroundColor: "white"
     }
 
@@ -25,24 +25,31 @@ class FileTag extends React.Component {
 
     if(this.props.name.indexOf('.svg') !== -1 || this.props.name.indexOf('.png') !== -1 || this.props.name.indexOf('.jpg') !== -1 || this.props.name.indexOf('.jpeg') !== -1) {
       tagText.border = "1px solid rgba(186,50,199,1)";
-      tagText.backgroundColor = "rgba(186,50,199,.2)";
+      tagText.color = "rgba(186,50,199,1)";
+      // tagText.backgroundColor = "rgba(186,50,199,.2)";
     } else if(this.props.name.indexOf('.pptx') !== -1 || this.props.name.indexOf('ppt') !== -1) {
       tagText.border = "1px solid rgba(217,155,0,1)";
-      tagText.backgroundColor = "rgba(217,155,0,.2)";
+      tagText.color = "rgba(217,155,0,1)"
+      // tagText.backgroundColor = "rgba(217,155,0,.2)";
     } else if(this.props.name.indexOf('.pdf') !== -1) {
       tagText.border = "1px solid rgba(216,0,39,1)";
-      tagText.backgroundColor = "rgba(216,0,39,.2)";
+      tagText.color = "rgba(216,0,39,1)"
+      // tagText.backgroundColor = "rgba(216,0,39,.2)";
     } else if(this.props.name.indexOf('.doc') !== -1 || this.props.name.indexOf('.docx') !== -1 ){
       tagText.border = "1px solid rgba(0,107,234,1)";
-      tagText.backgroundColor = "rgba(0,107,234,.2)";
+      tagText.color = "rgba(0,107,234,1)"
+      // tagText.backgroundColor = "rgba(0,107,234,.2)";
     } else if(this.props.name.indexOf('.txt') !== -1) {
       tagText.border = "1px solid rgba(143,143,143,1)";
-      tagText.backgroundColor = "rgba(143,143,143,.2)";
+      tagText.color = "rgba(143,143,143,1)"
+      // tagText.backgroundColor = "rgba(143,143,143,.2)";
     } else if(this.props.name.indeoxOf('.xlsx') !== -1) {
       tagText.border = "1px solid rgba(95,142,65,1)";
-      tagText.backgroundColor = "rgba(95,142,65,.2)";
+      tagText.color = "rgba(95,142,65,1)";
+      // tagText.backgroundColor = "rgba(95,142,65,.2)";
     } else {
       tagText.border = "1px solid gray"
+      tagText.color = "gray"
     }
 
     return (

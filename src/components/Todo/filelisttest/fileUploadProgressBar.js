@@ -114,6 +114,16 @@ class FileUploadProgressBar extends React.Component {
       progress: 0,
       hasError: false,
     }, this._doUpload);
+
+    const filename = this.state.showUpload;
+    const projectId = "khseok_CS101";
+    const projectName = "CS101";
+    const uploader = "khseok"
+    const createdAt = moment().format("YYYY-MM-DD h:mm a");
+    const tag = this.state.tags;
+    const fileSize = this.state.fileSize;
+
+    this.props.addFile(filename, projectId, projectName, uploader, createdAt, tag, fileSize)
   }
 
   handleChange(e) {
@@ -171,6 +181,8 @@ class FileUploadProgressBar extends React.Component {
   }
 
   render() {
+
+    console.log(this.props);
 
     const plusIconStyle = {
       enableBackground: "new 0 0 496.158 496.158",

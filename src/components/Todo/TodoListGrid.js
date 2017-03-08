@@ -7,9 +7,8 @@ import TodoAdd from './TodoAdd';
 import TodoContributeButton from './TodoContributeButton';
 import TodoLogButton from './TodoLogButton';
 
-// File Upload & List Test
-import UploadTest from './fileUploadTest';
-import FileList from './filelisttest/fileListTest';
+// File List Test
+import FileList from './filelisttest/fileList';
 
 // import CSS
 import '../../styles/TodoListGrid.css';
@@ -88,15 +87,12 @@ class TodoListGrid extends React.Component {
             padding: "5px 5px"
         }
 
-        console.log("TODOGRIDLIST PROPS:::: ", this.props);
-
         return(
             <div>
                 <div className="row">
                     <div className="col-xs-12 alignCenter">
                         <span className="todoHeaderText">To-Do List</span>
-                        <UploadTest />
-                        <FileList filefolder={this.props.filefolder} uploadfile={this.props.uploadfile}/>
+                        <FileList {...this.props} filefolder={this.props.filefolder} uploadfile={this.props.uploadfile}/>
                         <div style={wrap}>
                             <TodoAdd {...this.props}
                                 id={this.props.todoList[this.props.todoList.length - 1] ? this.props.todoList[this.props.todoList.length - 1].projectId : ''} 

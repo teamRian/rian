@@ -1,3 +1,18 @@
+.tagText {
+  font-size: 5px;
+  padding: 2px 2px;
+  margin-right: 2px;
+  border: 1px solid #9E9E9E;
+  border-radius: 2px;
+  color: #9E9E9E;
+}
+
+.overflowX {
+  overflow-x: scroll;
+  height: 30px;
+  padding-left: 10px;
+}
+
 .fileListContainer {
   display: block;
   /*position: relative;*/
@@ -29,11 +44,9 @@
 
 .filedashboarditem {
   list-style: none;
-  /*margin: 10px 0;*/
   position: relative;
   background-color: #fff;
   border: 1px solid hsla(0,0%,58%,.2);
-  /*display: flex;*/
   display: -ms-flexbox;
   -ms-flex-align: center;
   align-items: center;
@@ -50,8 +63,6 @@
 
 .iconImage {
   overflow: hidden;
-  /*width: 60px;*/
-  /*height: 60px;*/
   border-bottom: 0;
   position: relative;
   display: flex;
@@ -60,8 +71,8 @@
   justify-content: center;
   -ms-flex-align: center;
   align-items: center;
-  /*border-right: 1px solid hsla(0, 0%, 58%, .2);*/
   border-bottom: 1px solid hsla(0,0%,58%,.2);
+  cursor: pointer;
 }
 
 .iconImage img {
@@ -78,7 +89,6 @@
 .filedashboardinfo {
   padding: 8px 32px 8px 10px;
   position: relative;
-  /*max-width: 70%;*/
 }
 
 .filedashboardinfo-name {
@@ -102,6 +112,12 @@
 .removeButtonContainer {
   top: -8px;
   right: -8px;
+  position: absolute;
+}
+
+.fileInfoTableRemoveButtonContainer {
+  top: 5px;
+  right: 40px;
   position: absolute;
 }
 
@@ -150,8 +166,78 @@
   color: #525252;
 }
 
+.file-modal-footer-button {
+  display: flex;
+  float: right;
+}
+
+.file-modal-footer-box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-modal-footer-input-box {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.file-modal-header-text {
+  margin-right: 10px;
+  font-weight: 700;
+}
+
+.file-modal-footer-input {
+  width: 100%;
+  border: 1px solid #C5CAE9;
+}
+
+.file-modal-footer-button-close {
+  margin-left: 20px;
+}
+
+#search-file {
+  height: 34px;
+  border-radius: 4px;
+}
+
+#search-file::-webkit-input-placeholder {
+  color: #7986CB;
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+#search-file:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #7986CB;
+    opacity: 1;
+    font-size: 14px;
+    padding-left: 10px;
+}
+#search-file::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #7986CB;
+    opacity: 1;
+    font-size: 14px;
+    padding-left: 10px;
+}
+#search-file:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #7986CB;
+    font-size: 14px;
+    padding-left: 10px;
+}
 
 
+.fileInfoTableBox td {
+  width: 25%;
+  text-align: center;
+  font-size: 10px;
+  overflow: auto;
+  border: 0px;
+}
 
 
 
