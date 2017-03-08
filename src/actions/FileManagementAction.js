@@ -1,4 +1,4 @@
-import { ADD_FILE, DELETE_FILE, DOWNLOAD_FILE } from '../constants/index.js';
+import { ADD_FILE, DELETE_FILE, DOWNLOAD_FILE, EDIT_FILE } from '../constants/index.js';
 import axios from 'axios';
 import FileDownload from 'react-file-download';
 //gridfs-stream
@@ -17,6 +17,14 @@ export const addFile = (filename, projectId, projectName, uploader, createdAt, t
   }
 }
 
+// FILE EDIT
+export const editFile = (filename, tag) => {
+  return {
+    type: EDIT_FILE,
+    filename,
+    tag
+  }
+}
 
 // FILE DELETE
 export const deleteFileInfo = (filename) => {

@@ -182,8 +182,6 @@ class FileUploadProgressBar extends React.Component {
 
   render() {
 
-    console.log(this.props);
-
     const plusIconStyle = {
       enableBackground: "new 0 0 496.158 496.158",
       margin: "5px 5px"
@@ -253,9 +251,13 @@ class FileUploadProgressBar extends React.Component {
       </div>
     )
 
+    const uploadTriggerButtonStyle = {
+      cursor: "pointer"
+    }
+
     const formElement = (
       <div>
-        <div onClick={this.onSubmit}>
+        <div style={uploadTriggerButtonStyle} onClick={this.onSubmit}>
           {!this.state.showIcon ? fileIcon : uploadIcon}
           <p className="fontAdjust">{!this.state.showIcon ? "아래의 Upload File을 클릭하세요" : "저장 하시려면 위의 ICON을 클릭하세요"}</p>
         </div>

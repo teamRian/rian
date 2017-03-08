@@ -12,6 +12,11 @@ export function FileManagementReducer (state = UploadFile, action) {
         filesize: action.fileSize
       }
       return Object.assign({}, {}, state);
+    case 'EDIT_FILE':
+      state[action.filename] = {
+        tag: action.tag
+      }
+      return Object.assign({}, {}, state);
     case 'DELETE_FILE':
       delete state[action.filename];
       return Object.assign({}, {}, state);
