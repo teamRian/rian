@@ -23,7 +23,7 @@ class WhiteBoardFirePad extends React.Component{
 
 		super(props);
 		
-    this.otherUsers = {};
+    // this.otherUsers = {};
     this.takenLines = {};
     this.projectId = 1;
     this.userId = Math.floor(Math.random() * 10).toString();
@@ -53,17 +53,26 @@ class WhiteBoardFirePad extends React.Component{
     
     wbfp.firepadUserList = FirepadUserList.fromDiv(wbfp.firepadRef.child('users'), document.getElementById('userlist'), wbfp.userId, wbfp.userId);
 
-    // default line setting
+    // 한번만 초기에 실행해서 initial값 셋팅
     wbfp.firepadRef.child('users').once('value', function(snapshot){      
       var users = snapshot.val();
-      wbfp.otherUsers = users;
+      // wbfp.otherUsers = users;
       for(var key in users){
         wbfp.takenLines[key] = users[key].customCursor || { line : undefined, ch : undefined };
       }
       console.log('user once value ::: ', wbfp.takenLines);
 
     });
-      
+
+    wbfp.firepadRef.child('users').on('child_removed', function(snapshot){
+      var user = snapshot.val();
+      // delete wbfp.otherUsers[user.name];
+      delete wbfp.takenLines[user.name];
+      console.log('some user removed ::: ', user);
+    })
+    
+    
+
     // Initialize contents.
     wbfp.firepad.on('ready', function() {
     	
@@ -104,28 +113,28 @@ class WhiteBoardFirePad extends React.Component{
       	
       	var user = snapshot.val();
         
+        //customCursor가 있으면 takenLines에 추가해줌
         if(!!user.customCursor){
           wbfp.takenLines[user.name] = user.customCursor;
         }
       	
       });
 
-      wbfp.firepad.editor_.on('beforeCursorEnter', function(){
-        console.log('beforeCursorEnter ::: ');
-      })
-
       wbfp.firepad.editor_.on('cursorActivity', function(editor){
 
         console.log('wbfp.takenLines ::: ', wbfp.takenLines);
         var nowCursor = wbfp.firepad.editor_.doc.getCursor();
         var ableSelect = true;
-        //check lines
+        
+        //takenLines을 체크함
         for(var key in wbfp.takenLines){
-          if(key !== wbfp.userId && wbfp.takenLines[key].line === nowCursor.line){ // 내가 지금 클릭한 라인이 이미 차지된 라인인 경우
+
+          // 내가 지금 클릭한 라인이 이미 선택되어있는 경우
+          if(key !== wbfp.userId && wbfp.takenLines[key].line === nowCursor.line){ 
             var originCursor = { line : wbfp.takenLines[wbfp.userId].line , ch : wbfp.takenLines[wbfp.userId].ch };
-            if(!!originCursor.line){
+            if(!!originCursor.line){ //원래 선택해둔 라인이 있으면 그 곳으로 보내주고
               wbfp.firepad.editor_.doc.setCursor(originCursor); 
-            }else{
+            }else{ // 원래 선택해둔 라인이 없으면 그 아래 라인으로 보내줌
               var nextLine = { line : nowCursor.line+1, ch: 0 }
               wbfp.firepad.editor_.doc.setCursor(nextLine);
               wbfp.firepadRef.child('users').child(wbfp.userId).child('customCursor').set(nextLine);
@@ -134,39 +143,11 @@ class WhiteBoardFirePad extends React.Component{
             ableSelect = false;
           }
         }
-        if(ableSelect){
+
+        if(ableSelect){ // 내가 지금 클릭한 라인이 선택되지 않은 경우에만 선택할 수 있도록 설정
           console.log('cursor changed')
           wbfp.firepadRef.child('users').child(wbfp.userId).child('customCursor').set(nowCursor);
         }
-        
-
-      	// //console.log('getAllMarks ::: ', wbfp.firepad.editor_.doc.getAllMarks())
-       //  console.log(wbfp.firepad.editor_.doc.getSelection());
-      	// //데이터베이스에 저장된 커서
-      	// var nowCursor = wbfp.firepad.editor_.doc.getCursor();        		
-      	// var nowLine = nowCursor.line;     	
-
-       //  console.log('cursorActivity ::: ', wbfp.takenLines);
-      	// //line이 이미 있는지 없는지 체크
-      	// var ableTakeThisLine = wbfp.takenLines.every(function(line){
-      	// 	return line !== nowLine;
-      	// })
-
-      	// if(ableTakeThisLine){ // 현재 line을 take할 수 있으면
-      	// 	//database에 현재 커서 정보 저장
-      		
-      	// }else{ // 현재 line을 누가 take하고 있다면
-      		
-      	// 	// setCursor를 통해서 원래있던 커서 위치로 되돌려보냄!
-      	// 	if(!!wbfp.allUsers[wbfp.userId].customCursor){ // customCursor에 대한 정보가 있는경우 해당 원위치로 이동시킴
-      	// 		wbfp.firepad.editor_.doc.setCursor({ line : wbfp.allUsers[wbfp.userId].customCursor.line, ch : wbfp.allUsers[wbfp.userId].customCursor.ch });	
-      	// 	}else{ // // customCursor에 대한 정보가 없는 경우 맨 마지막줄로 보내고 firebase에 업데이트
-      	// 		var willMoveCursor = { line : wbfp.firepad.editor_.doc.lastLine() + 1, ch : 0 };
-      	// 		wbfp.firepadRef.child('users').child(wbfp.userId).child('customCursor').set(willMoveCursor);
-      	// 		wbfp.firepad.editor_.doc.setCursor(willMoveCursor);
-      	// 	}
-      		
-      	// }
 
       });
 
@@ -180,7 +161,10 @@ class WhiteBoardFirePad extends React.Component{
 	}
 
 	componentWillUnmount() {
-    		
+
+    //해당 유저에 대한 firebase정보를 모두 삭제함
+    this.firepadRef.child('users').child(this.userId).remove();
+    console.log('componenetWillUnmout fired');
 	}
 
 	render(){
