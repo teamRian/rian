@@ -4,10 +4,10 @@ import { getFirebase } from 'react-redux-firebase'
 import { NoteEpic } from './NoteEpic';
 // import { ChatEpic } from './ChatEpic';
 
-const rootEpic = (getFirebase) => {
+const rootEpic = (... args) => {
 	return combineEpics(
 		NoteEpic
-	)(getFirebase);
+	)(...args, getFirebase);
 }
 
 export default rootEpic;

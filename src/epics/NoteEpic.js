@@ -18,9 +18,8 @@ export const NoteEpic = (action$, store, getFirebase) => {
 	console.log("i am rock", action$) 
 	return action$.ofType(NOTE_TIMELINE_GET)
 		.mergeMap(action=>{
-				console.log("i am duck", getFirebase) 
 			return firebaseSet$(getFirebase)
-				.map(response => { 
+				.map(response => { 	console.log("i am duck", response.val()) 
 					return noteSuccess(response) })
 				.takeUntil(action$.ofType(NOTE_TIMELINE_CANCLE))
 		})

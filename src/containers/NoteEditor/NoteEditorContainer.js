@@ -16,6 +16,7 @@ class NoteEditorContainer extends Component {
     return (
       <div>
                 <Button onClick={this.props.noteGet}/>
+                <Button onClick={this.props.noteCancle}/>
       </div>
     );
   }
@@ -33,7 +34,8 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     onChangeDispatch: (value) => dispatch(actions.onChangeDispatch(value)),
-    noteGet: (value) => dispatch(noteEpic.noteGet())
+    noteGet: (value) => dispatch(noteEpic.noteGet()),
+    noteCancle: () => dispatch(noteEpic.noteCancle())
   };
 }
 

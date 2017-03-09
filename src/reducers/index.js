@@ -12,7 +12,8 @@ import * as FileUploadReducer from './FileUploadReducer'
 import * as ProjectReducer from './ProjectReducer';
 import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer';
-import * as ChatReducer from './ChatReducer';
+import * as ChatReducer from './ChatReducer';	
+import { firebaseStateReducer } from 'react-redux-firebase';
 
 const rootReducer = combineReducers(
 	Object.assign(
@@ -24,7 +25,8 @@ const rootReducer = combineReducers(
 		NoteEditorReducer,
 		ChatReducer,
 		WhiteBoardReducer,
-		FileUploadReducer
+		FileUploadReducer,
+		{firebase: firebaseStateReducer}
 	))
 
 export default rootReducer;
