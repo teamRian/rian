@@ -1,10 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState } from 'redux-devtools';
 import rootReducer from '../reducers';
+import rootEpic from '../epics';
+import { createEpicMiddleware } from 'redux-observable';
 import DevTools from '../containers/DevTools';
 import thunkMiddleware from 'redux-thunk'
 import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger';
+
+const epicMiddleware = createEpicMiddleware(rootEpic);
 
 const loggerMiddleware = createLogger()
 
@@ -12,7 +16,8 @@ const enhancer = compose(
     applyMiddleware(
         thunkMiddleware,
         loggerMiddleware,
-        promiseMiddleware
+        promiseMiddleware,
+        epicMiddleware
     ),
     DevTools.instrument()
 
@@ -28,6 +33,9 @@ export default function configureStore() {
     module.hot.accept('../reducers', () =>
       store.replaceReducer(require('../reducers'))
     );
+    module.hot.accept('../epics', () => 
+      epicMiddleware.replaceEpic(rootEpic)
+    )
   }
 
   return store;
