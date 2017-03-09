@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Calendar } from 'calendar';
 import classNames from 'classnames';
-// import {Motion, spring, TransitionMotion} from 'react-motion';
+import {Motion, spring, StaggeredMotion, TransitionMotion} from 'react-motion';
 
 export default class FlexCalendarBody extends Component {
 	constructor(props){
