@@ -92,8 +92,22 @@ app.use(passport.session());
 app.use('/user', users);
 app.use('/plan', plans);
 
-// Upload File Test
+
+// File Management
+  // Upload File Test
 app.use('/file', files);
+
+  // Download File Test
+app.get('/download', function(req, res){
+  var filename = req._parsedOriginalUrl.query.split('=')[1];
+  var file = __dirname + '/files/' + filename;
+  res.download(file); // Set disposition and send it.
+});
+
+  // Delete File Test
+app.use('/delete', files);
+// File Management END
+
 
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
@@ -164,8 +178,6 @@ app.get('/', function(req, res, next){
 
 passportRoutes(app, passport);
 
-
-
 app.get('/calendar', (req,res)=>{
   res.redirect('/#/calendar');
 })
@@ -178,22 +190,28 @@ app.get('/editor', (req,res)=>{
 app.get('/chat', (req,res)=>{
   res.redirect('/#/chat')
 })
-app.get('/upload', (req,res)=>{
-  res.redirect('/#/upload')
-})
 app.get('/whiteboard', (req,res)=>{
   res.redirect('/#/whiteboard')
 })
-
-
 app.get('/checkAuth', isLoggedIn,(req, res) => {
   res.status(200).send(req.session);
 })
 
+// FILE MANAGEMENT
+app.get('/upload', (req,res)=>{
+  res.redirect('/#/upload')
+})
+app.get('/download', (req,res) => {
+  res.redirect('/#/download');
+})
+app.get('/delete', (req,res) => {
+  res.redirect('/#/delete');
+})
+// FILE MANAGEMENT END
+
 app.get('*', (req,res)=>{
   res.redirect('/')
 })
-
 
 
 

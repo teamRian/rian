@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 
 // import Actions
 import * as actionCreators from '../../actions/TodoActions.js';
+import * as actionCreators2 from '../../actions/FileManagementAction.js';
+
+let actionCreators3 = Object.assign({}, actionCreators, actionCreators2);
 
 // import ToDo List Grid
 import TodoListGrid from '../../components/Todo/TodoListGrid';
@@ -23,13 +26,12 @@ function mapStateToProps(state) {
     todoList: state.TodosListReducer,
     logs: state.TodosLogsReducer,
     user: state.User,
-    filefolder: state.filefolder,
-    uploadfile: state.uploadfile
+    uploadfile: state.FileManagementReducer
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actionCreators, dispatch);
+  return bindActionCreators(actionCreators3, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoListGrid);
