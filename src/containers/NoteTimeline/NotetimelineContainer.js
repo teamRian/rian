@@ -17,6 +17,7 @@ class NoteTimelineContainer extends Component {
             noteOneCancle={this.props.noteOneCancle}
             timelineRender={this.props.timelineRender} 
             timelineRenderGet={this.props.timelineRenderGet}
+            HowManyNote={this.props.HowManyNote}
           />
         </div>
       </div>
@@ -28,7 +29,8 @@ function mapState(state) {
   return { 
     timeline: state.NoteTimeline.timeline,
     user: state.User.username,
-    timelineRender: state.NoteTimeline.timelineRender
+    timelineRender: state.NoteTimeline.timelineRender,
+    HowManyNote: state.NoteTimeline.HowManyNote
   }
 }
 

@@ -57,8 +57,9 @@ export const RenderTimelineEpic = (action$, store, getFirebase) => {
 			
 		
 			if (!store.getState().NoteTimeline.timeline) return timelinerender("Haimei")
-	
+			
 			var sink = action.position*3
+			
 			var result = store.getState().NoteTimeline.timeline.slice(sink, 10+sink)
 
 			result = result.map( a => {
@@ -70,11 +71,11 @@ export const RenderTimelineEpic = (action$, store, getFirebase) => {
 				return (						
 						<div className="timelinebox" key={a.id} style={{height: "150px"}}>
 							  <div className="timelineTitle">
-								{store.getState().NoteTimeline.timeline[a.id].title ? store.getState().NoteTimeline.timeline[a.id].title + "####" + store.getState().NoteTimeline.timeline[a.id].id : "Loading" + "####" + store.getState().NoteTimeline.timeline[a.id].create_at }
+								{store.getState().NoteTimeline.timeline[a.id].title ? store.getState().NoteTimeline.timeline[a.id].title + " ####" + store.getState().NoteTimeline.timeline[a.id].id : "Loading" }
 				 			  </div>
 						 	
 						 	  <div>
-							 	{store.getState().NoteTimeline.timeline[a.id].content ? store.getState().NoteTimeline.timeline[a.id].content.slice(0, 160) : "죄송합니다. 아직 불러오는 중입니다. 더 빠른 서비다. 리안은 언제나 당신과 함께 하겠"}
+							 	{store.getState().NoteTimeline.timeline[a.id].content ? store.getState().NoteTimeline.timeline[a.id].content.slice(0, 160) : "Loading...................."}
 							  </div>
 						</div>
 					)

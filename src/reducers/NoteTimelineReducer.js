@@ -12,7 +12,8 @@ import {
 var TimelineState = {
 	timeline: null,
 	timelineRender: null,
-	status: null
+	status: null,
+	HowManyNote: 0
 }
 
 
@@ -29,10 +30,10 @@ export function NoteTimeline(state = TimelineState, action) {
 				timelineArray[Number(key)] = action.data[key]
 			}
 			timelineArray.map( (a, index) => { a.timelineNum = index; return a } )
-
 			return Object.assign({}, state, {
 				timeline: timelineArray,
-				status: "SUCCESS"
+				status: "SUCCESS",
+				HowManyNote: timelineArray.length
 			})
 		case NOTE_SCROLLVIEW_SUCCESS:
 			
