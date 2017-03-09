@@ -80,7 +80,7 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 
 app.use(session({
   cookie : {
-    maxAge: 1000 * 1000 // see below
+    maxAge: 1000 * 60 * 60 * 8 // see below
   },
   secret: 'mySecret',
   resave: true,

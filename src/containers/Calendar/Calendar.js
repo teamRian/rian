@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
-import {} from '../../actions';
+import { calendarPostEpic } from '../../epics/CalendarEpic';
 import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
 import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendar';
 import '../../styles/FlexCalendar.css';

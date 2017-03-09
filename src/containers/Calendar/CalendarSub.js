@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
-import {} from '../../actions';
-
+// import CalendarList from 
 class Calendar extends Component {
   constructor(props){
     super(props)

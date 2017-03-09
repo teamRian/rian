@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Rx from 'rxjs/Rx';
 import UsersList from './UsersList';
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
@@ -66,6 +67,8 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
+    // const typing$ = Rx.Observable
+    //   .fromEvent(this.ref.)
     
     if(!!this.props.User._id){
         // get chat logs from DB
