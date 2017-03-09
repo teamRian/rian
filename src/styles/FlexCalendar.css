@@ -83,6 +83,10 @@
 	justify-content: space-around;
 }
 
+.week:hover {
+	flex:3;
+}
+
 .day {
 	display:flex;
 	padding:5px;
