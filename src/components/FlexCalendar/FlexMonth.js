@@ -11,7 +11,7 @@ export default class FlexMonth extends Component {
 	return (
 		<div className='month'>
 			{this.props.monthDays.map((weeks,i)=>{
-			    	return (<div key={`week${i}`} className={`week week${i}`}>
+			    	return (<ul key={`week${i}`} className={`week week${i}`}>
 			    		{ weeks.map((day,k)=>{
 			    			let dayClass = classNames({
 			    				day: true,
@@ -19,17 +19,18 @@ export default class FlexMonth extends Component {
 			    				[`week${day.week}`]: true,
 			    				[`week${day.day}`]: true,
 			    				holiday: k === 6 || k === 0,
-			    				today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear 
+			    				today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear,
+			    				selected: day.month === this.props.Calendar.selectedMonth && day.day === this.props.Calendar.selectedDay && day.year === this.props.Calendar.selectedYear
 			    			})
-			    			return <div 
+			    			return <li 
 					    			key={day.day} 
 					    			className={dayClass}
 					    			onClick={(d,i)=>this.calendarSelectDate(d,i)}
 					    			>
 					    				{day.day} 
-					    			</div> })
+					    			</li> })
 					    }			    	
-					    </div>)})
+					    </ul>)})
 			}
 		</div>
     )

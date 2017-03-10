@@ -1,22 +1,43 @@
+ul#weekDays{
+	padding: 0px 5px 0px 5px;
+	margin-bottom: 0;
+}
+
+ul.week {
+	padding: 0;
+	margin-bottom: 0;
+}
+
+ul.weekTimeline {
+	padding: 0;
+	margin-bottom: 0;
+}
+
 #FlexCalendar {
+	display:flex;
+	flex-direction: column;
 	height:100%;
+	min-height:100%;
 }
 
 #FlexCalendarHeader {
 	display:flex;
 	flex-direction: column;
-	height:15%;
-	background-color: lightpink;
+	height:10%;
 	justify-content: center;
 	align-items: stretch;
 	font-size:25px;
 }
 
+#weekDays {
+	display:flex;
+	flex: 0 0 50px;
+}
 #DateControl {
 	display:flex;
 	flex:1;
-	height:15%;
-	background-color: lightpink;
+	height:10%;
+	background-color: #ffe6e9;
 	justify-content: space-around;
 	align-items: center;
 	font-size:25px;
@@ -24,9 +45,12 @@
 
 #FlexCalendarBody {
 	display:flex;
+	overflow:scroll;
 	flex-direction: column;
-	height:85%;
+	flex:1;
+	margin:0;
 	padding:5px;
+	padding-top:0px;
 	background-color: white;
 }
 
@@ -76,16 +100,27 @@
 	color: seagreen;
 	border-color: seagreen;
 }
+.selected.day {
+	color: goldenrod;
+	border-color: goldenrod;
+	background-color: #fcf6e9;
+}
 .week {
 	display: flex;
 	flex:1;
-	height: 80px;
 	justify-content: space-around;
 }
 
-.week:hover {
-	flex:10;
+
+.weekTimeline {
+	display: flex;
+	position: relative;
+	flex:0 0 1400px;
+	background-color: transparent;
+	background-size: 50px 50px;
+	background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent);
 }
+
 
 .HEY {
 	background-color: grey;
