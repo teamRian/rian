@@ -102,11 +102,6 @@ export default class FlexCalendarBody extends Component {
   		const monthDays = this.renderTime(this.props.Calendar.year,this.props.Calendar.month);
     	return (
 	      <div id="FlexCalendarBody">
-	      	<div className='weekDays'>
-		      	{ days.map((day, n)=>{
-		      		return <div key={day} className='weekDay'>{day}</div>
-		      	})}
-		    </div>
 		    { this.props.Calendar.kind === 'month'
 		    	? <FlexMonth // toggle Month/Week
 		    		Calendar={this.props.Calendar}

@@ -54,7 +54,6 @@ export default class FlexWeek extends Component {
             
           })}
         </div>
-
       </div>
     );
   }
