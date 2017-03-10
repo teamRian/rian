@@ -14,6 +14,8 @@ import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer';
 import * as ChatReducer from './ChatReducer';	
 import { firebaseStateReducer } from 'react-redux-firebase';
+import * as NoteTimelineReducer from './NoteTimelineReducer';
+
 
 const rootReducer = combineReducers(
 	Object.assign(
@@ -25,9 +27,9 @@ const rootReducer = combineReducers(
 		NoteEditorReducer,
 		ChatReducer,
 		WhiteBoardReducer,
-		FileUploadReducer,
 		FileManagementReducer,
-    {firebase: firebaseStateReducer}
+    {firebase: firebaseStateReducer},
+    	NoteTimelineReducer
 	))
 
 export default rootReducer;

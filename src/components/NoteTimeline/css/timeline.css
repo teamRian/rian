@@ -1,5 +1,4 @@
 .parentWaypoint {
-  height: 800px;
   overflow-y: scroll;
   position: relative;
 }
@@ -9,7 +8,7 @@
 
 
 .renderWaypoint {
- height: 150000px;
+ 
 }  
 
 .timelinebox {

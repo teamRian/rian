@@ -35,7 +35,7 @@ function mapDispatch(dispatch) {
   return {
     onChangeDispatch: (value) => dispatch(actions.onChangeDispatch(value)),
     noteGet: (value) => dispatch(noteEpic.noteGet()),
-    noteCancle: () => dispatch(noteEpic.noteCancle())
+    noteCancle: () => dispatch(noteEpic.timelineRenderGet(0))
   };
 }
 
