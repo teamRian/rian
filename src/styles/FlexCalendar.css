@@ -84,9 +84,13 @@
 }
 
 .week:hover {
-	flex:3;
+	flex:10;
 }
 
+.HEY {
+	background-color: grey;
+	border: 2px solid black;
+}
 .day {
 	display:flex;
 	padding:5px;

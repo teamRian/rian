@@ -1,15 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
+import { Button } from 'react-bootstrap';
 // import CalendarList from 
 class Calendar extends Component {
   constructor(props){
     super(props)
   }
 
+  clickToggle(){
+    this.props.Calendar.kind === 'month'
+    ? this.props.calendarToggle('week')
+    : this.props.calendarToggle('month');
+  }
   render() {
     return (
       <div id="CalendarSide">
+        <Button onClick={()=>this.clickToggle.bind(this)()}>
+        {this.props.Calendar.kind.toUpperCase()}
+        </Button>
       </div>
     );
   }
