@@ -28,6 +28,7 @@ class Calendar extends Component {
         //   calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         // />
   render() {
+    const days = ['Sun','Mon','Tu','Wed','Th','Fri',"Sat"]
     return (
       <div id="FlexCalendar">
         <FlexCalendarHeader
@@ -38,6 +39,11 @@ class Calendar extends Component {
           calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
           calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         />
+        <ul id='weekDays'>
+            { days.map((day, n)=>{
+              return <li key={day} className='weekDay'>{day}</li>
+            })}
+        </ul>
         <FlexCalendarBody
           User={this.props.User}
           Calendar={this.props.Calendar}
@@ -62,9 +68,7 @@ function mapDispatch(dispatch) {
     calendarRequest: (user, query)=> {
       dispatch(calendarRequest(user, query));
     },
-    calendarPost: (form)=> {
-      dispatch(calendarPost(form));
-    },
+
     calendarChangeWeek: (date)=>{
       dispatch(calendarChangeWeek(date))
     },

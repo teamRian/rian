@@ -127,19 +127,7 @@ export default class FlexCalendarHeader extends Component {
 	        <Button type="button" className="btn btn-default" onClick={()=>this.change('right')}>
 	          <Glyphicon glyph="menu-right" />
 	        </Button> 
-	    </div>
-	    <div id="CalendarButtons">
-	        <FlexCalendarPostModal
-	          User={this.props.User}
-	          Calendar={this.props.Calendar}
-	          calendarPost={(form)=>this.props.calendarPost(form)}
-	        />
-          <Button
-            onClick={this.props.calendarToggle}
-          >
-          {this.props.Calendar.kind}
-          </Button>
-        </div>
+	      </div>
       </div>
     );
   }

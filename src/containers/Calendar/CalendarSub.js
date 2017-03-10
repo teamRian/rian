@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
 import { Button } from 'react-bootstrap';
+import FlexCalendarPostModal from '../../components/FlexCalendar/FlexCalendarPostModal'; 
 // import CalendarList from 
 class Calendar extends Component {
   constructor(props){
@@ -13,12 +14,18 @@ class Calendar extends Component {
     ? this.props.calendarToggle('week')
     : this.props.calendarToggle('month');
   }
+
+
   render() {
     return (
       <div id="CalendarSide">
         <Button onClick={()=>this.clickToggle.bind(this)()}>
         {this.props.Calendar.kind.toUpperCase()}
         </Button>
+        <FlexCalendarPostModal
+            User={this.props.User}
+            Calendar={this.props.Calendar}
+            calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}/>
       </div>
     );
   }
