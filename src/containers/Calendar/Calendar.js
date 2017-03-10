@@ -68,7 +68,6 @@ function mapDispatch(dispatch) {
     calendarRequest: (user, query)=> {
       dispatch(calendarRequest(user, query));
     },
-
     calendarChangeWeek: (date)=>{
       dispatch(calendarChangeWeek(date))
     },

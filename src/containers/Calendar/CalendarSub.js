@@ -20,7 +20,6 @@ class Calendar extends Component {
     : this.props.calendarToggle('month');
   }
 
-
   render() {
     return (
       <div id="CalendarSide">
@@ -45,11 +44,6 @@ class Calendar extends Component {
         <br/>
         <br/>
         <FlexCalendarColorBrick Calendar={this.props.Calendar} calendarToggle={()=>this.clickToggle.bind(this)()}text={"HEY!!!!"} id={1}/>
-
-
-
-
-
       </div>
     );
   }
