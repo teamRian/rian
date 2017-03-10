@@ -1,7 +1,7 @@
 import { 
 	CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA,
 	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL,
-	CALENDAR_CHANGE_DATE, CALENDAR_SELECT_DATE, CALENDAR_TOGGLE   } from '../constants';
+	CALENDAR_CHANGE_MONTH, CALENDAR_CHANGE_WEEK, CALENDAR_SELECT_DATE, CALENDAR_TOGGLE   } from '../constants';
 import axios from 'axios';
 
 export function calendarRequestData(){
@@ -73,12 +73,26 @@ export function calendarPost(form){
 	}
 }
 
-export function calendarChangeDate(date){
+export function calendarChangeMonth(date){
 	return {
-		type: CALENDAR_CHANGE_DATE,
-		day: date.day,
+		type: CALENDAR_CHANGE_MONTH,
 		month: date.month,
-		year: date.year
+		year: date.year,
+		selectedDay: date.selectedDay,
+		selectedWeek: date.selectedWeek,
+		selectedMonth: date.selectedMonth,
+		selectedYear: date.selectedYear,
+		maxWeeks: date.maxWeeks
+	}
+}
+
+export function calendarChangeWeek(date){
+	return {
+		type: CALENDAR_CHANGE_WEEK,
+		selectedDay: date.selectedDay,
+		selectedWeek: date.selectedWeek,
+		selectedMonth: date.selectedMonth,
+		selectedYear: date.selectedYear
 	}
 }
 

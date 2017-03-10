@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
+import { calendarRequest, calendarPost, calendarChangeWeek, calendarChangeMonth, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
 import { calendarPostEpic } from '../../epics/CalendarEpic';
 import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
 import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendar';
@@ -33,7 +33,8 @@ class Calendar extends Component {
         <FlexCalendarHeader
           User={this.props.User}
           Calendar={this.props.Calendar}
-          calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
+          calendarChangeWeek={date=>this.props.calendarChangeWeek.bind(this)(date)}
+          calendarChangeMonth={date=>this.props.calendarChangeMonth.bind(this)(date)}
           calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
           calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         />
@@ -64,8 +65,11 @@ function mapDispatch(dispatch) {
     calendarPost: (form)=> {
       dispatch(calendarPost(form));
     },
-    calendarChangeDate: (date)=>{
-      dispatch(calendarChangeDate(date))
+    calendarChangeWeek: (date)=>{
+      dispatch(calendarChangeWeek(date))
+    },
+    calendarChangeMonth: (date)=>{
+      dispatch(calendarChangeMonth(date))
     },
     calendarSelectDate: (date)=>{
       dispatch(calendarSelectDate(date))
