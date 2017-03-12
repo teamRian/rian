@@ -1,45 +1,82 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import NoteTimeline from '../../components/NoteTimeline/NoteTimeline.js'
-import * as noteEpic from '../../epics/NoteEpic';
+import ComponentStyleTimelineBox from '../../components/NoteTimeline/ComponentStyleTimelineBox.js'
+import { noteGet } from '../../epics/NoteEpic';
+import LazyLoad from 'react-lazyload';
+import './css/timeline.css'
+
+
+
 
 class NoteTimelineContainer extends Component {
-  
-  render() {
-    return (
-      <div>
-        <div>
-          <NoteTimeline 
-            user={this.props.username} 
-            timeline={this.props.timeline} 
-            noteGet={this.props.noteGet}
-            noteOneGet={this.props.noteOneGet} 
-            noteOneCancle={this.props.noteOneCancle}
-            timelineRender={this.props.timelineRender} 
-            timelineRenderGet={this.props.timelineRenderGet}
-            HowManyNote={this.props.HowManyNote}
-          />
-        </div>
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      renderLazyloading: "Loading"
+    }
+    this.makeTimelineRender = this.makeTimelineRender.bind(this)  
   }
+
+
+
+  componentDidMount() {
+    this.props.allofTimelineGet('final_modified')
+  } 
+
+
+  componentWillReceiveProps(nextProps) {
+    console.log('compoennt', nextProps)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.timeline === nextProps.timeline) {
+      console.log('do not need Change')
+      return false
+    } else {
+      console.log("need Change")
+      this.renderLazyloading = this.makeTimelineRender(nextProps)
+      return true
+    }
+  }
+
+
+
+  makeTimelineRender(nextProps){
+
+    if (nextProps.timeline === null) return "Loading"    
+    var renderLazyloading = nextProps.timeline.map((timeline, i) => {
+      return <ComponentStyleTimelineBox key={i} timelinekey={i} timeline={timeline} />
+    })
+    return renderLazyloading
+    
+
+  }
+
+
+  render(){
+
+      return (
+          <div className="parentWaypoint" >
+            {this.renderLazyloading}   
+          </div>
+      )
+  }
+
 }
 
+
 function mapState(state) {
+
   return { 
-    timeline: state.NoteTimeline.timeline,
-    user: state.User.username,
-    timelineRender: state.NoteTimeline.timelineRender,
+    timeline: state.NoteTimeline.timeline, 
     HowManyNote: state.NoteTimeline.HowManyNote
   }
+
 }
 
 function mapDispatch(dispatch) {
   return {
-    noteGet: (value) => dispatch(noteEpic.noteGet()),
-    noteOneGet: (a, b) => dispatch(noteEpic.noteOneGet(a,b)),
-    noteOneCancle: () => dispatch(noteEpic.noteOneCancle()), 
-    timelineRenderGet: (a, b) => dispatch(noteEpic.timelineRenderGet(a, b))
+    allofTimelineGet: (sorting) => dispatch(noteGet(sorting))
   };
 }
 

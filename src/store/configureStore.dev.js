@@ -35,7 +35,7 @@ const loggerMiddleware = createLogger()
 const enhancer = compose(
     applyMiddleware(
         thunkMiddleware,
-        // loggerMiddleware,
+        loggerMiddleware,
         promiseMiddleware,
         epicMiddleware
     ),

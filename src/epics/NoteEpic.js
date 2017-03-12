@@ -1,6 +1,7 @@
 import Rx from 'rxjs/Rx';
 import firebase from 'firebase';
 import React from 'react';
+import { changeRenderedNote, changEditorState } from '../actions/NoteEditorActions.js'
 import { 
 	NOTE_TIMELINE_GET, 
 	NOTE_TIMELINE_FAIL, 
@@ -10,7 +11,8 @@ import {
 	NOTE_SCROLLVIEW_SUCCESS,
 	NOTE_ONENOTEGET_CANCLE,
 	TIMELINE_RENDER_REQUEST,
-	TIMELINE_RENDERING
+	TIMELINE_RENDERING,
+	NOTE_RENDER_CHANGE,
 } from '../constants/index.js'
 
 
@@ -24,12 +26,13 @@ export const NoteEpic = (action$, store, getFirebase) => {
 		.mergeMap(action=>{
 			return Rx.Observable.fromPromise(getFirebase().ref('/users' + '/' + store.getState().User._id + '/timeline').once('value'))
 				.map(response => { 	
-					// console.log("GET Timelineresponse!!!", response.val()) 
+					console.log("GET Timelineresponse!!!", response.val()) 
 					return noteSuccess(response.val()) 
 				})
 				.takeUntil(action$.ofType(NOTE_TIMELINE_CANCLE))
-				.catch(err => console.log("ERROR!"))
+				.catch(err => console.log("NOTE EPIC ERROR!"))
 		})
+
 }
 
 export const NoteOneEpic = (action$, store, getFirebase) => {
@@ -42,7 +45,7 @@ export const NoteOneEpic = (action$, store, getFirebase) => {
 					return noteScrollSuccess(response.val(), action.noteNum, action.timelineNum) 
 				})
 				.takeUntil(action$.ofType(NOTE_ONENOTEGET_CANCLE))
-				.catch(err => console.log("ERROR!"))
+				.catch(err => console.log("NOTE ONE ERROR!"))
 		})
 }
 
@@ -50,16 +53,19 @@ export const RenderTimelineEpic = (action$, store, getFirebase) => {
 
 	return action$.ofType(TIMELINE_RENDER_REQUEST)
 		.map( action => {
-			
+			// console.log("render")
+
+
+			//이전의 NOTE 요청들을 캔슬할 것인가?
 			if (action.rendering === "GET") {
 			  store.dispatch(noteOneCancle())
 			}
 			
-		
+			
+			//만약 타임라인 자체에 아무것도 없으면 이걸로 리턴
 			if (!store.getState().NoteTimeline.timeline) return timelinerender("Haimei")
 			
 			var sink = action.position*3
-			
 			var result = store.getState().NoteTimeline.timeline.slice(sink, 10+sink)
 
 			result = result.map( a => {
@@ -69,7 +75,15 @@ export const RenderTimelineEpic = (action$, store, getFirebase) => {
 				}
 				
 				return (						
-						<div className="timelinebox" key={a.id} style={{height: "150px"}}>
+						<div className="timelinebox" 
+						  key={a.id} 
+						  style={{height: "150px"}} 
+						  onClick={
+						  	()=> { 
+						  		store.dispatch(changeRenderedNote(a.id)) 
+						  		store.dispatch(changEditorState(true))
+						  	}
+						}>
 							  <div className="timelineTitle">
 								{store.getState().NoteTimeline.timeline[a.id].title ? store.getState().NoteTimeline.timeline[a.id].title + " ####" + store.getState().NoteTimeline.timeline[a.id].id : "Loading" }
 				 			  </div>
@@ -79,16 +93,17 @@ export const RenderTimelineEpic = (action$, store, getFirebase) => {
 							  </div>
 						</div>
 					)
-				})
-		
+			})
+	
 			return timelinerender(result)
 		})
-		.catch(err => console.log("ERROR!"))
+		.catch(err => console.log("RENDER ERROR!"))
 }
 
-export function noteGet(){
+export function noteGet(sorting){
 	return {
-		type: NOTE_TIMELINE_GET
+		type: NOTE_TIMELINE_GET,
+		howSorting: sorting
 	}
 }
 
@@ -129,6 +144,7 @@ export function noteScrollSuccess(response, a, b){
 
 
 export function timelinerender(response){
+	
 	return {
 		type: TIMELINE_RENDERING,
 		data: response

@@ -8,91 +8,93 @@ import debounce from 'lodash.debounce'
 class NoteTimeline extends Component {
 
 	constructor(props) {
+
 		super(props);
-		this.state = {
-			renderTimeline: [],
-			keyNowRender: 1,
-			renderIng: false
-		}
-		// this.renderTimeline = this.renderTimeline.bind(this)
-		this.firstUmount = true
+
+		
+
+		this.oneBoxsize = 150
+	    this.divNum = this.oneBoxsize*3
 		this.topSpacer = 0
 		this.bottomSpacer = 0
+		this.oneBoxsize = 150
 		this.currentScrollPosition = 0
-		//현재는 13인치 15인치 등 기준임, 차후 알고리즘을 다시 짜야함
 		this.oneBoxsize = 150
 		this.divNum = this.oneBoxsize*3
-		this.position 
-
+	
 	}
 
 	componentDidMount() {
+	   //컴포넌트가 마운트 되면 전체 타임라인 리스트를 서버에 요청.
 	   this.props.noteGet()			
 	}
 
+	
 	findDomScrollPosition(){
 
-		// console.log("iam", this.currentScrollPosition, Math.floor(this.refs.parentContainer.scrollTop/this.divNum))
 
-		if (Math.floor(this.refs.parentContainer.scrollTop/this.divNum) === 0 &&  this.currentScrollPosition !== Math.floor(this.refs.parentContainer.scrollTop/this.divNum)) {
-			this.props.noteOneCancle()
-			// console.log("FIRST")
+		console.log("iam", this.currentScrollPosition, Math.floor(this.refs.parentContainer.scrollTop/this.divNum))
+
+		if ( (this.refs.parentContainer.scrollTop-this.divNum) === 0) {
+			console.log("----FIRST----")
+
 			this.topSpacer = 0
 			this.bottomSpacer = this.oneBoxsize*this.props.HowManyNote - this.topSpacer - this.oneBoxsize*10
 			this.props.timelineRenderGet(0, "GET")
-			// this.renderTimeline(this.props.timeline, 0, this.props.noteOneGet, this.props.noteOneCancle)
 			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
+ 
+		}  else if ( this.currentScrollPosition !== Math.floor(this.refs.parentContainer.scrollTop/this.divNum)) {			
+			console.log("----CHANGE----")
 
-		} else if (Math.floor(this.refs.parentContainer.scrollTop/this.divNum) === 0 && this.currentScrollPosition === Math.floor(this.refs.parentContainer.scrollTop/this.divNum)){
-			this.props.noteOneCancle()
-			console.log("OTHER")
-			this.topSpacer = 0
-			this.bottomSpacer = this.oneBoxsize*this.props.HowManyNote - this.topSpacer - this.oneBoxsize*10
-			this.props.timelineRenderGet(0, "PASS")
-			// this.renderTimeline(this.props.timeline, 0, this.props.noteOneGet, this.props.noteOneCancle)
-			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
-		} else if ( this.refs.parentContainer.scrollTop > (this.oneBoxsize*this.props.HowManyNote-400) ) {
-			this.props.noteOneCancle()
-			// console.log("LAST")
-			this.topSpacer = this.oneBoxsize*this.props.HowManyNote - 3*this.oneBoxsize
-			this.bottomSpacer = 0
-			this.props.timelineRenderGet(332, "PASS")
-			// this.renderTimeline(this.props.timeline, 332, this.props.noteOneGet, this.props.noteOneCancle)
-			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
-
-		} else if ( this.currentScrollPosition !== Math.floor(this.refs.parentContainer.scrollTop/this.divNum)) {
-			// console.log("----CHANGE---")
-			this.props.noteOneCancle()
 			this.position = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
 			this.topSpacer = (this.position*3*this.oneBoxsize) - this.oneBoxsize*2
 			this.bottomSpacer = this.oneBoxsize*this.props.HowManyNote- this.topSpacer - this.oneBoxsize*10
 			this.props.timelineRenderGet(this.position, "GET")
-			// this.renderTimeline(this.props.timeline, this.refs.parentContainer.scrollTop/this.divNum, this.props.noteOneGet, this.props.noteOneCancle)
 			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
-		} else {
-			// console.log("No Change")
+		
+		} else if ( this.refs.parentContainer.scrollTop > (this.oneBoxsize*this.props.HowManyNote-400) ) {
+            console.log("----LAST----")
+			this.bottomSpacer = 0
+			this.topSpacer = this.oneBoxsize*this.props.HowManyNote - 3*this.oneBoxsize
+			this.props.timelineRenderGet(332, "PASS")
+			this.currentScrollPosition = Math.floor(this.refs.parentContainer.scrollTop/this.divNum)
+
 		}
 
 	}
 
 
-	
+
 
    	componentWillReceiveProps(nextProps) {
    		// console.log("Component")
-   			if (this.firstUmount) {
+
+   			//첫번째 프롭스가 바뀔때는 타임라인 
+   			if (this.props.timeline !== nextProps.timeline && this.firstRecieveTimeline) {
    				// console.log("firstU!!")
-   				this.firstUmount = false
+   				this.firstRecieveTimeline = false
    				this.position = 0
-   				this.props.timelineRenderGet(0, "GET")
+   				//최상위의 타임라인을 렌더링 시키러 요청
+   				this.props.timelineRenderGet(this.position, "GET")
    			}
-   			if (this.props.timeline !== nextProps.timeline) {
+
+   			//그외 타임라인이 갱신될때마다
+   			if (this.props.timeline !== nextProps.timeline && !this.firstRecieveTimeline) {
    				// console.log("Timeline!!")
    				this.props.timelineRenderGet(this.position, "PASS")
    			}
    			
-
    	}
+
+   	// shouldComponentUpdate(nextProps, nextState) {
+   	// 	if (nextProps.timelineRender === nextState.timelineRender) {
+   	// 		console.log("No Change")
+   	// 		return false
+   	// 	} else {
+   	// 		console.log("Change")
+   	// 		return true
+   	// 	}
+   	// }
 
 
 
@@ -102,9 +104,16 @@ class NoteTimeline extends Component {
 		return (
 		  <div ref='parentContainer' 
 		  	className='parentWaypoint' 
-		  	onScroll={ (e)=>{ e.preventDefault();
-		  	 this.findDomScrollPosition.bind(this)()} 
-		  	}
+		  	onScroll={ 
+		  		(e) => { 
+		  			e.preventDefault();
+		  	 		if (this.currentScrollPosition !== Math.floor(this.refs.parentContainer.scrollTop/this.divNum)) {
+		  	 			this.findDomScrollPosition.bind(this)()
+		  	 		} else {
+		  	 			console.log("SAME!!!!!")
+		  	 		}  
+		  	  	}
+		 	}
 		  	style={{ height: (window.innerHeight-50) + "px" }}
 		  >
 		  		<div className='renderWaypoint' style={{ height: this.oneBoxsize*this.props.HowManyNote + "px" }}>

@@ -1,15 +1,22 @@
-import { NOTE_WRITE, NOTE_ONCHANGE } from '../constants/index.js';
+import { NOTE_RENDER_CHANGE, NOTE_EDITOR_STATE } from '../constants/index.js';
 
-export function NoteWrite(value){
-	return {
-		type: NOTE_WRITE,
+
+
+export function changEditorState(value){
+
+	return { 
+		type: NOTE_EDITOR_STATE,
 		data: value
 	}
 }
 
-export function onChangeDispatch(value){
-	
-	return { type: NOTE_ONCHANGE, 
+
+
+export function changeRenderedNote(value){
+	   
+	return { 
+		type: NOTE_RENDER_CHANGE, 
 		data: value 
 	}
 }
+
