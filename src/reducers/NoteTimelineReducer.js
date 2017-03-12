@@ -4,16 +4,20 @@ import {
 	NOTE_TIMELINE_SUCCESS,
     NOTE_TIMELINE_FAIL, 
     NOTE_SCROLLVIEW_SUCCESS,
-    TIMELINE_RENDERING 
+    TIMELINE_RENDERING,
+    NOTE_RENDER_CHANGE, 
+    NOTE_EDITOR_STATE  
 } from '../constants/index.js'
 
 
-
 var TimelineState = {
+
 	timeline: null,
 	timelineRender: null,
-	status: null,
-	HowManyNote: 0
+	status: "Loading",
+	HowManyNote: 0,
+	HowSorting: 'final_modified'
+	
 }
 
 
@@ -29,14 +33,16 @@ export function NoteTimeline(state = TimelineState, action) {
 			for (var key in action.data) {
 				timelineArray[Number(key)] = action.data[key]
 			}
-			timelineArray.map( (a, index) => { a.timelineNum = index; return a } )
+			if (action.howSorting === 'final_modified') {
+				timelineArray.map( (a, index) => { a.timelineNum = index; return a } )
+			}
 			return Object.assign({}, state, {
 				timeline: timelineArray,
 				status: "SUCCESS",
-				HowManyNote: timelineArray.length
+				HowManyNote: timelineArray.length,
+				HowSorting: 'final_modified'
 			})
 		case NOTE_SCROLLVIEW_SUCCESS:
-			
 			return Object.assign({}, state, {
 				timeline: state.timeline.map((item, index)=>{
 					if (index === action.timelineNum) {
@@ -48,7 +54,7 @@ export function NoteTimeline(state = TimelineState, action) {
 				status: "GEToneNoteSUCCESS"
 			})	
 		case TIMELINE_RENDERING: 
-
+		
 			return Object.assign({}, state, {
 				timelineRender: action.data
 			})	

@@ -3,39 +3,61 @@ import { connect } from 'react-redux';
 import {Button} from 'react-bootstrap'
 import QrofRian from '../../components/QRofRian/QrofRian.js'
 import RockofRian from '../../components/NoteEditor/RockofRianCollaboEditor.js'
+import * as actions from '../../actions/NoteEditorActions.js';
 import * as noteEpic from '../../epics/NoteEpic';
-// import * as actions from '../../actions/NoteEditorActions.js';
 
-        // <div style={{ margin: "0", height: "800px", position: "relative"}}>
-        //   <Button onClick={this.props.noteGet}/>
-        // </div>
 class NoteEditorContainer extends Component {
+
   
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.nowRenderedNote !== nextProps.nowRenderedNote) {
+        console.log("RenderNoteEditor")
+      return true
+    } else if ( this.props.onEditor !== nextProps.onEditor ){
+      return true
+    } else {
+      return false
+    }
+  }
+
   render() {
     
     return (
       <div>
-                <Button onClick={this.props.noteGet}/>
-                <Button onClick={this.props.noteCancle}/>
+        { this.props.onEditor &&
+          <div style={{ margin: "0", height: "800px", position: "relative"}}>
+            <RockofRian 
+            user={this.props.userid} 
+            nowRenderedNote={this.props.nowRenderedNote}
+            />
+          </div>
+        }
+        { !this.props.onEditor &&
+          <Button onClick={
+            this.props.ChangeEditorState
+          }/>
+        }
+
       </div>
     );
   }
 }
 
-          // <RockofRian  user={this.props.username}/>
+
 
 function mapState(state) {
   return { 
     data: state.NoteEditor.data,
-    user: state.User.username
+    userid: state.User._id,
+    onEditor: state.NoteEditor.onEditor,
+    nowRenderedNote: state.NoteEditor.nowRenderedNote
   }
 }
 
 function mapDispatch(dispatch) {
   return {
-    onChangeDispatch: (value) => dispatch(actions.onChangeDispatch(value)),
-    noteGet: (value) => dispatch(noteEpic.noteGet()),
-    noteCancle: () => dispatch(noteEpic.timelineRenderGet(0))
+    ChangeEditorState: () => { dispatch(actions.changEditorState(true)) },
+
   };
 }
 

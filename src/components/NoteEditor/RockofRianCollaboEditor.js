@@ -1,50 +1,72 @@
 import React, { Component } from 'react';
 import Firepad from 'firepad';
 import firebase from 'firebase';
+import { setFirepad } from './util/setFirepad.js'
 import './css/RockofRianStyle.css';
 import './css/firepad.css';
-// var headless = new Firepad.Headless('https://<DATABASE_NAME>.firebaseio.com');
+import moment from 'moment'
 
-// var config = { 
-// 			   apiKey: "AIzaSyCr-xd_s4NGQ3z8FWq0VwEG8loZQ9EypkI",
-//                authDomain: "samplefirepad.firebaseapp.com",
-//                databaseURL: "https://samplefirepad.firebaseio.com",
-//                storageBucket: "samplefirepad.appspot.com",
-//                messagingSenderId: "842518987644"
-//              };
-// firebase.initializeApp(config);
 
 
 
 class RockofRianEditor extends Component {
 
-	componentWillMount() {
+	constructor(props) {
+		super(props);
 		
 	}
-
+		
+	
 	componentDidMount() {
-        
-        var firepadRef = firebase.database().ref(this.props.user + '/1');
-        var codeMirror = CodeMirror(this.refs.firepadContainer, { lineWrapping: 
-          true });
-      
-        var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-          richTextShortcuts: true,
-          richTextToolbar: true,
-          defaultText: 'Hello, World!'
-        });
 
-        firepad.on('ready', function() {
-          console.log("firepad ready")
-          console.log(firepad.getText())
-          firepad.setUserColor("#FF0000")
-          if (firepad.isHistoryEmpty()) {
-            firepad.setHtml('<span style="font-size: 24px;">Rian에서 당신의 꿈을 기록하세요.</span>');
-          }
-        });
-      
+		this.firePadrender.bind(this)()
+	}
 
+	componentWillReceiveProps(nextProps) {
+		
+		this.firePadrender.bind(this)()
+	}
+
+
+
+	firePadrender(){
+
+        var that = this
+        if ( !that.props.nowRenderedNote ) { 
+ 
+    
+          var firepadCount = firebase.database().ref('users/' + that.props.user + '/notes/count')
+
+          firepadCount.once('value').then(function(snapshot){
+          	var newCount = snapshot.val() + 1
+          	var firepadCount = firebase.database().ref('users/' + that.props.user + '/notes/count')
+          		.set(newCount).then(function(){
+
+		          	var NowMoment = moment().format('MMMM Do YYYY h:mm:ss a')
+		          	var addnewTimeline = {
+		          		create_at: NowMoment,
+		          		finalmodified_at: NowMoment,
+		          		id: newCount
+		          	}
+
+		          	var firepadRefTimeline = firebase.database().ref('users/' + that.props.user + '/timeline/' + newCount)
+		          	firepadRefTimeline.set(addnewTimeline).then(function(){
+		  
+		          	  	setFirepad.bind(that)(newCount, that.props.user)
+		          	})
+
+          		})
+          
+         
+          })
+
+        } else {
+        	console.log("Change note")
+          setFirepad.bind(that)(that.props.nowRenderedNote, that.props.user)
+        }
         
+
+
 	}
 
 	render(){
