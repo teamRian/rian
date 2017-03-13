@@ -2,16 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
 import { Button } from 'react-bootstrap';
-<<<<<<< HEAD
 import MotionMenu from 'react-motion-menu';
 import FlexCalendarPostModal from '../../components/FlexCalendar/FlexCalendarPostModal'; 
 import FlexCalendarColorBrick from '../../components/FlexCalendar/FlexCalendarColorBrick';
 import FlexPalette from '../../components/FlexCalendar/FlexPalette';
 import { CirclePicker } from 'react-color';
 import '../../styles/FlexCalendar.css';
-=======
-import FlexCalendarPostModal from '../../components/FlexCalendar/FlexCalendarPostModal'; 
->>>>>>> adjust week calendar
+import FlexCalendarPostModal from '../../components/FlexCalendar/FlexCalendarPostModal';
 // import CalendarList from 
 class Calendar extends Component {
   constructor(props){
@@ -23,11 +20,7 @@ class Calendar extends Component {
     ? this.props.calendarToggle('week')
     : this.props.calendarToggle('month');
   }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> adjust week calendar
+  
   render() {
     return (
       <div id="CalendarSide">
