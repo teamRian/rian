@@ -1,0 +1,4 @@
+// CALENDAR BRICKS
+export default {
+	COLOR_BRICK: "COLOR_BRICK"
+};
