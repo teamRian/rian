@@ -93,39 +93,22 @@ class WhiteBoardFirePad extends React.Component{
       });
 
       wbfp.codeMirror.on('mousedown', function(cm, e){
-
-        console.log('mousedown clicked ::: ', cm, e);
-      })
-
-      wbfp.firepad.editor_.on('cursorActivity', function(editor){
-
-        console.log('wbfp.takenLines ::: ', wbfp.takenLines);
-        var nowCursor = wbfp.firepad.editor_.doc.getCursor();
-        var ableSelect = true;
-        
-        //takenLines을 체크함
-        for(var key in wbfp.takenLines){
-
-          // 내가 지금 클릭한 라인이 이미 선택되어있는 경우
-          if(key !== wbfp.userId && wbfp.takenLines[key].line === nowCursor.line){ 
-            var originCursor = { line : wbfp.takenLines[wbfp.userId].line , ch : wbfp.takenLines[wbfp.userId].ch };
-            if(!!originCursor.line){ //원래 선택해둔 라인이 있으면 그 곳으로 보내주고
-              wbfp.firepad.editor_.doc.setCursor(originCursor); 
-            }else{ // 원래 선택해둔 라인이 없으면 그 아래 라인으로 보내줌
-              var nextLine = { line : nowCursor.line+1, ch: 0 }
-              wbfp.firepad.editor_.doc.setCursor(nextLine);
-              wbfp.firepadRef.child('users').child(wbfp.userId).child('customCursor').set(nextLine);
-            }
-            console.log('someone took this line')
-            ableSelect = false;
+        //1. codemirror line 추출하기
+        var clickedLine = cm.lineAtHeight( e.y );
+        //2. 현재 takenLines에 해당 라인이 존재하는지 확인하기
+        for( var key in wbfp.takenLines){
+          if(key !== wbfp.userId && wbfp.takenLines[key].line === clickedLine){ 
+            e.preventDefault();
           }
         }
+        
+      })
 
-        if(ableSelect){ // 내가 지금 클릭한 라인이 선택되지 않은 경우에만 선택할 수 있도록 설정
-          console.log('cursor changed')
-          wbfp.firepadRef.child('users').child(wbfp.userId).child('customCursor').set(nowCursor);
-        }
+      //cursor 움직임이 발생할때 마다 firebase customCursor에 업데이트 해줌
+      wbfp.codeMirror.on('cursorActivity', function(cm){
 
+        wbfp.firepadRef.child('users').child(wbfp.userId).child('customCursor').set(cm.getCursor());
+        
       });
 
     }); // firepad.on('ready') end
