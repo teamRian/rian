@@ -29,7 +29,7 @@ class WhiteBoardFirePad extends React.Component{
     this.userId = this.props.user.username;
 
     //this.firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
-    this.firepadRef = firebase.database().ref('chan/whiteboard/test/'+this.projectId);
+    this.firepadRef = firebase.database().ref('chan/whiteboard/test/local/'+this.projectId);
     this.codeMirror = {}
     this.firepad = {}
     this.firepadUserList = {}
@@ -41,72 +41,44 @@ class WhiteBoardFirePad extends React.Component{
     let wbfp = this;
 
     wbfp.codeMirror = CodeMirror(document.getElementById('firepad'), { 
-      lineWrapping: true
+      gutters: ["codemirror-username"],
+      lineWrapping: true,
+      lineNumbers: true,
     });
     
     wbfp.firepad = Firepad.fromCodeMirror(wbfp.firepadRef, wbfp.codeMirror, {
                      userId: wbfp.userId,
                      richTextShortcuts: true,
-                     richTextToolbar: true,
-                     defaultText: 'Hello, World!'
+                     //richTextToolbar: true,
+                     //defaultText: 'Hello, World!'
                    });
     
     wbfp.firepadUserList = FirepadUserList.fromDiv(wbfp.firepadRef.child('users'), document.getElementById('userlist'), wbfp.userId, wbfp.userId);
 
     // 한번만 초기에 실행해서 initial값 셋팅
     wbfp.firepadRef.child('users').once('value', function(snapshot){      
+      
       var users = snapshot.val();
-      // wbfp.otherUsers = users;
+
       for(var key in users){
         wbfp.takenLines[key] = users[key].customCursor || { line : undefined, ch : undefined };
       }
-      console.log('user once value ::: ', wbfp.takenLines);
-
+      
     });
 
+    // whiteboard 사용하던 user가 나가면 takenLine도 지워줌 
     wbfp.firepadRef.child('users').on('child_removed', function(snapshot){
+      
       var user = snapshot.val();
-      // delete wbfp.otherUsers[user.name];
       delete wbfp.takenLines[user.name];
-      console.log('some user removed ::: ', user);
-    })
-    
-    
+      
+    });
 
+
+    
     // Initialize contents.
     wbfp.firepad.on('ready', function() {
     	
-      
-      if (wbfp.firepad.isHistoryEmpty()) {
-        wbfp.firepad.setHtml(
-            '<span style="font-size: 24px;">Rich-text editing with <span style="color: red">Firepad!</span></span><br/>\n' +
-            '<br/>' +
-            '<div style="font-size: 18px">' +
-            'Supports:<br/>' +
-            '<ul>' +
-              '<li>Different ' +
-                '<span style="font-family: impact">fonts,</span>' +
-                '<span style="font-size: 24px;"> sizes, </span>' +
-                '<span style="color: blue">and colors.</span>' +
-              '</li>' +
-              '<li>' +
-                '<b>Bold, </b>' +
-                '<i>italic, </i>' +
-                '<u>and underline.</u>' +
-              '</li>' +
-              '<li>Lists' +
-                '<ol>' +
-                  '<li>One</li>' +
-                  '<li>Two</li>' +
-                '</ol>' +
-              '</li>' +
-              '<li>Undo / redo</li>' +
-              '<li>Cursor / selection synchronization.</li>' +
-              '<li><checkbox></checkbox> It supports customized entities.</li>' +
-              '<li>And it\'s all fully collaborative!</li>' +
-            '</ul>' +
-            '</div>');
-      }
 
       // users에 변화가 생기면 감지함
       wbfp.firepadRef.child('users').on('child_changed', function(snapshot){
@@ -119,6 +91,11 @@ class WhiteBoardFirePad extends React.Component{
         }
       	
       });
+
+      wbfp.codeMirror.on('mousedown', function(cm, e){
+
+        console.log('mousedown clicked ::: ', cm, e);
+      })
 
       wbfp.firepad.editor_.on('cursorActivity', function(editor){
 

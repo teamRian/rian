@@ -51,7 +51,6 @@ class WhiteBoard extends React.Component{
 		//onClick={this.addEditor.bind(this)}
 		return (
 			<div className="white-board-box">
-				<p>Im Firepad</p>
 				<WhiteBoardFirePad user={this.props.user} />
 			</div>
 		)
