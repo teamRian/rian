@@ -91,6 +91,7 @@ npm run start:server
 * [Webpack v2](https://webpack.js.org/) - Bundler
 * [Socket.io](http://socket.io/) - Realtime application
 * [Mocha](https://mochajs.org/) - Testing framework
+* [AWS](https://aws.amazon.com) - Cloud Server
 
 ## Directory and Introduction
 
