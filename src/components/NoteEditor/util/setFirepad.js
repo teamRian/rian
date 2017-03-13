@@ -3,19 +3,8 @@ import firebase from 'firebase';
 import moment from 'moment'
 
 
-export function setFirepad(NoteNum, userid){
+export function setFirepad(NoteNum, userid, firepad, firepadRef){
 
-  var firepadRef = firebase.database().ref('users/' + userid + '/notes/' + NoteNum)
-  
-    var codeMirror = CodeMirror(this.refs.firepadContainer, { 
-      lineWrapping: true 
-    });
-
-    var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-      richTextShortcuts: true,
-      richTextToolbar: true,
-      defaultText: 'Hello, World!'
-    });
 
     firepad.on('ready', function(){
       console.log("firepad ready")
