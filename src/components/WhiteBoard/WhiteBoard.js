@@ -52,7 +52,7 @@ class WhiteBoard extends React.Component{
 		return (
 			<div className="white-board-box">
 				<p>Im Firepad</p>
-				<WhiteBoardFirePad />
+				<WhiteBoardFirePad user={this.props.user} />
 			</div>
 		)
 

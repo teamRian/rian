@@ -26,7 +26,7 @@ class WhiteBoardFirePad extends React.Component{
     // this.otherUsers = {};
     this.takenLines = {};
     this.projectId = 1;
-    this.userId = Math.floor(Math.random() * 10).toString();
+    this.userId = this.props.user.username;
 
     //this.firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
     this.firepadRef = firebase.database().ref('chan/whiteboard/test/'+this.projectId);

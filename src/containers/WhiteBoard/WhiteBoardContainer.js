@@ -17,6 +17,7 @@ class WhiteBoardContainer extends React.Component {
     return (
       
       <WhiteBoard
+        user={this.props.user}
         contentCurrentStateRaw={this.props.contentCurrentStateRaw}
         changeContentState={this.props.changeContentState}
         editors={this.props.editors}
@@ -32,6 +33,7 @@ class WhiteBoardContainer extends React.Component {
 
 function mapStateToProp(state) {
   return {
+    user : state.User,
     contentCurrentStateRaw : state.content.currentStateRaw,
     editors : state.editorStore.editors
   };
