@@ -2,7 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
 import { Button } from 'react-bootstrap';
+import MotionMenu from 'react-motion-menu';
 import FlexCalendarPostModal from '../../components/FlexCalendar/FlexCalendarPostModal'; 
+import FlexCalendarColorBrick from '../../components/FlexCalendar/FlexCalendarColorBrick';
+import FlexPalette from '../../components/FlexCalendar/FlexPalette';
+import { CirclePicker } from 'react-color';
+import '../../styles/FlexCalendar.css';
 // import CalendarList from 
 class Calendar extends Component {
   constructor(props){
@@ -26,6 +31,25 @@ class Calendar extends Component {
             User={this.props.User}
             Calendar={this.props.Calendar}
             calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}/>
+        <MotionMenu
+          type="circle"
+          margin={60}
+          openSpeed={50}>
+          <Button>HEY</Button>
+          <div className="colorBrick"/>
+          <div className="colorBrick"/>
+          <div className="colorBrick"/>
+          <div className="colorBrick"/>
+        </MotionMenu>
+        <br/>
+        <br/>
+        <br/>
+        <FlexCalendarColorBrick Calendar={this.props.Calendar} calendarToggle={()=>this.clickToggle.bind(this)()}text={"HEY!!!!"} id={1}/>
+
+
+
+
+
       </div>
     );
   }
