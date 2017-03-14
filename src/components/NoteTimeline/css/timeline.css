@@ -1,6 +1,7 @@
 .parentWaypoint {
+  display: flex;
+  flex-direction: column;
   overflow-y: scroll;
-  height: 1400px;
 }
 
 
@@ -12,15 +13,24 @@
 }  
 
 .timelinebox {
+  display:flex;
+  flex-direction: column;
+  flex: 0 0 150px;
   border-top: 2px solid #eee;
   border-bottom: 2px solid #eee;;
   border-right: 2px solid #eee;;
  
-}
+ }
 
 .timelineTitle {
+  flex: 0 0 40px;
   font-weight: bold;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
+.timelineContent {
+	flex:1;
+	min-width: 0px;
+	width: 300px;
+}

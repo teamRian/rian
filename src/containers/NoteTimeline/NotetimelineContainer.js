@@ -4,6 +4,7 @@ import ComponentStyleTimelineBox from '../../components/NoteTimeline/ComponentSt
 import { updateTimelineRender } from '../../actions/NoteTimelineActions.js';
 import { changeRenderedNote, changEditorState } from '../../actions/NoteEditorActions.js';
 import { noteGet, noteOneGet, noteCancle, noteOneCancle } from '../../epics/NoteEpic';
+import debounce from 'lodash.debounce'
 import './css/timeline.css'
 
 
@@ -16,12 +17,28 @@ class NoteTimelineContainer extends Component {
     
     this.makeTimelineRender = this.makeTimelineRender.bind(this)
     this.sizeSetup = this.sizeSetup.bind(this)
-
+    this.ConditionalScroll = this.ConditionalScroll.bind(this)
     this.state = {
       renderCheck: true,
     }
-
-
+    // setInterval(()=>{
+    //   console.log('Top', this.refs.parentContainer.scrollTop)
+    //   console.log('scorllsize', this.wholeScrollsize)
+    //   console.log('ScorllHeight', this.refs.parentContainer.scrollHeight)
+    //   if (this.wholeScrollsize !== this.refs.parentContainer.scrollHeight) {
+    //     console.log("RESIZE")
+    //     this.sizeSetup(this.props.timeline.length)
+    //     this.wholeScrollsize !== this.refs.parentContainer.scrollHeight
+    //     //Render할 재료 준비
+    //     this.timelineRender = this.makeTimelineRender(this.props)
+    //     //setState를 콜하면서 버츄얼 돔과의 비교를 시작
+    //     this.setState((prevState, props)=>
+    //      { renderCheck: !prevState.renderCheck }
+    //     )
+        
+    //   }
+      
+    // }, 1000)
     this.timelineRender = 'loading'
     //size
 
@@ -82,12 +99,22 @@ class NoteTimelineContainer extends Component {
       this.timelineRender = this.makeTimelineRender(nextProps)  
       
     } else if (this.props.timeline) {
+        
       //그 다음 새로운 프롭스가 들어올때마다
        if (this.props.timeline.length !== nextProps.timeline.length) {
+    
         //혹시 타임라인 길이가 변경이 있는지 체크해서 있으면 사이즈 다시 셋업
           this.sizeSetup(nextProps.timeline.length)
+
+          //렌더 준비
+          this.timelineRender = this.makeTimelineRender(nextProps)  
+
+          //렌더 콜
+          this.setState((prevState, props)=>
+                    { renderCheck: !prevState.renderCheck }
+          )
       }
-        //프롭스가 들어가고 다시 렌더 될것.
+        
     }  
       
 
@@ -123,7 +150,7 @@ class NoteTimelineContainer extends Component {
     // console.log("this.viewpointsize", this.viewpointsize)
     // console.log("this.howManyatOnce", this.howManyatOnce)
     // console.log("this.waypointStandard", this.waypointStandard)
-    // console.log("this.waypointList", this.waypointList)
+    //console.log("this.waypointList", this.waypointList)
    
   }
 
@@ -131,6 +158,7 @@ class NoteTimelineContainer extends Component {
   makeTimelineRender(props){
     // console.log('MAKETIMELINE')
     //##만약 타임라인이 없으면 그냥 이거 띄움
+
     if (props.timeline === null) return "Loading" 
     //5: timeline Array에서 렌더시킬 부분은 어디인가?, topboxer,bottom 맞추기
     //x, y는 타임라인 어레이를 기준으로 상위 웨이포인트, 하위 웨이포인트 지점을 체크한다.
@@ -176,6 +204,7 @@ class NoteTimelineContainer extends Component {
       
 
       //topboxer설정
+      // console.log(this.refs.parentContainer.scrollHeight, this.wholeScrollsize)
       this.topboxer = x*this.boxsize
       if (this.topboxer <= 0) {
         this.topboxer = 0
@@ -183,9 +212,11 @@ class NoteTimelineContainer extends Component {
       //bottomboxer 설정
       this.bottomboxer = this.wholeScrollsize - this.topboxer - (this.boxsize*sliceTimeline.length)
       if (this.bottomboxer <= 0) {
+        // console.log('Final')
         this.bottomboxer = 0
       }
-      // console.log(x, y, this.topboxer, this.bottomboxer, sliceTimeline.length*150, this.topboxer+this.bottomboxer+(sliceTimeline.length*150), this.refs.parentContainer.scrollHeight, this.wholeScrollsize, this.topboxer+this.bottomboxer+(sliceTimeline.length*150) === this.refs.parentContainer.scrollHeight)
+      //console.log(x, y, this.topboxer, this.bottomboxer, sliceTimeline.length*150, this.topboxer+this.bottomboxer+(sliceTimeline.length*150), this.refs.parentContainer.scrollHeight, this.wholeScrollsize, this.topboxer+this.bottomboxer+(sliceTimeline.length*150) === this.refs.parentContainer.scrollHeight)
+      //console.log(sliceTimeline.length*150, this.topboxer+this.bottomboxer+(sliceTimeline.length*150), this.refs.parentContainer.scrollHeight, this.wholeScrollsize, this.topboxer+this.bottomboxer+(sliceTimeline.length*150) === this.refs.parentContainer.scrollHeight)
     } 
 
     //일단 그전까지 보내놓았던 AJAX는 모두 캔슬시키고
@@ -200,6 +231,8 @@ class NoteTimelineContainer extends Component {
         timelinekey={a.timelineNum} 
         timeline={a}
         changEditorState={this.props.changEditorState}
+        changeRenderedNote={this.props.changeRenderedNote}
+        allofTimelineGet={this.props.allofTimelineGet}
       />
     })
  }
@@ -224,10 +257,7 @@ class NoteTimelineContainer extends Component {
                 )
                 
                 
-            }
-
-
-            if (this.nowIamHere !== 0) {
+            } else if (this.nowIamHere !== 0) {
               //스크롤 위로 올릴때
               if (this.refs.parentContainer.scrollTop <= this.waypointList[this.nowIamHere-1]) {
                                   // console.log('Round2')
@@ -241,7 +271,12 @@ class NoteTimelineContainer extends Component {
                     { renderCheck: !prevState.renderCheck }
                   )
             }
-          }   
+          } 
+          // if (this.wholeScrollsize !== this.refs.parentContainer.scrollHeight && this.waypointList[this.nowIamHere-1] < this.refs.parentContainer.scrollTop && this.refs.parentContainer.scrollTop < this.waypointList[this.nowIamHere+1]) {
+          //     console.log('Replacing')
+
+          //     this.timelineRender = this.makeTimelineRender(this.props)
+          // }
 
           
 
@@ -254,11 +289,21 @@ class NoteTimelineContainer extends Component {
         <div ref='parentContainer' className="parentWaypoint" onScroll={(e)=>{ 
           e.preventDefault(); 
           /*스크롤할때마다 계속 웨이포인트를 감시하는 이벤트 발생*/
-          this.ConditionalScroll.bind(this)() }}>
-          <div className="topspacer" style={ {height: this.topboxer + "px"} }></div>
+
+          // var debounceCoditonalScroll = debounce(this.ConditionalScroll, 0, {
+          //  "leading": true,
+          //  "trailing": false,
+          //  "maxWait": 2000
+          // })
+
+          // debounceCoditonalScroll() 
+
+          this.ConditionalScroll()
+        }}>
+          <div className="topspacer" style={ {flex: "0 0 " + this.topboxer + "px"} }></div>
             {this.state.renderCheck && this.timelineRender} 
             {!this.state.renderCheck && this.timelineRender}     
-          <div className="bottomspacer" style={ {height: this.bottomboxer + "px"} }></div>
+          <div className="bottomspacer" style={ {flex: "0 0 " + this.bottomboxer + "px"} }></div>
         </div>
       )
   }
@@ -281,7 +326,7 @@ function mapDispatch(dispatch) {
     oneOfTimelineGet: (a, b) => dispatch(noteOneGet(a, b)),
     noteCancle: () => dispatch(noteCancle()),
     noteOneCancle: () => {
-      // console.log('------------------Cancle---------------------------'); 
+      //console.log('------------------Cancle---------------------------'); 
       dispatch(noteOneCancle())},
     timelineRenderRequest: (a)=> dispatch(updateTimelineRender(a)),
     changeRenderedNote: (a) => dispatch(changeRenderedNote(a)),

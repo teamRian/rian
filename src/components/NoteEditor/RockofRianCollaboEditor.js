@@ -13,8 +13,13 @@ class RockofRianEditor extends Component {
 
 	constructor(props) {
 		super(props);
-	
-	}
+		this.state = {
+			renderCheck: true
+		}
+		this.firepad
+		this.codeMirror 
+		this.firePadrender = this.firePadrender.bind(this)
+	}	
 		
 	
 	componentDidMount() {
@@ -24,16 +29,16 @@ class RockofRianEditor extends Component {
 	componentWillReceiveProps(nextProps) {
 
 		if (this.props.nowRenderedNote !== nextProps.nowRenderedNote) {
-			if (this.firepad) {
+			//이전 파이어패드 종
 			this.firepad.dispose()
-			console.log("Dispose firepad")
-			//타임라인 재로딩
-    		this.props.allofTimelineGet('final_modified')
-		}
-			// this.firePadrender.bind(this)()	
+			//코드미러 초기화
+			this.codeMirror.setValue("");
+			this.codeMirror.clearHistory()
+			this.codeMirror.toTextArea()
+				
 		}
 		
-}
+	}
 	componentWillUnmount() {
 		console.log("Diirepad")
 
@@ -44,9 +49,24 @@ class RockofRianEditor extends Component {
 		
 	}
 
+	shouldComponentUpdate(nextProps){
+		if (this.props.nowRenderedNote !== nextProps.nowRenderedNote) {
+			console.log("Change Render Note")
+			return true
+		} else {
+			console.log("Did not change Render Note")
+			return false
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+	   //Component 업데이트 후 파이어패드 재설정	
+	   this.firePadrender.bind(this)()
+	}
+
 	
 
-	firePadrender(){
+	firePadrender(props){
 
         var that = this
         if ( !that.props.nowRenderedNote ) { 
@@ -74,18 +94,18 @@ class RockofRianEditor extends Component {
 
 		  				var firepadRef = firebase.database().ref('users/' + that.props.user + '/notes/' + newCount)
 
-		  				var codeMirror = CodeMirror(that.refs.firepadContainer, { 
+		  				that.codeMirror = CodeMirror.fromTextArea(that.refs.firepadContainer, { 
       						lineWrapping: true 
-    					});
+						})
 
-						var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+						that.firepad = Firepad.fromCodeMirror(firepadRef, that.codeMirror, {
 						  richTextShortcuts: true,
 						  richTextToolbar: true,
 						  defaultText: 'Hello, World!'
 						});
 
-						that.firepad = firepad
-		          	  	setFirepad.bind(that)(newCount, that.props.user, firepad, firepadRef)
+						
+		          	  	setFirepad.bind(that)(newCount, that.props.user, that.firepad, firepadRef)
 		          	})
 
           		})
@@ -95,21 +115,22 @@ class RockofRianEditor extends Component {
 
         } else {
         	console.log("Change note")
-
-            var firepadRef = firebase.database().ref('users/' + that.props.user + '/notes/' + that.props.nowRenderedNote)
-
-		    var codeMirror = CodeMirror(that.refs.firepadContainer, { 
+        	
+            var firepadRef = firebase.database().ref('users/' + this.props.user + '/notes/' + this.props.nowRenderedNote)
+			this.codeMirror = CodeMirror.fromTextArea(this.refs.firepadContainer, { 
       						lineWrapping: true 
-			});
+			})
 
-			var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+
+
+			this.firepad = Firepad.fromCodeMirror(firepadRef, this.codeMirror, {
 			  richTextShortcuts: true,
 			  richTextToolbar: true,
 			  defaultText: 'Hello, World!'
 			});
 
-			that.firepad = firepad	
-		    setFirepad.bind(that)(that.props.nowRenderedNote, that.props.user, firepad, firepadRef)
+			
+		    setFirepad.bind(this)(that.props.nowRenderedNote, this.props.user, this.firepad, firepadRef)
         }
         
 
@@ -118,16 +139,21 @@ class RockofRianEditor extends Component {
 
 	renderContainer(){
 		return (
-		
-				<div ref='firepadContainer' id='firepad-container'>
-				</div>
+				<textarea ref='firepadContainer' id='firepad-container'>
+
+				</textarea >
+				
+				
+
 		
 		)
 	}
 	
 	render(){
 
-		return this.renderContainer()
+		return (
+			this.renderContainer()
+		)
 
 	}
 

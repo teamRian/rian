@@ -21,11 +21,11 @@ class NoteEditorContainer extends Component {
     } else {
       return false
     }
+    
   }
 
   componentWillUnmount() {
-    this.props.ChangeEditorState(false)
-    
+    this.props.changeEditorState(false)
   }
 
 
@@ -34,7 +34,7 @@ class NoteEditorContainer extends Component {
     return (
       <div>
         { this.props.onEditor &&
-          <div style={{ margin: "0", height: "800px", position: "relative"}}>
+          <div ref='Editor' style={{ margin: "0", height: "800px", position: "relative"}}>
             <RockofRian 
             user={this.props.userid} 
             nowRenderedNote={this.props.nowRenderedNote}

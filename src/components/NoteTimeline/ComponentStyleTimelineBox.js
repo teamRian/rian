@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { changeRenderedNote, changEditorState } from '../../actions/NoteEditorActions.js';
-import { noteGet, noteOneGet, noteCancle, noteOneCancle } from '../../epics/NoteEpic';
+
 
 class TemplineBox extends Component {
 	
@@ -31,16 +29,19 @@ class TemplineBox extends Component {
 		return (
 			<div className="timelinebox" style={{height: "150px", width: '100%'}} key={this.timelinekey} onClick={
 
-				()=>{
+				() => {
 					this.props.changEditorState(true)
 					this.props.changeRenderedNote(this.timelineId)
+					this.props.allofTimelineGet('final_modified')
+
 				}
+
 			}>
 				  <div className="timelineTitle">
 				  	{this.props.timeline.title ? this.props.timeline.title + this.props.timeline.create_at + '###' + this.timelinekey: this.timelinekey}
 	 			  </div>						 	
-			 	  <div className='timelinebox'>
-			 	    {this.props.timeline.content ? this.props.timeline.content.slice(0, 160) : "Loading"} 
+			 	  <div className='timelineContent'>
+			 	    <p>{this.props.timeline.content ? this.props.timeline.content.slice(0, 160) : "Loading"}</p>
 				  </div>
 			</div>
 		)
