@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux';
 import {Button} from 'react-bootstrap'
 import QrofRian from '../../components/QRofRian/QrofRian.js'
 import RockofRian from '../../components/NoteEditor/RockofRianCollaboEditor.js'
-import * as actions from '../../actions/NoteEditorActions.js';
+import { changeRenderedNote, changEditorState } from '../../actions/NoteEditorActions.js';
+import { noteGet } from '../../epics/NoteEpic';
+
 import * as noteEpic from '../../epics/NoteEpic';
 
 class NoteEditorContainer extends Component {
@@ -20,6 +23,12 @@ class NoteEditorContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.ChangeEditorState(false)
+    
+  }
+
+
   render() {
     
     return (
@@ -29,12 +38,14 @@ class NoteEditorContainer extends Component {
             <RockofRian 
             user={this.props.userid} 
             nowRenderedNote={this.props.nowRenderedNote}
+            changeRenderedNote={this.props.changeRenderedNote}
+            allofTimelineGet={this.props.allofTimelineGet}
             />
           </div>
         }
         { !this.props.onEditor &&
           <Button onClick={
-            this.props.ChangeEditorState
+            ()=>this.props.changeEditorState(true)
           }/>
         }
 
@@ -56,7 +67,9 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
-    ChangeEditorState: () => { dispatch(actions.changEditorState(true)) },
+    changeEditorState: (a) => dispatch(changEditorState(a)),
+    changeRenderedNote: (a) => { dispatch(changeRenderedNote(a)) },
+    allofTimelineGet: (sorting) => dispatch(noteGet(sorting)),
 
   };
 }

@@ -1,12 +1,7 @@
-import { } from '../actions/NoteTimelineActions.js'
 import { 
-    NOTE_TIMELINE_LOADING, 
 	NOTE_TIMELINE_SUCCESS,
-    NOTE_TIMELINE_FAIL, 
-    NOTE_SCROLLVIEW_SUCCESS,
-    TIMELINE_RENDERING,
-    NOTE_RENDER_CHANGE, 
-    NOTE_EDITOR_STATE  
+ 	NOTE_ONENOTE_SUCCESS,
+ 	UPDATE_TIMELINE_RENDER
 } from '../constants/index.js'
 
 
@@ -24,25 +19,24 @@ var TimelineState = {
 export function NoteTimeline(state = TimelineState, action) {
 
 	switch (action.type){
-		case NOTE_TIMELINE_LOADING:
-			return Object.assign({}, state, {
-				status: "Loading"
-			})
 		case NOTE_TIMELINE_SUCCESS:
 			var timelineArray = []
 			for (var key in action.data) {
 				timelineArray[Number(key)] = action.data[key]
 			}
+			timelineArray.reverse()
+	
 			if (action.howSorting === 'final_modified') {
+
 				timelineArray.map( (a, index) => { a.timelineNum = index; return a } )
-			}
+			} 
 			return Object.assign({}, state, {
 				timeline: timelineArray,
 				status: "SUCCESS",
 				HowManyNote: timelineArray.length,
 				HowSorting: 'final_modified'
 			})
-		case NOTE_SCROLLVIEW_SUCCESS:
+		case NOTE_ONENOTE_SUCCESS:
 			return Object.assign({}, state, {
 				timeline: state.timeline.map((item, index)=>{
 					if (index === action.timelineNum) {
@@ -52,15 +46,10 @@ export function NoteTimeline(state = TimelineState, action) {
 					}
 				}),
 				status: "GEToneNoteSUCCESS"
-			})	
-		case TIMELINE_RENDERING: 
-		
+			})
+		case UPDATE_TIMELINE_RENDER:	
 			return Object.assign({}, state, {
 				timelineRender: action.data
-			})	
-		case NOTE_TIMELINE_FAIL:
-			return Object.assign({}, state, {
-				status: "Why was fail?"
 			})
 		default:
 			return state

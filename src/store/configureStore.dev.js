@@ -22,7 +22,6 @@ const config = {
   enableLogging: false, // enable/disable Firebase's database logging
 }
 
-console.log(rootEpic);
 
 const createStoreWithFirebase = compose(
   reactReduxFirebase(firebaseConfig, config)
@@ -35,7 +34,7 @@ const loggerMiddleware = createLogger()
 const enhancer = compose(
     applyMiddleware(
         thunkMiddleware,
-        loggerMiddleware,
+        // loggerMiddleware,
         promiseMiddleware,
         epicMiddleware
     ),
