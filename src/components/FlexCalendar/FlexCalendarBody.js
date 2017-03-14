@@ -9,25 +9,10 @@ export default class FlexCalendarBody extends Component {
 	constructor(props){
 	  super(props);
 	}
-	// componentWillReceiveProps(nextProps){
-	// 	if(nextProps.Calendar.month !== this.props.Calendar.month){
-
-	// 	}
-	// }
-
-	willEnter(){
-		
-	}
 
 	componentDidMount(){
-		if(this.props.Calendar.selectedDay){
-
-		}
-		console.log("REF :", this.month)
-	}
-	
-	calendarSelectDate(d,i){
-		console.log(d,i);
+		// 캘린더가 로드 되었으니 파이어베이스를 콜해보자
+		 
 	}
 
 	renderTime(year, month) {
@@ -108,7 +93,6 @@ export default class FlexCalendarBody extends Component {
 		    		monthDays={monthDays}
 		    	  />
 		 	    : <FlexWeek
-		 	    	Calendar={this.props.Calendar}
 		 	    	monthDays={monthDays}
 		 	      />
 		    }

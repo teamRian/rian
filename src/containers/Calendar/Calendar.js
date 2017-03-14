@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { calendarRequest, calendarPost, calendarChangeWeek, calendarChangeMonth, calendarSelectDate, calendarToggle } from '../../actions/CalendarActions';
 import { calendarPostEpic } from '../../epics/CalendarEpic';
 import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
-import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendar';
+import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendarBody';
 import '../../styles/FlexCalendar.css';
 
 class Calendar extends Component {
@@ -14,19 +14,6 @@ class Calendar extends Component {
   componentDidMount(){
   }
 
-        //   <CalendarHeader
-        //   User={this.props.User}
-        //   Calendar={this.props.Calendar}
-        //   calendarChangeDate={date=>this.props.calendarChangeDate.bind(this)(date)}
-        // />
-        // <CalendarBody 
-        //   User={this.props.User}
-        //   Calendar={this.props.Calendar}
-        //   calendarRequest={(user, query)=>this.props.calendarRequest.bind(this)(user, query)}
-        //   calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
-        //   calendarSelectDate={(date)=>this.props.calendarSelectDate.bind(this)(date)}
-        //   calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
-        // />
   render() {
     const days = ['Sun','Mon','Tu','Wed','Th','Fri',"Sat"]
     return (
@@ -36,7 +23,6 @@ class Calendar extends Component {
           Calendar={this.props.Calendar}
           calendarChangeWeek={date=>this.props.calendarChangeWeek.bind(this)(date)}
           calendarChangeMonth={date=>this.props.calendarChangeMonth.bind(this)(date)}
-          calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}
           calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
         />
         <ul id='weekDays'>

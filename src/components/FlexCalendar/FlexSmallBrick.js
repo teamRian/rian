@@ -5,16 +5,21 @@ import { DropTarget } from 'react-dnd';
 import '../../styles/FlexCalendar.css';
 // import from './Utils/FlexDnD';
 
-const colorBrickBoardTarget = {
+const smallBrickTarget = {
   drop(props, monitor, component) {
-    console.log(arguments)
-    // props.onDrop(monitor.getItem());
+    console.log("Hi, I'm Brick, my timeIndex is ", props.timeIndex, " and my DayIndex is ", props.dayIndex, " if you want details open this ", monitor.getItem())
+    const droppedItem = monitor.getItem();
+    const form = {
+      timeIndex : props.timeIndex,
+      dayIndex : props.dayIndex,
+      durationLength : droppedItem.durationLength,
+      color: droppedItem.color,
+      type: 'once'
+    };
+    props.handleOnDrop(form);
   }
 };
 
-/**
- * Specifies which props to inject into your component.
- */
 function collect(connect, monitor) {
   return {
     // Call this function inside render()
@@ -34,10 +39,6 @@ class FlexSmallBrick extends Component {
     super(props);
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps);
-  }
-
   render() {
     const { isOver, isOverCurrent, canDrop, itemType, connectDropTarget} = this.props;
     const isActive = isOver && canDrop;
@@ -49,10 +50,9 @@ class FlexSmallBrick extends Component {
     }
     return connectDropTarget( 
       <div className='smallBricks' style={{backgroundColor}}>
-        {this.props.children}
       </div>
     );
   }
 }
 
-export default DropTarget( ItemTypes.COLOR_BRICK, colorBrickBoardTarget, collect)(FlexSmallBrick);
+export default DropTarget( ItemTypes.COLOR_BRICK, smallBrickTarget, collect)(FlexSmallBrick);
