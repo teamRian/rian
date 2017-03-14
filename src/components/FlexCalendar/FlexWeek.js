@@ -2,15 +2,37 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import FlexSmallBrick from './FlexSmallBrick';
+import { calendarPost } from '../../actions/CalendarActions';
 
-export default class FlexWeek extends Component {
+
+
+class FlexWeek extends Component {
   constructor(props){
     super(props);
+    this.smallBricksArray = [...Array(72)]
+  }
+
+  handleOnDrop(form){
+    console.log("HANDLE", form)
+    const chosenDay = this.props.monthDays[this.props.Calendar.selectedWeek][form.dayIndex]
+    const startingTime = form.timeIndex;
+    const endingTime = form.timeIndex + form.durationLength;
+    const finalForm = Object.assign({}, form, {
+      _userId : this.props.User._id,
+      title : `Event ${this.props.Calendar.plans.length}`,
+      day : chosenDay.day,
+      month : chosenDay.month,
+      year : chosenDay.year,
+      startingTime,
+      endingTime
+    })
+    console.log("FINAL", finalForm)
+    this.props.calendarPost(finalForm);
   }
 
   render() {
     return (
-      <div className='weekTimeline'>
+      <div id='FlexCalendarWeek'>
         <div className='weekCalendarWeekDays'>
           {this.props.monthDays[this.props.Calendar.selectedWeek].map((day,k)=>{
             let dayClass = classNames({
@@ -42,11 +64,15 @@ export default class FlexWeek extends Component {
             });
             return (
               <div key={`${day.day}`}className={dayClass}>
-              { [...Array(72)].map((x,i)=>{
+              { this.smallBricksArray.map((x,i)=>{
                   return (
                     <FlexSmallBrick 
-                      key={`${day.day}${i}`}>
-                    </FlexSmallBrick>
+                      key={`${day.day}${i}`}
+                      timeIndex={i}
+                      dayIndex={k}
+                      _userId={this.props.User._id}
+                      handleOnDrop={form=>this.handleOnDrop.bind(this)(form)}
+                    />
                   )
                 })
               }
@@ -59,3 +85,19 @@ export default class FlexWeek extends Component {
   }
 }
 
+function mapState(state) {
+  return {
+    User: state.User,
+    Calendar: state.Calendar
+  };
+}
+
+function mapDispatch(dispatch) {
+  return {
+    calendarPost: (form)=> {
+      dispatch(calendarPost(form));
+    }
+  };
+}
+
+export default connect(mapState, mapDispatch)(FlexWeek);

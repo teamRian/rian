@@ -9,7 +9,9 @@ const brickSource = {
 
     return {
       id: props.id,
-      text: props.text
+      color: props.color,
+      text: props.text,
+      durationLength: props.durationLength
     };
   },
 
@@ -47,9 +49,14 @@ class Brick extends Component {
   render() {
     const { isDragging, connectDragSource, text } = this.props;
     return connectDragSource(
-      <div key={this.props.key} className='colorBrick' style={{ opacity: isDragging ? 0.5 : 1 }} onDragStart={(e)=>console.log(e)}>
+      <div key={this.props.key} 
+           className='colorBrick' 
+           style={{ 
+              opacity: isDragging ? 0.5 : 1,
+              backgroundColor: this.props.color
+           }} 
+           onDragStart={(e)=>console.log(e)}>
        	{this.props.text}
-       	{isDragging && `i'm dragged!!!!`}
       </div>
     );
   }
