@@ -142,10 +142,6 @@ ul.week {
 	pointer-events: none; /* MAGIC!!!!!! */
 }
 
-.HEY {
-	background-color: grey;
-	border: 2px solid black;
-}
 .day {
 	display:flex;
 	padding:5px;

@@ -52,11 +52,6 @@ class Calendar extends Component {
             color={'lightgreen'}
             durationLength={2}
         />
-
-
-
-
-
       </div>
     );
   }

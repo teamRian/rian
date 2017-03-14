@@ -39,17 +39,9 @@ class FlexSmallBrick extends Component {
     super(props);
   }
 
-  render() {
-    const { isOver, isOverCurrent, canDrop, itemType, connectDropTarget} = this.props;
-    const isActive = isOver && canDrop;
-    let backgroundColor = null;
-    if (isActive) {
-      backgroundColor = 'darkgreen';
-    } else if (canDrop) {
-      backgroundColor = 'darkkhaki';
-    }
-    return connectDropTarget( 
-      <div className='smallBricks' style={{backgroundColor}}>
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps);
+  }
       </div>
     );
   }
