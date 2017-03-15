@@ -45,7 +45,10 @@ class NoteEditorContainer extends Component {
         }
         { !this.props.onEditor &&
           <Button onClick={
-            ()=>this.props.changeEditorState(true)
+            ()=>{
+              this.props.changeEditorState(true);
+                this.props.changeRenderedNote(false)
+            }
           }/>
         }
 
