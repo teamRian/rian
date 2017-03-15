@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProgressBar, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 // Import CSS
 import '../../styles/TodoContribute.css';
@@ -7,7 +7,7 @@ import '../../styles/TodoContribute.css';
 class TodoContribute extends React.Component {
   constructor(props) {
       super(props);
-      this.state ={
+      this.state = {
         showToggle: false, //SHOW HISTORY
       }
       this.toggle = this.toggle.bind(this);

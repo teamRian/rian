@@ -21,7 +21,8 @@ class FileList extends Component {
       fileInfoName: "",
       editFileName: "",
       editRemoveTag:"",
-      editNewTag: []
+      editNewTag:"",
+      editNewTagArray: []
     }
     // Open Modal
     this.openList = this.openList.bind(this);
@@ -31,13 +32,15 @@ class FileList extends Component {
     this.openFileEditModal = this.openFileEditModal.bind(this);
     this.closeFileEditModal = this.closeFileEditModal.bind(this);
 
-    // handle function
+    // Handle Function
     this.handleRemove = this.handleRemove.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFileInfo = this.handleFileInfo.bind(this);
     this.handleFileInfoClose = this.handleFileInfoClose.bind(this);
-    this.handleEditRemoveTag= this.handleEditRemoveTag.bind(this);
+    this.handleEditRemoveTag = this.handleEditRemoveTag.bind(this);
+    this.handleEditAddTagText = this.handleEditAddTagText.bind(this);
+    this.handleEditAddTag = this.handleEditAddTag.bind(this);
   }
 
   openList() {
@@ -74,7 +77,7 @@ class FileList extends Component {
     this.setState({
       showFileEditModal: true,
       editFileName: filename,
-      editNewTag: this.props.uploadfile[filename].tag
+      editNewTagArray: this.props.uploadfile[filename].tag
     })
   }
 
@@ -120,20 +123,47 @@ class FileList extends Component {
     })
   }
 
+
+  handleEditAddTagText(e) {
+    e.preventDefault();
+    this.setState({
+       editNewTag: e.target.value
+    })
+  }
+
+  handleEditAddTag(e) {
+    e.preventDefault();
+    if(this.state.editNewTag.length === 0) {
+      window.alert("Tag를 입력하세요!!!");
+    } else {
+      let originalTagArr = this.state.editNewTagArray;
+      if(originalTagArr.indexOf(this.state.editNewTag) === -1) {
+        originalTagArr.push(this.state.editNewTag);
+        this.setState({
+          editNewTagArray: originalTagArr,
+        })
+        this.props.editFile(this.state.fileInfoName, originalTagArr);
+      } else {
+        window.alert("이미 존재하는 Tag입니다.");
+      }
+    }
+  }
+
   handleEditRemoveTag(e) {
     e.preventDefault();
-    let originalTag = this.state.editNewTag;
+    let originalTag = this.state.editNewTagArray;
     let tagIndex = originalTag.indexOf(e.currentTarget.textContent);
-    let fixedTag = [ ...this.state.editNewTag.slice(0, tagIndex), ...this.state.editNewTag.slice(tagIndex+1)];
+    let fixedTag = [ ...originalTag.slice(0, tagIndex), ...originalTag.slice(tagIndex+1)];
     if(fixedTag.length === 0) {
       this.setState({
-        editNewTag: []
+        editNewTagArray: []
       })
     } else {
       this.setState({
-        editNewTag: fixedTag
+        editNewTagArray: fixedTag
       })
     }
+    this.props.editFile(this.state.fileInfoName, fixedTag);
   }
 
   render() {
@@ -162,11 +192,18 @@ class FileList extends Component {
       listKeys = searchResult;
     }
     
+    const modalheaderbackground = {
+      backgroundColor: "#EEEEEE",
+      borderTopLeftRadius:"5px",
+      borderTopRightRadius:"5px",
+      color: "#616161"
+    }
+
     return (
       <div>
         <Button bsStyle="info" onClick={this.openList}>File List</Button>
         <Modal show={this.state.showListModal} onHide={this.closeList}>
-          <Modal.Header closeButton>
+          <Modal.Header style={modalheaderbackground} closeButton>
             <span className="file-modal-header-text">Project File List</span>
           </Modal.Header>
           <Modal.Body>
@@ -198,10 +235,11 @@ class FileList extends Component {
 
               <Modal show={this.state.showFileEditModal} onHide={this.closeFileEditModal}>
                 <Modal.Header>Tag 수정</Modal.Header>
-                <Modal.Body>{this.state.editFileName.length === 0? "" : showTagList(this.state.editNewTag, this.handleEditRemoveTag)}</Modal.Body>
+                <Modal.Body>
+                  {this.state.editFileName.length === 0 ? "" : showTagList(this.state.editNewTagArray, this.handleEditRemoveTag, this.handleEditAddTagText, this.handleEditAddTag)}
+                </Modal.Body>
                 <Modal.Footer>
-                  <Button bsStyle="danger">변경하기</Button>
-                  <Button onClick={this.closeFileEditModal}>취소하기</Button>
+                  <Button onClick={this.closeFileEditModal}>닫기</Button>
                 </Modal.Footer>
               </Modal>
 
@@ -210,7 +248,7 @@ class FileList extends Component {
                 <Modal.Body>{this.state.removeFileItem}을 삭제하시겠습니까?</Modal.Body>
                 <Modal.Footer>
                   <Button bsStyle="danger" onClick={this.handleRemove}>삭제하기</Button>
-                  <Button onClick={this.closeDeleteModal}>취소하기</Button>
+                  <button className="closeButtonStyle" onClick={this.closeDeleteModal}>취소하기</button>
                 </Modal.Footer>
               </Modal>
             </div>
@@ -218,11 +256,11 @@ class FileList extends Component {
           <Modal.Footer>
             <div className="file-modal-footer-box">
               <div className="file-modal-footer-input-box">
-                <input className="file-modal-footer-input" type="text" placeholder="File 검색" id="search-file" onChange={this.handleSearch}/>  
+                <input className="file-modal-footer-input" type="text" placeholder="File 검색" className="editTagInputText" onChange={this.handleSearch}/>  
               </div>
               <div className="file-modal-footer-button">
                 <FileUpload {...this.props}/>
-                <Button className="file-modal-footer-button-close" onClick={this.closeList}>Close</Button>
+                <button className="closeButtonStyle" onClick={this.closeList}>Close</button>
               </div>
             </div>
           </Modal.Footer>
@@ -233,15 +271,22 @@ class FileList extends Component {
 }
 // React Component End
 
-const showTagList = (tagList, removeFunction) => {
+
+const showTagList = (tagList, removeFunction, stateAddTextFunction, addTagFunction) => {
   return (
     <div>
-      <form className="addTagContainer">
-        <span className="editTagAddTag">Tag 추가</span>
-        <input type="text" placeholder="Tag를 입력하세요" className="editTagInputText" />
-        {plusIcon}
-        <span className="editTagWarningText">* Tag를 클릭하시면 삭제됩니다.</span>
-      </form>
+      <div>
+        <form className="addTagContainer">
+          <div className="testInput">
+            <input type="text" className="editTagInputText2" onChange={stateAddTextFunction} required/>
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label className="testLabel">Tag를 추가하세요</label>
+          </div>
+          <div onClick={addTagFunction}>{plusIcon}</div>
+          <span className="editTagWarningText">* Tag를 클릭하시면 삭제됩니다.</span>
+        </form>
+      </div>
       <ul className="editTagBox">
        {tagList.map((tag,i)=>(
           <li className="editTagItem" onClick={removeFunction} key={tag}>{tag}</li>
@@ -250,7 +295,6 @@ const showTagList = (tagList, removeFunction) => {
     </div>
   )
 }
-
 
 const showTag = (Tag) => {
   if (Tag.length === 0) {
@@ -336,7 +380,7 @@ const downloadButton = (
 
 const removeButton = (
   <svg width="22" height="21" viewBox="0 0 18 17" className="removeIcon">
-    <ellipse fill="#F8BBD0" cx="8.62" cy="8.383" rx="8.62" ry="8.383"></ellipse>
+    <ellipse fill="#E0E0E0" cx="8.62" cy="8.383" rx="8.62" ry="8.383"></ellipse>
     <path stroke="#FFF" fill="#FFF" d="M11 6.147L10.85 6 8.5 8.284 6.15 6 6 6.147 8.35 8.43 6 10.717l.15.146L8.5 8.578l2.35 2.284.15-.146L8.65 8.43z"></path>
   </svg>
 )
@@ -344,7 +388,7 @@ const removeButton = (
 const plusIcon = (
   <svg className="editTagPlusIconStyle" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 viewBox="0 0 496.158 496.158" xmlSpace="preserve" width="20px" height="20px">
-    <path style={{fill:"#32BEA6"}} d="M0,248.085C0,111.063,111.069,0.003,248.075,0.003c137.013,0,248.083,111.061,248.083,248.082
+    <path className="editTagPlusIconInnerStyle" d="M0,248.085C0,111.063,111.069,0.003,248.075,0.003c137.013,0,248.083,111.061,248.083,248.082
       c0,137.002-111.07,248.07-248.083,248.07C111.069,496.155,0,385.087,0,248.085z"/>
     <path style={{fill:"#FFFFFF"}} d="M383.546,206.55H289.08v-93.938c0-3.976-3.224-7.199-7.201-7.199H213.75
       c-3.977,0-7.2,3.224-7.2,7.199v93.938h-93.937c-3.977,0-7.2,3.225-7.2,7.2v69.187c0,3.976,3.224,7.199,7.2,7.199h93.937v93.41

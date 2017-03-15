@@ -2,6 +2,7 @@ import { Router } from 'express';
 const busboy = require('connect-busboy');
 const fs = require('fs-extra');
 const router = new Router();
+const path = require('path');
 
 router.route('/upload').post((req,res) => {
   let fstream;
@@ -30,6 +31,11 @@ router.route('/delete/:filename').get((req,res) => {
     });     
   });
 });
+
+router.route('/preview/:filename').get((req,res) => {
+  let filePath = __dirname + '/../files/' + req.params.filename;
+  res.sendFile(path.resolve(filePath));
+})
 
 
 export default router;

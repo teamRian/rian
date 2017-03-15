@@ -146,13 +146,18 @@ class TodoContributeButton extends React.Component {
         </svg>
     );
 
+    const contributionModalHeader = {
+      backgroundColor: "#7E57C2",
+      color: "white"
+    }
+
     return (
       <div style={wrap}>
         <OverlayTrigger overlay={tooltip} placement="bottom">
           {contributeButton}
         </OverlayTrigger>
         <Modal show={this.state.showModal} onHide={this.close}>
-          <Modal.Header closeButton>
+          <Modal.Header style={contributionModalHeader} closeButton>
             <Modal.Title>
               <p className="contribution-header-text">Contribution</p>
             </Modal.Title>

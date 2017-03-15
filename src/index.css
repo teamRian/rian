@@ -8,6 +8,10 @@ body {
 
 }
 
+.MainContent {
+    padding: 0px 10px;
+}
+
 
 .fileContainer {
     overflow: hidden;

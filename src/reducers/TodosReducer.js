@@ -7,12 +7,13 @@ export function TodosListReducer (state = todoList.todos, action) {
             return [...state, {
                 id: action.newId,
                 author: action.author,
-                player: [action.player], 
+                player: action.player, 
                 title: action.title,
                 text: action.text,
                 index: action.index,
                 importance: action.importance,
-                status: "created"
+                status: "created",
+                ratio: action.ratio
             }]
         case 'TODO_REMOVE':
             let removeIndex;
@@ -42,19 +43,11 @@ export function TodosListReducer (state = todoList.todos, action) {
                 }
             }
             
-            state[changeIndex].status = action.status;
-            
-            if(action.startdate.length !== 0) {
-                state[changeIndex].startdate = action.startdate;
-            }
+            state[changeIndex].status = action.status;            
+            state[changeIndex].startdate = action.startdate;
+            state[changeIndex].enddate = action.enddate;
 
-            if(action.enddate.length !== 0) {
-                state[changeIndex].enddate = action.enddate;
-            }
-
-            return [
-                ...state
-            ]
+            return state;
         default:
             return state;
     }
@@ -64,11 +57,11 @@ export function TodosListReducer (state = todoList.todos, action) {
 export function TodosLogsReducer (state = todoList.logs, action) {    
     switch(action.type){
         case 'TODO_ADD':
-            return Object.assign({}, state, action.log);
+            return [ ...state, action.log];
         case 'TODO_REMOVE':
-            return Object.assign({}, state, action.log);
+            return [ ...state, action.log];
         case 'TODO_CHANGE_STATUS':
-            return Object.assign({}, state, action.log);
+            return [ ...state, action.log];
         default:
             return state;
     }

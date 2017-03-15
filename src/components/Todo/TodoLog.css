@@ -1,0 +1,40 @@
+.fontRe {
+    font-size: 12px;
+    color: #757575;
+}
+
+.fontRe p {
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+
+.tdWidth {
+    width: 50%;
+}
+
+.tdWidthRight {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 50%;
+    border-left: 1px solid #E0E0E0 ;
+    border-bottom: 1px solid #B3E5FC ;
+}
+
+.tdWidthLeft {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    width: 50%;
+    border-right: 1px solid #E0E0E0;
+    border-bottom: 1px solid #B3E5FC ;    
+}
+
+.tdWidthAuthoText  {
+    background-color: #90CAF9;
+    color: white;
+}
+
+.tdWidthDateText {
+    font-size: 10px;
+}
