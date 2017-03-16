@@ -20,7 +20,6 @@ class Calendar extends Component {
     ? this.props.calendarToggle('week')
     : this.props.calendarToggle('month');
   }
-  
   render() {
     return (
       <div id="CalendarSide">
