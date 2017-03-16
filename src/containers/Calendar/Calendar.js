@@ -5,6 +5,8 @@ import { calendarPostEpic } from '../../epics/CalendarEpic';
 import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
 import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendarBody';
 import '../../styles/FlexCalendar.css';
+import { calendarEpicRequestData } from '../../epics/CalendarEpic';
+
 
 class Calendar extends Component {
   constructor(props){
@@ -33,6 +35,7 @@ class Calendar extends Component {
         <FlexCalendarBody
           User={this.props.User}
           Calendar={this.props.Calendar}
+          calendarEpicRequestData={(date)=>this.props.calendarEpicRequestData.bind(this)(date)}
           calendarRequest={(user, query)=>this.props.calendarRequest.bind(this)(user, query)}
           calendarSelectDate={(date)=>this.props.calendarSelectDate.bind(this)(date)}
           calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
@@ -51,6 +54,9 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
+    calendarEpicRequestData: (date)=> {
+      dispatch(calendarEpicRequestData(date));
+    },
     calendarRequest: (user, query)=> {
       dispatch(calendarRequest(user, query));
     },

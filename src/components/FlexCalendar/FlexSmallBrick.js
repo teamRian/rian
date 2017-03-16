@@ -38,7 +38,6 @@ class FlexSmallBrick extends Component {
   constructor(props){
     super(props);
   }
-
   render() {
     const { isOver, isOverCurrent, canDrop, itemType, connectDropTarget} = this.props;
     const isActive = isOver && canDrop;

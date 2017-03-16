@@ -8,23 +8,25 @@ import {
 	CALENDAR_EPIC_CANCLE_DATA 
 } from '../constants'
 
-export const CalendarEpic = (action$, store, getFirebase) => {
-	return action$.ofType(CALENDAR_EPIC_REQUEST_DATA)
-		.switchMap(action=>{
-			return Rx.Observable.fromPromise(getFirebase().ref(`/duck/${store.getState().User._id}/plans`).on('value'))
-				.map(snapshot => { 	
-					return calendarEpicSuccessData(snapshot.val()) 
-				})
-				.takeUntil(action$.ofType(CALENDAR_EPIC_CANCLE_DATA))
-				.catch(err => calendarEpicFailData(err))
-		})
-}
+export const CalendarEpic = (action$, { getState, dispatch }, getFirebase) => 
+	action$.ofType(CALENDAR_EPIC_REQUEST_DATA)
+		.switchMap(action=>
+			// have to get data from action (query)
+			getFirebase()
+				.ref(`/duck/${getState().User._id}/plans`)
+				.on('value', (snapshot)=>
+					calendarEpicRequestData(snapshot.val())
+				)
+				// .takeUntil(action$.ofType(CALENDAR_EPIC_CANCLE_DATA))
+		)
+		// .catch(err => calendarEpicFailData(err))
 
 
-export function calendarEpicRequestData(sorting){
+
+export function calendarEpicRequestData(date){
 	return {
 		type: CALENDAR_EPIC_REQUEST_DATA,
-		howSorting: sorting
+		date: date
 	}
 }
 
