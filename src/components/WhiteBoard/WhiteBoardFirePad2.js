@@ -26,7 +26,7 @@ class WhiteBoardFirePad extends React.Component{
     // this.otherUsers = {};
     this.userInfo = {};
     // userInfo value 형태 ( firebase event로 받아서 결정되는 값 )
-    // { 'dev' : { blockingLine : null } }
+    // { 'dev' : { blockingLine : null, customCursor : { line : 1, ch : 1 }, name : 'dev', color : '#ffff' } }
     this.lineInfo = {}; 
     // lineInfo value 형태 ( firebase event로 받아서 결정되는 값 )
     // { isBlocking : true(이미선택됨)/false(선택가능), nowWriter : 'dev' , writer : { 'chan' : true, 'dev': true }  }
@@ -52,6 +52,7 @@ class WhiteBoardFirePad extends React.Component{
       gutters: ["codemirror-username"],
       lineWrapping: true,
       lineNumbers: true,
+      dragDrop : true,
     });
     
     wbfp.firepad = Firepad.fromCodeMirror(wbfp.firepadRef, wbfp.codeMirror, {
@@ -62,16 +63,6 @@ class WhiteBoardFirePad extends React.Component{
                    });
     
     wbfp.firepadUserList = FirepadUserList.fromDiv(wbfp.firepadRef.child('users'), document.getElementById('userlist'), wbfp.userId, wbfp.userId);
-
-    // 한번만 초기에 실행해서 initial값 셋팅
-    wbfp.firepadRef.child('users').once('value', function(snapshot){      
-      var key = snapshot.key; // projectId      
-      var users = snapshot.val();
-      
-      // userInfo init
-      wbfp.userInfo = users;
-      
-    });
 
     // 처음 firebase에 lines 라는 property가 없으면 default로 생성해주기
     wbfp.firepadRef.child('lines').once('value', function(snapshot){
@@ -87,8 +78,21 @@ class WhiteBoardFirePad extends React.Component{
 
     });
 
+    // 한번만 초기에 실행해서 initial값 셋팅
+    wbfp.firepadRef.child('users').once('value', function(snapshot){      
+      var key = snapshot.key; // projectId      
+      var users = snapshot.val();
+      
+      // userInfo init
+      wbfp.userInfo = users;
+      
+    });
+
     // Initialize contents.
     wbfp.firepad.on('ready', function() {
+
+      //init customCursor For User
+      wbfp.firepadRef.child('users').child(wbfp.userId).update({ blockingLine : false, customCursor : { line : false, ch : false } });
 
       /*** #### firebase "lines" event handler #### ***/
 
@@ -101,6 +105,11 @@ class WhiteBoardFirePad extends React.Component{
         wbfp.lineInfo[key] = line; // { isBlocking : false, writer: [] }
         console.log('lines child added :: ', key, line);
         
+        //2. if 지금 라인이 blocking 됐고 && 지금 추가된 line이 내가 가진 line과 같은 라인인지 비교
+        if(line.isBlocking && key === wbfp.userInfo[wbfp.userId].customCursor.line){
+          // 잠시 customCursor 준비해놓고 다시올게
+        }
+
       });
 
       // lines에 하위 property에 변환를 감지함
@@ -138,7 +147,8 @@ class WhiteBoardFirePad extends React.Component{
         var key = snapshot.key;
         var user = snapshot.val();
         wbfp.userInfo[key] = user; 
-        console.log('users child changed :: ', key, user);      	
+        console.log('users child changed :: ', key, user);
+
       });
 
       // users가 삭제되면 감지함
@@ -226,7 +236,7 @@ inputRead가 실행될때 => firebase에
         var nowLine = cm.getCursor().line;
         var nowText = changeObj.text;
         var lineInfo = wbfp.lineInfo[nowLine];
-        console.log('inputRead fired', nowText);
+        
         // 1. lineInfo에서 먼저 현재 라인에 대해서 비교한 후에 lineInfo의 firebase update를 할지말지 결정함
         if(lineInfo.nowWriter !== wbfp.userId && !lineInfo.isBlocking){ // blocking 안되있는 경우 firebase lineInfo 정보 업데이트 실행
           
@@ -270,6 +280,8 @@ inputRead가 실행될때 => firebase에
             
           }); // lines transaction end
 
+        }else if(lineInfo.nowWriter === wbfp.userId){ // blocking되어있는곳이 내가 쓰고 있는 경우!
+
         }else{ // blocking 되어 있는 경우
           
           cm.execCommand('newlineAndIndent'); // blur 해주는 방법 찾으면 그걸로 변경해줄것!  
@@ -283,13 +295,17 @@ inputRead가 실행될때 => firebase에
 
       //cursorActivity는 내용생기는 경우, 커서 이동 생기는 경우 등 all users에 자동 발생되는 event이다.
       wbfp.codeMirror.on('cursorActivity', function(cm){
-
-        var nowLine = cm.getCursor().line;
+        console.log('cursorActivity fired :::');
+        var nowCursor = cm.getCursor();
+        var nowLine = nowCursor.line;
+        var userCursorLine = wbfp.userInfo[wbfp.userId].customCursor.line; 
         var blockingLine = wbfp.userInfo[wbfp.userId].blockingLine;
         //if 현재 사용자가 blocking Line을 갖고 있는데 && 지금 라인과 blocking Line이 동일하지 않다면 blocking 해제!
         if(Number.isInteger(blockingLine) && blockingLine !== nowLine){
           wbfp.firepadRef.child('lines').child(blockingLine).update({ isBlocking : false, nowWriter: false }); 
-          wbfp.firepadRef.child('users').child(wbfp.userId).update({ 'blockingLine' : false });
+          wbfp.firepadRef.child('users').child(wbfp.userId).update({ blockingLine : false, customCursor: nowCursor });
+        }else{
+          wbfp.firepadRef.child('users').child(wbfp.userId).update({ customCursor: nowCursor });
         }
 
       });
@@ -316,6 +332,37 @@ inputRead가 실행될때 => firebase에
       wbfp.codeMirror.on('renderLine', function(cm, line, el){
 
       });
+
+
+      /* 
+        #########################################
+        ##### RICH TOOL BOX SHOW - FUNCTION #####
+        #########################################
+                                                 */
+
+      // keyup 됐을때 rich tool box가 띄워지도록 설정
+      wbfp.codeMirror.on('keyup', function(cm, e){
+        var selText = cm.getSelection();
+        if(selText !== ""){
+          console.log('rich tool box show!!!');
+        }
+      });
+
+      // mouse가 up됐을때 rich tool box가 띄워지도록 설정
+      document.getElementById('firepad').addEventListener('mouseup', function(e){        
+        var selText = wbfp.codeMirror.getSelection();
+        if(selText !== ""){
+          console.log('rich tool box show!!!');
+        }                
+      });
+
+      // mouse가 firepad 영역을 벗어났을때 rich tool box가 띄워지도록 설정
+      document.getElementById('firepad').addEventListener('mouseleave', function(e){
+        var selText = wbfp.codeMirror.getSelection();
+        if(selText !== ""){
+          console.log('rich tool box show!!!');
+        }
+      })       
 
     }); // firepad.on('ready') end
 
