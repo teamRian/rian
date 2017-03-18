@@ -8,6 +8,8 @@ import thunkMiddleware from 'redux-thunk'
 import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger';
 import { reactReduxFirebase } from 'react-redux-firebase';
+import createSocketIoMiddleware from 'redux-socket.io';
+
 
 var firebaseConfig = {
     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
@@ -34,7 +36,7 @@ const loggerMiddleware = createLogger()
 const enhancer = compose(
     applyMiddleware(
         thunkMiddleware,
-        // loggerMiddleware,
+        loggerMiddleware,
         promiseMiddleware,
         epicMiddleware
     ),

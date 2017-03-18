@@ -16,7 +16,16 @@ class NoteTimelineContainer extends Component {
     this.infiniteTimelineLoader = this.infiniteTimelineLoader.bind(this)
     this.state= {
       renderTimeline: "Waiting you",
+      browserSize: window.innerHeight-52
     }
+      window.addEventListener('resize', () => {
+      console.log(window.innerHeight)
+      this.setState((prevState, props)=>{
+        return {
+          browserSize: window.innerHeight-52
+        }
+      })
+    })
   }
 
   componentDidMount() {
@@ -72,7 +81,7 @@ class NoteTimelineContainer extends Component {
     })
     return (
       <Infinite 
-        containerHeight={800} 
+        containerHeight={this.state.browserSize} 
         elementHeight={150} 
         timeScrollStateLastsForAfterUserScrolls={0}>
       {renderTimeline}

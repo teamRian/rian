@@ -12,7 +12,6 @@ import * as FileManagementReducer from './FileManagementReducer.js';
 import * as ProjectReducer from './ProjectReducer';
 import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer';
-import * as ChatReducer from './ChatReducer';	
 import { firebaseStateReducer } from 'react-redux-firebase';
 import * as NoteTimelineReducer from './NoteTimelineReducer';
 
@@ -25,7 +24,6 @@ const rootReducer = combineReducers(
 		ProjectReducer,
 		CalendarReducer,
 		NoteEditorReducer,
-		ChatReducer,
 		WhiteBoardReducer,
 		FileManagementReducer,
     {firebase: firebaseStateReducer},

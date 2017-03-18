@@ -10,7 +10,7 @@ import CalendarSub from './Calendar/CalendarSub'
 import TodoContainer from './Todo/TodoContainer';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
 import NotetimelineContainer from './NoteTimeline/NotetimelineContainer';
-import Chat from './Chat/ChatApp';
+import FirebaseChat from './FirebaseChat/FirebaseChatContainer';
 import UsersList from '../components/Chat/UsersList';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer';
 
@@ -29,7 +29,7 @@ export default class Root extends Component {
                 <Route path="/calendar" component={{main:Calendar, side:CalendarSub}}/>
                 <Route path="/todolist" component={{main:TodoContainer}}/>
                 <Route path="/editor" component={{main:NoteEditor, side:NotetimelineContainer}}/>
-                <Route path="/chat" component={{main:Chat}}/>
+                <Route path="/chat" component={{main: FirebaseChat}}/>
                 <Route path="/whiteboard" component={{main:WhiteBoard}}/>
                 <Route path="/newProject" component={{main:NewProject}}/>
             </Route>
