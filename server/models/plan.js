@@ -9,10 +9,12 @@ const planSchema = new Schema({
   	year: Number,
   	month: Number,
 	type: { type: 'String', required: true},
-	title: { type: 'String', required: true },
+	title: String,
 	content: String,
-	startTime: String,
-	endTime: String,
+	startingTime: Number,
+	endingTime: Number, 
+	durationLength: Number, // how long
+	color: String, // color of box
 	dateAdded: { type: 'Date', default: Date.now, required: true },
 });
 

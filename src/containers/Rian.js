@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 // Import Actions
 import { userCheckAuth, userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
@@ -90,6 +92,5 @@ function mapDispatch(dispatch) {
     }
   };
 }
-
-
+RianApp = DragDropContext(HTML5Backend)(RianApp)
 export default connect(mapState, mapDispatch)(RianApp);

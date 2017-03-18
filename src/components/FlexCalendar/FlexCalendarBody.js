@@ -1,31 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { Calendar } from 'calendar';
 import classNames from 'classnames';
-// import {Motion, spring, TransitionMotion} from 'react-motion';
+import {Motion, spring, StaggeredMotion, TransitionMotion} from 'react-motion';
+import FlexMonth from './FlexMonth';
+import FlexWeek from './FlexWeek';
 
 export default class FlexCalendarBody extends Component {
 	constructor(props){
 	  super(props);
 	}
-	// componentWillReceiveProps(nextProps){
-	// 	if(nextProps.Calendar.month !== this.props.Calendar.month){
-
-	// 	}
-	// }
-
-	willEnter(){
-		
-	}
 
 	componentDidMount(){
-		if(this.props.Calendar.selectedDay){
-
-		}
-		console.log("REF :", this.month)
-	}
-	
-	calendarSelectDate(d,i){
-		console.log(d,i);
+		// // 캘린더가 로드 되었으니 파이어베이스를 콜해보자
+		// const date = {
+		// 	year: this.props.Calendar.year,
+		// 	month: this.props.Calendar.month
+		// }
+		// this.props.calendarEpicRequestData(date)
 	}
 
 	renderTime(year, month) {
@@ -97,48 +88,18 @@ export default class FlexCalendarBody extends Component {
 	}
 
     render() {
-  		const days = ['Sun','Mon','Tu','Wed','Th','Fri',"Sat"]
   		const monthDays = this.renderTime(this.props.Calendar.year,this.props.Calendar.month);
-
     	return (
 	      <div id="FlexCalendarBody">
-	      	<div className='weekDays'>
-		      	{ days.map((day, n)=>{
-		      		return <div key={day} className='weekDay'>{day}</div>
-		      	})}
-		      	{
-		      		<div className='magnet'>Mag</div>
-		      	}
-		    </div>
-		    <div 
-		    	className='month'
-		    	ref={(month)=>{this.month = month}}
-		    >
-		    {monthDays.map((weeks,i)=>{
-		    	return (<div key={`week${i}`} className={`week week${i}`}>
-		    		{ weeks.map((day,k)=>{
-		    			let dayClass = classNames({
-		    				day: true,
-		    				[`month${day.month}`]: true,
-		    				[`week${day.week}`]: true,
-		    				[`week${day.day}`]: true,
-		    				holiday: k === 6 || k === 0,
-		    				today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear 
-		    			})
-		    			return <div 
-				    			key={day.day} 
-				    			className={dayClass}
-				    			onClick={(d,i)=>this.calendarSelectDate(d,i)}
-				    			>
-				    				{day.day} 
-				    			</div> })
-				    }
-				    {
-				    	<div className='magnet'>Mag</div>
-				    }
-		    	</div>)
-		    })}
-		    </div>
+		    { this.props.Calendar.kind === 'month'
+		    	? <FlexMonth // toggle Month/Week
+		    		Calendar={this.props.Calendar}
+		    		monthDays={monthDays}
+		    	  />
+		 	    : <FlexWeek
+		 	    	monthDays={monthDays}
+		 	      />
+		    }
 	      </div>
 	    );
 	}

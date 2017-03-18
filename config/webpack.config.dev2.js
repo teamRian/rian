@@ -3,8 +3,6 @@ var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 
-
-
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
 
@@ -61,7 +59,8 @@ module.exports = {
         exclude: [/node_modules/, /.+\.config.js/],
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react']
+          cacheDirectory: true, //cache directory = node_modules/.cache
+          presets: ['es2015', 'react'],
         }
       }, 
       {

@@ -1,22 +1,45 @@
+ul#weekDays{
+	padding: 0px 5px 0px 5px;
+	margin-bottom: 0;
+}
+
+ul.week {
+	padding: 0;
+	margin-bottom: 0;
+}
+
 #FlexCalendar {
+	display:flex;
+	flex-direction: column;
 	height:100%;
+	min-height:100%;
 }
 
 #FlexCalendarHeader {
 	display:flex;
 	flex-direction: column;
-	height:15%;
-	background-color: lightpink;
+	height:10%;
 	justify-content: center;
 	align-items: stretch;
 	font-size:25px;
 }
 
+#FlexCalendarWeek {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	flex:0 0 1850px;
+}
+
+#weekDays {
+	display:flex;
+	flex: 0 0 50px;
+}
 #DateControl {
 	display:flex;
 	flex:1;
-	height:15%;
-	background-color: lightpink;
+	height:10%;
+	background-color: #ffe6e9;
 	justify-content: space-around;
 	align-items: center;
 	font-size:25px;
@@ -24,9 +47,12 @@
 
 #FlexCalendarBody {
 	display:flex;
+	overflow:auto;
 	flex-direction: column;
-	height:85%;
+	flex:1;
+	margin:0;
 	padding:5px;
+	padding-top:0px;
 	background-color: white;
 }
 
@@ -46,6 +72,27 @@
 	justify-content: space-around;
 }
 
+.weekCalendarWeekDays {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+.holiday.weekCalendarWeekDay {
+	color: lightcoral;
+	border-color: lightcoral;
+}
+
+.weekCalendarWeekDay {
+	
+}
+
+.weekCalendarWeek {
+	display: flex;
+	position:relative;
+	overflow-y:scroll;
+	width:100%;
+	height:100%;
+}
 .weekDay{
 	display:flex;
 	flex: 1;
@@ -76,17 +123,29 @@
 	color: seagreen;
 	border-color: seagreen;
 }
+.selected.day {
+	color: goldenrod;
+	border-color: goldenrod;
+	background-color: #fcf6e9;
+}
 .week {
 	display: flex;
 	flex:1;
-	height: 80px;
 	justify-content: space-around;
+}
+
+.line {
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	border-top:1px solid rgba(236,236,236,1);
+	pointer-events: none; /* MAGIC!!!!!! */
 }
 
 .day {
 	display:flex;
 	padding:5px;
-	margin:8px;
+	margin:8px 8px 8px 8px;
 	flex:1;
 	background: white;
 	border-top: 1px solid rgba(236,236,236,1);
@@ -99,6 +158,25 @@
 	background-color: #ebfaff;
 }
 
+.weeklyDay {
+	display:flex;
+	flex-direction: column;
+	margin:0px 8px 8px 8px;
+	flex:1;
+	background: white;
+}
+
+.smallBricks {
+	border-top: 1px solid rgba(236,236,236,1);
+	flex: 1;
+	width: 100%;
+}
+
+.smallBricks:nth-child(odd){
+	background-color: white;
+	border-top: 1px solid black;
+}
+
 .magnet {
 	display:flex;
 	flex:0.4;
@@ -106,4 +184,16 @@
 	align-items: center;
 	margin:8px 0px 8px 0px;
 	border-top: 1px solid lightcoral;
-	border-radius:5px;}
+	border-radius:5px;
+}
+
+.colorBrick {
+	 cursor: move;
+}
+
+/* transform MAGIC!
+div.colorBrick:hover {
+	transform: scale(2);
+}
+*/
+
