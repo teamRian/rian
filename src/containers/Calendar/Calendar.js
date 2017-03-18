@@ -5,15 +5,10 @@ import { calendarPostEpic } from '../../epics/CalendarEpic';
 import FlexCalendarHeader from '../../components/FlexCalendar/FlexCalendarHeader'
 import FlexCalendarBody from '../../components/FlexCalendar/FlexCalendarBody';
 import '../../styles/FlexCalendar.css';
-import { calendarEpicRequestData } from '../../epics/CalendarEpic';
-
 
 class Calendar extends Component {
   constructor(props){
     super(props)
-  }
-
-  componentDidMount(){
   }
 
   render() {

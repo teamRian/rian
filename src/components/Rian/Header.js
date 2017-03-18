@@ -12,10 +12,12 @@ class Header extends React.Component {
   	// projectGet(this.props.User._id);
   }
   clickNewProject(){
+    //onClick 이벤트로 뉴프로젝트 컴포넌트를 쏴줌
   	browserHistory.push('/newProject');
   }
 
   componentDidMount(){
+    // 헤더가 마운트 될때 프로젝트를 가져온다
   	this.props.projectGet(this.props.User._id)
   }	
 

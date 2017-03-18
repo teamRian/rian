@@ -67,7 +67,7 @@ class FlexWeek extends Component {
               { this.smallBricksArray.map((x,i)=>{
                   return (
                     <FlexSmallBrick 
-                      key={`${day.day}${i}`}
+                      key={`${k}.${i}`}
                       timeIndex={i}
                       dayIndex={k}
                       _userId={this.props.User._id}

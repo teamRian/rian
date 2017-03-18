@@ -11,8 +11,12 @@ export default class FlexCalendarBody extends Component {
 	}
 
 	componentDidMount(){
-		// 캘린더가 로드 되었으니 파이어베이스를 콜해보자
-		 
+		// // 캘린더가 로드 되었으니 파이어베이스를 콜해보자
+		// const date = {
+		// 	year: this.props.Calendar.year,
+		// 	month: this.props.Calendar.month
+		// }
+		// this.props.calendarEpicRequestData(date)
 	}
 
 	renderTime(year, month) {

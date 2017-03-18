@@ -31,6 +31,7 @@ var CalendarState = {
  // CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA 
 
 export function Calendar(state = CalendarState, action) {
+	
 	switch (action.type){
 		case "CALENDAR_REQUEST_DATA":
 			return Object.assign({}, state, {

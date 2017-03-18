@@ -8,9 +8,8 @@ import FlexCalendarColorBrick from '../../components/FlexCalendar/FlexCalendarCo
 import FlexPalette from '../../components/FlexCalendar/FlexPalette';
 import { CirclePicker } from 'react-color';
 import '../../styles/FlexCalendar.css';
-import FlexCalendarPostModal from '../../components/FlexCalendar/FlexCalendarPostModal';
 // import CalendarList from 
-class Calendar extends Component {
+class CalendarSub extends Component {
   constructor(props){
     super(props)
   }
@@ -83,4 +82,4 @@ function mapDispatch(dispatch) {
   };
 }
 
-export default connect(mapState, mapDispatch)(Calendar);
+export default connect(mapState, mapDispatch)(CalendarSub);

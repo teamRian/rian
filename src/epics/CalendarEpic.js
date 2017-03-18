@@ -8,17 +8,23 @@ import {
 	CALENDAR_EPIC_CANCLE_DATA 
 } from '../constants'
 
-export const CalendarEpic = (action$, { getState, dispatch }, getFirebase) => 
-	action$.ofType(CALENDAR_EPIC_REQUEST_DATA)
-		.switchMap(action=>
+export const CalendarEpic = (action$, { getState, dispatch }, getFirebase) => {
+
+	return action$.ofType(CALENDAR_EPIC_REQUEST_DATA)
+		.switchMap(action=>{
+			debugger
 			// have to get data from action (query)
-			getFirebase()
-				.ref(`/duck/${getState().User._id}/plans`)
-				.on('value', (snapshot)=>
-					calendarEpicRequestData(snapshot.val())
-				)
+			return getFirebase()
+				.ref('/users' + '/' + '58b5128650f654071bf1e8c4' + '/timeline')
+				.on('value',(snapshot)=>{
+					debugger
+					calendarEpicSuccessData(snapshot.val())
+					}
+					) 
 				// .takeUntil(action$.ofType(CALENDAR_EPIC_CANCLE_DATA))
-		)
+		})
+
+}
 		// .catch(err => calendarEpicFailData(err))
 
 
@@ -30,11 +36,10 @@ export function calendarEpicRequestData(date){
 	}
 }
 
-export function calendarEpicSuccessData(response, b){
+export function calendarEpicSuccessData(snapshot){
 	return {
 		type: CALENDAR_EPIC_SUCCESS_DATA,
-		data: response,
-		howSorting: b
+		data: snapshot
 	}
 }
 
