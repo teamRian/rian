@@ -33,10 +33,10 @@ class FirebaseChatContainer extends Component {
 	render(){
 		
 		const tempdata = !isLoaded(this.props.chat) 
-		? 'is Loading'
-		: isEmpty(this.props.chat)
-		  ? 'temp is Empty'
-		  : console.log(this.props.chat)
+		  ? 'is Loading'
+		    : isEmpty(this.props.chat)
+		      ? 'temp is Empty'
+		        : console.log(this.props.chat)
 		return (
 			<div>
 			</div>
