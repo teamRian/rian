@@ -7,7 +7,8 @@ import '../../styles/FlexCalendar.css';
 
 const smallBrickTarget = {
   canDrop(props, monitor){
-    return true
+    
+    // return props.handleCanDrop(props.timeIndex, props.dayIndex, monitor.getItem().durationLength);
   },
   drop(props, monitor, component) {
     console.log("Hi, I'm Brick, my timeIndex is ", props.timeIndex, " and my DayIndex is ", props.dayIndex, " if you want details open this ", monitor.getItem())
@@ -32,11 +33,7 @@ function collect(connect, monitor) {
     isOver: monitor.isOver(),
     isOverCurrent: monitor.isOver({ shallow: true }),
     canDrop: monitor.canDrop(),
-    itemType: monitor.getItemType(),
-    getSourceClientOffset: monitor.getSourceClientOffset(),
-    getClientOffset: monitor.getClientOffset(),
-    getInitialSourceClientOffset:monitor.getInitialSourceClientOffset(),
-    getInitialClientOffset: monitor.getInitialClientOffset()
+    itemType: monitor.getItemType()
   };
 }
 
@@ -46,8 +43,7 @@ class FlexSmallBrick extends Component {
     super(props);
   }
   render() {
-    const { isOver, isOverCurrent, canDrop, itemType, connectDropTarget, getSourceClientOffset,
-      getClientOffset, getInitialSourceClientOffset, getInitialClientOffset } = this.props;
+    const { isOver, isOverCurrent, canDrop, itemType, connectDropTarget } = this.props;
     const isActive = isOver && canDrop;
     let backgroundColor = null;
     if (isActive) {

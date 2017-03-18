@@ -9,7 +9,47 @@ import { calendarPost } from '../../actions/CalendarActions';
 class FlexWeek extends Component {
   constructor(props){
     super(props);
-    this.smallBricksArray = [...Array(72)]
+
+    // 빈 7 x 72 매트릭스를 만들고 FlexSmallBrick들로 채웁니다
+    const smallBricksArray = [...Array(7)].map((x,k)=>{
+      return (
+        <div key={`${k}`} className={'weeklyDay'}>
+          { [...Array(72)]
+                .map((x,i)=>
+                    <FlexSmallBrick 
+                      key={`${k}.${i}`}
+                      timeIndex={i}
+                      dayIndex={k}
+                      _userId={this.props.User._id}
+                      handleOnDrop={form=>this.handleOnDrop.bind(this)(form)}
+                      handleCanDrop={(timeIndex, dayIndex)=>this.handleCanDrop.bind(this)(timeIndex, dayIndex)}
+                    />
+                )
+          }
+        </div>
+      )
+
+    })
+
+    this.smallBricksArray = smallBricksArray
+    // this.info;
+    console.log(this.props.Calendar, "ASDASDASDASD")
+  }
+
+  // listenFirebase(firebase){
+  //   var that = this;
+  //   firebase.ref().once('value', function(snapshot){
+  //     var val = snapshot.val();
+  //     that.info = val;
+  //   })
+
+  //   firebase.ref().on('child_added', function(snapshot){
+
+  //   })
+  // }
+
+  handleCanDrop(timeIndex, dayIndex, durationLength){
+    // var = 0
   }
 
   handleOnDrop(form){
@@ -62,22 +102,7 @@ class FlexWeek extends Component {
               today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear,
               selected: day.month === this.props.Calendar.selectedMonth && day.day === this.props.Calendar.selectedDay && day.year === this.props.Calendar.selectedYear 
             });
-            return (
-              <div key={`${day.day}`}className={dayClass}>
-              { this.smallBricksArray.map((x,i)=>{
-                  return (
-                    <FlexSmallBrick 
-                      key={`${k}.${i}`}
-                      timeIndex={i}
-                      dayIndex={k}
-                      _userId={this.props.User._id}
-                      handleOnDrop={form=>this.handleOnDrop.bind(this)(form)}
-                    />
-                  )
-                })
-              }
-              </div>) 
-            
+            return this.smallBricksArray[k]        
           })}
         </div>
       </div>
