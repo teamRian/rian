@@ -7,12 +7,12 @@ const uploadFile = {
     tag: ["image"],
     filesize: "12KB"
   },
-  "resevered.pptx": {
+  "test.png": {
     projectId: "khseok_CS101",
     projectName: "CS101",
     uploader: "siwoo",
     createdAt: "1999-01-22 01:11:11 am",
-    tag: ["ppt"],
+    tag: ["test1", "test2", "test3"],
     filesize: "22KB"
   },
   "marketResearch(korea, usa, england).docx": {

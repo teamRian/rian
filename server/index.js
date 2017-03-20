@@ -1,4 +1,4 @@
-import Express from 'express';
+import express from 'express';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -17,7 +17,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
-const app = new Express();
+const app = new express();
 
 // File Upload
 app.use(busboy());
@@ -68,7 +68,6 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   dummyData();
 });
 
-
 passportConfig(passport);
 
 // Apply body Parser and server public assets and routes
@@ -93,21 +92,9 @@ app.use('/user', users);
 app.use('/plan', plans);
 
 
+app.use(express.static(__dirname+'/file'))
 // File Management
-  // Upload File Test
 app.use('/file', files);
-
-  // Download File Test
-app.get('/download', function(req, res){
-  var filename = req._parsedOriginalUrl.query.split('=')[1];
-  var file = __dirname + '/files/' + filename;
-  res.download(file); // Set disposition and send it.
-});
-
-  // Delete File Test
-app.use('/delete', files);
-// File Management END
-
 
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
@@ -198,16 +185,9 @@ app.get('/checkAuth', isLoggedIn,(req, res) => {
 })
 
 // FILE MANAGEMENT
-app.get('/upload', (req,res)=>{
-  res.redirect('/#/upload')
+app.get('/files', (req,res) => {
+  res.redirect('/#/files')
 })
-app.get('/download', (req,res) => {
-  res.redirect('/#/download');
-})
-app.get('/delete', (req,res) => {
-  res.redirect('/#/delete');
-})
-// FILE MANAGEMENT END
 
 app.get('*', (req,res)=>{
   res.redirect('/')

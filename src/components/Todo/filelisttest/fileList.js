@@ -2,88 +2,87 @@ import React, { Component } from 'react';
 import { Button, Modal, OverlayTrigger, Tooltip, Table } from 'react-bootstrap';
 import moment from 'moment';
 
-import './fileList.css';
-import FileIcon from './fileIcon.js';
-import FileTag from './fileTag.js';
+// Import Component
+import FileIcon   from './fileIcon.js';
+import FileTag    from './fileTag.js';
 import FileUpload from './FileUpload.js';
+
+// Import ICON
+import FileSvgIcon from './file_svgIcon';
+
+// Import CSS
+import './fileList.css';
 
 class FileList extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    
     this.state = {
-      showListModal: false,
-      showDeleteModal: false,
-      showFileEditModal: false, 
-      showFileInfo: false,
-      removeFileItem: "",
-      downloadFileItem: "",
-      searchFileText: "",
-      fileInfoName: "",
-      editFileName: "",
-      editRemoveTag:"",
-      editNewTag: []
-    }
+          showListModal : false,
+        showDeleteModal : false,
+      showFileEditModal : false, 
+           showFileInfo : false,
+         removeFileItem : "",
+       downloadFileItem : "",
+         searchFileText : "",
+           fileInfoName : "",
+           editFileName : "",
+          editRemoveTag : "",
+             editNewTag : "",
+        editNewTagArray : []
+    };
+
     // Open Modal
-    this.openList = this.openList.bind(this);
-    this.closeList = this.closeList.bind(this);
-    this.openDeleteModal = this.openDeleteModal.bind(this);
-    this.closeDeleteModal = this.closeDeleteModal.bind(this);
-    this.openFileEditModal = this.openFileEditModal.bind(this);
-    this.closeFileEditModal = this.closeFileEditModal.bind(this);
+    this.openList             = this.openList.bind(this);
+    this.closeList            = this.closeList.bind(this);
+    this.openDeleteModal      = this.openDeleteModal.bind(this);
+    this.closeDeleteModal     = this.closeDeleteModal.bind(this);
+    this.openFileEditModal    = this.openFileEditModal.bind(this);
+    this.closeFileEditModal   = this.closeFileEditModal.bind(this);
 
-    // handle function
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleDownload = this.handleDownload.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleFileInfo = this.handleFileInfo.bind(this);
-    this.handleFileInfoClose = this.handleFileInfoClose.bind(this);
-    this.handleEditRemoveTag= this.handleEditRemoveTag.bind(this);
+    // Handle Function
+    this.handleRemove         = this.handleRemove.bind(this);
+    this.handleDownload       = this.handleDownload.bind(this);
+    this.handleSearch         = this.handleSearch.bind(this);
+    this.handleFileInfoOpen   = this.handleFileInfoOpen.bind(this);
+    this.handleFileInfoClose  = this.handleFileInfoClose.bind(this);
+    this.handleEditRemoveTag  = this.handleEditRemoveTag.bind(this);
+    this.handleEditAddTagText = this.handleEditAddTagText.bind(this);
+    this.handleEditAddTag     = this.handleEditAddTag.bind(this);
   }
 
-  openList() {
-    this.setState({
-      showListModal: true
-    })
-  }
-
+  // Modal Button Action
+  openList () { this.setState( { showListModal : true } ); }
   closeList() {
     this.setState({
-      showListModal: false,
-      showFileInfo: false,
-      searchFileText: ""
+       showListModal : false,
+        showFileInfo : false,
+      searchFileText : ""
     })
   }
 
   openDeleteModal(e) {
     const fileName = e.currentTarget.id;
     this.setState({
-      showDeleteModal: true,
-      removeFileItem: fileName
+      showDeleteModal : true,
+       removeFileItem : fileName
     })
   }
-
-  closeDeleteModal() {
-    this.setState({
-      showDeleteModal: false
-    })
-  }
+  closeDeleteModal() { this.setState( { showDeleteModal : false } ); }
 
   openFileEditModal(e) {
     e.preventDefault();
     const filename = e.currentTarget.id;
     this.setState({
-      showFileEditModal: true,
-      editFileName: filename,
-      editNewTag: this.props.uploadfile[filename].tag
+     showFileEditModal : true,
+          editFileName : filename,
+       editNewTagArray : this.props.uploadfile[filename].tag
     })
   }
+  closeFileEditModal() { this.setState( { showFileEditModal : false } ); }
 
-  closeFileEditModal() {
-    this.setState({
-      showFileEditModal: false
-    })
-  }
 
+  // Other Function Action
   handleRemove(e) {
     e.preventDefault();
     this.state.showDeleteModal = false;
@@ -100,49 +99,79 @@ class FileList extends Component {
   handleSearch(e) {
     e.preventDefault();
     this.setState({
-      searchFileText: e.target.value
+      searchFileText : e.target.value
     })
   }
 
-  handleFileInfo(e) {
+  handleFileInfoOpen(e) {
     e.preventDefault();
     this.setState({
-      showFileInfo: true,
-      fileInfoName: e.currentTarget.id
+      showFileInfo : true,
+      fileInfoName : e.currentTarget.id
     })
   }
 
   handleFileInfoClose(e) {
     e.preventDefault();
     this.setState({
-      showFileInfo: false,
-      fileInfoName: ""
+      showFileInfo : false,
+      fileInfoName : ""
     })
+  }
+
+  handleEditAddTagText(e) {
+    e.preventDefault();
+    this.setState({
+       editNewTag : e.target.value
+    })
+  }
+
+  handleEditAddTag(e) {
+    e.preventDefault();
+
+    if(this.state.editNewTag.length === 0) {
+      window.alert("Tag를 입력하세요!!!");
+    } else {
+      let originalTagArr = this.state.editNewTagArray;
+      if(originalTagArr.indexOf(this.state.editNewTag) === -1) {
+        originalTagArr.push(this.state.editNewTag);
+        this.setState({
+          editNewTagArray: originalTagArr,
+        })
+        this.props.editFile(this.state.fileInfoName, originalTagArr);
+      } else {
+        window.alert("이미 존재하는 Tag입니다.");
+      }
+    }
   }
 
   handleEditRemoveTag(e) {
     e.preventDefault();
-    let originalTag = this.state.editNewTag;
-    let tagIndex = originalTag.indexOf(e.currentTarget.textContent);
-    let fixedTag = [ ...this.state.editNewTag.slice(0, tagIndex), ...this.state.editNewTag.slice(tagIndex+1)];
+    
+    let originalTag = this.state.editNewTagArray;
+    let tagIndex    = originalTag.indexOf(e.currentTarget.textContent);
+    let fixedTag    = [ ...originalTag.slice(0, tagIndex), ...originalTag.slice(tagIndex+1) ];
+
     if(fixedTag.length === 0) {
       this.setState({
-        editNewTag: []
+        editNewTagArray : []
       })
     } else {
       this.setState({
-        editNewTag: fixedTag
+        editNewTagArray : fixedTag
       })
     }
+
+    this.props.editFile(this.state.fileInfoName, fixedTag);
   }
 
   render() {
 
     let listKeys = Object.keys(this.props.uploadfile);
 
-    let searchResult = [];
+    let searchResult   = [];
     let uploadFileList = this.props.uploadfile;
-    let searchText = this.state.searchFileText; 
+    let searchText     = this.state.searchFileText; 
 
     if(this.state.searchFileText.length !== 0) {
       for(let i = 0; i < listKeys.length; i++) {
@@ -159,6 +188,7 @@ class FileList extends Component {
           }
         }
       }
+
       listKeys = searchResult;
     }
     
@@ -166,7 +196,7 @@ class FileList extends Component {
       <div>
         <Button bsStyle="info" onClick={this.openList}>File List</Button>
         <Modal show={this.state.showListModal} onHide={this.closeList}>
-          <Modal.Header closeButton>
+          <Modal.Header className="file-list-modal-header-background" closeButton>
             <span className="file-modal-header-text">Project File List</span>
           </Modal.Header>
           <Modal.Body>
@@ -175,7 +205,7 @@ class FileList extends Component {
               <ul className="filedashboard">
                 {listKeys.map((key,i) => 
                   <li key={i} className="filedashboarditem">
-                    <div className="iconImage" id={key} onClick={this.handleFileInfo}>
+                    <div className="iconImage" id={key} onClick={this.handleFileInfoOpen}>
                       <FileIcon list={key}/>
                     </div>
                     <div className="filedashboardinfo">
@@ -183,13 +213,13 @@ class FileList extends Component {
                         <h4 className="filedashboardinfo-name">{key}</h4>
                       </OverlayTrigger>
                       <button className="showInfo" id={key} onClick={this.handleDownload}>
-                        {downloadButton}
+                        {FileSvgIcon.downloadButton}
                       </button>
                     </div>
                     <FileTag tags={this.props.uploadfile[key].tag} name={key}/>
                     <div className="removeButtonContainer">
                       <button className="removeButton" id={key} onClick={this.openDeleteModal}>
-                        {removeButton}
+                        {FileSvgIcon.removeButton}
                       </button>
                     </div>
                   </li>
@@ -198,10 +228,11 @@ class FileList extends Component {
 
               <Modal show={this.state.showFileEditModal} onHide={this.closeFileEditModal}>
                 <Modal.Header>Tag 수정</Modal.Header>
-                <Modal.Body>{this.state.editFileName.length === 0? "" : showTagList(this.state.editNewTag, this.handleEditRemoveTag)}</Modal.Body>
+                <Modal.Body>
+                  {this.state.editFileName.length === 0 ? "" : showTagList(this.state.editNewTagArray, this.handleEditRemoveTag, this.handleEditAddTagText, this.handleEditAddTag)}
+                </Modal.Body>
                 <Modal.Footer>
-                  <Button bsStyle="danger">변경하기</Button>
-                  <Button onClick={this.closeFileEditModal}>취소하기</Button>
+                  <Button onClick={this.closeFileEditModal}>닫기</Button>
                 </Modal.Footer>
               </Modal>
 
@@ -210,7 +241,7 @@ class FileList extends Component {
                 <Modal.Body>{this.state.removeFileItem}을 삭제하시겠습니까?</Modal.Body>
                 <Modal.Footer>
                   <Button bsStyle="danger" onClick={this.handleRemove}>삭제하기</Button>
-                  <Button onClick={this.closeDeleteModal}>취소하기</Button>
+                  <button className="closeButtonStyle" onClick={this.closeDeleteModal}>취소하기</button>
                 </Modal.Footer>
               </Modal>
             </div>
@@ -218,11 +249,11 @@ class FileList extends Component {
           <Modal.Footer>
             <div className="file-modal-footer-box">
               <div className="file-modal-footer-input-box">
-                <input className="file-modal-footer-input" type="text" placeholder="File 검색" id="search-file" onChange={this.handleSearch}/>  
+                <input className="file-modal-footer-input" type="text" placeholder="File 검색" className="editTagInputText" onChange={this.handleSearch}/>  
               </div>
               <div className="file-modal-footer-button">
                 <FileUpload {...this.props}/>
-                <Button className="file-modal-footer-button-close" onClick={this.closeList}>Close</Button>
+                <button className="closeButtonStyle" onClick={this.closeList}>Close</button>
               </div>
             </div>
           </Modal.Footer>
@@ -233,15 +264,22 @@ class FileList extends Component {
 }
 // React Component End
 
-const showTagList = (tagList, removeFunction) => {
+
+const showTagList = (tagList, removeFunction, stateAddTextFunction, addTagFunction) => {
   return (
     <div>
-      <form className="addTagContainer">
-        <span className="editTagAddTag">Tag 추가</span>
-        <input type="text" placeholder="Tag를 입력하세요" className="editTagInputText" />
-        {plusIcon}
-        <span className="editTagWarningText">* Tag를 클릭하시면 삭제됩니다.</span>
-      </form>
+      <div>
+        <form className="addTagContainer">
+          <div className="testInput">
+            <input type="text" className="editTagInputText2" onChange={stateAddTextFunction} required/>
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label className="testLabel">Tag를 추가하세요</label>
+          </div>
+          <div onClick={addTagFunction}>{FileSvgIcon.plusIcon}</div>
+          <span className="editTagWarningText">* Tag를 클릭하시면 삭제됩니다.</span>
+        </form>
+      </div>
       <ul className="editTagBox">
        {tagList.map((tag,i)=>(
           <li className="editTagItem" onClick={removeFunction} key={tag}>{tag}</li>
@@ -250,7 +288,6 @@ const showTagList = (tagList, removeFunction) => {
     </div>
   )
 }
-
 
 const showTag = (Tag) => {
   if (Tag.length === 0) {
@@ -308,49 +345,11 @@ const fileInfoTable = (key, info, close, openEdit) => {
       </Table>
       <div className="fileInfoTableRemoveButtonContainer" onClick={close}>
         <button className="removeButton" id={key}>
-          {removeButton}
+          {FileSvgIcon.removeButton}
         </button>
       </div>
     </div>
   )
 }
-
-
-// ICON SVGs
-const downloadButton = (
-  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-     viewBox="0 0 433.72 433.72" style={{enableBackground:"new 0 0 433.72 433.72"}} xmlSpace="preserve" width="18" height="18">
-    <g>
-      <path style={{fill:"#EF806F"}} d="M406.03,251.19c17.06,16.37,27.69,39.41,27.69,64.93c0,49.71-40.3,90-90,90c-49.71,0-90-40.29-90-90
-        c0-3.53,0.2-7,0.6-10.42c5.16-44.79,43.22-79.58,89.4-79.58C367.9,226.12,389.86,235.65,406.03,251.19z"/>
-      <polygon style={{fill:"#FFFFFF"}} points="336.217,248.596 336.217,354.94 309.423,328.146 298.816,338.752 343.717,383.653 
-        388.619,338.752 378.012,328.146 351.217,354.94 351.217,248.596"/>
-      <path style={{fill:"#1EA6C6"}} d="M412.91,216.89c0,7.16-0.85,14.12-2.46,20.79c-18.61-15.89-42.07-24.56-66.73-24.56
-        c-52.35,0-96.33,39.16-102.31,91.07c-0.06,0.48-0.11,0.96-0.16,1.44H70.99C31.78,305.63,0,273.84,0,234.64
-        c0-30.52,19.26-56.54,46.29-66.57c-0.1-1.46-0.16-2.94-0.16-4.42c0-36.41,29.51-65.92,65.92-65.92c11.66,0,22.61,3.04,32.12,8.36
-        c10.19-44.94,50.38-78.49,98.4-78.49c55.73,0,100.91,45.18,100.91,100.91c0,0.58-0.02,1.16-0.03,1.75
-        C383.19,139.06,412.91,174.5,412.91,216.89z"/>
-    </g>
-  </svg>
-)
-
-const removeButton = (
-  <svg width="22" height="21" viewBox="0 0 18 17" className="removeIcon">
-    <ellipse fill="#F8BBD0" cx="8.62" cy="8.383" rx="8.62" ry="8.383"></ellipse>
-    <path stroke="#FFF" fill="#FFF" d="M11 6.147L10.85 6 8.5 8.284 6.15 6 6 6.147 8.35 8.43 6 10.717l.15.146L8.5 8.578l2.35 2.284.15-.146L8.65 8.43z"></path>
-  </svg>
-)
-
-const plusIcon = (
-  <svg className="editTagPlusIconStyle" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-viewBox="0 0 496.158 496.158" xmlSpace="preserve" width="20px" height="20px">
-    <path style={{fill:"#32BEA6"}} d="M0,248.085C0,111.063,111.069,0.003,248.075,0.003c137.013,0,248.083,111.061,248.083,248.082
-      c0,137.002-111.07,248.07-248.083,248.07C111.069,496.155,0,385.087,0,248.085z"/>
-    <path style={{fill:"#FFFFFF"}} d="M383.546,206.55H289.08v-93.938c0-3.976-3.224-7.199-7.201-7.199H213.75
-      c-3.977,0-7.2,3.224-7.2,7.199v93.938h-93.937c-3.977,0-7.2,3.225-7.2,7.2v69.187c0,3.976,3.224,7.199,7.2,7.199h93.937v93.41
-      c0,3.976,3.224,7.199,7.2,7.199h68.129c3.978,0,7.201-3.224,7.201-7.199v-93.41h94.466c3.976,0,7.199-3.224,7.199-7.199V213.75
-      C390.745,209.774,387.521,206.55,383.546,206.55z"/>
-  </svg>
-)
 
 export default FileList;

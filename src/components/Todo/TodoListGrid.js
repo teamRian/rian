@@ -27,44 +27,41 @@ class TodoListGrid extends React.Component {
         let contriItemList = []
         let total = 0;
 
-        for(let i = 0; i < this.props.todoList.length; i++) {
+        for ( let i = 0; i < this.props.todoList.length; i++ ) {
 
             let todoData = this.props.todoList[i];
 
-            if(todoData.status === 'created') {
-                readyItem.push(todoData);
-            } else if(todoData.status === 'progress') {
-                progressItem.push(todoData);
+            if ( todoData.status === 'created' ) {
+                readyItem.push( todoData );
+            } else if ( todoData.status === 'progress' ) {
+                progressItem.push( todoData );
             } else {
               // For Completed Grid
-              completedItem.push(todoData);
+              completedItem.push( todoData );
 
               // For Contribution Individual Value
               var contributor = Object.keys(todoData.ratio);
 
               for(let i = 0; i < contributor.length; i++) {
-                let contValue = Math.ceil(todoData.ratio[contributor[i]] * todoData.importance / 100);
+                let contValue = Math.ceil(todoData.ratio[ contributor[i] ] * todoData.importance / 100);
+
+                let addItem = {
+                         title : todoData.title, 
+                         ratio : todoData.ratio[ contributor[i] ],
+                    importance : todoData.importance
+                }
 
                 // Project Total Value
                 total = total + contValue;
                 
                 // Individual Total Contribution Value
-                if(!IndividualContributionItem[contributor[i]]) { 
-                  IndividualContributionItem[contributor[i]] = {};
-                  IndividualContributionItem[contributor[i]].value = contValue;
-                  IndividualContributionItem[contributor[i]].participatedList = [
-                      { title: todoData.title, 
-                        ratio: todoData.ratio[contributor[i]],
-                        importance: todoData.importance }
-                  ];
+                if ( !IndividualContributionItem[ contributor[i] ] ) { 
+                  IndividualContributionItem[ contributor[i] ] = {};
+                  IndividualContributionItem[ contributor[i] ].value = contValue;
+                  IndividualContributionItem[ contributor[i] ].participatedList = [ addItem ];
                 } else {
-                  IndividualContributionItem[contributor[i]].value = IndividualContributionItem[contributor[i]].value + contValue;
-                  let addItem = {
-                    title: todoData.title, 
-                    ratio: todoData.ratio[contributor[i]],
-                    importance: todoData.importance
-                  }
-                  IndividualContributionItem[contributor[i]].participatedList.push(addItem);
+                  IndividualContributionItem[ contributor[i] ].value = IndividualContributionItem[contributor[i]].value + contValue;
+                  IndividualContributionItem[ contributor[i] ].participatedList.push( addItem );
                 }
               }
             }
@@ -72,19 +69,19 @@ class TodoListGrid extends React.Component {
 
         let contriKey = Object.keys(IndividualContributionItem);
 
-        for(let k = 0; k < contriKey.length; k++) {
-          let item = {};
-          let key = contriKey[k];
+        for ( let k = 0; k < contriKey.length; k++ ) {
+          let item  = {};
+          let key   = contriKey[k];
           item[key] = IndividualContributionItem[key];
-          contributionList.push(item);
+          contributionList.push( item );
         }
 
         let todoTotalListNumber = this.props.todoList.length;
-        let todoDoneListNumber = completedItem.length;
+        let todoDoneListNumber  = completedItem.length;
 
         const wrap = {
-            display: "flex",
-            padding: "5px 5px"
+            display : "flex",
+            padding : "5px 5px"
         }
 
         return(

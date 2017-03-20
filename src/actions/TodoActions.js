@@ -1,6 +1,6 @@
-import { TODO_ADD, TODO_CHANGE_STATUS, TODO_REMOVE } from '../constants';
+import { TODO_ADD, TODO_CHANGE_STATUS, TODO_REMOVE, TODO_EDIT } from '../constants';
 
-export const addTodo = (newId, author, player, title, text, importance, index, log) => {
+export const addTodo = (newId, author, player, title, text, importance, index, log, ratio) => {
   return {
     type: TODO_ADD,
     newId,
@@ -10,7 +10,8 @@ export const addTodo = (newId, author, player, title, text, importance, index, l
     text,
     importance,
     index,
-    log
+    log,
+    ratio
   }
 }
 
@@ -30,5 +31,19 @@ export const removeTodo = (id, log) => {
     type: TODO_REMOVE,
     id,
     log
+  }
+}
+
+export const editTodo = (id, title, text, importance, ratio, player, editAuthor, editDate) => {
+  return {
+    type: TODO_EDIT,
+    id, 
+    title, 
+    text, 
+    importance, 
+    ratio,
+    player,
+    editAuthor,
+    editDate
   }
 }
