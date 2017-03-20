@@ -2,8 +2,12 @@ import React from 'react';
 import firebase from 'firebase';
 import Firepad from 'firepad';
 import FirepadUserList from '../../lib/firepad-userlist.js';
-import '../../styles/Firepad.css';
 
+// Component IMPORT
+import RichBox from './RichBox';
+
+// CSS IMPORT
+import '../../styles/Firepad.css';
 
 var config = {
     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
@@ -23,7 +27,11 @@ class WhiteBoardFirePad extends React.Component{
 
 		super(props);
 		
-    // this.otherUsers = {};
+    this.state = {
+      toggleRichBox : false,
+      richBoxPosition : { top:"100px", left:"500px" }
+    }
+
     this.userInfo = {};
     // userInfo value 형태 ( firebase event로 받아서 결정되는 값 )
     // { 'dev' : { blockingLine : null, customCursor : { line : 1, ch : 1 }, name : 'dev', color : '#ffff' } }
@@ -41,24 +49,24 @@ class WhiteBoardFirePad extends React.Component{
     this.firepad = {}
     this.firepadUserList = {}
     
+    //method
+    this.toggleRichBox.bind(this);
   }
 
 	componentDidMount() {
-    // userInfo 받는일해야됨
-    //  - line child_add 또는 change 될때
+    
     let wbfp = this;
 
     wbfp.codeMirror = CodeMirror(document.getElementById('firepad'), { 
       gutters: ["codemirror-username"],
       lineWrapping: true,
       lineNumbers: true,
-      dragDrop : true,
     });
     
     wbfp.firepad = Firepad.fromCodeMirror(wbfp.firepadRef, wbfp.codeMirror, {
                      userId: wbfp.userId,
                      richTextShortcuts: true,
-                     //richTextToolbar: true,
+                     richTextToolbar: true,
                      //defaultText: 'Hello, World!'
                    });
     
@@ -93,8 +101,13 @@ class WhiteBoardFirePad extends React.Component{
 
       //init customCursor For User
       wbfp.firepadRef.child('users').child(wbfp.userId).update({ blockingLine : false, customCursor : { line : false, ch : false } });
-
-      /*** #### firebase "lines" event handler #### ***/
+      //wbfp.codeMirror.setGutterMarker(0, "codemirror-username", wbfp.makeMarker("test"));
+      
+      /* 
+        #############################################
+        ##### FIREBASE "lines" PROPERTY - EVENT #####
+        #############################################
+                                                     */
 
       // lines에 하위 property들이 추가되는 것을 감지함
       wbfp.firepadRef.child('lines').on('child_added', function(snapshot){
@@ -131,7 +144,11 @@ class WhiteBoardFirePad extends React.Component{
         console.log('lines child removed :: ', key, line);
       });
     	
-      /*** #### firebase "users" event handler #### ***/
+      /* 
+        #############################################
+        ##### FIREBASE "users" PROPERTY - EVENT #####
+        #############################################
+                                                     */
 
       // users가 추가되면 감지함
       wbfp.firepadRef.child('users').on('child_added', function(snapshot){
@@ -158,7 +175,11 @@ class WhiteBoardFirePad extends React.Component{
         console.log('users child removed :: ', key, user);
       });
 
-      /* #### codemirror event hanlder #### */
+      /* 
+        ######################################
+        ##### CODEMIRROR "EVENT" HANDLER #####
+        ######################################
+                                              */
 
       wbfp.codeMirror.on('blur', function(cm, e){
         
@@ -333,7 +354,6 @@ inputRead가 실행될때 => firebase에
 
       });
 
-
       /* 
         #########################################
         ##### RICH TOOL BOX SHOW - FUNCTION #####
@@ -352,6 +372,8 @@ inputRead가 실행될때 => firebase에
       document.getElementById('firepad').addEventListener('mouseup', function(e){        
         var selText = wbfp.codeMirror.getSelection();
         if(selText !== ""){
+          let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
+          wbfp.toggleRichBox(richBoxPos);
           console.log('rich tool box show!!!');
         }                
       });
@@ -373,17 +395,34 @@ inputRead가 실행될때 => firebase에
 
 	}
 
-	componentWillUnmount() {
+  makeMarker(name) {
+    var marker = document.createElement("div");
+    marker.style.color = "#822";
+    marker.innerHTML = name;
+    return marker;
+  }
 
+  toggleRichBox(inputRichBoxPos){
+    let richBoxPos = inputRichBoxPos || {};
+    this.setState({
+      toggleRichBox : !this.state.toggleRichBox,
+      richBoxPosition : richBoxPos
+    })
+  }
+
+	componentWillUnmount() {
     console.log('componenetWillUnmout fired');
 	}
 
 	render(){
 		
 		return (
-			<div>
+			<div className="firepad-box">
 				<div id="userlist"></div>
-				<div id="firepad"></div>	
+				<div id="firepad"></div>
+        {
+          this.state.toggleRichBox ? <RichBox pos={this.state.richBoxPosition} /> : null
+        }        
 			</div>
 		)
 
