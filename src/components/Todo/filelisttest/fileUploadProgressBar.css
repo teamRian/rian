@@ -1,3 +1,25 @@
+.file-upload-progress-file-info-title {
+  width: 25% !important;
+  border: 0px !important;
+  color: #757575 !important;
+  background-color: rgba(0,150,136,0.2) !important;
+  border: 1px solid rgba(0,150,136,1) !important;
+  padding: 4px 4px !important;
+} 
+
+.file-upload-progress-file-info-content {
+  width: 25% !important;
+  border: 0px !important;
+  color: #757575 !important;
+  overflow-x: hidden !important;
+  padding: 4px 4px !important;
+}
+
+.file-upload-progress-file-warning-text {
+  font-size: 9px;
+  color: #C62828;
+}
+
 .progressWrapper {
     height: 20px;
     margin-top: 10px;
@@ -101,10 +123,6 @@
 
 .fileupload-textCenter {
   text-align: center;
-}
-
-.quaterWidth {
-  width: 25%;
 }
 
 .addTag {

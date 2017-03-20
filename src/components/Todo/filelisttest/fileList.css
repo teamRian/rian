@@ -1,3 +1,10 @@
+.file-list-modal-header-background {
+  background-color: #EEEEEE;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  color: #616161;
+}
+
 .tagText {
   font-size: 5px;
   padding: 2px 2px;
@@ -15,7 +22,6 @@
 
 .fileListContainer {
   display: block;
-  /*position: relative;*/
   overflow-y: hidden;
   margin: 0;
   -ms-flex: 1;
@@ -25,7 +31,6 @@
 .filedashboard {
   margin: 0;
   padding: 10px;
-  /*position: absolute;*/
   overflow-y: auto;
   top: 0;
   left: 0;

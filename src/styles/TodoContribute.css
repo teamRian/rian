@@ -41,9 +41,9 @@
   width: 15%  
 }
 
-.todo-contribute-box-body {
-  border: 0px;
-  color: #9E9E9E;
+.todo-contribute-box-body td{
+  border: 0px !important;
+  color: #9E9E9E !important;
 }
 
 .todo-contribute-box-footer-center {

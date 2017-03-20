@@ -8,21 +8,19 @@ class TodoContribute extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        showToggle: false, //SHOW HISTORY
+        showToggle : false //SHOW HISTORY
       }
+
+      // SHOW HISTORY
       this.toggle = this.toggle.bind(this);
   }
 
   // SHOW HISTORY BUTTON ACTION
-  toggle() {
-    this.setState({
-      showToggle: !this.state.showToggle
-    })
-  }
+  toggle() { this.setState( { showToggle: !this.state.showToggle } ); }
 
   render() {
     // Todo에 참여한 사람의 개별 ID
-    const key = Object.keys(this.props.list)[0];
+    const key   = Object.keys(this.props.list)[0];
     // Project 전체에서 해당 ID가 기여한 Percentage
     const value = Math.round(this.props.list[key].value / this.props.total * 100);
 
@@ -34,30 +32,30 @@ class TodoContribute extends React.Component {
         let point = Math.ceil(item.ratio/100 * item.importance);
         
         return (
-          <tr key={i}>
-            <td className="todo-contribute-box-body"></td>
-            <td className="todo-contribute-box-body">{item.title}</td>
-            <td className="todo-contribute-box-body">{point + "("+item.importance+")"}</td>
-            <td className="todo-contribute-box-body">{item.ratio + '%'}</td>
-            <td className="todo-contribute-box-body"></td>
+          <tr className="todo-contribute-box-body" key={i}>
+            <td></td>
+            <td>{item.title}</td>
+            <td>{point + "("+item.importance+")"}</td>
+            <td>{item.ratio + '%'}</td>
+            <td></td>
           </tr>
         )
       })
     }
 
-    const percentBar = {
-      textAlign: "center",
-      color: "#757575",
-      width: value + "%",
-      backgroundColor: `rgba(${this.props.color},0.2)`,
-      border: `1px solid rgba(${this.props.color},1)`,
-      borderRadius: "4px",
-      fontSize: "12px"
+    const todoContributionPercentBar = {
+            textAlign : "center",
+                color : "#757575",
+                width : value + "%",
+      backgroundColor : `rgba(${this.props.color},0.2)`,
+               border : `1px solid rgba(${this.props.color},1)`,
+         borderRadius : "4px",
+             fontSize : "12px"
     }
 
-    const totalBackground = {
-      backgroundColor: `rgba(${this.props.color},1)`,
-      color: "white"
+    const todoConrtributionTotalBackground = {
+      backgroundColor : `rgba(${this.props.color},1)`,
+                color : "white"
     }
 
     return (
@@ -66,7 +64,7 @@ class TodoContribute extends React.Component {
             <div className="todo-contribute-title-left">{key}</div>
             <div className="todo-contribute-title-center">
               <div className="percentBox">
-                <div style={percentBar}>
+                <div style={todoContributionPercentBar}>
                   {value + '%'}
                 </div>
               </div>
@@ -92,7 +90,7 @@ class TodoContribute extends React.Component {
                   <td className="todo-contribute-box-header-blank"></td>
                   <td className="todo-contribute-box-footer-center">Total</td>
                   <td className="todo-contribute-box-footer-center">{this.props.list[key].value + "("+ this.props.total + ")"}</td>
-                  <td className="todo-contribute-box-footer-center" style={totalBackground}>{value + "%"}</td>
+                  <td className="todo-contribute-box-footer-center" style={todoConrtributionTotalBackground}>{value + "%"}</td>
                   <td className="todo-contribute-box-header-blank"></td>
                 </tr>
               </tbody>

@@ -29,11 +29,12 @@ const todoList = {
             "status": "completed",
             "importance": 8,
             "ratio": {
-                "khseok": 10,
+                "khseok": 20,
                 "siwoo": 30,
-                "alexlee": 50,
-                "cereburu": 10        
-            }
+                "alexlee": 50
+            },
+            "editDate": "2000-04-12 11:12:30 am",
+            "editAuthor": "siwoo"
         },
         {
             "id": "svcoding_CS101_2",
@@ -49,9 +50,11 @@ const todoList = {
             "enddate": "1999-01-04",
             "status": "completed",
             "importance": 4,
-            "ratio": 
-                {"cereburu": 100}
-            
+            "ratio": {
+                "cereburu": 100
+            },
+            "editDate": "",
+            "editAuthor": ""       
         },
         {
             "id": "svcoding_CS101_3",
@@ -67,11 +70,13 @@ const todoList = {
             "enddate": "",
             "status": "progress",
             "importance": 7,
-            "ratio":
-                {"alexlee": 50,
+            "ratio": {
+                "alexlee": 50,
                 "siwoo": 30,
-                "seungchan": 20}
-            
+                "seungchan": 20
+            },
+            "editDate": "",
+            "editAuthor": ""   
         },
         {
             "id": "svcoding_CS101_4",
@@ -87,7 +92,11 @@ const todoList = {
             "enddate": "",
             "status": "created",
             "importance": 2,
-            "ratio": {"alexlee": 100}
+            "ratio": {
+                "alexlee": 100
+            },
+            "editDate": "",
+            "editAuthor": ""
         },
         {
             "id": "svcoding_CS101_5",
@@ -103,10 +112,12 @@ const todoList = {
             "enddate": "",
             "status": "created",
             "importance": 1,
-            "ratio": 
-                {"seungchan": 50,
-                "siwoo": 50}
-            
+            "ratio": {
+                "seungchan": 50,
+                "siwoo": 50
+            },
+            "editDate": "",
+            "editAuthor": ""
         }
     ]
 }

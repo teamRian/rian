@@ -1,8 +1,19 @@
-.contribution-header-text {
+.todo-contribution-button-box-wrap {
+  display : flex;
+  flex-wrap: wrap;
+  padding : 5px 5px;
+}
+
+.todo-contribution-modal-header {
+  background-color: #7E57C2;
+  color: white;
+}
+
+.todo-contribution-modal-header-text {
     margin-bottom: 0px;
 }
 
-.body-header-text {
+.todo-contribution-modal-body-title {
   font-weight: bold;
   margin-bottom: 20px;
   border-bottom: 1px solid #424242;
@@ -10,7 +21,7 @@
   padding-bottom: 10px;
 }
 
-.body-info-box {
+.todo-contribution-modal-body-info-box {
     display: flex;
     justify-content: space-between;
     align-items: middle;
@@ -19,7 +30,7 @@
     font-size: 13px;
 }
 
-.body-info-box-left {
+.todo-contribution-modal-body-info-box-left {
     width: 20%;
     margin-right: 10px;
     padding-right: 10px;
@@ -28,6 +39,6 @@
     text-align: right;
 }
 
-.body-info-box-right {
+.todo-contribution-modal-body-info-box-right {
     width: 80%;
 }

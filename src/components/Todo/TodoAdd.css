@@ -5,6 +5,9 @@
   border-top-right-radius: 5px;
 }
 
+.todo-add-box-wrap {
+  padding: 5px 5px;
+}
 
 .alignTextarea {
   width: 100%;

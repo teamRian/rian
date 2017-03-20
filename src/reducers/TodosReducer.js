@@ -2,30 +2,30 @@
 import todoList from '../components/Todo/testData';
 
 export function TodosListReducer (state = todoList.todos, action) {    
-    switch(action.type){
+    switch ( action.type ) {
         case 'TODO_ADD':
-            return [...state, {
-                id: action.newId,
-                author: action.author,
-                player: action.player, 
-                title: action.title,
-                text: action.text,
-                index: action.index,
-                importance: action.importance,
-                status: "created",
-                ratio: action.ratio
+            return [ ...state, {
+                    id : action.newId,
+                author : action.author,
+                player : action.player, 
+                 title : action.title,
+                  text : action.text,
+                 index : action.index,
+            importance : action.importance,
+                status : "created",
+                 ratio : action.ratio
             }]
         case 'TODO_REMOVE':
             let removeIndex;
 
-            for(let i = 0; i < state.length; i++) {
-                if(state[i].id === action.id) {
+            for ( let i = 0; i < state.length; i++ ) {
+                if ( state[i].id === action.id ) {
                     removeIndex = i;
                     break;
                 }
             }
 
-            if(state.length === 1) {
+            if ( state.length === 1 ) {
                 return [];
             } else {
                 return [
@@ -36,16 +36,35 @@ export function TodosListReducer (state = todoList.todos, action) {
         case 'TODO_CHANGE_STATUS':
             let changeIndex;
 
-            for(let i = 0; i < state.length; i++) {
-                if(state[i].id === action.id) {
+            for ( let i = 0; i < state.length; i++ ) {
+                if ( state[i].id === action.id ) {
                     changeIndex = i;
                     break;
                 }
             }
             
-            state[changeIndex].status = action.status;            
-            state[changeIndex].startdate = action.startdate;
-            state[changeIndex].enddate = action.enddate;
+            state[ changeIndex ].status    = action.status;            
+            state[ changeIndex ].startdate = action.startdate;
+            state[ changeIndex ].enddate   = action.enddate;
+
+            return state;
+        case 'TODO_EDIT':
+            let editedIndex;
+
+            for ( let i = 0; i < state.length; i++ ) {
+                if ( state[i].id === action.id ) {
+                    editedIndex = i;
+                    break;
+                }
+            }
+
+            state[ editedIndex ].title  = action.title;
+            state[ editedIndex ].text   = action.text;
+            state[ editedIndex ].importance = action.importance;
+            state[ editedIndex ].ratio  = action.ratio;
+            state[ editedIndex ].player = action.player;
+            state[ editedIndex ].editAuthor = action.editAuthor;
+            state[ editedIndex ].editDate = action.editDate;
 
             return state;
         default:
@@ -55,13 +74,13 @@ export function TodosListReducer (state = todoList.todos, action) {
 
 
 export function TodosLogsReducer (state = todoList.logs, action) {    
-    switch(action.type){
+    switch ( action.type ) {
         case 'TODO_ADD':
-            return [ ...state, action.log];
+            return [ ...state, action.log ];
         case 'TODO_REMOVE':
-            return [ ...state, action.log];
+            return [ ...state, action.log ];
         case 'TODO_CHANGE_STATUS':
-            return [ ...state, action.log];
+            return [ ...state, action.log ];
         default:
             return state;
     }

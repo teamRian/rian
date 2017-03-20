@@ -49,6 +49,14 @@
 }
 
 
+.todo-item-edit-text {
+  text-align: right;
+  font-size: 6px;
+  font-style: italic;
+  padding-right: 10px;
+  margin-bottom: 0px;
+}
+
 .white-board-box{
 	border:1px solid grey;
 }
@@ -255,7 +263,6 @@
   padding-bottom: 10px;
   margin-right: 5px;
   margin-bottom: 10px;
-  /*text-align: center;*/
 }
 
 .TodoItemDetail-Task-Description-Time-Text1 {
@@ -264,7 +271,6 @@
   border-bottom: 1px solid #E0E0E0;
   padding-bottom: 10px;
   margin-bottom: 10px;
-  /*text-align: center;*/
 }
 
 .testModalWidth .modal-footer {
@@ -288,16 +294,16 @@
   color: #BDBDBD;
 }
 
-.prev-Button{
+.prev-Button {
   padding: 5px 5px;
   cursor: pointer;
 }
 
-.prev-Button:hover{
+.prev-Button:hover {
   color: #03A9F4
 }
 
-.next-Button{
+.next-Button {
   padding: 5px 5px;
   cursor: pointer;
 }
@@ -310,3 +316,169 @@
   color: #F44336;
 }
 
+.todo-fix-icon {
+  fill: #E0E0E0;
+}
+
+.todoFixIconBox:hover .todo-fix-icon {
+  fill: #424242;
+}
+
+/*Todo Edit Style*/
+.todo-edit-header-background {
+  background-color: #2196F3;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.todo-edit-item-box {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.todo-edit-item-player-box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.todo-edit-item-text-box {
+  display: flex;
+  width: 100%; 
+}
+
+.todo-edit-subject {
+  width: 10%;
+  font-weight: 700;
+  margin: 10px 10px;
+  text-align: center;
+  color: #2196F3;
+}
+
+.todo-edit-text-subject {
+  width: 10%;
+  font-weight: 700;
+  margin: 10px 10px;
+  margin-top: 0px;
+  text-align: center;
+  color: #2196F3
+}
+
+.todo-edit-username {
+  width: 90%;
+  padding-left: 10px;
+}
+
+.todo-edit-title-input {
+  border-style: none;
+  border-bottom: 2px solid #BBDEFB;
+  padding-left: 10px;
+  width: 90%;
+  height: 30px;
+}
+
+.todo-edit-item-box .form-control {
+  width: 90%;
+  height: 30px;
+  border: 1px solid #BBDEFB;
+}
+
+.todo-edit-newplayer-name {
+  width: 40%;
+  border-style: none;
+  border-bottom: 2px solid #BBDEFB;
+  height: 30px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+
+.todo-edit-newplayer-ratio {
+  width: 40%;
+  border-style: none;
+  border-bottom: 2px solid #BBDEFB;
+  height: 30px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+
+.todo-edit-newplayer-addbutton {
+  display: flex;
+  align-items: center;
+  width: 10%;
+}
+
+.todo-edit-player-box{
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.todo-edit-player-pill {
+  padding: 5px 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  margin-right: 10px;
+  background-color: #2196F3;
+  color: white;
+}
+
+.todo-edit-text {
+  width: 90%;
+  border: 1px solid #BBDEFB;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
+.todo-edit-save-button {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid #2196F3;
+  color: #2196F3;
+  margin-right: 10px;
+}
+
+.todo-edit-save-button:hover {
+  background-color: #2196F3;
+  border: 1px solid #2196F3;
+  color: white;
+}
+
+.todo-edit-close-button {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid #BDBDBD;
+  color: #BDBDBD;
+}
+
+.todo-edit-close-button:hover {
+  background-color: #BDBDBD;
+  border: 1px solid #BDBDBD;
+  color: white;
+}
