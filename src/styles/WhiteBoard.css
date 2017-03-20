@@ -14,8 +14,16 @@
 
 
 
+/* 
+   ####################
+   ####FIREPAD CSS#####
+   #################### 
+                        */
 
 
+.firepad-box{
+  z-index: 100;
+}
 
 /* firepad-userlist.css */
 
@@ -106,4 +114,32 @@ input.firepad-userlist-name-input {
   left: 38px;
   width: 95px;
   font-size: 13px;
+}
+
+
+
+
+
+/* 
+   ####################
+   ####RICH BOX CSS####
+   #################### 
+                        */
+
+.rich-box{
+  position:absolute;
+  z-index:101;
+}
+
+.rich-tooltip-box{
+  
+  margin:5px;
+}
+
+.rich-tooltip-box > button{
+  background-color: #1b2733;
+}
+
+.rich-tooptip-item{
+ 
 }
