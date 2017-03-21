@@ -1,60 +1,59 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
+import React, { Component, PropTypes } from "react";
+import classNames from "classnames";
 
 export default class FlexMonth extends Component {
-  constructor(props){
-    super(props);
-  }
+	constructor(props){
+		super(props);
+	}
 
-  render() {
-	return (
+	componentWillReceiveProps(nextProps){
+		console.log("NEXTPROPS MONTH", nextProps);
+		if(this.props.Calendar.plans !== nextProps.Calendar.plans){
+			console.log(this.refs.day_5_3);
+		}
+	}
+
+	shouldComponentUpdate(nextProps) {
+		if(this.props.Calendar === nextProps.Calendar){
+			return false;
+		} 
+		return true;
+	}
+
+	render() {
+		const { Calendar } = this.props;
+		return (
 		<div className='month'>
 			{this.props.monthDays.map((weeks,i)=>{
-			    	return (<ul key={`week${i}`} className={`week week${i}`}>
-			    		{ weeks.map((day,k)=>{
-			    			let dayClass = classNames({
-			    				day: true,
-			    				[`month${day.month}`]: true,
-			    				[`week${day.week}`]: true,
-			    				[`week${day.day}`]: true,
-			    				holiday: k === 6 || k === 0,
-			    				today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear,
-			    				selected: day.month === this.props.Calendar.selectedMonth && day.day === this.props.Calendar.selectedDay && day.year === this.props.Calendar.selectedYear
-			    			})
-			    			return <li 
-					    			key={day.day} 
-					    			className={dayClass}
-					    			onClick={(d,i)=>this.calendarSelectDate(d,i)}
-					    			>
-					    				{day.day} 
-					    			</li> })
-					    }			    	
-					    </ul>)})
+				return (<ul key={`week${i}`} className={`week week${i}`}>
+					{ weeks.map((day,k)=>{
+						let dayClass = classNames({
+							day: true,
+							[`month${day.month}`]: true,
+							[`week${day.week}`]: true,
+							[`week${day.day}`]: true,
+							holiday: k === 6 || k === 0,
+							today: day.month === Calendar.currentMonth && day.day === Calendar.currentDay && day.year === Calendar.currentYear,
+							selected: day.month === Calendar.selectedMonth && day.day === Calendar.selectedDay && day.year === Calendar.selectedYear
+						});
+						return <li 
+							key={day.day} 
+							className={dayClass}
+							onClick={(d,i)=>this.calendarSelectDate(d,i)}
+							ref={`day_${day.day}_${day.month}`}
+							>
+								{day.day} 
+							</li>; })
+					}				
+					</ul>);})
 			}
 		</div>
-    )
-  }
+    );
+	}
 }
 
-// monthDays.map((weeks,i)=>{
-// 			    	return (<div key={`week${i}`} className={`week week${i}`}>
-// 			    		{ weeks.map((day,k)=>{
-// 			    			let dayClass = classNames({
-// 			    				day: true,
-// 			    				[`month${day.month}`]: true,
-// 			    				[`week${day.week}`]: true,
-// 			    				[`week${day.day}`]: true,
-// 			    				holiday: k === 6 || k === 0,
-// 			    				today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear 
-// 			    			})
-// 			    			return <div 
-// 					    			key={day.day} 
-// 					    			className={dayClass}
-// 					    			onClick={(d,i)=>this.calendarSelectDate(d,i)}
-// 					    			>
-// 					    				{day.day} 
-// 					    			</div> })
-// 					    }			    	
-// 					    </div>)
-// 		 	    })
+FlexMonth.PropTypes = {
+	Calendar: PropTypes.object,
+	monthDays: PropTypes.object,
+	calendarPost: PropTypes.function
+};

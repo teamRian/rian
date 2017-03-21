@@ -1,5 +1,10 @@
 import moment from 'moment';
 import { Calendar as calen } from 'calendar';
+import { 
+	CALENDAR_EPIC_SUCCESS_DATA,
+	CALENDAR_EPIC_FAIL_DATA
+} from '../constants';
+
 var currentDate = moment().format('l').split('/').map(item=>parseInt(item));
 var cal = new calen(0);
 var weeks = cal.monthDays(currentDate[2],currentDate[0]-1);
@@ -33,6 +38,10 @@ var CalendarState = {
 export function Calendar(state = CalendarState, action) {
 	
 	switch (action.type){
+		case CALENDAR_EPIC_SUCCESS_DATA:
+			return Object.assign({}, state, {
+				plans: action.plans
+			})
 		case "CALENDAR_REQUEST_DATA":
 			return Object.assign({}, state, {
 				loading: action.loading

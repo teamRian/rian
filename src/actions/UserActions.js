@@ -5,6 +5,10 @@ import {
     USER_LOG_OUT  
 } from '../constants';
 import axios from 'axios';
+import firebase from 'firebase';
+import firebaseConfig from "../../config/firebaseConfig";
+
+/*----------  USER CHECK  ----------*/
 
 export function userRequestCheckAuth(){
 	return {
@@ -19,7 +23,6 @@ export function userCheckAuth(){
 
 		return axios.get('/checkAuth')
 			.then(res =>{
-				console.log("REQUEST AUTH:: ", res);
 				dispatch(userLogIn(res.data))
 			})
 			.catch(err=>{console.log(err)
@@ -27,6 +30,9 @@ export function userCheckAuth(){
 			})
 	}
 }
+
+/*----------  USER SIGN UP  ----------*/
+
 export function userRequestSignUp(){
 	return { 
 		type: USER_REQUEST_SIGN_UP,
@@ -55,7 +61,6 @@ export function userSignUp(form){
 
 		return axios.post('/user/signUp', {form})
       			.then(res => {
-      				console.log("USER POST::!!!", res)
         			dispatch(userLogIn(res.data))
       			})
       			.catch(err => {
@@ -63,6 +68,9 @@ export function userSignUp(form){
       			})
 	}
 }
+
+/*----------  USER LOG IN  ----------*/
+
 
 export function userRequestLogIn(){
 	return {

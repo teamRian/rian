@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {
-  // SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
-  // REQUEST_POSTS, RECEIVE_POSTS
+	// SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
+	// REQUEST_POSTS, RECEIVE_POSTS
 } from '../actions'
 
 // Import Reducers
@@ -14,7 +14,7 @@ import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer';
 import { firebaseStateReducer } from 'react-redux-firebase';
 import * as NoteTimelineReducer from './NoteTimelineReducer';
-import * as FirebaseChatRedcuer from './FirebaseChatReducer'
+import * as FirebaseChatReducer from './FirebaseChatReducer'
 
 const rootReducer = combineReducers(
 	Object.assign(
@@ -28,7 +28,7 @@ const rootReducer = combineReducers(
 		FileManagementReducer,
     	{firebase: firebaseStateReducer},
     	NoteTimelineReducer,
-    	FirebaseChatRedcuer
+    	FirebaseChatReducer
 	))
 
 export default rootReducer;
