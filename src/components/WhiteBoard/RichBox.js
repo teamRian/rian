@@ -120,12 +120,12 @@ class RichBox extends React.Component{
 		const btnGroup = (
 			<ButtonGroup className="rich-tooltip-box">
 				<Button bsSize="small">{fontSize}</Button>
-				<Button bsSize="small">{bold}</Button>
-				<Button bsSize="small">{h1}</Button>
-				<Button bsSize="small">{h2}</Button>				
-				<Button bsSize="small">{basicList}</Button>
-				<Button bsSize="small">{numberList}</Button>
-				<Button bsSize="small">{checkList}</Button>
+				<Button onClick={ () => this.props.applyRichText('bold') } bsSize="small">{bold}</Button>
+				<Button onClick={ () => this.props.applyRichText('h1') } bsSize="small">{h1}</Button>
+				<Button onClick={ () => this.props.applyRichText('h2') } bsSize="small">{h2}</Button>				
+				<Button onClick={ () => this.props.applyRichText('unorderedList') } bsSize="small">{basicList}</Button>
+				<Button onClick={ () => this.props.applyRichText('orderedList') } bsSize="small">{numberList}</Button>
+				<Button onClick={ () => this.props.applyRichText('todo') } bsSize="small">{checkList}</Button>
 			</ButtonGroup>
 		);
 

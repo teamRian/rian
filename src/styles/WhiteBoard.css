@@ -118,8 +118,6 @@ input.firepad-userlist-name-input {
 
 
 
-
-
 /* 
    ####################
    ####RICH BOX CSS####
@@ -142,4 +140,8 @@ input.firepad-userlist-name-input {
 
 .rich-tooptip-item{
  
+}
+
+.ch-test {
+  content: "\e000";
 }

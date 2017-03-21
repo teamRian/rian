@@ -50,7 +50,7 @@ class WhiteBoardFirePad extends React.Component{
     this.firepadUserList = {}
     
     //method
-    this.toggleRichBox.bind(this);
+    this.toggleRichBox.bind(this);    
   }
 
 	componentDidMount() {
@@ -116,7 +116,6 @@ class WhiteBoardFirePad extends React.Component{
         var key = snapshot.key;
         var line = snapshot.val();
         wbfp.lineInfo[key] = line; // { isBlocking : false, writer: [] }
-        console.log('lines child added :: ', key, line);
         
         //2. if 지금 라인이 blocking 됐고 && 지금 추가된 line이 내가 가진 line과 같은 라인인지 비교
         if(line.isBlocking && key === wbfp.userInfo[wbfp.userId].customCursor.line){
@@ -127,12 +126,10 @@ class WhiteBoardFirePad extends React.Component{
 
       // lines에 하위 property에 변환를 감지함
       wbfp.firepadRef.child('lines').on('child_changed', function(snapshot){
-        
         //1. setup
         var key = snapshot.key;
         var line = snapshot.val();
         wbfp.lineInfo[key] = line; // { isBlocking : false, writer: [] }
-        console.log('lines child changed :: ', key, line);
 
       });
 
@@ -141,7 +138,6 @@ class WhiteBoardFirePad extends React.Component{
         var key = snapshot.key;
         // var line = snapshot.val();
         delete wbfp.lineInfo[key];
-        console.log('lines child removed :: ', key, line);
       });
     	
       /* 
@@ -155,7 +151,6 @@ class WhiteBoardFirePad extends React.Component{
         var key = snapshot.key; // 'dev'
         var user = snapshot.val();
         wbfp.userInfo[key] = user; // { name : 'dev', color: '#fff' }
-        console.log('users child added :: ', key, user);
 
       });
 
@@ -163,8 +158,7 @@ class WhiteBoardFirePad extends React.Component{
       wbfp.firepadRef.child('users').on('child_changed', function(snapshot){
         var key = snapshot.key;
         var user = snapshot.val();
-        wbfp.userInfo[key] = user; 
-        console.log('users child changed :: ', key, user);
+        wbfp.userInfo[key] = user;
 
       });
 
@@ -172,7 +166,6 @@ class WhiteBoardFirePad extends React.Component{
       wbfp.firepadRef.child('users').on('child_removed', function(snapshot){
         var key = snapshot.key;
         delete wbfp.userInfo[key];
-        console.log('users child removed :: ', key, user);
       });
 
       /* 
@@ -243,7 +236,6 @@ inputRead가 실행될때 => firebase에
         var nowLine = cm.getCursor().line;
         
         if(!wbfp.lineInfo[nowLine]){ //nowLine에 대한 정보가 lineInfo에 없다면 firebase에 init 값을 update해줌
-          console.log('renderLine init to firebase', nowLine);
           wbfp.firepadRef.child('lines').child(nowLine).set({ isBlocking : false, nowWriter: false, writer : false });
         }
 
@@ -316,7 +308,6 @@ inputRead가 실행될때 => firebase에
 
       //cursorActivity는 내용생기는 경우, 커서 이동 생기는 경우 등 all users에 자동 발생되는 event이다.
       wbfp.codeMirror.on('cursorActivity', function(cm){
-        console.log('cursorActivity fired :::');
         var nowCursor = cm.getCursor();
         var nowLine = nowCursor.line;
         var userCursorLine = wbfp.userInfo[wbfp.userId].customCursor.line; 
@@ -371,6 +362,7 @@ inputRead가 실행될때 => firebase에
       // mouse가 up됐을때 rich tool box가 띄워지도록 설정
       document.getElementById('firepad').addEventListener('mouseup', function(e){        
         var selText = wbfp.codeMirror.getSelection();
+
         if(selText !== ""){
           let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
           wbfp.toggleRichBox(richBoxPos);
@@ -395,6 +387,33 @@ inputRead가 실행될때 => firebase에
 
 	}
 
+  applyRichText(name, option){
+    // font : 'Arial', 'Comic Sans MS', 'Courier New', 'Impact', 'Times New Roman', 'Verdana'
+    // color : 'black', 'red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'grey'
+    //option - { size : '10px', align : 'left', color : '#fff', font : 'arai'}
+    switch(name){
+      case 'h1' : this.firepad.bold(); this.firepad.fontSize(36); break;
+      case 'h2' : this.firepad.bold(); this.firepad.fontSize(30); break;
+      case 'bold' : this.firepad.bold(); break;
+      case 'italic' : this.firepad.italic(); break;
+      case 'underline' : this.firepad.underline(); break;
+      case 'strike' : this.firepad.strike(); break;
+      case 'underline' : this.firepad.underline(); break;
+      case 'fontSize' : this.firepad.fontSize(option.size); break;
+      case 'font' : this.firepad.font(option.font); break;
+      case 'color' : this.firepad.color(option.color); break;
+      case 'highlight' : this.firepad.highlight(); break;
+      case 'algin' : this.firepad.algin(option.align); break; // left, center, right;
+      case 'orderedList' : this.firepad.orderedList(); break;
+      case 'unorderedList' : this.firepad.unorderedList(); break;
+      case 'todo' : this.firepad.todo(); break;
+      case 'indent' : this.firepad.indent(); break;
+      case 'unindent' : this.firepad.unindent(); break;
+      default : break;
+    }
+
+  }
+
   makeMarker(name) {
     var marker = document.createElement("div");
     marker.style.color = "#822";
@@ -411,17 +430,18 @@ inputRead가 실행될때 => firebase에
   }
 
 	componentWillUnmount() {
-    console.log('componenetWillUnmout fired');
+    
 	}
 
 	render(){
 		
 		return (
 			<div className="firepad-box">
+        <span className="ch-test">BOLD</span>
 				<div id="userlist"></div>
 				<div id="firepad"></div>
         {
-          this.state.toggleRichBox ? <RichBox pos={this.state.richBoxPosition} /> : null
+          this.state.toggleRichBox ? <RichBox applyRichText={this.applyRichText.bind(this)} pos={this.state.richBoxPosition} /> : null
         }        
 			</div>
 		)
