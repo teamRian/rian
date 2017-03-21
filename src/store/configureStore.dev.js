@@ -10,7 +10,6 @@ import createLogger from 'redux-logger';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import createSocketIoMiddleware from 'redux-socket.io';
 
-
 var firebaseConfig = {
     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
     authDomain: "riandev-d7a54.firebaseapp.com",
@@ -25,9 +24,9 @@ const config = {
 }
 
 
-const createStoreWithFirebase = compose(
-  reactReduxFirebase(firebaseConfig, config)
-)(createStore)
+// const createStoreWithFirebase = compose(
+//   reactReduxFirebase(firebaseConfig, config)
+// )(createStore)
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
@@ -48,7 +47,7 @@ const enhancer = compose(
 
 export default function configureStore() {
   
-  const store = createStoreWithFirebase(rootReducer, enhancer);
+  const store = createStore(rootReducer, enhancer);
 
   if (module.hot) {
     module.hot.accept('../reducers', () =>

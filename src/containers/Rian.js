@@ -13,9 +13,8 @@ import Navigation from '../components/Rian/Navigation.js'
 import Calendar from './Calendar/Calendar.js';
 import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
-import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
-
-
+import firebase from 'firebase';
+import firebaseConfig from '../../config/firebaseConfig';
 import LogIn from '../components/Rian/LogIn';
 
 import '../styles/Rian.css';
@@ -25,18 +24,13 @@ class RianApp extends Component {
   constructor(props){
     super(props);
     this.props.userCheckAuth();
-    this.state = {
-      showChat: false
-    }
-    this.clickShowChat = this.clickShowChat.bind(this)
   }
 
-  clickShowChat(){
-    this.setState((prevState, props)=>(
-      { 
-        showChat: !prevState.showChat 
-      }
-    ))
+  componentWillReceiveProps(nextProps) {
+    /*----------  파이어베이스 시작하기, 로그인했을때만!  ----------*/
+    if(this.props.User._id !== nextProps.User._id && nextProps.User._id){
+      firebase.initializeApp(firebaseConfig);
+    }
   }
 
   render() {
@@ -52,9 +46,11 @@ class RianApp extends Component {
       return <div>Loading...</div>
     }
     const { main, side } = this.props
-    const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
     
+
     return (
+
+
       <div className="App">
             <div className="Header">
               <Header 
@@ -64,16 +60,12 @@ class RianApp extends Component {
               />
             </div>
             <div className="Navigation">
-              <Navigation clickShowChat={()=>this.clickShowChat()}/>
+              <Navigation />
               {side}
-              <div className="classShowChat" style={ShowMe}>
-                 <FirebaseChatContainer UserId={this.props.User._id}/>
-              </div>
             </div>
             <div className="MainContent">
               {main}
             </div>
-
       </div>
     )
     
@@ -107,5 +99,11 @@ function mapDispatch(dispatch) {
     }
   };
 }
+  
+
 RianApp = DragDropContext(HTML5Backend)(RianApp)
 export default connect(mapState, mapDispatch)(RianApp);
+
+
+
+
