@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {
-  // SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
-  // REQUEST_POSTS, RECEIVE_POSTS
+	// SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
+	// REQUEST_POSTS, RECEIVE_POSTS
 } from '../actions'
 
 // Import Reducers
@@ -26,8 +26,8 @@ const rootReducer = combineReducers(
 		NoteEditorReducer,
 		WhiteBoardReducer,
 		FileManagementReducer,
-    	{firebase: firebaseStateReducer},
-    	NoteTimelineReducer
+		{firebase: firebaseStateReducer},
+		NoteTimelineReducer
 	))
 
 export default rootReducer;

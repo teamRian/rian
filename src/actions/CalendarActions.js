@@ -3,6 +3,9 @@ import {
 	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL,
 	CALENDAR_CHANGE_MONTH, CALENDAR_CHANGE_WEEK, CALENDAR_SELECT_DATE, CALENDAR_TOGGLE   } from '../constants';
 import axios from 'axios';
+import database from "firebase/database";
+
+/*----------  CALENDAR DATA  ----------*/
 
 export function calendarRequestData(){
 	return { 
@@ -26,7 +29,7 @@ export function calendarFailData(err){
 	}
 }
 export function calendarRequest(form){
-	return function(dispatch){
+	return (dispatch)=>{
 		
 		dispatch(calendarRequestData())
 
@@ -40,6 +43,9 @@ export function calendarRequest(form){
 	}
 
 }
+
+/*----------  CALENDAR POST  ----------*/
+
 
 export function calendarPostSend(){
 	return {
@@ -64,14 +70,20 @@ export function calendarPostFail(){
 }
 
 export function calendarPost(form){
-	return function(dispatch){
+	return (dispatch, getState)=>{
 		dispatch(calendarPostSend());
+
+		const db = database();
+		let ref = db.ref(`duck/users/${userId}/plans`);
+
 
 		return axios.post('/plan/newPlan', {form})
 			.then(res=>dispatch(calendarPostSuccess(res)))
 			.catch(err=>dispatch(calendarPostFail()));
 	}
 }
+
+/*----------  CALENDAR CHANGE DATE  ----------*/
 
 export function calendarChangeMonth(date){
 	return {

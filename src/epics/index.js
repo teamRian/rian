@@ -2,14 +2,14 @@ import 'rxjs';
 import { combineEpics } from 'redux-observable';
 import { getFirebase } from 'react-redux-firebase'
 import { NoteEpic, NoteOneEpic } from './NoteEpic';
-import { CalendarEpic } from './CalendarEpic';
+import { CalendarEpicData } from './CalendarEpic';
 // import { ChatEpic } from './ChatEpic';
 
 const rootEpic = (... args) => {
 	return combineEpics(
 		NoteEpic,
 		NoteOneEpic,
-		CalendarEpic,
+		CalendarEpicData
 	)(...args, getFirebase);
 }
 
