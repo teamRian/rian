@@ -5610,7 +5610,7 @@ firepad.Firepad = (function(global) {
     this.richTextCodeMirror_.toggleAttribute(ATTR.BOLD);
     this.codeMirror_.focus();
   };
-
+  
   Firepad.prototype.italic = function() {
     this.richTextCodeMirror_.toggleAttribute(ATTR.ITALIC);
     this.codeMirror_.focus();
