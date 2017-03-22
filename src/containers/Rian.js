@@ -17,7 +17,6 @@ import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
 
 
 import LogIn from '../components/Rian/LogIn';
-
 import '../styles/Rian.css';
 
 class RianApp extends Component {
