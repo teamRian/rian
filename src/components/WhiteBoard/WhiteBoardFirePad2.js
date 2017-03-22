@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import Firepad from 'firepad';
 import FirepadUserList from '../../lib/firepad-userlist.js';
+import Rx from 'rxjs/Rx';
 
 // Component IMPORT
 import RichBox from './RichBox';
@@ -28,7 +29,7 @@ class WhiteBoardFirePad extends React.Component{
 		super(props);
 		
     this.state = {
-      toggleRichBox : false,
+      richboxDisplay : false,
       richBoxPosition : { top:"100px", left:"500px" }
     }
 
@@ -50,7 +51,7 @@ class WhiteBoardFirePad extends React.Component{
     this.firepadUserList = {}
     
     //method
-    this.toggleRichBox.bind(this);    
+    this.tooltipShowAndHide.bind(this);    
   }
 
 	componentDidMount() {
@@ -182,11 +183,16 @@ class WhiteBoardFirePad extends React.Component{
 
         //1. codemirror line 추출하기
         var clickedLine = cm.lineAtHeight( e.y );
-        //2. lineInfo에서 해당 라인이 blocking 되어있으면 커서 이동못하게 방지
-        if(wbfp.lineInfo[clickedLine] && wbfp.lineInfo[clickedLine].isBlocking){
+        
+        //2. userInfo에서 해당 라인이 blockingLine이 아니고 lineInfo에서 해당 라인이 blocking 되어있으면 커서 이동못하게 방지
+        if(wbfp.userInfo[wbfp.userId].blockingLine !== clickedLine &&
+           wbfp.lineInfo[clickedLine] && wbfp.lineInfo[clickedLine].isBlocking){
           e.preventDefault();
         }
-
+        //3. richbox tooltip이 show상태이면 hide시키기
+        if(wbfp.state.richboxDisplay){
+          wbfp.tooltipShowAndHide(null, false);
+        }
       });
 
       wbfp.codeMirror.on('keyHandled', function(cm, name, e){
@@ -214,6 +220,11 @@ class WhiteBoardFirePad extends React.Component{
         }else if(name === "Cmd-Down"){
           if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
         }
+
+        //2. richbox tooltip이 show상태이면 hide시키기
+        if(wbfp.state.richboxDisplay){
+          wbfp.tooltipShowAndHide(null, false);
+        }        
         
       });
 
@@ -354,7 +365,8 @@ inputRead가 실행될때 => firebase에
       // keyup 됐을때 rich tool box가 띄워지도록 설정
       wbfp.codeMirror.on('keyup', function(cm, e){
         var selText = cm.getSelection();
-        if(selText !== ""){
+        if(selText !== "" && !wbfp.state.richboxDisplay){
+
           console.log('rich tool box show!!!');
         }
       });
@@ -362,21 +374,56 @@ inputRead가 실행될때 => firebase에
       // mouse가 up됐을때 rich tool box가 띄워지도록 설정
       document.getElementById('firepad').addEventListener('mouseup', function(e){        
         var selText = wbfp.codeMirror.getSelection();
-
         if(selText !== ""){
           let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
-          wbfp.toggleRichBox(richBoxPos);
+          wbfp.tooltipShowAndHide(richBoxPos, true);
           console.log('rich tool box show!!!');
-        }                
+        }
       });
 
       // mouse가 firepad 영역을 벗어났을때 rich tool box가 띄워지도록 설정
       document.getElementById('firepad').addEventListener('mouseleave', function(e){
         var selText = wbfp.codeMirror.getSelection();
-        if(selText !== ""){
+        if(selText !== "" && !wbfp.state.richboxDisplay){ // selText가 존재하는데, richboxDisplay가 false인 경우 실행
+          let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
+          wbfp.tooltipShowAndHide(richBoxPos, true);
           console.log('rich tool box show!!!');
         }
-      })       
+      });
+
+      // mouse가 move 될때 selection이 잡혀있으면 tooltip 띄워주기
+      document.getElementById('firepad').addEventListener('mousemove', function(e){          
+
+        // var selText = wbfp.codeMirror.getSelection();
+        // if(selText !== "" && !wbfp.state.richboxDisplay){ // selText가 존재하는데, richboxDisplay가 false인 경우 실행
+        //   let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
+        //   wbfp.tooltipShowAndHide(richBoxPos, true);
+        //   console.log('rich tool box show!!!');
+        // }
+
+      });
+
+      // ### RxJS Observable ###
+      // ### Function : 키보드로 셀렉션 선택하고 마우스 Move한 경우에만 rich-tooltip-box 띄워줌 
+      let firepadKeyUp = Rx.Observable.fromEvent(document.querySelector('#firepad'), 'keyup');
+      let firepadMouseMove = Rx.Observable.fromEvent(document.querySelector('body'), 'mousemove');
+
+          firepadKeyUp.filter((e) => { 
+            let selText = wbfp.codeMirror.getSelection();
+            return selText !== "";
+          })
+          .zip(firepadMouseMove.skipUntil(firepadKeyUp), (e1, e2) => { return e1 } )
+          .first().repeat().subscribe( (e) => {
+            
+            if(!wbfp.state.richboxDisplay){
+              let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
+              wbfp.tooltipShowAndHide(richBoxPos, true);
+              console.log('rich tool box show!!!');  
+            }
+
+          });
+
+
 
     }); // firepad.on('ready') end
 
@@ -387,6 +434,7 @@ inputRead가 실행될때 => firebase에
 
 	}
 
+  // richText적용하기
   applyRichText(name, option){
     // font : 'Arial', 'Comic Sans MS', 'Courier New', 'Impact', 'Times New Roman', 'Verdana'
     // color : 'black', 'red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'grey'
@@ -414,6 +462,7 @@ inputRead가 실행될때 => firebase에
 
   }
 
+  // Make Gutter Marker element
   makeMarker(name) {
     var marker = document.createElement("div");
     marker.style.color = "#822";
@@ -421,10 +470,11 @@ inputRead가 실행될때 => firebase에
     return marker;
   }
 
-  toggleRichBox(inputRichBoxPos){
+  // change richboxDisplay state && RichBox show and hide function 
+  tooltipShowAndHide(inputRichBoxPos, isWillShow){
     let richBoxPos = inputRichBoxPos || {};
     this.setState({
-      toggleRichBox : !this.state.toggleRichBox,
+      richboxDisplay : isWillShow,
       richBoxPosition : richBoxPos
     })
   }
@@ -441,7 +491,7 @@ inputRead가 실행될때 => firebase에
 				<div id="userlist"></div>
 				<div id="firepad"></div>
         {
-          this.state.toggleRichBox ? <RichBox applyRichText={this.applyRichText.bind(this)} pos={this.state.richBoxPosition} /> : null
+          this.state.richboxDisplay ? <RichBox applyRichText={this.applyRichText.bind(this)} pos={this.state.richBoxPosition} /> : null
         }        
 			</div>
 		)
