@@ -1,8 +1,12 @@
 import moment from 'moment';
 import { Calendar as calen } from 'calendar';
 import { 
+	CALENDAR_EPIC_REQUEST_DATA,
 	CALENDAR_EPIC_SUCCESS_DATA,
-	CALENDAR_EPIC_FAIL_DATA
+	CALENDAR_EPIC_FAIL_DATA,
+	CALENDAR_UPDATE_CHILD_ADDED, 
+	CALENDAR_UPDATE_CHILD_REMOVED, 
+	CALENDAR_UPDATE_CHILD_CHANGED
 } from '../constants';
 
 var currentDate = moment().format('l').split('/').map(item=>parseInt(item));
@@ -16,7 +20,6 @@ var currentWeek =  Math.floor(
 		})
 		.indexOf(currentDate[1])/7)
 
-console.log("CALENDAR", weeks)
 var CalendarState = {
 	kind: 'month',
 	loading: false,
@@ -33,18 +36,23 @@ var CalendarState = {
 	locale: moment.locale(),
 	plans: [] // [plan, plan, plan]
 }
- // CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA 
 
 export function Calendar(state = CalendarState, action) {
 	
 	switch (action.type){
+		case CALENDAR_EPIC_REQUEST_DATA: {
+			return Object.assign({}, state, {
+				loading: true
+			})
+		}
 		case CALENDAR_EPIC_SUCCESS_DATA:
 			return Object.assign({}, state, {
-				plans: action.plans
+				plans: action.plans,
+				loading: false
 			})
 		case "CALENDAR_REQUEST_DATA":
 			return Object.assign({}, state, {
-				loading: action.loading
+				loading: true
 			})
 		case "CALENDAR_GET_DATA":
 			return Object.assign({}, state, {

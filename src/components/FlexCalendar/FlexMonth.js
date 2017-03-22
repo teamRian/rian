@@ -9,7 +9,8 @@ export default class FlexMonth extends Component {
 	componentWillReceiveProps(nextProps){
 		console.log("NEXTPROPS MONTH", nextProps);
 		if(this.props.Calendar.plans !== nextProps.Calendar.plans){
-			console.log(this.refs.day_5_3);
+			// console.log("NEXTPROPS!!!!");
+
 		}
 	}
 

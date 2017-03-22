@@ -7,9 +7,9 @@ import {
 	CALENDAR_EPIC_CANCLE_DATA 
 } from "../../../epics/CalendarEpic";
 
-export function getStampFire ( setState, monthDays, userId, Project, loaded, projectsLoaded ){
-
+export function getStampFire ( monthDays, userId, Project, loaded ){
 	const totalRefs = [];
+
 	// TimeStamp 쿼리를 준비한다
 	const firstDay = monthDays[0][0];
 	const lastDay = monthDays[monthDays.length-1][6];
@@ -24,8 +24,9 @@ export function getStampFire ( setState, monthDays, userId, Project, loaded, pro
 
 	ref.on("child_added", snap => {
 		if(loaded){
-
+			console.log("ADDED EVENT!", snap);
 		} 
+		console.log("ADDED EVENT,,,,,", snap)
 	});
 	ref.on("child_changed", snap => {
 	});
@@ -46,7 +47,7 @@ export function getStampFire ( setState, monthDays, userId, Project, loaded, pro
 		totalRefs.push(projectRef);
 
 		projectRef.on("child_added", snap => {
-			if(projectsLoaded){
+			if(loaded){
 
 			}
 		});

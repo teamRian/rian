@@ -6,6 +6,8 @@ import FlexWeek from "./FlexWeek";
 import { connect } from "react-redux";
 import { getStampFire } from "./Utils/FlexUtils.js";
 import { calendarEpicRequestData } from "../../epics/CalendarEpic";
+import moment from "moment"; 
+import database from "firebase/database";
 
 class FlexCalendarBody extends Component {
 	constructor(props){
@@ -16,9 +18,8 @@ class FlexCalendarBody extends Component {
 
 	componentDidMount() {
 		const { monthDays, User, Project } = this.props;
-		this.ref = getStampFire(this.setState, monthDays, User._id, Project, this.loaded, this.projectsLoaded);
-	  const allPromises = this.ref.map(ref=>ref.once("value"));
-	  this.props.calendarEpicRequestData(allPromises);
+		console.log(this.props.Calendar.loading);
+		this.ref = this.getStampFire();
 	}
 
 	componentWillUnmount(){
@@ -33,13 +34,65 @@ class FlexCalendarBody extends Component {
 
 				const { monthDays, User, Project } = nextProps;
 				this.ref.forEach(item=>item.off());
-				this.ref = getStampFire(this.setState, monthDays, User._id, Project, this.loaded, this.projectsLoaded);
-
-				const allPromises = this.ref.map(ref=>ref.once("value"));
-	  		this.props.calendarEpicRequestData(allPromises);
+				this.ref = this.getStampFire(nextProps);
 			}
 		}
 	}
+
+	getStampFire ( nextProps ){
+		const { monthDays, User, Project } = nextProps || this.props;
+		const totalRefs = [];
+
+	// TimeStamp 쿼리를 준비한다
+		const firstDay = monthDays[0][0];
+		const lastDay = monthDays[monthDays.length-1][6];
+		const startStamp = moment([firstDay.year, firstDay.month, firstDay.day, 0]).format("X");
+		const lastStamp = moment([lastDay.year, lastDay.month, lastDay.day, 24]).format("X");
+
+	// 유저 자신의 파이어베이스 통신을 준비해요
+		const db = database();
+		let ref = db.ref(`duck/users/${User._id}/plans`);
+		ref = ref.orderByChild("timeStamp").startAt(startStamp).endAt(lastStamp);
+		totalRefs.push(ref);
+
+		ref.on("child_added", snap => {
+			if(!this.props.Calendar.loading){
+				console.log("ADDED EVENT!", snap.val());
+			} 
+		});
+		ref.on("child_changed", snap => {
+				console.log("CHANGED EVENT!", snap.val());
+		});
+		ref.on("child_removed", snap => {
+				console.log("REMOVED EVENT!", snap.val());
+		});
+
+	// 유저가 속해 있는 프로젝트들의 통신도 준비해야겠죠?
+		const projectsRefArray = [];
+		Project.projects.forEach(item=>{
+			projectsRefArray.push(db.ref(`duck/projects/${item._id}/plans`));
+		});
+
+		const projectsRefPromises = [];
+		projectsRefArray.forEach( projectRef => {
+
+			projectRef = projectRef.orderByChild("timeStamp").startAt(startStamp).endAt(lastStamp);
+			totalRefs.push(projectRef);
+
+			projectRef.on("child_added", snap => {
+				if(!this.props.Calendar.loading){
+				}
+			});
+			projectRef.on("child_changed", snap => {
+			});
+			projectRef.on("child_removed", snap => {
+			});
+		});
+
+	  this.props.calendarEpicRequestData(totalRefs);
+		return totalRefs;
+	}
+
 	render() {
 		const { plans, projectsPlans } = this.props;
 		// 파이어베이스에서 가져온 데이터가 준비되면 props로 내려준다
@@ -89,11 +142,11 @@ function mapState(state) {
 }	
 
 function mapDispatch(dispatch) {
-  return {
-    calendarEpicRequestData: (promises)=> {
-      dispatch(calendarEpicRequestData(promises))
-    }
-  };
+	return {
+		calendarEpicRequestData: (promises)=> {
+			dispatch(calendarEpicRequestData(promises));
+		}
+	};
 }
 // const authConnected = connect(
 //  ({ User }) => (

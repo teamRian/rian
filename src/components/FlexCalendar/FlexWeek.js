@@ -4,7 +4,7 @@ import classNames from "classnames";
 import FlexSmallBrick from "./FlexSmallBrick";
 import { calendarPost } from "../../actions/CalendarActions";
 import { calendarEpicRequestPost } from "../../epics/CalendarEpic";
-
+import moment from "moment";
 class FlexWeek extends Component {
 	constructor(props){
 		super(props);
@@ -34,25 +34,44 @@ class FlexWeek extends Component {
 
 	componentWillReceiveProps(nextProps){
 		// console.log(nextProps, "FLEXWEEK NEXTPROPS") fdre
+		if(this.props.Calendar.plans !== nextProps.Calendar.plans){
+						console.log("NEXTPROPS!!!!");
+		}
 	}
 	handleCanDrop(timeIndex, dayIndex, durationLength){
 	// var = 0
 	}
 
 	handleOnDrop(form){
-		const chosenDay = this.props.monthDays[this.props.Calendar.selectedWeek][form.dayIndex];
+		const chosenDate = this.props.monthDays[this.props.Calendar.selectedWeek][form.dayIndex];
 		const startingTime = form.timeIndex;
 		const endingTime = form.timeIndex + form.durationLength;
+		const timeStamp = this.fromTimetoStamp(chosenDate, startingTime);
 		const finalForm = Object.assign({}, form, {
 			_userId : this.props.User._id,
 			title : `Event ${this.props.Calendar.plans.length}`,
-			day : chosenDay.day,
-			month : chosenDay.month,
-			year : chosenDay.year,
+			day : chosenDate.day,
+			month : chosenDate.month,
+			year : chosenDate.year,
 			startingTime,
-			endingTime
+			endingTime,
+			timeStamp
 		});
-		this.props.calendarPost(finalForm);
+		var postRef = firebase.database().ref(`duck/users/${this.props.User._id}/plans`);
+		var newPostKey = postRef.push().key;
+	  var updates = {};
+	  updates[`duck/users/${this.props.User._id}/plans/${newPostKey}`] = finalForm;
+	  // updates[`duck/plans/${newPostKey}`] = finalForm;
+		return firebase.database().ref().update(updates);
+		// this.props.calendarPost(finalForm);
+	}
+
+	fromTimetoStamp(date, startingTime){
+		console.log(date, startingTime);
+		const totalMinutes = (startingTime + 22) * 15; // 5.30AM
+		const hour = Math.floor(totalMinutes/60);
+		const minutes = totalMinutes % 60;
+		return moment([date.year, date.month, date.day, hour, minutes]).format('X');
 	}
 
 	render() {

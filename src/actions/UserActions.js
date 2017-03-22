@@ -20,7 +20,6 @@ export function userRequestCheckAuth(){
 export function userCheckAuth(){
 	return function(dispatch){
 		dispatch(userRequestCheckAuth())
-
 		return axios.get('/checkAuth')
 			.then(res =>{
 				dispatch(userLogIn(res.data))
@@ -56,9 +55,7 @@ export function userFailSignUp(err){
 
 export function userSignUp(form){
 	return function(dispatch){
-		
 		dispatch(userRequestSignUp())
-
 		return axios.post('/user/signUp', {form})
       			.then(res => {
         			dispatch(userLogIn(res.data))
@@ -86,7 +83,8 @@ export function userSuccessLogIn(res){
 		loading: false,
 		username: res.username,
 		_id: res._id,
-		projects: res.projects
+		projects: res.projects,
+		facebook: res.facebook
 	}
 }
 

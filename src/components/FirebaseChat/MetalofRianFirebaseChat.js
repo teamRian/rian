@@ -10,7 +10,7 @@ class MetalofRianFirebaseChat extends Component {
 			value: "",
 			focus: true,
 			message: [],
-			isInfiniteLoading: true,
+			isInfiniteLoading: false,
 			nowTimestamp: null,
 			pastTimestamp: null
 		}
@@ -140,6 +140,9 @@ class MetalofRianFirebaseChat extends Component {
 	loadPastPage(){
 		// console.log('Load Past Page')
 		var that = this
+		this.setState({
+			isInfiniteLoading: true 
+		})
 		this.firebaseRef.orderByChild('timestamp').endAt(that.state.pastTimestamp).limitToLast(10).once('value', (data)=>{
 		 		var temp = data.val()
 		 		var renderSet = []
@@ -163,19 +166,20 @@ class MetalofRianFirebaseChat extends Component {
 		 		renderSet = renderSet.map((a, index)=>{
 		 			var style = {}
 			 		if (a.userid === that.props.userid) {
-			 			style = { color: "blue" }
-			 		} else {
-			 			style = { color: "black" }
+			 			style = { color: "blue", overflow: "scroll" }
+			 		} else {	
+			 			style = { color: "black", overflow: "scroll" }
 			 		}
 			 		var renderOne = <div key={a.timestamp} style={style}>{"Name: " + a.userid} {a.content}</div>
 		 			return renderOne
 		 		})
 
-		 		this.setState((prevState, props)=>({
-		 			message: [...renderSet, ...prevState.message],
-		 			pastTimestamp: newPasttTimestamp 
-		 		}))
-		 				
+		 		setTimeout(()=>{this.setState((prevState, props)=>({
+			 			message: [...renderSet, ...prevState.message],
+			 			pastTimestamp: newPasttTimestamp,
+			 			isInfiniteLoading: false
+			 		}))
+		 		}, 2000)
 		})
 	}
 
@@ -202,8 +206,8 @@ class MetalofRianFirebaseChat extends Component {
        		    <Infinite 
        				containerHeight={100} 
         			elementHeight={10} 
- 
-        			onInfiniteLoad={this.loadPage}
+ 							infiniteLoadBeginEdgeOffset={10}
+        			onInfiniteLoad={this.loadPastPage}
         			isInfiniteLoading={this.state.isInfiniteLoading}
         			displayBottomUpwards     			
         			>
