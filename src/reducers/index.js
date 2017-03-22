@@ -26,9 +26,9 @@ const rootReducer = combineReducers(
 		NoteEditorReducer,
 		WhiteBoardReducer,
 		FileManagementReducer,
-    	{firebase: firebaseStateReducer},
-    	NoteTimelineReducer,
-    	FirebaseChatReducer
+  	{firebase: firebaseStateReducer},
+  	NoteTimelineReducer,
+  	FirebaseChatReducer
 	))
 
 export default rootReducer;

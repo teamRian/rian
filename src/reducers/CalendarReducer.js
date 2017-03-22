@@ -1,12 +1,17 @@
 import moment from 'moment';
 import { Calendar as calen } from 'calendar';
 import { 
+<<<<<<< HEAD
 	CALENDAR_EPIC_REQUEST_DATA,
 	CALENDAR_EPIC_SUCCESS_DATA,
 	CALENDAR_EPIC_FAIL_DATA,
 	CALENDAR_UPDATE_CHILD_ADDED, 
 	CALENDAR_UPDATE_CHILD_REMOVED, 
 	CALENDAR_UPDATE_CHILD_CHANGED
+=======
+	CALENDAR_EPIC_SUCCESS_DATA,
+	CALENDAR_EPIC_FAIL_DATA
+>>>>>>> 2e65c129d9973c9a289983f4b556442f3120f0ec
 } from '../constants';
 
 var currentDate = moment().format('l').split('/').map(item=>parseInt(item));
