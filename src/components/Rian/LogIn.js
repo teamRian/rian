@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SignUpModal from './SignUpModal';
 import { Form, FormGroup, FormControl, Button} from 'react-bootstrap';
-
+import firebase from 'firebase';
 
 export default class LogIn extends Component {
   constructor(props){
@@ -22,6 +22,30 @@ export default class LogIn extends Component {
       this.handleSubmit(e)
     }
   }
+
+  /*----------  FIREBASE AUTH CANT RECEIVE ADDITIONAL SCOPE (EMAIL, ID) = USELESS  ----------*/
+  
+  // handleFacebookLogin(e){
+
+  //   var config = {
+  //     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
+  //     authDomain: "riandev-d7a54.firebaseapp.com",
+  //     databaseURL: "https://riandev-d7a54.firebaseio.com",
+  //     storageBucket: "riandev-d7a54.appspot.com",
+  //     messagingSenderId: "559609159517" 
+  //   }
+
+  //   firebase.initializeApp(config);
+  //   e.preventDefault();
+  //   var provider = new firebase.auth.FacebookAuthProvider();
+  //   provider.addScope('email');
+  //   firebase.auth().signInWithPopup(provider).then(function(result) {
+  //     console.log(result);
+  //   }).catch(function(error) {
+  //     console.log(error);
+  //   });
+  // }
+
 
   render() {
     return (

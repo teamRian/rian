@@ -1,106 +1,161 @@
-import React, { Component, PropTypes } from 'react';
-import { Calendar } from 'calendar';
-import classNames from 'classnames';
-import {Motion, spring, StaggeredMotion, TransitionMotion} from 'react-motion';
-import FlexMonth from './FlexMonth';
-import FlexWeek from './FlexWeek';
+import React, { Component, PropTypes } from "react";
+// import { Calendar } from "calendar";
+// import {Motion, spring, StaggeredMotion, TransitionMotion} from "react-motion";
+import FlexMonth from "./FlexMonth";
+import FlexWeek from "./FlexWeek";
+import { connect } from "react-redux";
+import { getStampFire } from "./Utils/FlexUtils.js";
+import { calendarEpicRequestData } from "../../epics/CalendarEpic";
+import moment from "moment"; 
+import database from "firebase/database";
 
-export default class FlexCalendarBody extends Component {
+class FlexCalendarBody extends Component {
 	constructor(props){
-	  super(props);
+		super(props);
+		this.loaded = false;
+		this.projectsLoaded = false;
 	}
 
-	componentDidMount(){
-		// // 캘린더가 로드 되었으니 파이어베이스를 콜해보자
-		// const date = {
-		// 	year: this.props.Calendar.year,
-		// 	month: this.props.Calendar.month
-		// }
-		// this.props.calendarEpicRequestData(date)
+	componentDidMount() {
+		const { monthDays, User, Project } = this.props;
+		console.log(this.props.Calendar.loading);
+		this.ref = this.getStampFire();
 	}
 
-	renderTime(year, month) {
-		const cal = new Calendar(0);
-		var nextYear = month === 12 ? year + 1 : year;
-		var nextMonth = month === 12 ? 1 : month+1;
-		var lastYear = month === 1 ? year - 1 : year;
-		var lastMonth = month === 1 ? 12 : month-1;
-		var thisMonthWeeks = cal.monthDays(year, month-1);
-		var nextMonthWeeks = cal.monthDays(nextYear,nextMonth-1);
-		var lastMonthWeeks = cal.monthDays(lastYear, lastMonth-1);
-		var resultWeeks = thisMonthWeeks.map((week,i)=>{
-			if(i === 0){
-				return week.map((day, n)=>{
-		    		if(day !== 0){
-		    			return {
-		    				red: false,
-		    				day: day,
-		    				month: month,
-		    				year: year,
-		    				week: i
-		    			}
-		    		} else {
-		    			return {
-		    				red: false,
-		    				day: lastMonthWeeks[lastMonthWeeks.length-1][n],
-		    				month: lastMonth,
-		    				year: year,
-		    				week: i
+	componentWillUnmount(){
+		// Unmount 될 때 파이어베이스 통신을 제거합시다
+		this.ref.forEach(item=>item.off());
+	}
 
-		    			}
-		    		}
-				})
-			} else if (i === thisMonthWeeks.length-1) {
-				return week.map((day, n)=>{
-		    		if(day !== 0){
-		    			return {
-		    				red: false,
-		    				day: day,
-		    				month: month,
-		    				year: year,
-		    				week: i
+	componentWillReceiveProps(nextProps) {
+		// 달이 바뀌면 기존 연결을 갱신하죠
+		if( nextProps.Calendar.month !== this.props.Calendar.month ){
+			if(this.ref){
 
-		    			}
-		    		} else {
-		    			return {
-		    				red: false,
-		    				day: nextMonthWeeks[0][n],
-		    				month: nextMonth,
-		    				year: year,
-		    				week: i
-		    			}
-		    		}
-				})
-			} else {
-				return week.map(day=>{
-					return {
-						red: false,
-						day: day,
-						month: month,
-						year: year,
-						week: i
-					}
-				})
+				const { monthDays, User, Project } = nextProps;
+				this.ref.forEach(item=>item.off());
+				this.ref = this.getStampFire(nextProps);
 			}
-			
-		})
-		return resultWeeks;
+		}
 	}
 
-    render() {
-  		const monthDays = this.renderTime(this.props.Calendar.year,this.props.Calendar.month);
-    	return (
-	      <div id="FlexCalendarBody">
-		    { this.props.Calendar.kind === 'month'
-		    	? <FlexMonth // toggle Month/Week
-		    		Calendar={this.props.Calendar}
-		    		monthDays={monthDays}
-		    	  />
-		 	    : <FlexWeek
-		 	    	monthDays={monthDays}
-		 	      />
-		    }
-	      </div>
-	    );
+	getStampFire ( nextProps ){
+		const { monthDays, User, Project } = nextProps || this.props;
+		const totalRefs = [];
+
+	// TimeStamp 쿼리를 준비한다
+		const firstDay = monthDays[0][0];
+		const lastDay = monthDays[monthDays.length-1][6];
+		const startStamp = moment([firstDay.year, firstDay.month, firstDay.day, 0]).format("X");
+		const lastStamp = moment([lastDay.year, lastDay.month, lastDay.day, 24]).format("X");
+
+	// 유저 자신의 파이어베이스 통신을 준비해요
+		const db = database();
+		let ref = db.ref(`duck/users/${User._id}/plans`);
+		ref = ref.orderByChild("timeStamp").startAt(startStamp).endAt(lastStamp);
+		totalRefs.push(ref);
+
+		ref.on("child_added", snap => {
+			if(!this.props.Calendar.loading){
+				console.log("ADDED EVENT!", snap.val());
+			} 
+		});
+		ref.on("child_changed", snap => {
+				console.log("CHANGED EVENT!", snap.val());
+		});
+		ref.on("child_removed", snap => {
+				console.log("REMOVED EVENT!", snap.val());
+		});
+
+	// 유저가 속해 있는 프로젝트들의 통신도 준비해야겠죠?
+		const projectsRefArray = [];
+		Project.projects.forEach(item=>{
+			projectsRefArray.push(db.ref(`duck/projects/${item._id}/plans`));
+		});
+
+		const projectsRefPromises = [];
+		projectsRefArray.forEach( projectRef => {
+
+			projectRef = projectRef.orderByChild("timeStamp").startAt(startStamp).endAt(lastStamp);
+			totalRefs.push(projectRef);
+
+			projectRef.on("child_added", snap => {
+				if(!this.props.Calendar.loading){
+				}
+			});
+			projectRef.on("child_changed", snap => {
+			});
+			projectRef.on("child_removed", snap => {
+			});
+		});
+
+	  this.props.calendarEpicRequestData(totalRefs);
+		return totalRefs;
+	}
+
+
+	render() {
+		const { plans, projectsPlans } = this.props;
+		// 파이어베이스에서 가져온 데이터가 준비되면 props로 내려준다
+		// const plansList = !isLoaded(plans)
+		//	? 'Loading'
+		//	: isEmpty(plans)
+		//	? 'Todo list is empty'
+		//	: plans
+		// const projectsPlansList = !isLoaded(projectsPlans)
+		//   ? 'Loading'
+		//   : isEmpty(projectsPlans)
+		//	? 'Todo list is empty'
+		//	: projectsPlans
+
+		// 여기서 만든 날짜 데이터들을 props로 내려준다
+		// const monthDays = this.renderTime(this.props.Calendar.year,this.props.Calendar.month);
+		return (
+		<div id="FlexCalendarBody">
+			{ this.props.Calendar.kind === "month"
+				// FlexMonth를 기본적으로 쏴주기 때문에 컨스트럭터에는 플랜들이 없다
+				? <FlexMonth 
+					Calendar={this.props.Calendar}
+					monthDays={this.props.monthDays}
+					plansList={plans}
+					projectsPlansList={projectsPlans}
+					/>
+				// FlexWeek를 누를때면 이미 플랜들이 있을것이다
+				: <FlexWeek
+					User={this.props.User}
+					Calendar={this.props.Calendar}
+					monthDays={this.props.monthDays}
+					plansList={this.props.plans}
+					projectsPlansList={this.props.projectsPlans}
+				/>
+			}
+		</div>
+		);
 	}
 }
+
+function mapState(state) {
+	const {User, Calendar} = state;
+	return {
+		User, Calendar
+	};
+}	
+
+function mapDispatch(dispatch) {
+	return {
+		calendarEpicRequestData: (refs)=> {
+			dispatch(calendarEpicRequestData(refs));
+		}
+	};
+}
+
+FlexCalendarBody.PropTypes = {
+	User: PropTypes.object,
+	Calendar: PropTypes.object,
+	monthDays: PropTypes.object,
+	projectsPlans: PropTypes.object,
+	plans: PropTypes.object,
+	firebase: PropTypes.object
+};
+
+export default connect(mapState, mapDispatch)(FlexCalendarBody);

@@ -6,10 +6,10 @@ import '../../styles/FlexCalendar.css';
 // import from './Utils/FlexDnD';
 
 const smallBrickTarget = {
-  canDrop(props, monitor){
+  // canDrop(props, monitor){
     
-    // return props.handleCanDrop(props.timeIndex, props.dayIndex, monitor.getItem().durationLength);
-  },
+  //   // return props.handleCanDrop(props.timeIndex, props.dayIndex, monitor.getItem().durationLength);
+  // },
   drop(props, monitor, component) {
     console.log("Hi, I'm Brick, my timeIndex is ", props.timeIndex, " and my DayIndex is ", props.dayIndex, " if you want details open this ", monitor.getItem())
     const droppedItem = monitor.getItem();

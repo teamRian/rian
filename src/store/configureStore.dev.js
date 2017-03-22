@@ -9,27 +9,27 @@ import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import createSocketIoMiddleware from 'redux-socket.io';
-import firebase from 'firebase'
+// import firebase from 'firebase'
 
-var firebaseConfig = {
-    apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
-    authDomain: "riandev-d7a54.firebaseapp.com",
-    databaseURL: "https://riandev-d7a54.firebaseio.com",
-    storageBucket: "riandev-d7a54.appspot.com",
-    messagingSenderId: "559609159517"  
-}
+// var firebaseConfig = {
+//     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
+//     authDomain: "riandev-d7a54.firebaseapp.com",
+//     databaseURL: "https://riandev-d7a54.firebaseio.com",
+//     storageBucket: "riandev-d7a54.appspot.com",
+//     messagingSenderId: "559609159517"  
+// }
 
-const config = {
-  userProfile: 'users', // firebase root where user profiles are stored
-  enableLogging: false, // enable/disable Firebase's database logging
-}
+// const config = {
+//   userProfile: 'users', // firebase root where user profiles are stored
+//   enableLogging: false, // enable/disable Firebase's database logging
+// }
 
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
 
 
-const createStoreWithFirebase = compose(
-  reactReduxFirebase(firebaseConfig, config)
-)(createStore)
+// const createStoreWithFirebase = compose(
+//   reactReduxFirebase(firebaseConfig, config)
+// )(createStore)
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
@@ -50,7 +50,7 @@ const enhancer = compose(
 
 export default function configureStore() {
   
-  const store = createStoreWithFirebase(rootReducer, enhancer);
+  const store = createStore(rootReducer, enhancer);
 
   if (module.hot) {
     module.hot.accept('../reducers', () =>

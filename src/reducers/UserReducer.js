@@ -22,9 +22,8 @@ export function User(state = UserState, action) {
 				loading: action.loading,
 				_id: action._id,
 				username: action.username,
-				projects: action.projects
-				// profilePhoto: action.profilePhoto,
-				// token: action.token
+				projects: action.projects,
+				facebook: action.facebook
 			})
 		case "USER_FAIL_LOG_IN":
 			return Object.assign({}, state, {
