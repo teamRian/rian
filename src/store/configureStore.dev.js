@@ -9,7 +9,7 @@ import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import createSocketIoMiddleware from 'redux-socket.io';
-
+import firebase from 'firebase'
 
 var firebaseConfig = {
     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
@@ -23,6 +23,8 @@ const config = {
   userProfile: 'users', // firebase root where user profiles are stored
   enableLogging: false, // enable/disable Firebase's database logging
 }
+
+firebase.initializeApp(firebaseConfig);
 
 
 const createStoreWithFirebase = compose(

@@ -2,16 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MetalofRianFirebaseChat from '../../components/FirebaseChat/MetalofRianFirebaseChat.js'
 import ChatNotification from '../../components/FirebaseChat/ChatNotification.js'
-import {  } from '../../actions/FirebaseChatActions.js';
+import { updateFirebaseChatList } from '../../actions/FirebaseChatActions.js';
 import debounce from 'lodash.debounce';
-import {
-  firebaseConnect,
-  isLoaded,
-  isEmpty,
-  dataToJS
-} from 'react-redux-firebase'
 import './css/style.css';
-
 class FirebaseChatContainer extends Component {
 	constructor(props) {
 		super(props);
@@ -32,8 +25,12 @@ class FirebaseChatContainer extends Component {
 		))
 	}
 
-	componentWillReceiveProps(nextProps) {
-		// console.log('Next Props', nextProps)
+	componentDidMount() {
+		firebase.database().ref('/users/' + this.props.userid + '/ChatRoom').on('value', (data)=>{
+			console.log("firebase chat", data.val())
+				var chatroomlist = Object.keys(data.val())
+		this.props.updateFirebaseChatList(chatroomlist)
+		})
 	}
 
 	changeList(){
@@ -41,18 +38,13 @@ class FirebaseChatContainer extends Component {
 	}
 
 	render(){
-		const tempdata = !isLoaded(this.props.chat) 
-		  ? 'is Loading'
-		    : isEmpty(this.props.chat)
-		      ? 'temp is Empty'
-		        : console.log(this.props.chat)
 
 		return (
 			  <div>
 			  	<button onClick={ ()=>{this.changeList()} }/>
 				<div className="ChatContainer">
-					{!this.state.list && <MetalofRianFirebaseChat userid={this.props.userid} chatRoomId={this.state.nowRender} firebase={this.props.firebase}/>}
-					{this.state.list && <ChatNotification chatList={this.props.chat} goToChatRoom={this.goToChatRoom.bind(this)}/>}
+					{!this.state.list && <MetalofRianFirebaseChat userid={this.props.userid} chatRoomId={this.state.nowRender} />}
+					{this.state.list && <ChatNotification userid={this.props.userid} chatList={this.props.chat} goToChatRoom={this.goToChatRoom.bind(this)}/>}
 				</div>
 			  </div>
 			
@@ -64,25 +56,17 @@ class FirebaseChatContainer extends Component {
 
 
 function mapState(state) {
-  var {firebase} = state
-  return { 
-  	firebase: firebase,
+  return {
   	userid: state.User._id,
-    chat: dataToJS(firebase, '/chat')
+  	chat: state.FirebaseChat.chatroomlist
   }
 }
 
 function mapDispatch(dispatch) {
   return {
+  	updateFirebaseChatList: (chatroomlist)=>dispatch(updateFirebaseChatList(chatroomlist))
   };
 }
 
-const giveProps = connect(({ User })=>({ userid: User._id}))(FirebaseChatContainer)
-
-const wrappedFirebaseContainer = firebaseConnect( ({ userid }) => ([
-  `/chat#orderByChild=members/${userid}&equalTo=true`
-]))(giveProps)
-
-
-export default connect(mapState, mapDispatch)(wrappedFirebaseContainer)
+export default connect(mapState, mapDispatch)(FirebaseChatContainer)
 

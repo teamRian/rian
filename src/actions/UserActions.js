@@ -72,6 +72,7 @@ export function userRequestLogIn(){
 }
 
 export function userSuccessLogIn(res){
+
 	return {
 		type: USER_SUCCESS_LOG_IN,
 		loading: false,
