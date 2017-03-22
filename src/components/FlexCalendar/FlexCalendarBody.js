@@ -93,6 +93,7 @@ class FlexCalendarBody extends Component {
 		return totalRefs;
 	}
 
+
 	render() {
 		const { plans, projectsPlans } = this.props;
 		// 파이어베이스에서 가져온 데이터가 준비되면 props로 내려준다
@@ -109,7 +110,6 @@ class FlexCalendarBody extends Component {
 
 		// 여기서 만든 날짜 데이터들을 props로 내려준다
 		// const monthDays = this.renderTime(this.props.Calendar.year,this.props.Calendar.month);
-
 		return (
 		<div id="FlexCalendarBody">
 			{ this.props.Calendar.kind === "month"
@@ -143,26 +143,11 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
 	return {
-		calendarEpicRequestData: (promises)=> {
-			dispatch(calendarEpicRequestData(promises));
+		calendarEpicRequestData: (refs)=> {
+			dispatch(calendarEpicRequestData(refs));
 		}
 	};
 }
-// const authConnected = connect(
-//  ({ User }) => (
-// 	{ User: User }
-// 	)
-// )(FlexCalendarBody);
-	
-// const firebaseConnected = firebaseConnect(
-// 	({ User }) => {
-// 		// 프로젝트마다의 플랜들을 불러온다
-// 		// 처음 가져오는 프로젝트만 로드되기 때문에 프로젝트가 추가되거나 제거되면 Redirect 필요
-// 		const projects = [];
-// 		User.projects.forEach(project=>projects.push(`duck/projects/${project}/plans`));
-// 		return ([`duck/users/${User._id}/plans#orderByChild=`, ...projects]);
-// 	}
-// )(authConnected);
 
 FlexCalendarBody.PropTypes = {
 	User: PropTypes.object,

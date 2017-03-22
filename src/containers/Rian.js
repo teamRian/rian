@@ -15,6 +15,7 @@ import TodoContainer from './Todo/TodoContainer.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
 import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
 import firebase from 'firebase';
+import firebaseConfig from '../../config/firebaseConfig';
 import LogIn from '../components/Rian/LogIn';
 import '../styles/Rian.css';
 
@@ -27,8 +28,14 @@ class RianApp extends Component {
 			showChat: false    
 		}    
 		this.clickShowChat = this.clickShowChat.bind(this)   
-	 }       
-		 
+	}   
+
+  componentWillReceiveProps(nextProps) {
+    /*----------  파이어베이스 시작하기, 로그인했을때만!  ----------*/
+    if(this.props.User._id !== nextProps.User._id && nextProps.User._id){
+      firebase.initializeApp(firebaseConfig);
+    }
+  }	 
 	clickShowChat(){  
 		this.setState((prevState, props)=>(
 			{
@@ -75,9 +82,8 @@ class RianApp extends Component {
 						</div>
 			</div>
 		)
-		
-
 	}
+
 }
 
 function mapState(state) {
@@ -106,7 +112,6 @@ function mapDispatch(dispatch) {
 		}
 	};
 }
-	
 
 RianApp = DragDropContext(HTML5Backend)(RianApp)
 export default connect(mapState, mapDispatch)(RianApp);

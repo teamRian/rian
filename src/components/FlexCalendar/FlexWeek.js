@@ -5,6 +5,7 @@ import FlexSmallBrick from "./FlexSmallBrick";
 import { calendarPost } from "../../actions/CalendarActions";
 import { calendarEpicRequestPost } from "../../epics/CalendarEpic";
 import moment from "moment";
+
 class FlexWeek extends Component {
 	constructor(props){
 		super(props);
@@ -25,10 +26,8 @@ class FlexWeek extends Component {
 						)
 				  }
 				</div>
-	  );
-
+	  	);
 		});
-
 		this.smallBricksMatrix = smallBricksMatrix;
 	}
 
