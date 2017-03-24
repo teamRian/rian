@@ -1,14 +1,19 @@
 import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
 import classNames from "classnames";
+import { calendarUpdateComplete } from "../../actions/CalendarActions";
 
-export default class FlexMonth extends Component {
+
+class FlexMonth extends Component {
 	constructor(props){
 		super(props);
 	}
 
 	componentWillReceiveProps(nextProps){
-		if(this.props.Calendar.plans !== nextProps.Calendar.plans){
-		}
+		// if(this.props.Calendar.plans !== nextProps.Calendar.plans){
+		// }
+		// const printPlans = Object.keys(nextProps.Calendar.plans).length === 0 ? false : true;
+		// this.renderPlans(nextProps.Calendar.plans);
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -18,11 +23,20 @@ export default class FlexMonth extends Component {
 		return true;
 	}
 
+	renderPlans(plans){
+		for ( var key in plans ){
+			console.log(plans[key], "PLANS")
+			const plan = plans[key];
+			const planDOM = <div className="event"></div>
+			this.refs[`day_${plan.day}_${plan.month}`].append(planDOM)
+		}
+	}
+
 	render() {
 		const { Calendar } = this.props;
 		return (
 		<div className='month'>
-			{this.props.monthDays.map((weeks,i)=>{
+			{Calendar.monthDays.map((weeks,i)=>{
 				return (<ul key={`week${i}`} className={`week week${i}`}>
 					{ weeks.map((day,k)=>{
 						let dayClass = classNames({
@@ -38,8 +52,7 @@ export default class FlexMonth extends Component {
 							key={day.day} 
 							className={dayClass}
 							onClick={(d,i)=>this.calendarSelectDate(d,i)}
-							ref={`day_${day.day}_${day.month}`}
-							>
+							ref={`day_${day.day}_${day.month}`}>
 								{day.day} 
 							</li>; })
 					}				
@@ -55,3 +68,26 @@ FlexMonth.PropTypes = {
 	monthDays: PropTypes.object,
 	calendarPost: PropTypes.function
 };
+
+function mapState(state) {
+	return {
+		User: state.User,
+		Calendar: state.Calendar,
+	};
+}
+
+function mapDispatch(dispatch) {
+	return {
+		calendarPost: (form)=> {
+			dispatch(calendarPost(form));
+		},
+		calendarEpicRequestPost: (form) => {
+			dispatch(calendarEpicRequestPost(form));
+		},
+		calendarUpdateComplete: ()=>{
+			dispatch(calendarUpdateComplete());
+		}
+	};
+}
+
+export default connect(mapState, mapDispatch)(FlexMonth);
