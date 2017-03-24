@@ -17,7 +17,10 @@ export const CalendarEpicData = (action$, { getState, dispatch }) => {
 			// dispatch(calendarRequestData());
 			const converted = action.refs.map(ref=>Observable.fromPromise(ref.once("value")));
 			return Observable.forkJoin(...converted)
-				.map(response=> calendarEpicSuccessData(response))
+				.map(response=> {
+					const snaps = response.reduce((a,b)=> Object.assign(a,b.val()), {})
+					return calendarEpicSuccessData(snaps)
+				})
 				.catch(err=> console.log(err))
 		})
 }
@@ -40,7 +43,7 @@ export function calendarEpicRequestData(refs){
 export function calendarEpicSuccessData(snaps){
 	return {
 		type: CALENDAR_EPIC_SUCCESS_DATA,
-		plans: snaps.map(snap=>snap.val()).concat(),
+		plans: snaps,
 		loading: false
 	}
 }

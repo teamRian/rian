@@ -2,7 +2,8 @@ import {
 	CALENDAR_GET_DATA, CALENDAR_REQUEST_DATA, CALENDAR_FAIL_DATA,
 	CALENDAR_POST_SEND, CALENDAR_POST_SUCCESS,CALENDAR_POST_FAIL,
 	CALENDAR_CHANGE_MONTH, CALENDAR_CHANGE_WEEK, CALENDAR_SELECT_DATE, CALENDAR_TOGGLE,
-	CALENDAR_UPDATE_CHILD_ADDED, CALENDAR_UPDATE_CHILD_REMOVED, CALENDAR_UPDATE_CHILD_CHANGED   } from "../constants";
+	CALENDAR_UPDATE_CHILD_ADDED, CALENDAR_UPDATE_CHILD_REMOVED, 
+	CALENDAR_UPDATE_CHILD_CHANGED, CALENDAR_UPDATE_COMPLETE } from "../constants";
 import axios from "axios";
 import database from "firebase/database";
 
@@ -123,17 +124,27 @@ export function calendarToggle(kind){
 export function calendarChildAdded(newChild){
 	return {
 		type: CALENDAR_UPDATE_CHILD_ADDED,
-		value: newChild
+		value: newChild,
+		update: 'ADD'
 	};
 }
 export function calendarChildRemoved(removedChild){
 	return {
 		type: CALENDAR_UPDATE_CHILD_REMOVED,
-		value: removedChild
+		value: removedChild,
+		update: 'REMOVE'
 	};
-}export function calendarChildChanged(changedChild){
+}
+export function calendarChildChanged(changedChild){
 	return {
 		type: CALENDAR_UPDATE_CHILD_CHANGED,
-		value: changedChild
+		value: changedChild,
+		update: 'CHANGE'
+	};
+}
+export function calendarUpdateComplete(changedChild){
+	return {
+		type: CALENDAR_UPDATE_COMPLETE,
+		update: false
 	};
 }

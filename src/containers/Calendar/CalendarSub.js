@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import { calendarRequest, calendarPost, calendarChangeDate, calendarSelectDate, calendarToggle } from "../../actions/CalendarActions";
+import { calendarRequest, calendarPost, calendarChangeWeek, calendarChangeMonth, calendarSelectDate, calendarToggle } from "../../actions/CalendarActions";
 import { Button } from "react-bootstrap";
 import MotionMenu from "react-motion-menu";
+import FlexCalendarHeader from "../../components/FlexCalendar/FlexCalendarHeader";
+import FlexMonth from "../../components/FlexCalendar/FlexMonth";
 import FlexCalendarPostModal from "../../components/FlexCalendar/FlexCalendarPostModal"; 
 import FlexCalendarColorBrick from "../../components/FlexCalendar/FlexCalendarColorBrick";
 import FlexPalette from "../../components/FlexCalendar/FlexPalette";
@@ -50,6 +52,17 @@ class CalendarSub extends Component {
 						color={"lightgreen"}
 						durationLength={2}
 				/>
+				<FlexCalendarHeader
+					User={this.props.User}
+					Calendar={this.props.Calendar}
+					calendarChangeWeek={date=>this.props.calendarChangeWeek.bind(this)(date)}
+					calendarChangeMonth={date=>this.props.calendarChangeMonth.bind(this)(date)}
+					calendarToggle={(kind)=>this.props.calendarToggle.bind(this)(kind)}
+				/>
+				<FlexMonth
+					// Calendar={this.props.Calendar}
+					// monthDays={this.props.monthDays}
+				/>
 			</div>
 		);
 	}
@@ -70,8 +83,11 @@ function mapDispatch(dispatch) {
 		calendarPost: (form)=> {
 			dispatch(calendarPost(form));
 		},
-		calendarChangeDate: (date)=>{
-			dispatch(calendarChangeDate(date));
+		calendarChangeWeek: (date)=>{
+			dispatch(calendarChangeWeek(date));
+		},
+		calendarChangeMonth: (date)=>{
+			dispatch(calendarChangeMonth(date));
 		},
 		calendarSelectDate: (date)=>{
 			dispatch(calendarSelectDate(date));

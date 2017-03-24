@@ -11,7 +11,6 @@ export function projectGet(req,res){
 }
 
 export function projectPost(req,res){
-  console.log("POST:::", req.body.project)
   var post = new Project(req.body.project);
 
   post.save()
