@@ -20,12 +20,7 @@ class Navigation extends React.Component {
         <div onClick={()=>this.clickLink('/todolist')}>투두</div>
         <div onClick={()=>this.clickLink('/editor')}>노트</div>
         <div onClick={()=>this.props.clickShowChat()}>채팅</div>
-        <div id="nav-whiteboard" 
-             onClick={()=>this.clickLink('/whiteboard')}
-        >
-            화이트보드
-        </div>
-
+        <div onClick={()=>this.clickLink('/whiteboard')}>화이트보드</div>
       </div>
     )
   }

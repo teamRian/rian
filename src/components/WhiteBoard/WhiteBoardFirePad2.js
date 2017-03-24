@@ -12,16 +12,16 @@ import '../../styles/Firepad.css';
 import '../../styles/CodeMirror.css';
 
 
-var config = {
-    apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
-    authDomain: "riandev-d7a54.firebaseapp.com",
-    databaseURL: "https://riandev-d7a54.firebaseio.com",
-    storageBucket: "riandev-d7a54.appspot.com",
-    messagingSenderId: "559609159517"	
-}
+// var config = {
+//     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
+//     authDomain: "riandev-d7a54.firebaseapp.com",
+//     databaseURL: "https://riandev-d7a54.firebaseio.com",
+//     storageBucket: "riandev-d7a54.appspot.com",
+//     messagingSenderId: "559609159517"	
+// }
 
 
-firebase.initializeApp(config);
+// firebase.initializeApp(config);
     
     
 class WhiteBoardFirePad extends React.Component{
@@ -44,7 +44,7 @@ class WhiteBoardFirePad extends React.Component{
 
     this.takenLines = {};
     this.projectId = 1;
-    this.userId = this.props.user.username;
+    this.userId = this.props.user.username || this.props.user.facebook.id;
 
     //this.firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
     this.firepadRef = firebase.database().ref('chan/whiteboard/test/local/'+this.projectId);
