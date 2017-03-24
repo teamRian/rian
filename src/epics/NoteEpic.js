@@ -12,15 +12,14 @@ import {
 } from '../constants/index.js'
 
 
-const firebaseSet$ = (getFirebase) => Rx.Observable.fromPromise(getFirebase().ref('/users').once('value'));
 
 
-export const NoteEpic = (action$, store, getFirebase) => {
+export const NoteEpic = (action$, store) => {
 
 	return action$.ofType(NOTE_TIMELINE_GET)
 		.switchMap(action=>{
 			store.dispatch(noteOneCancle)
-			return Rx.Observable.fromPromise(getFirebase().ref('/users' + '/' + store.getState().User._id + '/timeline').once('value'))
+			return Rx.Observable.fromPromise(firebase.database().ref('/users' + '/' + store.getState().User.facebook.id + '/timeline').once('value'))
 				.map(response => { 	
 					// console.log("GET ALLOFTIMELINE!!!", response.val()) 
 					return noteSuccess(response.val(), action.howSorting) 
@@ -56,11 +55,11 @@ export function noteCancle(response){
 
 
 
-export const NoteOneEpic = (action$, store, getFirebase) => {
+export const NoteOneEpic = (action$, store) => {
 
 	return action$.ofType(NOTE_ONENOTE_GET)
 		.mergeMap(action=>{
-			return Rx.Observable.fromPromise(getFirebase().ref('/users' + '/' + store.getState().User._id + '/notes/' + action.noteNum).once('value'))
+			return Rx.Observable.fromPromise(firebase.database().ref('/users' + '/' + store.getState().User.facebook.id  + '/notes/' + action.noteNum).once('value'))
 				.map(response => { 	
 					// console.log("GET ONEOFTIMELINE!!!", response.val()) 
 					return noteScrollSuccess(response.val(), action.noteNum, action.timelineNum) 

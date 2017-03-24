@@ -62,7 +62,7 @@ class NoteEditorContainer extends Component {
 function mapState(state) {
   return { 
     data: state.NoteEditor.data,
-    userid: state.User._id,
+    userid: state.User.facebook.id,
     onEditor: state.NoteEditor.onEditor,
     nowRenderedNote: state.NoteEditor.nowRenderedNote
   }
