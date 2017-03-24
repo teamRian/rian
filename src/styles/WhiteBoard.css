@@ -1,21 +1,27 @@
-.white-board-box{
-	border:1px solid grey;
-	min-height:500px;
+.ch-white-board-box{
+  display:flex;
+  flex:1;
+  align-items: stretch;
+	/*min-height:500px;*/
 }
 
-.white-board-wrapper{
-	border: 1px solid red;
-	padding: 10px;
+/* 
+   ####################
+   ####FIREPAD CSS#####
+   #################### 
+                        */
+
+#firepad {
+  display:flex;
+  flex:1;
+  background-color: #ffffff;
 }
 
-.white-board-panel-box{
-	border:1px solid green;
+.firepad-box{
+  display: flex;
+  flex:1;
+  z-index: 100;
 }
-
-
-
-
-
 
 /* firepad-userlist.css */
 
@@ -106,4 +112,34 @@ input.firepad-userlist-name-input {
   left: 38px;
   width: 95px;
   font-size: 13px;
+}
+
+
+
+/* 
+   ####################
+   ####RICH BOX CSS####
+   #################### 
+                        */
+
+.rich-box{
+  position:absolute;
+  z-index:101;
+}
+
+.rich-tooltip-box{
+  
+  margin:5px;
+}
+
+.rich-tooltip-box > button{
+  background-color: #1b2733;
+}
+
+.rich-tooptip-item{
+ 
+}
+
+.ch-test {
+  content: "\e000";
 }

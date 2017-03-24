@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Firepad from 'firepad';
 import firebase from 'firebase';
 import { setFirepad } from './util/setFirepad.js'
-import './css/RockofRianStyle.css';
-import './css/firepad.css';
+//import './css/RockofRianStyle.css';
+//import './css/firepad.css';
 import moment from 'moment'
+
 
 
 

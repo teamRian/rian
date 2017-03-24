@@ -29,8 +29,9 @@
 }
 
 .MainContent {
+  display:flex;
   justify-content: center;
-  align-items:center;
+  align-items:stretch;
   left:400px;
   flex:1;
   height:100vh;

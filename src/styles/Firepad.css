@@ -2,3 +2,6 @@
   display:none;
 }
 
+.codemirror-username{
+	min-width:20px;
+}
