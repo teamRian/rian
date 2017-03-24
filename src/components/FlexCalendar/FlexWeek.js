@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import FlexSmallBrick from "./FlexSmallBrick";
-import { calendarPost } from "../../actions/CalendarActions";
 import { calendarEpicRequestPost } from "../../epics/CalendarEpic";
 import moment from "moment";
 
@@ -33,8 +32,8 @@ class FlexWeek extends Component {
 
 	componentWillReceiveProps(nextProps){
 		// console.log(nextProps, "FLEXWEEK NEXTPROPS") fdre
-		if(this.props.Calendar.plans !== nextProps.Calendar.plans){
-						console.log("NEXTPROPS!!!!");
+		if(!this.props.Calendar.update && nextProps.Calendar.update){
+			console.log("SOME UPDATE!!", nextProps.Calendar.type);
 		}
 	}
 	handleCanDrop(timeIndex, dayIndex, durationLength){
@@ -42,7 +41,7 @@ class FlexWeek extends Component {
 	}
 
 	handleOnDrop(form){
-		const chosenDate = this.props.monthDays[this.props.Calendar.selectedWeek][form.dayIndex];
+		const chosenDate = this.props.Calendar.monthDays[this.props.Calendar.selectedWeek][form.dayIndex];
 		const startingTime = form.timeIndex;
 		const endingTime = form.timeIndex + form.durationLength;
 		const timeStamp = this.fromTimetoStamp(chosenDate, startingTime);
@@ -60,32 +59,30 @@ class FlexWeek extends Component {
 		var newPostKey = postRef.push().key;
 	  var updates = {};
 	  updates[`duck/users/${this.props.User._id}/plans/${newPostKey}`] = finalForm;
-	  // updates[`duck/plans/${newPostKey}`] = finalForm;
 		return firebase.database().ref().update(updates);
-		// this.props.calendarPost(finalForm);
 	}
 
 	fromTimetoStamp(date, startingTime){
-		console.log(date, startingTime);
 		const totalMinutes = (startingTime + 22) * 15; // 5.30AM
 		const hour = Math.floor(totalMinutes/60);
 		const minutes = totalMinutes % 60;
-		return moment([date.year, date.month, date.day, hour, minutes]).format('X');
+		return moment([date.year, date.month+1, date.day, hour, minutes]).format('X');
 	}
 
 	render() {
+		const { Calendar } = this.props;
 		return (
 		  <div id="FlexCalendarWeek">
 				<div className="weekCalendarWeekDays">
-				  { this.props.monthDays[this.props.Calendar.selectedWeek].map((day,k)=>{
+				  { Calendar.monthDays[Calendar.selectedWeek].map((day,k)=>{
 						let dayClass = classNames({
 							weekCalendarWeekDay: true,
 							[`month${day.month}`]: true,
 							[`week${day.week}`]: true,
 							[`week${day.day}`]: true,
 							holiday: k === 6 || k === 0,
-							today: day.month === this.props.Calendar.currentMonth && day.day === this.props.Calendar.currentDay && day.year === this.props.Calendar.currentYear,
-							selected: day.month === this.props.Calendar.selectedMonth && day.day === this.props.Calendar.selectedDay && day.year === this.props.Calendar.selectedYear 
+							today: day.month === Calendar.currentMonth && day.day === Calendar.currentDay && day.year === Calendar.currentYear,
+							selected: day.month === Calendar.selectedMonth && day.day === Calendar.selectedDay && day.year === Calendar.selectedYear 
 						});
 						return (
 							<div key={day.day} className={dayClass}>
@@ -109,16 +106,6 @@ function mapState(state) {
 	};
 }
 
-function mapDispatch(dispatch) {
-	return {
-		calendarPost: (form)=> {
-			dispatch(calendarPost(form));
-		},
-		calendarEpicRequestPost: (form) => {
-			dispatch(calendarEpicRequestPost(form));
-		}
-	};
-}
 
 FlexWeek.PropTypes = {
 	User: PropTypes.object,
@@ -127,4 +114,4 @@ FlexWeek.PropTypes = {
 	calendarPost: PropTypes.function
 };
 
-export default connect(mapState, mapDispatch)(FlexWeek);
+export default connect(mapState)(FlexWeek);
