@@ -31,6 +31,7 @@ class ChatNotiBlock extends Component {
 			console.log('FianlStamp', finalstamp)
 			firebase.database().ref('/chat/' + chatroomId + '/readpoint/' + this.props.userid).once('value', (snapshot)=>{
 				console.log("My timestamp", snapshot.val(), finalstamp)
+				
 				if (finalstamp <= snapshot.val().timestamp) {
 					console.log('meiyou')
 					that.setState((prevState, props)=>({

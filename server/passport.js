@@ -66,16 +66,22 @@ export default function(passport) {
 				newUser.facebook.email = userEmail; // facebook can return multiple emails so we'll take the first
 				newUser.facebook.picture = profile.photos[0].value;
 				// save our user to the database
+
+				var mongooseId
 				newUser.save(function(err) {
 					if (err) throw err;
-					// if successful, return the new user
+					// if successful, return the new user]
+					//find mongooseid to make firebase users profile ID
+						
+					var updates = {}
+					updates[newUser._id] = { ChatRoom: {"-KfVQAHzPd8iiwS3RdLh": true}, facebook: { id:profile.id, token:token, email:userEmail, picture: profile.photos[0].value } }
+					firebase.database().ref('users/').update(updates)
 					return done(null, newUser);
+
 				});
 
-				//set users info to firebase				
-				var updates = {}
-				updates[profile.id] = { ChatRoom: true, facebook: { id:profile.id, token:token, email:userEmail, picture: profile.photos[0].value } }
-				firebase.database().ref('users/').update(updates)
+				//set users info to firebase	
+
 			
 			}
 

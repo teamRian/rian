@@ -29,8 +29,10 @@ class FirebaseChatContainer extends Component {
 	componentDidMount() {
 		firebase.database().ref('/users/' + this.props.userid + '/ChatRoom').on('value', (data)=>{
 			console.log("firebase chat", data.val())
-			if (Array.isArray(data.val())) {
-				var chatroomlist = Object.keys(data.val())
+			
+			if (!Array.isArray(data.val())) {
+				var chatroomlist = Object.keys(data.val())	
+
 				this.props.updateFirebaseChatList(chatroomlist)
 			}
 		})
@@ -60,7 +62,7 @@ class FirebaseChatContainer extends Component {
 
 function mapState(state) {
   return {
-  	userid: state.User.facebook.id,
+  	userid: state.User._id,
   	chat: state.FirebaseChat.chatroomlist
   }
 }

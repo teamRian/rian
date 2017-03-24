@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Infinite from 'react-infinite';
 
 class MetalofRianFirebaseChat extends Component {
 
@@ -45,9 +44,10 @@ class MetalofRianFirebaseChat extends Component {
 		 		
 		 		//만약에 내 커서가 포커스 되있으면 읽은 걸로 갱신
 		 		console.log("time", temp.timestamp)
-		 		if (this.state.focus && temp.userid !== this.props.userid) {
+		 		if (this.state.focus) {
 		 			var updateReadpoint = {}
-		 			updateReadpoint[this.props.userid] = temp.timestamp
+		 			updateReadpoint[this.props.userid] = { timestamp: temp.timestamp }
+		 			console.log('time tmep', temp.timestamp)
 		 			firebase.database().ref('chat/' + this.props.chatRoomId + '/readpoint/').update(updateReadpoint)
 		 		}
 		 		
@@ -203,16 +203,9 @@ class MetalofRianFirebaseChat extends Component {
 		return (
 			<div>
 			 <form onSubmit={this.handleSubmit}>
-       		    <Infinite 
-       				containerHeight={100} 
-        			elementHeight={10} 
- 							infiniteLoadBeginEdgeOffset={10}
-        			onInfiniteLoad={this.loadPastPage}
-        			isInfiniteLoading={this.state.isInfiniteLoading}
-        			displayBottomUpwards     			
-        			>
+       		    
        		  		{this.state.message}
-       		  	</Infinite>
+       		  	
           		<input type='text' value={this.state.value} onFocus={(e)=>this.changeFocusOn(e)} onBlur={(e)=>this.changeFocusOff(e)} onChange={(e)=>this.handleChange(e)} />
        	 	  <input type="submit" value="Submit" />
       		</form>
