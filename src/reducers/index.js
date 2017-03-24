@@ -7,6 +7,7 @@ import {
 // Import Reducers
 import * as UserReducer from './UserReducer';
 import * as CalendarReducer from './CalendarReducer';
+import * as PlanReducer from './PlanReducer';
 import * as TodosReducer from './TodosReducer.js';
 import * as FileManagementReducer from './FileManagementReducer.js';
 import * as ProjectReducer from './ProjectReducer';
@@ -23,6 +24,7 @@ const rootReducer = combineReducers(
 		TodosReducer,
 		ProjectReducer,
 		CalendarReducer,
+		PlanReducer,
 		NoteEditorReducer,
 		WhiteBoardReducer,
 		FileManagementReducer,

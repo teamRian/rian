@@ -37,46 +37,11 @@ var CalendarState = {
   currentDay: currentDate[1], // for display Today and go to Today
   currentMonth: currentDate[0],
   currentYear: currentDate[2],
-  locale: moment.locale(),
-  plans: {}, // [plan, plan, plan]
-  update: false
+  locale: moment.locale()
 };
 
 export function Calendar(state = CalendarState, action) {
   switch (action.type) {
-    case CALENDAR_EPIC_REQUEST_DATA: {
-      return Object.assign({}, state, {
-        loading: true
-      });
-    }
-    case CALENDAR_EPIC_SUCCESS_DATA:
-      return Object.assign({}, state, {
-        plans: action.plans,
-        loading: false
-      });
-    case CALENDAR_UPDATE_CHILD_ADDED:
-      return Object.assign({}, state, {
-        plans: { ...state.plans },
-        loading: false,
-        update: action.update
-      });
-    case CALENDAR_UPDATE_CHILD_REMOVED:
-      const { [action.value]: omit, ...res } = state;
-      return Object.assign({}, state, {
-        plans: res,
-        loading: false,
-        update: action.update
-      });
-    case CALENDAR_UPDATE_CHILD_CHANGED:
-      return Object.assign({}, state, {
-        plans: action.plans,
-        loading: false,
-        update: action.update
-      });
-    case CALENDAR_UPDATE_COMPLETE:
-      return Object.assign({}, state, {
-        update: action.update
-      });
     case "CALENDAR_REQUEST_DATA":
       return Object.assign({}, state, {
         loading: true
@@ -113,7 +78,7 @@ export function Calendar(state = CalendarState, action) {
         selectedMonth: action.selectedMonth,
         selectedYear: action.selectedYear,
         maxWeeks: action.maxWeeks,
-        monthDays: renderTime(action.year, action.month - 1)
+        monthDays: renderTime(action.year, action.month)
       });
     case "CALENDAR_CHANGE_WEEK":
       return Object.assign({}, state, {

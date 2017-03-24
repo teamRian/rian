@@ -112,6 +112,7 @@ export default class FlexCalendarHeader extends Component {
       selectedYear: nextYear
     };
     if (!week) {
+      console.log(dateObj,"CHANGEMONTH")
       this.props.calendarChangeMonth(dateObj);
     } else {
       if (week === "max") {
@@ -130,6 +131,7 @@ export default class FlexCalendarHeader extends Component {
       dateObj.selectedDay = weekDayObj.selectedDay;
       dateObj.selectedMonth = weekDayObj.selectedMonth;
       dateObj.selectedYear = weekDayObj.selectedYear;
+      console.log(dateObj,"CHANGEMONTH")
       this.props.calendarChangeMonth(dateObj);
     }
   }
