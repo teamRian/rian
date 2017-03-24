@@ -26,8 +26,9 @@ class ChatNotification extends Component {
 	}
 
 	renderChatList(props){
-
+		if (!props) return "Loading...."
 		var result = props.map((a, index)=>{
+
 			console.log(this.props)
 			return <ChatNotiBlock chatRoomid={a} userid={this.props.userid} key={index} goToChatRoom={this.props.goToChatRoom} />
 		})

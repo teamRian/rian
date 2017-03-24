@@ -10,7 +10,8 @@ class FirebaseChatContainer extends Component {
 		super(props);
 		this.state = {
 			list: true,
-			nowRender: null
+			nowRender: null,
+			haveChatRoom: false,
 		}
 		this.changeList = this.changeList.bind(this)
 		this.goTochatRoom = this.goToChatRoom.bind(this)
@@ -28,8 +29,12 @@ class FirebaseChatContainer extends Component {
 	componentDidMount() {
 		firebase.database().ref('/users/' + this.props.userid + '/ChatRoom').on('value', (data)=>{
 			console.log("firebase chat", data.val())
-				var chatroomlist = Object.keys(data.val())
-		this.props.updateFirebaseChatList(chatroomlist)
+			
+			if (!Array.isArray(data.val())) {
+				var chatroomlist = Object.keys(data.val())	
+
+				this.props.updateFirebaseChatList(chatroomlist)
+			}
 		})
 	}
 

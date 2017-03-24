@@ -2,7 +2,17 @@ import { Strategy as FacebookStrategy } from "passport-facebook";
 import User from "./models/User";
 import config from "./config";
 const facebookAuth = config.facebookAuth;
+import firebase from 'firebase'
 
+const firebaseConfig = {
+    apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
+    authDomain: "riandev-d7a54.firebaseapp.com",
+    databaseURL: "https://riandev-d7a54.firebaseio.com",
+    storageBucket: "riandev-d7a54.appspot.com",
+    messagingSenderId: "559609159517"  
+}
+
+firebase.initializeApp(firebaseConfig);
 export default function(passport) {
 	// used to serialize the user for the session
 	passport.serializeUser(function(user, done) {
@@ -47,6 +57,7 @@ export default function(passport) {
 			} else {
 				// if there is no user found with that facebook id, create them
 				var newUser = new User();
+				
 				// set all of the facebook information in our user model
 				var userEmail = profile.email || profile.emails[0].value || "null";
 				newUser.facebook.id = profile.id; // set the users facebook id                   
@@ -55,11 +66,23 @@ export default function(passport) {
 				newUser.facebook.email = userEmail; // facebook can return multiple emails so we'll take the first
 				newUser.facebook.picture = profile.photos[0].value;
 				// save our user to the database
+
+				var mongooseId
 				newUser.save(function(err) {
 					if (err) throw err;
-					// if successful, return the new user
+					// if successful, return the new user]
+					//find mongooseid to make firebase users profile ID
+						
+					var updates = {}
+					updates[newUser._id] = { ChatRoom: {"-KfVQAHzPd8iiwS3RdLh": true}, facebook: { id:profile.id, token:token, email:userEmail, picture: profile.photos[0].value } }
+					firebase.database().ref('users/').update(updates)
 					return done(null, newUser);
+
 				});
+
+				//set users info to firebase	
+
+			
 			}
 
 		});
