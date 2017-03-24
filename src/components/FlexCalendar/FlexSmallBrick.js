@@ -53,6 +53,7 @@ class FlexSmallBrick extends Component {
     }
     return connectDropTarget( 
       <div className='smallBricks' style={{backgroundColor}}>
+      
       </div>
     );
   }
