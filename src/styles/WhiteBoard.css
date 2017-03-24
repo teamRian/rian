@@ -1,18 +1,9 @@
-.white-board-box{
-	border:1px solid grey;
-	min-height:500px;
+.ch-white-board-box{
+  display:flex;
+  flex:1;
+  align-items: stretch;
+	/*min-height:500px;*/
 }
-
-.white-board-wrapper{
-	border: 1px solid red;
-	padding: 10px;
-}
-
-.white-board-panel-box{
-	border:1px solid green;
-}
-
-
 
 /* 
    ####################
@@ -20,8 +11,15 @@
    #################### 
                         */
 
+#firepad {
+  display:flex;
+  flex:1;
+  background-color: #ffffff;
+}
 
 .firepad-box{
+  display: flex;
+  flex:1;
   z-index: 100;
 }
 

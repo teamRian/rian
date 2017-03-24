@@ -9,6 +9,8 @@ import RichBox from './RichBox';
 
 // CSS IMPORT
 import '../../styles/Firepad.css';
+import '../../styles/CodeMirror.css';
+
 
 var config = {
     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
@@ -61,17 +63,18 @@ class WhiteBoardFirePad extends React.Component{
     wbfp.codeMirror = CodeMirror(document.getElementById('firepad'), { 
       gutters: ["codemirror-username"],
       lineWrapping: true,
-      lineNumbers: true,
+      
     });
     
     wbfp.firepad = Firepad.fromCodeMirror(wbfp.firepadRef, wbfp.codeMirror, {
                      userId: wbfp.userId,
                      richTextShortcuts: true,
-                     richTextToolbar: true,
+                     //richTextToolbar: true,
                      //defaultText: 'Hello, World!'
                    });
     
-    wbfp.firepadUserList = FirepadUserList.fromDiv(wbfp.firepadRef.child('users'), document.getElementById('userlist'), wbfp.userId, wbfp.userId);
+    // about userList View    
+    //wbfp.firepadUserList = FirepadUserList.fromDiv(wbfp.firepadRef.child('users'), document.getElementById('userlist'), wbfp.userId, wbfp.userId);
 
     // 처음 firebase에 lines 라는 property가 없으면 default로 생성해주기
     wbfp.firepadRef.child('lines').once('value', function(snapshot){
@@ -175,10 +178,6 @@ class WhiteBoardFirePad extends React.Component{
         ######################################
                                               */
 
-      wbfp.codeMirror.on('blur', function(cm, e){
-        
-      });
-
       wbfp.codeMirror.on('mousedown', function(cm, e){
 
         //1. codemirror line 추출하기
@@ -200,27 +199,30 @@ class WhiteBoardFirePad extends React.Component{
         var nowLine = cm.getCursor().line;
 
         //Left, Right, Up, Down
-        if(name === "Left"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
-        }else if(name === "Right"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); }
-        }else if(name === "Up"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
-        }else if(name === "Down"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); }
-        }
+        // wbfp.userInfo[wbfp.userId].blockingLine !== nowLine 블락킹 라인이 자기 라인인 경우는 체크 안함!
+        if(wbfp.userInfo[wbfp.userId].blockingLine !== nowLine){
+          if(name === "Left"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
+          }else if(name === "Right"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); }
+          }else if(name === "Up"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
+          }else if(name === "Down"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); }
+          }
 
-        //Cmd + Left, Right, Up, Down
-        else if(name === "Cmd-Left"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); } 
-        }else if(name === "Cmd-Right"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); } 
-        }else if(name === "Cmd-Up"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); }
-        }else if(name === "Cmd-Down"){
-          if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
+          //Cmd + Left, Right, Up, Down
+          else if(name === "Cmd-Left"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); } 
+          }else if(name === "Cmd-Right"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); } 
+          }else if(name === "Cmd-Up"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineDown'); }
+          }else if(name === "Cmd-Down"){
+            if(wbfp.lineInfo[nowLine].isBlocking){ cm.execCommand('goLineUp'); }
+          }
         }
-
+        
         //2. richbox tooltip이 show상태이면 hide시키기
         if(wbfp.state.richboxDisplay){
           wbfp.tooltipShowAndHide(null, false);
@@ -241,16 +243,6 @@ lineInfo를 만들기 위해서
 inputRead가 실행될때 => firebase에
 
 */
-      
-      wbfp.codeMirror.on('renderLine', function(cm, line, el){
-        
-        var nowLine = cm.getCursor().line;
-        
-        if(!wbfp.lineInfo[nowLine]){ //nowLine에 대한 정보가 lineInfo에 없다면 firebase에 init 값을 update해줌
-          wbfp.firepadRef.child('lines').child(nowLine).set({ isBlocking : false, nowWriter: false, writer : false });
-        }
-
-      });
 
 
       //blocking을 설정하는 set/update는 inputRead event에서 실행한다.
@@ -335,25 +327,42 @@ inputRead가 실행될때 => firebase에
 
       //blocking을 해제하는 set/update는 cursorActivity, blur event 에서 실행한다.      
       //blocking을 설정하는 set/update는 inputRead event에서 실행한다.
-      //나중에 테스트하기위해서 comment처리
       wbfp.codeMirror.on('blur', function(cm, e){
 
-        /*
         //if 현재 사용자가 blocking하던 라인이 존재한다면
         if(Number.isInteger(wbfp.userInfo[wbfp.userId].blockingLine)){
           // 해제가 먼저 실행되야하므로 update로 바로 실행
           var blockingLine = wbfp.userInfo[wbfp.userId].blockingLine;
           wbfp.firepadRef.child('lines').child(blockingLine).update({ isBlocking : false, nowWriter: false }); 
           wbfp.firepadRef.child('users').child(wbfp.userId).update({ 'blockingLine' : false });
-        }
-        */
+        }        
 
       });
 
       // renderLine event는 커서 이동에는 영향받지 않는다.
-      // 하지만 글자 입력이나 line 생성에는 all users에 자동 발생되는 event이다
+      // 하지만 글자 입력이나 line 생성/삭제에는 자동 발생되는 event이다
       wbfp.codeMirror.on('renderLine', function(cm, line, el){
+        
+        var nowLine = cm.getCursor().line;
+        console.log('renderLine ::: ', nowLine, line);
 
+        if(!wbfp.lineInfo[nowLine]){ //nowLine에 대한 정보가 lineInfo에 없다면 firebase에 init 값을 update해줌
+          wbfp.firepadRef.child('lines').child(nowLine).set({ isBlocking : false, nowWriter: false, writer : false });
+        }
+
+        // line render되는 line에 event를 걸어줌
+        line.on('delete', function(){
+          wbfp.firepadRef.child('lines').child(this).set({ isBlocking : false, nowWriter: false, writer : false });
+        }.bind(nowLine));
+
+      });
+      
+      wbfp.codeMirror.on('change', function(doc, changeObj){
+        
+        if(changeObj.origin === '+delete' && changeObj.to.line !== changeObj.from.line){
+          debugger;
+        }
+        
       });
 
       /* 
@@ -361,23 +370,16 @@ inputRead가 실행될때 => firebase에
         ##### RICH TOOL BOX SHOW - FUNCTION #####
         #########################################
                                                  */
-
-      // keyup 됐을때 rich tool box가 띄워지도록 설정
-      wbfp.codeMirror.on('keyup', function(cm, e){
-        var selText = cm.getSelection();
-        if(selText !== "" && !wbfp.state.richboxDisplay){
-
-          console.log('rich tool box show!!!');
-        }
-      });
-
+ 
       // mouse가 up됐을때 rich tool box가 띄워지도록 설정
       document.getElementById('firepad').addEventListener('mouseup', function(e){        
         var selText = wbfp.codeMirror.getSelection();
+        var cursor = wbfp.codeMirror.getCursor();
+        var lineHegiht = wbfp.codeMirror.getLineHandle(cursor.line).height;
+        console.log(wbfp.codeMirror.getLineHandle(cursor.line));
         if(selText !== ""){
-          let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
+          let richBoxPos = { top : e.y-lineHegiht+"px", left : e.x+75+"px"}
           wbfp.tooltipShowAndHide(richBoxPos, true);
-          console.log('rich tool box show!!!');
         }
       });
 
@@ -387,20 +389,7 @@ inputRead가 실행될때 => firebase에
         if(selText !== "" && !wbfp.state.richboxDisplay){ // selText가 존재하는데, richboxDisplay가 false인 경우 실행
           let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
           wbfp.tooltipShowAndHide(richBoxPos, true);
-          console.log('rich tool box show!!!');
         }
-      });
-
-      // mouse가 move 될때 selection이 잡혀있으면 tooltip 띄워주기
-      document.getElementById('firepad').addEventListener('mousemove', function(e){          
-
-        // var selText = wbfp.codeMirror.getSelection();
-        // if(selText !== "" && !wbfp.state.richboxDisplay){ // selText가 존재하는데, richboxDisplay가 false인 경우 실행
-        //   let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
-        //   wbfp.tooltipShowAndHide(richBoxPos, true);
-        //   console.log('rich tool box show!!!');
-        // }
-
       });
 
       // ### RxJS Observable ###
@@ -408,29 +397,26 @@ inputRead가 실행될때 => firebase에
       let firepadKeyUp = Rx.Observable.fromEvent(document.querySelector('#firepad'), 'keyup');
       let firepadMouseMove = Rx.Observable.fromEvent(document.querySelector('body'), 'mousemove');
 
+          // keyup event 중에 sel된 것이 있는경우만 filtering함
           firepadKeyUp.filter((e) => { 
             let selText = wbfp.codeMirror.getSelection();
             return selText !== "";
           })
+          // mouseMove event를 keyup이벤트가 발생한 시점까지 모두 무시함 
+          // => keyup이 일어나고 mouse move가 발생하면 두개를 합친 이벤트가 발생한 경우
+          // richText-tooltip-box를 띄워줌
           .zip(firepadMouseMove.skipUntil(firepadKeyUp), (e1, e2) => { return e1 } )
           .first().repeat().subscribe( (e) => {
             
             if(!wbfp.state.richboxDisplay){
+              console.log('rxJS key up ::: ', e);
               let richBoxPos = { top : e.y-35-18+"px", left : e.x+75+"px"}
               wbfp.tooltipShowAndHide(richBoxPos, true);
-              console.log('rich tool box show!!!');  
             }
 
           });
 
-
-
     }); // firepad.on('ready') end
-
-
-		wbfp.firepad.on('synced', function(isSynced) {
-			 
-		});
 
 	}
 
@@ -461,7 +447,7 @@ inputRead가 실행될때 => firebase에
     }
 
   }
-
+  
   // Make Gutter Marker element
   makeMarker(name) {
     var marker = document.createElement("div");
@@ -480,15 +466,13 @@ inputRead가 실행될때 => firebase에
   }
 
 	componentWillUnmount() {
-    
+    // reloading 될때는 componentWillUnmount가 발생하지 않음
 	}
 
 	render(){
-		
+
 		return (
-			<div className="firepad-box">
-        <span className="ch-test">BOLD</span>
-				<div id="userlist"></div>
+			<div className="firepad-box">				
 				<div id="firepad"></div>
         {
           this.state.richboxDisplay ? <RichBox applyRichText={this.applyRichText.bind(this)} pos={this.state.richBoxPosition} /> : null
