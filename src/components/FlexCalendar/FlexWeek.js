@@ -2,36 +2,42 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import FlexSmallBrick from "./FlexSmallBrick";
-import FlexPlans from "./FlexPlans";
+import FlexWeekDay from "./FlexWeekDay";
 import { planEpicRequestPost } from "../../epics/PlanEpic";
 import moment from "moment";
 
 class FlexWeek extends Component {
   constructor(props) {
     super(props);
+    this.state= {
+      filteredPlan: {}
+    }
     // 빈 7 x 72 매트릭스를 만들고 FlexSmallBrick들로 채웁니다
-    const smallBricksMatrix = [...Array(7)].map((x, k) => {
-      {
-        return [...Array(72)].map((x, i) => (
-          <FlexSmallBrick
-            key={`${k}.${i}`}
-            timeIndex={i}
-            dayIndex={k}
-            _userId={this.props.User._id}
-            handleOnDrop={form => this.handleOnDrop.bind(this)(form)}
-            handleCanDrop={(timeIndex, dayIndex) =>
-              this.handleCanDrop.bind(this)(timeIndex, dayIndex)}
-          />
-        ));
-      }
-    });
-    this.smallBricksMatrix = smallBricksMatrix;
+    // const smallBricksMatrix = [...Array(7)].map((x, k) => {
+    //   {
+    //     return [...Array(72)].map((x, i) => (
+    //       <FlexSmallBrick
+    //         key={`${k}.${i}`}
+    //         timeIndex={i}
+    //         dayIndex={k}
+    //         _userId={this.props.User._id}
+    //         handleOnDrop={form => this.handleOnDrop.bind(this)(form)}
+    //         handleCanDrop={(timeIndex, dayIndex) =>
+    //           this.handleCanDrop.bind(this)(timeIndex, dayIndex)}
+    //       />
+    //     ));
+    //   }
+    // });
+    // this.smallBricksMatrix = smallBricksMatrix;
   }
 
   componentWillReceiveProps(nextProps) {
     // console.log(nextProps, "FLEXWEEK NEXTPROPS") fdre
-    if (!this.props.Calendar.update && nextProps.Calendar.update) {
-      console.log("SOME UPDATE!!", nextProps.Calendar.type);
+    if (this.props.Plan.loading && !nextProps.Plan.loading) {
+      console.log("SOME UPDATE!!", nextProps);
+      this.setState({
+        filteredPlan: this.filterPlans(nextProps.Plan.plans)
+      })
     }
   }
   handleCanDrop(timeIndex, dayIndex, durationLength) {
@@ -75,8 +81,45 @@ class FlexWeek extends Component {
     );
   }
 
+  filterPlans(plans){
+    const { Calendar, Plan } = this.props;
+    const showingWeek = Calendar.monthDays[Calendar.selectedWeek];
+    const firstDay = showingWeek[0];
+    const lastDay = showingWeek[6];
+    const startStamp = moment([
+      firstDay.year,
+      firstDay.month + 1,
+      firstDay.day,
+      0
+    ]).format("X");
+    const lastStamp = moment([
+      lastDay.year,
+      lastDay.month + 1,
+      lastDay.day,
+      24
+    ]).format("X");
+
+    const filteredPlan = [...Array(7)];
+
+    const firstTime = moment([
+      firstDay.year,
+      firstDay.month + 1,
+      firstDay.day
+    ])
+    for(var key in Plan.plans){
+      if(Plan.plans[key].timeStamp >= startStamp && Plan.plans[key].timeStamp <= lastStamp){
+        const { year, month, day } = Plan.plans[key];
+        debugger
+        filteredPlan[firstTime.diff(moment(year, month+1, day))] = Plan.plans[key];
+        // filteredPlan[key] = Plan.plans[key];
+      }
+    }
+    debugger
+    return filteredPlan;
+  }
+
   render() {
-    const { Calendar } = this.props;
+    const { Calendar, Plan } = this.props;
     const showingWeek = Calendar.monthDays[Calendar.selectedWeek];
     return (
       <div id="FlexCalendarWeek">
@@ -103,12 +146,20 @@ class FlexWeek extends Component {
           })}
         </div>
         <div className="weekCalendarWeek">
-          {this.smallBricksMatrix.map((bricks, k) => {
-            return <FlexPlans 
-            	bricks={bricks} 
-            	date={showingWeek[k]}
-            />;
-          })}
+          {
+            showingWeek.map((day,k)=>{
+              return <FlexWeekDay
+                key={k}
+                date={day}
+                place={k}
+                userId={this.props.User._id}
+                handleOnDrop={form => this.handleOnDrop.bind(this)(form)}
+                handleCanDrop={(timeIndex, dayIndex) =>{this.handleCanDrop.bind(this)(timeIndex, dayIndex)}}
+                filteredPlan={this.state.filteredPlan[k]}
+              />
+
+            })
+          }
         </div>
       </div>
     );

@@ -44,11 +44,11 @@ class FlexCalendarBody extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("UPDATED?");
-    if (this.props.Plan.update) {
-      console.log("UPDATED, complete!");
-      this.props.planUpdateComplete();
-    }
+    // console.log("UPDATED?");
+    // if (this.props.Plan.update) {
+    //   console.log("UPDATED, complete!");
+    //   this.props.planUpdateComplete();
+    // }
   }
 
   getStampFire(nextProps) {
