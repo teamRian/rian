@@ -188,18 +188,36 @@ app.get('*', (req,res)=>{
 
 
 
-// Socketio Chat
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const chatSocket = require('./channel/chatSocket.js');
-const whiteboardSocket = require('./channel/whiteboardSocket.js');
 
-// io channels
-io.on('connection', function(socket){ console.log('default connection success'); })
-io.of('/chat').on('connection', function(socket){
-    chatSocket(socket, io);
-});
-io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
+const server = require('http').createServer(app);
+
+//GraphQL Server 
+// import { SubscriptionManager, PubSub } from 'graphql-subscriptions';
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import schema from './SchemaForGraphQL/schema.js';
+// const pubsub = new PubSub();
+// const subscriptionManager = new SubscriptionManager({
+//   schema,
+//   pubsub
+// });
+// const server = createServer(); // create new connect/express server
+// const subscriptionServer = new SubscriptionServer({
+//   subscriptionManager,
+//   onConnect: async ({ authToken }) => {
+//     const user = await validateUser(authToken);
+//     if (!user) {
+//       throw new Error(‘Unauthorized!’);
+//     } else { 
+//       // The returned value will be part of the `context`
+//       // for the filter functions and resolvers
+//       return {
+//         user
+//       };
+//     }
+//   },
+// }, {
+//   server // or use existing server with different path
+// });
 
 
 // start app
@@ -224,5 +242,7 @@ function isLoggedIn(req, res, next) {
 
     // if they aren't redirect them to the home page
 }
+
+
 
 

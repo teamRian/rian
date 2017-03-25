@@ -360,7 +360,7 @@ inputRead가 실행될때 => firebase에
       wbfp.codeMirror.on('change', function(doc, changeObj){
         
         if(changeObj.origin === '+delete' && changeObj.to.line !== changeObj.from.line){
-          debugger;
+         
         }
         
       });

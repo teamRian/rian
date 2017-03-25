@@ -64,21 +64,6 @@ export const CALENDAR_EPIC_CANCLE_DATA = "CALENDAR_EPIC_CANCLE_DATA"
 
 /*=====  End of Section  ======*/
 
-
-// CHAT ACTIONS
-export const CHAT_CHANGE_NAME = "CHAT_CHANGE_NAME";
-export const CHAT_NEW_MESSAGE = "CHAT_NEW_MESSAGE";
-export const CHAT_USER_JOIN = "CHAT_USER_JOIN";
-export const CHAT_NEW_USER = "CHAT_NEW_USER";
-export const CHAT_USER_LEFT = "CHAT_USER_LEFT";
-export const CHAT_REQUEST_DATA = "CHAT_REQUEST_DATA";
-export const CHAT_RECEIVE_DATA = "CHAT_RECEIVE_DATA";
-export const CHAT_FAIL_DATA = "CHAT_FAIL_DATA";
-export const CHAT_POSTSEND_DATA = "CHAT_POSTSEND_DATA";
-export const CHAT_POSTSUCCESS_DATA = "CHAT_POSTSUCCESS_DATA";
-export const CHAT_POSTFAIL_DATA = "CHAT_POSTFAIL_DATA";
-
-
 /* WhiteBoard - Start */
 export const CHANGE_CONTENT_STATE = "CHANGE_CONTENT_STATE"; // will be deprecated
 export const CHANGE_EDITOR_STATE = "CHANGE_EDITOR_STATE";
