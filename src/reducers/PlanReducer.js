@@ -27,7 +27,7 @@ export function Plan(state = PlanState, action) {
       });
     case PLAN_UPDATE_CHILD_ADDED:
       return Object.assign({}, state, {
-        plans: { ...state.plans },
+        plans: {...state.plans, ...action.value},
         loading: false,
         update: action.update
       });
@@ -40,7 +40,7 @@ export function Plan(state = PlanState, action) {
       });
     case PLAN_UPDATE_CHILD_CHANGED:
       return Object.assign({}, state, {
-        plans: action.plans,
+        plans: {... state.plans, ...action.value},
         loading: false,
         update: action.update
       });

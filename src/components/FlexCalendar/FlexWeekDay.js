@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import FlexSmallBrick from "./FlexSmallBrick";
+import FlexResizable from "./FlexResizable";
+
 // import { connect } from 'react-redux';;
 
 export default class FlexWeekDay extends Component {
@@ -30,6 +32,22 @@ export default class FlexWeekDay extends Component {
     return (
       <div className="weeklyDay">
         {this.smallBricks}
+        {this.props.filteredPlan.map(plan=>{
+          return (
+            <FlexResizable plan={plan} key={plan._id} onResizeStop={this.props.handleOnResize} />
+           //  <Resizable className="plan" width={200} height={200} handleSize={[10,10]} onResize={this.onResize}
+           //    minConstraints={[100, 100]} maxConstraints={[300, 300]}>
+           //  }
+           //  <div className="plan" style={{width: this.props.width + 'px', height: this.props.height + 'px'}}>
+           //    {plan.color}
+           //  </div>
+
+           // </Resizable>
+            // <div className="plan" style={style} key={plan.timeStamp}>
+            //   {plan.color}
+            // </div>
+          )
+        })}
       </div>
     );
   }

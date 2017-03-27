@@ -12,15 +12,21 @@ const smallBrickTarget = {
   // },
   drop(props, monitor, component) {
     console.log("Hi, I'm Brick, my timeIndex is ", props.timeIndex, " and my DayIndex is ", props.dayIndex, " if you want details open this ", monitor.getItem())
+    const droppedType = monitor.getItemType();
     const droppedItem = monitor.getItem();
-    const form = {
-      timeIndex : props.timeIndex,
-      dayIndex : props.dayIndex,
-      durationLength : droppedItem.durationLength,
-      color: droppedItem.color,
-      type: 'once'
-    };
-    props.handleOnDrop(form);
+    if(droppedType === "COLOR_BRICK"){
+      const form = {
+        timeIndex : props.timeIndex,
+        dayIndex : props.dayIndex,
+        durationLength : droppedItem.durationLength,
+        color: droppedItem.color,
+        type: 'once'
+      };
+      props.handleOnDrop(form);
+    } else if ( droppedType === "FLEX_BRICK"){
+      console.log(props, "FLEXBRICK DROPPED")
+    }
+    
   }
 };
 
@@ -43,20 +49,23 @@ class FlexSmallBrick extends Component {
     super(props);
   }
   render() {
-    const { isOver, isOverCurrent, canDrop, itemType, connectDropTarget } = this.props;
+    const { hideSourceOnDrag, isOver, isOverCurrent, canDrop, itemType, connectDropTarget } = this.props;
     const isActive = isOver && canDrop;
+    const style = {};
     let backgroundColor = null;
     if (isActive) {
-      backgroundColor = 'darkgreen';
+      style['backgroundColor'] = 'darkgreen'
+      // style['zIndex'] = 100;
     } else if (canDrop) {
-      backgroundColor = 'darkkhaki';
+      style['backgroundColor'] ='darkkhaki';
+      // style['zIndex']= 100;
     }
     return connectDropTarget( 
-      <div className='smallBricks' style={{backgroundColor}}>
+      <div className='smallBricks' style={style}>
       
       </div>
     );
   }
 }
 
-export default DropTarget( ItemTypes.COLOR_BRICK, smallBrickTarget, collect)(FlexSmallBrick);
+export default DropTarget( [ItemTypes.COLOR_BRICK, ItemTypes.FLEX_BRICK], smallBrickTarget, collect)(FlexSmallBrick);
