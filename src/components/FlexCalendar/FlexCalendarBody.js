@@ -81,12 +81,12 @@ class FlexCalendarBody extends Component {
 
     ref.on("child_added", snap => {
       if (!this.props.Plan.loading) {
-        console.log("ADDED EVENT!", snap.val());
-        this.props.planChildAdded(snap.val());
+        this.props.planChildAdded({[snap.key]:snap.val()});
       }
     });
     ref.on("child_changed", snap => {
       console.log("CHANGED EVENT!", snap.val());
+      this.props.planChildChanged({[snap.key]:snap.val()});
     });
     ref.on("child_removed", snap => {
       console.log("REMOVED EVENT!", snap.val());

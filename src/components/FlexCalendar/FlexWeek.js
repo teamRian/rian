@@ -10,7 +10,7 @@ class FlexWeek extends Component {
   constructor(props) {
     super(props);
     this.state= {
-      filteredPlan: {}
+      filteredPlan: [[],[],[],[],[],[],[]]
     }
     // 빈 7 x 72 매트릭스를 만들고 FlexSmallBrick들로 채웁니다
     // const smallBricksMatrix = [...Array(7)].map((x, k) => {
@@ -34,9 +34,12 @@ class FlexWeek extends Component {
   componentWillReceiveProps(nextProps) {
     // console.log(nextProps, "FLEXWEEK NEXTPROPS") fdre
     if (this.props.Plan.loading && !nextProps.Plan.loading) {
-      console.log("SOME UPDATE!!", nextProps);
       this.setState({
-        filteredPlan: this.filterPlans(nextProps.Plan.plans)
+        filteredPlan: this.filterPlans(nextProps.Calendar.monthDays, nextProps.Calendar.selectedWeek, nextProps.Plan.plans)
+      })
+    } else if (this.props.Plan.plans !== nextProps.Plan.plans){
+      this.setState({
+        filteredPlan: this.filterPlans(nextProps.Calendar.monthDays, nextProps.Calendar.selectedWeek, nextProps.Plan.plans)
       })
     }
   }
@@ -45,13 +48,21 @@ class FlexWeek extends Component {
   }
 
   handleOnDrop(form) {
+    console.log(form, "HANDLE ON DROP")
     const chosenDate = this.props.Calendar.monthDays[
       this.props.Calendar.selectedWeek
     ][form.dayIndex];
     const startingTime = form.timeIndex;
     const endingTime = form.timeIndex + form.durationLength;
     const timeStamp = this.fromTimetoStamp(chosenDate, startingTime);
+
+    let postRef = firebase
+      .database()
+      .ref(`duck/users/${this.props.User._id}/plans`);
+    let newPostKey = postRef.push().key;
+
     const finalForm = Object.assign({}, form, {
+      _id: newPostKey,
       _userId: this.props.User._id,
       title: `Event ${this.props.Plan.plans.length}`,
       day: chosenDate.day,
@@ -61,15 +72,52 @@ class FlexWeek extends Component {
       endingTime,
       timeStamp
     });
-    var postRef = firebase
-      .database()
-      .ref(`duck/users/${this.props.User._id}/plans`);
-    var newPostKey = postRef.push().key;
-    var updates = {};
+
+    let updates = {};
     updates[
       `duck/users/${this.props.User._id}/plans/${newPostKey}`
     ] = finalForm;
     return firebase.database().ref().update(updates);
+  }
+
+  handleOnResize(direction, delta, plan){
+    console.log(arguments,"HANDLE ON RESIZE ")
+    if(delta.height === 0){
+      return;
+    }
+    // update TIME for specific key
+    console.log(direction === 'bottom', direction, delta, plan,"HANDLE FLEXWEEK RESIZE");
+
+    let diffDuration = Math.round(delta.height/25);
+    let finalForm = {};
+    if(direction === 'bottom'){
+      // 밑에서 끌어왔으면 durationLength와 endingTime 만 바꿔주기
+      finalForm = Object.assign({},{
+        durationLength: plan.durationLength + diffDuration,
+        endingTime: plan.endingTime + diffDuration
+      })
+      let updates = {};
+      updates[`duck/users/${this.props.User._id}/plans/${plan._id}/durationLength`]= finalForm.durationLength;
+      updates[`duck/users/${this.props.User._id}/plans/${plan._id}/endingTime`]= finalForm.endingTime;
+      return firebase.database().ref().update(updates);
+    } else {
+      //위에서 끌어왔으면 duration + startingTime + timeStamp 바꿔주기 
+      // debugger
+      let startingTime = plan.startingTime-diffDuration;
+      finalForm = Object.assign({},{
+        timeStamp: this.fromTimetoStamp({year:plan.year, month:plan.month, day:plan.day}, startingTime),
+        durationLength: plan.durationLength + diffDuration,
+        startingTime
+      })
+      let updates = {};
+      updates[`duck/users/${this.props.User._id}/plans/${plan._id}/durationLength`]= finalForm.durationLength;
+      updates[`duck/users/${this.props.User._id}/plans/${plan._id}/startingTime`]= finalForm.startingTime;
+      updates[`duck/users/${this.props.User._id}/plans/${plan._id}/timeStamp`]= finalForm.timeStamp;
+      return firebase.database().ref().update(updates);
+    }
+    // let updates = {};
+    // updates[`duck/users/${this.props.User._id}/plans/${plan._id}/`]= finalForm;
+    // return firebase.database().ref().update(updates);
   }
 
   fromTimetoStamp(date, startingTime) {
@@ -81,9 +129,8 @@ class FlexWeek extends Component {
     );
   }
 
-  filterPlans(plans){
-    const { Calendar, Plan } = this.props;
-    const showingWeek = Calendar.monthDays[Calendar.selectedWeek];
+  filterPlans(monthDays, selectedWeek, plans){
+    const showingWeek = monthDays[selectedWeek];
     const firstDay = showingWeek[0];
     const lastDay = showingWeek[6];
     const startStamp = moment([
@@ -99,27 +146,28 @@ class FlexWeek extends Component {
       24
     ]).format("X");
 
-    const filteredPlan = [...Array(7)];
+    const filteredPlan = [[],[],[],[],[],[],[]];
 
     const firstTime = moment([
       firstDay.year,
       firstDay.month + 1,
       firstDay.day
     ])
-    for(var key in Plan.plans){
-      if(Plan.plans[key].timeStamp >= startStamp && Plan.plans[key].timeStamp <= lastStamp){
-        const { year, month, day } = Plan.plans[key];
-        debugger
-        filteredPlan[firstTime.diff(moment(year, month+1, day))] = Plan.plans[key];
+    for(var key in plans){
+      if(plans[key].timeStamp >= startStamp && plans[key].timeStamp <= lastStamp){
+        let { year, month, day } = plans[key];
+        plans[key]._id=key;
+        let thisTime = moment([year, month+1, day]);
+        filteredPlan[thisTime.diff(firstTime, 'd')].push(plans[key]);
         // filteredPlan[key] = Plan.plans[key];
       }
     }
-    debugger
     return filteredPlan;
   }
 
   render() {
-    const { Calendar, Plan } = this.props;
+    const { Calendar } = this.props;
+    const filteredPlan = this.state.filteredPlan; // not updated
     const showingWeek = Calendar.monthDays[Calendar.selectedWeek];
     return (
       <div id="FlexCalendarWeek">
@@ -155,6 +203,7 @@ class FlexWeek extends Component {
                 userId={this.props.User._id}
                 handleOnDrop={form => this.handleOnDrop.bind(this)(form)}
                 handleCanDrop={(timeIndex, dayIndex) =>{this.handleCanDrop.bind(this)(timeIndex, dayIndex)}}
+                handleOnResize={(direction, delta, plan) => this.handleOnResize.bind(this)(direction, delta, plan)}
                 filteredPlan={this.state.filteredPlan[k]}
               />
 
