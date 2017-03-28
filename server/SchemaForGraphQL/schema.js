@@ -3,19 +3,26 @@ import {
   addMockFunctionsToSchema,
 } from 'graphql-tools';
 
-import { resolvers } from '../resolvers/resolvers.js';
+import { rootResolver } from '../resolvers/resolvers.js';
 const typeDefs = `
-type Channel {
-   id: ID!                
-   name: String
+type Comment {
+    id: String
+    content: String
 }
+
 type Query {
-   channels: [Channel]
+	id: String!
 }
-type Mutation {
- addChannel(name: String!): Channel
+
+type Subscription {
+  commentAdded(repoFullName: String!): Comment
+}
+
+schema {
+  query: Query
+  subscription: Subscription
 }
 `;
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = makeExecutableSchema({ typeDefs, rootResolver });
 export { schema }

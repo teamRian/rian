@@ -7,10 +7,14 @@ const channels = [{
 }];
 
 
-export const resolvers = {
-  Query: {
-    channels: () => {
-      return channels;
+
+
+export const rootResolver = {
+  Subscription: {
+    commentAdded: comment => {
+    	console.log("commentAdded Subscription!!!!")
+      // the subscription payload is the comment.
+    	return comment;
     },
   },
 };
