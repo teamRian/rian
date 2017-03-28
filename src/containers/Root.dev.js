@@ -11,7 +11,6 @@ import TodoContainer from './Todo/TodoContainer';
 import NoteEditor from './NoteEditor/NoteEditorContainer';
 import NotetimelineContainer from './NoteTimeline/NotetimelineContainer';
 import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer';
-import UsersList from '../components/Chat/UsersList';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer';
 
 

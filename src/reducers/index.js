@@ -15,8 +15,9 @@ import * as WhiteBoardReducer from './WhiteBoardReducer';
 import { firebaseStateReducer } from 'react-redux-firebase';
 import * as NoteTimelineReducer from './NoteTimelineReducer';
 import * as FirebaseChatReducer from './FirebaseChatReducer'
-
-const rootReducer = combineReducers(
+import { ApolloClient } from 'react-apollo';
+export const client = new ApolloClient();
+export const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
 		UserReducer,
@@ -28,8 +29,8 @@ const rootReducer = combineReducers(
 		FileManagementReducer,
   	{firebase: firebaseStateReducer},
   	NoteTimelineReducer,
-  	FirebaseChatReducer
+  	FirebaseChatReducer,
+  	{apollo: client.reducer(),}
 	))
 
-export default rootReducer;
 

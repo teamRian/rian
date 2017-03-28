@@ -14,30 +14,32 @@ import WhiteBoardFirePad from './WhiteBoardFirePad2';
 import RichBox from './RichBox';
 
 //const socket = io.connect(process.env.SOCKET_URL || 'localhost:8000');
-const socket = io('/whiteboard');
-			socket.on('connectMsg', (data) => { console.log('connected data : ', data) } );		
+// const socket = io('/whiteboard');
+
+// 			socket.on('connectMsg', (data) => { console.log('connected data : ', data) } );		
 
 
-/*
 
-				<p>Im WhiteBoard</p>
-				<div  className="white-board-wrapper">
-					<SocketProvider socket={socket}>
-							<WhiteBoardPanels
-								contentCurrentStateRaw={this.props.contentCurrentStateRaw}
-								changeContentState={this.props.changeContentState}
-								editors={this.props.editors}
-								changeEditorState={this.props.changeEditorState}
-								addEditorState={this.props.addEditorState}
-							/>
-					</SocketProvider>					
-				</div>
 
-*/
+// 				<p>Im WhiteBoard</p>
+// 				<div  className="white-board-wrapper">
+// 					<SocketProvider socket={socket}>
+// 							<WhiteBoardPanels
+// 								contentCurrentStateRaw={this.props.contentCurrentStateRaw}
+// 								changeContentState={this.props.changeContentState}
+// 								editors={this.props.editors}
+// 								changeEditorState={this.props.changeEditorState}
+// 								addEditorState={this.props.addEditorState}
+// 							/>
+// 					</SocketProvider>					
+// 				</div>
+
+
 
 class WhiteBoard extends React.Component{
 	
 	constructor(props) {
+		
 		super(props);
 		this.state = {
 			editorCnt : 1
@@ -51,6 +53,7 @@ class WhiteBoard extends React.Component{
 
 	render(){
 		//onClick={this.addEditor.bind(this)}
+
 		return (
 			<div className="ch-white-board-box">
 				<WhiteBoardFirePad user={this.props.user} />

@@ -96,6 +96,27 @@ app.use(express.static(__dirname+'/file'))
 // File Management
 app.use('/file', files);
 
+//GraphQL Server 
+import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
+import { SubscriptionManager, PubSub } from 'graphql-subscriptions';
+import { schema } from './schemaForGraphQL/schema.js';
+import { createServer } from 'http';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { pubsub } from './pubsub/pubsub.js';
+
+
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql'
+}));
+
+const subscriptionManager = new SubscriptionManager({
+  schema,
+  pubsub: pubsub,
+});
+
+
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
 
@@ -188,26 +209,28 @@ app.get('*', (req,res)=>{
 
 
 
-// Socketio Chat
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const chatSocket = require('./channel/chatSocket.js');
-const whiteboardSocket = require('./channel/whiteboardSocket.js');
 
-// io channels
-io.on('connection', function(socket){ console.log('default connection success'); })
-io.of('/chat').on('connection', function(socket){
-    chatSocket(socket, io);
-});
-io.of('/whiteboard').on('connection', whiteboardSocket.bind(io));
+
+
+
 
 
 // start app
+const server = createServer(app);
 server.listen(serverConfig.port, (error) => {
   if (!error) {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }
+  new SubscriptionServer({
+      subscriptionManager: subscriptionManager,
+    }, {
+      server: server,
+      path: '/subscriptions',
+    });
+
 });
+
+
 
 export default app;
 
@@ -216,6 +239,7 @@ function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
       console.log('LOG IN CHECK')
+
       return next();
     } else {
       console.log('LOG IN FAILED')
@@ -224,5 +248,7 @@ function isLoggedIn(req, res, next) {
 
     // if they aren't redirect them to the home page
 }
+
+
 
 

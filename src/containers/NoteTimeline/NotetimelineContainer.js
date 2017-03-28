@@ -46,14 +46,14 @@ class NoteTimelineContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.TimelineUpdate) {
       //Timeline 전체를 새로 받아왔을 경우
-      // console.log('First Update')
+      console.log('First Update')
       this.setState((prevState, props) => {
         return {
           renderTimeline: this.infiniteTimelineLoader(nextProps)
         };
       });
     } else {
-      // console.log("Changing Timeline")
+      console.log("Changing Timeline")
       this.setState((prevState, props) => {
         return {
           renderTimeline: this.infiniteTimelineLoader(nextProps)

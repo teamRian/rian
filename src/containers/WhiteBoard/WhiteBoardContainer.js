@@ -24,7 +24,7 @@ class WhiteBoardContainer extends React.Component {
         changeEditorState={this.props.changeEditorState}
         addEditorState={this.props.addEditorState}
       />
-    
+      
     );
 
   }
