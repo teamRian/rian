@@ -10,10 +10,12 @@ jobs:
           name: Pre-Dependencies
           command: mkdir -p ~/home/ubuntu/rian/artifacts
       - run: 
-        name: Install Dependencies
-        command: yarn add
+          name: Install Dependencies
+          command: yarn add
       - run:
-        name: NPM TEST
-        command: npm test
+          name: NPM TEST
+          command: npm test
       - store_artifacts:
-        path: /home/ubuntu/rian/artifacts
+          path: /home/ubuntu/rian/artifacts
+
+          
