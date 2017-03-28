@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState } from 'redux-devtools';
-import rootReducer from '../reducers';
+import { rootReducer } from '../reducers';
 import rootEpic from '../epics';
 import { createEpicMiddleware } from 'redux-observable';
 import DevTools from '../containers/DevTools';
@@ -9,6 +9,7 @@ import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import createSocketIoMiddleware from 'redux-socket.io';
+
 // import firebase from 'firebase'
 
 // var firebaseConfig = {

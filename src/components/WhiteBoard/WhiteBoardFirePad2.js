@@ -63,7 +63,6 @@ class WhiteBoardFirePad extends React.Component{
     wbfp.codeMirror = CodeMirror(document.getElementById('firepad'), { 
       gutters: ["codemirror-username"],
       lineWrapping: true,
-      
     });
     
     wbfp.firepad = Firepad.fromCodeMirror(wbfp.firepadRef, wbfp.codeMirror, {
@@ -274,7 +273,7 @@ inputRead가 실행될때 => firebase에
               //firebase에 정보 update하기
               return { isBlocking : true, nowWriter : wbfp.userId, writer : writerInfo };
 
-            }else{ // lines->nowLine->ingLineInfo가 있다는것은 누군가 해당 라인을 건드리고 있다는 것이기 때문에 지금 수정을 불가능하게 처리해야함
+            } else{ // lines->nowLine->ingLineInfo가 있다는것은 누군가 해당 라인을 건드리고 있다는 것이기 때문에 지금 수정을 불가능하게 처리해야함
               
               console.log('someone is updating ' + nowLine + '-line info // ingLineInfo ::: ', ingLineInfo);
               //그리고는 현재 커서를 새로운 line을 만들어서 보내주기

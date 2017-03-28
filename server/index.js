@@ -96,6 +96,27 @@ app.use(express.static(__dirname+'/file'))
 // File Management
 app.use('/file', files);
 
+//GraphQL Server 
+import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
+import { SubscriptionManager, PubSub } from 'graphql-subscriptions';
+import { schema } from './schemaForGraphQL/schema.js';
+import { createServer } from 'http';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { pubsub } from './pubsub/pubsub.js';
+
+
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql'
+}));
+
+const subscriptionManager = new SubscriptionManager({
+  schema,
+  pubsub: pubsub,
+});
+
+
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
 
@@ -189,43 +210,27 @@ app.get('*', (req,res)=>{
 
 
 
-const server = require('http').createServer(app);
 
-//GraphQL Server 
-// import { SubscriptionManager, PubSub } from 'graphql-subscriptions';
-// import { SubscriptionServer } from 'subscriptions-transport-ws';
-// import schema from './SchemaForGraphQL/schema.js';
-// const pubsub = new PubSub();
-// const subscriptionManager = new SubscriptionManager({
-//   schema,
-//   pubsub
-// });
-// const server = createServer(); // create new connect/express server
-// const subscriptionServer = new SubscriptionServer({
-//   subscriptionManager,
-//   onConnect: async ({ authToken }) => {
-//     const user = await validateUser(authToken);
-//     if (!user) {
-//       throw new Error(‘Unauthorized!’);
-//     } else { 
-//       // The returned value will be part of the `context`
-//       // for the filter functions and resolvers
-//       return {
-//         user
-//       };
-//     }
-//   },
-// }, {
-//   server // or use existing server with different path
-// });
+
+
 
 
 // start app
+const server = createServer(app);
 server.listen(serverConfig.port, (error) => {
   if (!error) {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }
+  new SubscriptionServer({
+      subscriptionManager: subscriptionManager,
+    }, {
+      server: server,
+      path: '/subscriptions',
+    });
+
 });
+
+
 
 export default app;
 
@@ -234,6 +239,7 @@ function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
       console.log('LOG IN CHECK')
+
       return next();
     } else {
       console.log('LOG IN FAILED')
