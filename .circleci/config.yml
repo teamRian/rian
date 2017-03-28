@@ -2,20 +2,35 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:7.4.0
-    working_directory: ~/home/ubuntu/rian
+        - image: yarnpkg/dev:latest
+    working_directory: ~/rian
+    # branches:
+    #   only:
+    #     - master
     steps:
-      - checkout
-      - run:
-          name: Pre-Dependencies
-          command: mkdir -p ~/home/ubuntu/rian/artifacts
-      - run: 
-          name: Install Dependencies
-          command: yarn add
-      - run:
-          name: NPM TEST
-          command: npm test
-      - store_artifacts:
-          path: /home/ubuntu/rian/artifacts
+        - checkout
+        - restore_cache:
+            keys: 
+              - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
+              - rian-{{ .Branch }}
+              - rian-master
+        - run:
+            name: Install Dependencies
+            command: yarn install
+        - run:
+            name: Test
+            command: |
+              node -v
+              yarn test
 
-          
+        - save_cache:
+            key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            paths:
+              - "~/.yarn-cache"
+
+        - store_artifacts:
+            path: /artifacts
+            destination: prefix
+
+        - store_test_results:
+            path: /test-results
