@@ -1,38 +1,36 @@
-version: 2.0
+version: 2
 jobs:
   build:
     docker:
-      - image: ubuntu:16.04
-      # - image: yarnpkg/dev:latest
-    parallelism: 1
+        - image: ubuntu:16.04
     working_directory: ~/rian
     # branches:
     #   only:
     #     - master
     steps:
-      - checkout
-      - restore_cache:
-          key: 
-            - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - rian-{{ .Branch }}
-            - rian-master
-      - run:
-          name: Install Dependencies
-          command: yarn install
-      - run:
-          name: Test
-          command: |
-            node -v
-            yarn test
+        - checkout
+        - restore_cache:
+            keys: 
+              - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
+              - rian-{{ .Branch }}
+              - rian-master
+        - run:
+            name: Install Dependencies
+            command: yarn install
+        - run:
+            name: Test
+            command: |
+              node -v
+              yarn test
 
-      - save_cache:
-          key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - "~/.yarn-cache"
+        - save_cache:
+            key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            paths:
+              - "~/.yarn-cache"
 
-      - store_artifacts:
-          path: /artifacts
-          destination: prefix
+        - store_artifacts:
+            path: /artifacts
+            destination: prefix
 
-      - store_test_results:
-          path: /test-results
+        - store_test_results:
+            path: /test-results
