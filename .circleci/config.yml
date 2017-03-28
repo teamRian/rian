@@ -6,12 +6,11 @@ jobs:
       # - image: yarnpkg/dev:latest
     parallelism: 1
     working_directory: ~/rian
-    branches:
-      only:
-        - master
+    # branches:
+    #   only:
+    #     - master
     steps:
       - checkout
-
       - restore_cache:
           key: 
             - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
