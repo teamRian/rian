@@ -1,23 +1,29 @@
-version: 2
-jobs:
+version: 2.0
+executorType: docker
+containerInfo:
+  - image: yarnpkg/dev:latest
+stages:
   build:
-    docker: 
-      - image: node:7.4.0
-      - image: yarnpkg/dev:latest
-    working_directory: /home/ubuntu/rian
+    workDir: /home/ubuntu/project
     steps:
-      - checkout
-      - restore_cache:
-          key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install Dependencies
-          command: yarn install
-      - run:
-          name: Tests
-          command: npm test
-      - save_cache:
-          key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - "~/.yarn-cache"
-      - store_artifacts:
-          path: artifacts/
+      - type: checkout
+
+      - type: cache-restore
+        key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+      - type: shell
+        command: yarn install
+
+      - type: shell
+        name: Tests
+        command: |
+          node -v
+          yarn test
+      - type: cache-save
+        key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        paths:
+          - "~/.yarn-cache"
+
+      - type: artifacts-store
+        path: artifacts/
+        destination: yarnpkg
