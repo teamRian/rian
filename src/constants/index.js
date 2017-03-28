@@ -67,8 +67,6 @@ export const PLAN_EPIC_FAIL_DATA = "PLAN_EPIC_FAIL_DATA"
 export const PLAN_EPIC_SUCCESS_DATA = "PLAN_EPIC_SUCCESS_DATA"
 export const PLAN_EPIC_CANCLE_DATA = "PLAN_EPIC_CANCLE_DATA"
 
-
-
 /* WhiteBoard - Start */
 export const CHANGE_CONTENT_STATE = "CHANGE_CONTENT_STATE"; // will be deprecated
 export const CHANGE_EDITOR_STATE = "CHANGE_EDITOR_STATE";
