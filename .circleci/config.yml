@@ -4,9 +4,6 @@ jobs:
     docker:
         - image: yarnpkg/dev:latest
     working_directory: ~/rian
-    # branches:
-    #   only:
-    #     - master
     steps:
         - checkout
         - restore_cache:
@@ -21,16 +18,13 @@ jobs:
             name: Test
             command: |
               node -v
-              yarn test
-
+              yarn run test:ci
         - save_cache:
             key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
             paths:
-              - "~/.yarn-cache"
-
+              - "~/.cache/yarn"
         - store_artifacts:
             path: /artifacts
             destination: prefix
-
         - store_test_results:
             path: /test-results
