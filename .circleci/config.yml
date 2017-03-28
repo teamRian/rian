@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:7.4.0
+    working_directory: ~/home/ubuntu/rian
+    steps:
+      - checkout
+      - run:
+          name: Pre-Dependencies
+          command: mkdir -p ~/home/ubuntu/rian/artifacts
+      - run: 
+        name: Install Dependencies
+        command: yarn add
+      - run:
+        name: NPM TEST
+        command: npm test
+      - store_artifacts:
+        path: /home/ubuntu/rian/artifacts

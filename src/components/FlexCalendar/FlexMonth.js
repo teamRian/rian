@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
-import { calendarUpdateComplete } from "../../actions/CalendarActions";
+import { planUpdateComplete } from "../../actions/PlanActions";
 
 
 class FlexMonth extends Component {
@@ -73,19 +73,14 @@ function mapState(state) {
 	return {
 		User: state.User,
 		Calendar: state.Calendar,
+		Plan: state.Plan
 	};
 }
 
 function mapDispatch(dispatch) {
 	return {
-		calendarPost: (form)=> {
-			dispatch(calendarPost(form));
-		},
-		calendarEpicRequestPost: (form) => {
-			dispatch(calendarEpicRequestPost(form));
-		},
-		calendarUpdateComplete: ()=>{
-			dispatch(calendarUpdateComplete());
+		planUpdateComplete: ()=>{
+			dispatch(planUpdateComplete());
 		}
 	};
 }

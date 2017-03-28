@@ -162,8 +162,9 @@ ul.week {
 .weeklyDay {
 	display:flex;
 	flex-direction: column;
-	margin:0px 8px 8px 8px;
+	margin:0px 8px 0px 8px;
 	flex:1;
+	position:relative;
 	background: white;
 }
 
@@ -171,6 +172,7 @@ ul.week {
 	border-top: 1px solid rgba(236,236,236,1);
 	flex: 1;
 	width: 100%;
+	user-select: none;
 }
 
 .smallBricks:nth-child(odd){
@@ -192,6 +194,28 @@ ul.week {
 	 cursor: move;
 }
 
+.plan {
+	/*flex:1;*/
+	/*align-self:stretch;*/
+	/*height:200px;*/
+	/*background-color:green;*/
+	align-self:center;
+	/*width:inherit;*/
+	/*width:auto;*/
+	width:100%;
+	position: absolute;
+	z-index:1;
+	border:1px solid black;
+}
+
+.draggable {
+	height:100%;
+	z-index:3;
+}
+/*.plan p {
+	cursor:default;
+	user-select:none;
+}*/
 /* transform MAGIC!
 div.colorBrick:hover {
 	transform: scale(2);

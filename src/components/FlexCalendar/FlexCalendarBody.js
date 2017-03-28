@@ -6,12 +6,12 @@ import FlexWeek from "./FlexWeek";
 import { connect } from "react-redux";
 import { getStampFire } from "./Utils/FlexUtils.js";
 import {
-  calendarChildAdded,
-  calendarChildRemoved,
-  calendarChildChanged,
-  calendarUpdateComplete
-} from "../../actions/CalendarActions";
-import { calendarEpicRequestData } from "../../epics/CalendarEpic";
+  planChildAdded,
+  planChildRemoved,
+  planChildChanged,
+  planUpdateComplete
+} from "../../actions/PlanActions";
+import { planEpicRequestData } from "../../epics/PlanEpic";
 import moment from "moment";
 import database from "firebase/database";
 
@@ -44,11 +44,11 @@ class FlexCalendarBody extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("UPDATED?");
-    if (this.props.Calendar.update) {
-      console.log("UPDATED, complete!");
-      this.props.calendarUpdateComplete();
-    }
+    // console.log("UPDATED?");
+    // if (this.props.Plan.update) {
+    //   console.log("UPDATED, complete!");
+    //   this.props.planUpdateComplete();
+    // }
   }
 
   getStampFire(nextProps) {
@@ -80,13 +80,13 @@ class FlexCalendarBody extends Component {
     console.log("TIMESTAMP", startStamp, lastStamp);
 
     ref.on("child_added", snap => {
-      if (!this.props.Calendar.loading) {
-        console.log("ADDED EVENT!", snap.val());
-        this.props.calendarChildAdded(snap.val());
+      if (!this.props.Plan.loading) {
+        this.props.planChildAdded({[snap.key]:snap.val()});
       }
     });
     ref.on("child_changed", snap => {
       console.log("CHANGED EVENT!", snap.val());
+      this.props.planChildChanged({[snap.key]:snap.val()});
     });
     ref.on("child_removed", snap => {
       console.log("REMOVED EVENT!", snap.val());
@@ -114,7 +114,7 @@ class FlexCalendarBody extends Component {
       projectRef.on("child_removed", snap => {});
     });
 
-    this.props.calendarEpicRequestData(totalRefs);
+    this.props.planEpicRequestData(totalRefs);
     return totalRefs;
   }
 
@@ -131,26 +131,27 @@ function mapState(state) {
   return {
     User: state.User,
     Calendar: state.Calendar,
-    Project: state.Proejct
+    Plan: state.Plan,
+    Project: state.Project
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    calendarEpicRequestData: refs => {
-      dispatch(calendarEpicRequestData(refs));
+    planEpicRequestData: refs => {
+      dispatch(planEpicRequestData(refs));
     },
-    calendarChildAdded: addedChild => {
-      dispatch(calendarChildAdded(addedChild));
+    planChildAdded: addedChild => {
+      dispatch(planChildAdded(addedChild));
     },
-    calendarChildRemoved: removedChild => {
-      dispatch(calendarChildRemoved(removedChild));
+    planChildRemoved: removedChild => {
+      dispatch(planChildRemoved(removedChild));
     },
-    calendarChildChanged: changedChild => {
-      dispatch(calendarChildChanged(changedChild));
+    planChildChanged: changedChild => {
+      dispatch(planChildChanged(changedChild));
     },
-    calendarUpdateComplete: () => {
-      dispatch(calendarUpdateComplete());
+    planUpdateComplete: () => {
+      dispatch(planUpdateComplete());
     }
   };
 }
