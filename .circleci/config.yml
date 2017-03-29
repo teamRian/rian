@@ -32,7 +32,6 @@ jobs:
         - store_test_results:
             path: ~/rian/test-results
         - deploy:
-
             command: |
                 aws --version
                 aws configure set default.s3.signature_version s3v4
@@ -40,12 +39,4 @@ jobs:
                 aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY 
                 aws configure set default.region ap-northeast-2
                 aws configure set default.output json
-                aws s3 sync ~/rian s3://rian-s3-dev/ --delete
-
-
-deployment:
-  staging:
-    branch: master
-    codedeploy:
-      rian-application:
-        deployment_group: my-deployment-group
+                aws s3 sync ~/rian s3://rian-s3-dev/ --delete --exclude 'node_modules/*' --exclude 'build/*'
