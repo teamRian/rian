@@ -53,4 +53,5 @@ jobs:
         - deploy:
             name: Deploy
             command: |
-                ./scripts/circleci/aws-code-deploy.sh
+              chmod +x ./scripts/circleci/aws-code-deploy.sh
+              ./scripts/circleci/aws-code-deploy.sh
