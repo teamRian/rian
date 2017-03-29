@@ -51,7 +51,6 @@ jobs:
         - store_test_results:
             path: /test-results
         - deploy:
-            name: Deploy
             command: |
-              chmod +x ./scripts/circleci/aws-code-deploy.sh
-              ./scripts/circleci/aws-code-deploy.sh
+              chmod +x ~/scripts/circleci/aws-code-deploy.sh
+              sh ~/scripts/circleci/aws-code-deploy.sh
