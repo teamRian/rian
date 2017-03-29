@@ -32,4 +32,6 @@ jobs:
         - store_test_results:
             path: ~/rian/test-results
         - deploy:
-            command: aws s3 sync ~/rian s3://rian-s3-dev/ --delete
+            command: |
+              apt-get install awscli
+              aws s3 sync ~/rian s3://rian-s3-dev/ --delete
