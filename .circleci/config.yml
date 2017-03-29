@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/rian
     docker:
-        - image: node:boron
+        - image: ceruberu/rian-primary:0.0.1
     steps:
         - checkout
         - run:
@@ -32,6 +32,4 @@ jobs:
         - store_test_results:
             path: ~/rian/test-results
         - deploy:
-            command: |
-              apt-get install awscli
-              aws s3 sync ~/rian s3://rian-s3-dev/ --delete
+            command: aws s3 sync ~/rian s3://rian-s3-dev/ --delete
