@@ -6,7 +6,6 @@ jobs:
         - image: yarnpkg/dev:latest
     environment:
         DEPLOY_DIR: $HOME/deploy
-    
     # We are defining the $AWS_CODE_DEPLOY_KEY and $AWS_CODE_DEPLOY_SECRET in the CircleCI Project Settings >
     # AWS Permissions which automatically configure these for use via aws cli and are automatically read
     # via aws-code-deploy.sh. Alternatively, these could be specified securely (not via project code) using 
