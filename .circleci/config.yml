@@ -3,30 +3,8 @@ jobs:
   build:
     working_directory: ~/rian
     docker:
+        - image: governmentpaas/awscli:latest
         - image: yarnpkg/dev:latest
-        - image: governmentpaas/awscli
-
-    # environment:
-    #     DEPLOY_DIR: $HOME/deploy
-    # # We are defining the $AWS_CODE_DEPLOY_KEY and $AWS_CODE_DEPLOY_SECRET in the CircleCI Project Settings >
-    # # AWS Permissions which automatically configure these for use via aws cli and are automatically read
-    # # via aws-code-deploy.sh. Alternatively, these could be specified securely (not via project code) using 
-    # # the CircleCI Environment Variables CircleCI control panel.
-    #     AWS_CODE_DEPLOY_REGION: ap-northeast-2
-    #     AWS_CODE_DEPLOY_APPLICATION_NAME: "rian-application"
-    #     AWS_CODE_DEPLOY_DEPLOYMENT_CONFIG_NAME: CodeDeployDefault.AllAtOnce
-    #     AWS_CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: "rian-deploy-group"
-    #     AWS_CODE_DEPLOY_SERVICE_ROLE_ARN: "arn:aws:iam::161388893601:role/rian-role-admin"
-    #     AWS_CODE_DEPLOY_EC2_TAG_FILTERS: "Key=Type,Value=www,Type=KEY_AND_VALUE"
-    #     AWS_CODE_DEPLOY_APP_SOURCE: $HOME/deploy
-    #     AWS_CODE_DEPLOY_S3_FILENAME: "${CIRCLE_BUILD_NUM}#${CIRCLE_SHA1:0:7}.zip"
-    #     AWS_CODE_DEPLOY_S3_BUCKET: rian-s3-dev
-    #     AWS_CODE_DEPLOY_S3_KEY_PREFIX: /www
-    #     AWS_CODE_DEPLOY_S3_LIMIT_BUCKET_FILES: 10
-    #     AWS_CODE_DEPLOY_S3_SSE: true
-    #     AWS_CODE_DEPLOY_REVISION_DESCRIPTION: "${CIRCLE_BRANCH} (#${CIRCLE_SHA1:0:7})"
-    #     AWS_CODE_DEPLOY_DEPLOYMENT_DESCRIPTION: "Deployed via CircleCI on $(date)"
-
     steps:
         - checkout
         - restore_cache:
