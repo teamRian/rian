@@ -169,7 +169,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "start:server": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js",
-    "build": "node test/Rian.spec.js",
+    "build": "node scripts/build.js",
     "test:ci": "node scripts/test.js NODE_ENV=CI",
     "test": "node scripts/test.js --env=jsdom",
     "rian": "npm run build && npm run start:server",
@@ -179,6 +179,7 @@
     "start:dev-aws": "cross-env process.env.PORT=80 BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch server",
     "start:please": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch server --inspect",
     "start:cache": "cross-env NODE_ENV=development babel-watch index.js --watch server --inspect",
+    "start:prod": "cross-env NODE_ENV=production babel-watch index.js --watch server --inspect",
     "start:inspect": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch --inspect server"
   },
   "jest": {
