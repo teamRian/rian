@@ -52,5 +52,5 @@ jobs:
             path: /test-results
         - deploy:
             command: |
-              chmod +x ~/scripts/circleci/aws-code-deploy.sh
-              sh ~/scripts/circleci/aws-code-deploy.sh
+              chmod +x ~/rian/scripts/circleci/aws-code-deploy.sh
+              sh ~/rian/scripts/circleci/aws-code-deploy.sh
