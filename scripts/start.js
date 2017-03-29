@@ -19,7 +19,7 @@ var getProcessForPort = require('react-dev-utils/getProcessForPort');
 var openBrowser = require('react-dev-utils/openBrowser');
 var prompt = require('react-dev-utils/prompt');
 var fs = require('fs');
-var config = require('../config/webpack.config.dev');
+var config = require('../config/webpack.config.dev2');
 var paths = require('../config/paths');
 
 var useYarn = fs.existsSync(paths.yarnLockFile);

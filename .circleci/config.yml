@@ -28,3 +28,10 @@ jobs:
             destination: prefix
         - store_test_results:
             path: /test-results
+        - deploy:
+            name: Deploy
+            command: |
+              if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                ./scripts/circleci/upload_build.sh
+                aws s3 sync ~/rian s3://$bucket/ --delete
+              fi
