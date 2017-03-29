@@ -3,10 +3,12 @@ jobs:
   build:
     working_directory: ~/rian
     docker:
-        - image: governmentpaas/awscli:latest
-        - image: yarnpkg/dev:latest
+        - image: node:boron
     steps:
         - checkout
+        - run:
+            name: Pre-Dependencies
+            command: mkdir ~/rian/artifacts
         - restore_cache:
             keys: 
               - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -25,10 +27,9 @@ jobs:
             paths:
               - "~/.cache/yarn"
         - store_artifacts:
-            path: /artifacts
+            path: ~/rian/artifacts
             destination: prefix
         - store_test_results:
-            path: /test-results
+            path: ~/rian/test-results
         - deploy:
-            command: |
-              sh ~/rian/scripts/circleci/upload_build.sh
+            command: aws s3 sync ~/rian s3://rian-s3-dev/ --delete
