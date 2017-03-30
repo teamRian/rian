@@ -20,6 +20,8 @@ import {
     SubscriptionClient,
     addGraphQLSubscriptions
 } from "subscriptions-transport-ws";
+import WebSocket from 'ws'
+
 import ApolloClient, { createNetworkInterface } from "apollo-client";
 
 // Create a normal network interface:
@@ -30,7 +32,7 @@ const networkInterface = createNetworkInterface({
 //Make subsciption server
 const wsClient = new SubscriptionClient("ws://localhost:8000/subscriptions", {
     reconnect: true
-});
+}, WebSocket);
 // Extend the network interface with the WebSocket
 const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
     networkInterface,

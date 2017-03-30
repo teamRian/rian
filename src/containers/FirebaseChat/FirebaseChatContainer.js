@@ -4,29 +4,6 @@ import "./css/style.css";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 
-// import {
-//     SubscriptionClient,
-//     addGraphQLSubscriptions
-// } from "subscriptions-transport-ws";
-// import ApolloClient, { createNetworkInterface } from "apollo-client";
-// //Make subsciption server
-// const wsClient = new SubscriptionClient("ws://localhost:8000/subscriptions", {
-//     reconnect: true
-// });
-// // Create a normal network interface:
-// const networkInterface = createNetworkInterface({
-//     uri: "http://localhost:8000/graphql"
-// });
-// // Extend the network interface with the WebSocket
-// const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-//     networkInterface,
-//     wsClient
-// );
-// // Finally, create your ApolloClient instance with the modified network interface
-// const client = new ApolloClient({
-//     networkInterface: networkInterfaceWithSubscriptions
-// });
-
 class FirebaseChatContainer extends Component {
 
   
