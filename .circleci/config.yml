@@ -26,8 +26,10 @@ jobs:
         - restore_cache:
             keys: 
               - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
-              - rian-{{ .Branch }}
+              - rian-{{ .Branch }}-
               - rian-master
+            paths:
+              - ~/.cache/yarn
         - run:
             name: Install Dependencies
             command: yarn install
@@ -39,11 +41,11 @@ jobs:
         - save_cache:
             key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
             paths:
-              - "~/.cache/yarn"
+              - ~/.cache/yarn
+        - deploy:
+            command: bash ~/rian/scripts/circleci/aws-code-deploy.sh
         - store_artifacts:
             path: ~/rian/artifacts
             destination: prefix
         - store_test_results:
             path: ~/rian/test-results
-        - deploy:
-            command: bash ~/rian/scripts/circleci/aws-code-deploy.sh
