@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import "./css/style.css";
 import { graphql, compose } from "react-apollo";
-
 import gql from "graphql-tag";
 
 // import {
