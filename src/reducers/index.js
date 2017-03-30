@@ -16,8 +16,35 @@ import * as WhiteBoardReducer from './WhiteBoardReducer';
 import { firebaseStateReducer } from 'react-redux-firebase';
 import * as NoteTimelineReducer from './NoteTimelineReducer';
 import * as FirebaseChatReducer from './FirebaseChatReducer'
-import { ApolloClient } from 'react-apollo';
-export const client = new ApolloClient();
+import {
+    SubscriptionClient,
+    addGraphQLSubscriptions
+} from "subscriptions-transport-ws";
+import ApolloClient, { createNetworkInterface } from "apollo-client";
+
+// Create a normal network interface:
+const networkInterface = createNetworkInterface({
+    uri: "http://localhost:8000/graphql"
+});
+
+//Make subsciption server
+const wsClient = new SubscriptionClient("ws://localhost:8000/subscriptions", {
+    reconnect: true
+});
+// Extend the network interface with the WebSocket
+const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+    networkInterface,
+    wsClient
+);
+// Finally, create your ApolloClient instance with the modified network interface
+export const client = new ApolloClient({
+    networkInterface: networkInterfaceWithSubscriptions
+});
+
+// export const client = new ApolloClient();
+
+
+
 export const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
@@ -32,7 +59,7 @@ export const rootReducer = combineReducers(
   	{firebase: firebaseStateReducer},
   	NoteTimelineReducer,
   	FirebaseChatReducer,
-  	{apollo: client.reducer(),}
+  	{apollo: client.reducer()}
 	))
 
 
