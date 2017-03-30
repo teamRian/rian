@@ -5,14 +5,14 @@ jobs:
     docker:
         - image: ceruberu/rian-primary:0.0.6
     environment:
-            DEPLOY_DIR: $HOME/deploy
+            DEPLOY_DIR: "~/rian"
             AWS_CODE_DEPLOY_REGION: ap-northeast-2
             AWS_CODE_DEPLOY_APPLICATION_NAME: "rian-application"
             AWS_CODE_DEPLOY_DEPLOYMENT_CONFIG_NAME: CodeDeployDefault.AllAtOnce
             AWS_CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: "rian-deploy-group"
             AWS_CODE_DEPLOY_SERVICE_ROLE_ARN: "arn:aws:iam::161388893601:role/rian-role-admin"
             AWS_CODE_DEPLOY_EC2_TAG_FILTERS: "Key=rian,Value=projects,Type=KEY_AND_VALUE"
-            AWS_CODE_DEPLOY_APP_SOURCE: $HOME/deploy
+            AWS_CODE_DEPLOY_APP_SOURCE: "~/rian"
             AWS_CODE_DEPLOY_S3_FILENAME: "${CIRCLE_BUILD_NUM}#${CIRCLE_SHA1:0:7}.zip"
             AWS_CODE_DEPLOY_S3_BUCKET: rian-s3-dev
             AWS_CODE_DEPLOY_S3_LIMIT_BUCKET_FILES: 10
