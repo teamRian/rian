@@ -154,23 +154,23 @@ fi
 # ---------------------------
 
 # Check AWS is installed
-h1 "Step 1: Checking Dependencies"
+# h1 "Step 1: Checking Dependencies"
 
-if ! typeExists "aws"; then
-  installAwsCli
-  success "Installing AWS CLI $(aws --version 2>&1) succeeded"
-else
-  # aws-cli 1.9.8 is required for proper SSE syntax
-  AWS_FULL_VER=$(aws --version 2>&1)
-  AWS_VER=$(echo $AWS_FULL_VER | sed -e 's/aws-cli\///' | sed -e 's/ Python.*//') 
-  vercomp $AWS_VER "1.9.8"
-  if [[ $? == 2 ]]; then
-    h2 "Installing updated AWS CLI version ($AWS_VER < 1.9.8)"
-    installAwsCli
-  fi 
+# if ! typeExists "aws"; then
+#   installAwsCli
+#   success "Installing AWS CLI $(aws --version 2>&1) succeeded"
+# else
+#   # aws-cli 1.9.8 is required for proper SSE syntax
+#   AWS_FULL_VER=$(aws --version 2>&1)
+#   AWS_VER=$(echo $AWS_FULL_VER | sed -e 's/aws-cli\///' | sed -e 's/ Python.*//') 
+#   vercomp $AWS_VER "1.9.8"
+#   if [[ $? == 2 ]]; then
+#     h2 "Installing updated AWS CLI version ($AWS_VER < 1.9.8)"
+#     installAwsCli
+#   fi 
   
-  success "Dependencies met $(aws --version 2>&1)"
-fi
+#   success "Dependencies met $(aws --version 2>&1)"
+# fi
 
 
 
