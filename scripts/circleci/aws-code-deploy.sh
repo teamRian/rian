@@ -331,7 +331,7 @@ if [ ! -e "$APP_SOURCE/appspec.yml" ]; then
 fi
 if ! typeExists "zip"; then
   note "Installing zip binaries ..."
-  sudo apt-get install -y zip
+  apt-get install -y zip
   note "Zip binaries installed."
 fi
 runCommand "cd \"$APP_SOURCE\" && zip -rq \"${APP_LOCAL_TEMP_FILE}\" ." \
