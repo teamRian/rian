@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/rian
     docker:
-        - image: ceruberu/rian-primary:0.0.1
+        - image: ceruberu/rian-primary:0.0.2
     environment:
             DEPLOY_DIR: ~/rian/deploy
             AWS_CODE_DEPLOY_REGION: ap-northeast-2
