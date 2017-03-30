@@ -1,7 +1,6 @@
 FROM node:6.10
 
-RUN apt-get -y -qq update
-RUN apt-get -y -qq install python3.4-dev sudo
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.4
-RUN pip install awscli --upgrade --user
-RUN apt-get upgrade
+RUN apt-get update
+RUN apt-get -y install python-pip python-dev build-essential && apt-get upgrade
+RUN pip install -U pip
+RUN pip install awscli
