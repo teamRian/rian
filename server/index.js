@@ -223,6 +223,9 @@ server.listen(serverConfig.port, (error) => {
   }
   new SubscriptionServer({
       subscriptionManager: subscriptionManager,
+      onConnect: () => {
+        console.log('Subscription Connect Success')
+      },
     }, {
       server: server,
       path: '/subscriptions',
