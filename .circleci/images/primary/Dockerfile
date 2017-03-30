@@ -1,6 +1,7 @@
-FROM node:boron
+FROM node:6.10
 
-RUN apt-get update 
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python
-RUN apt-get install -y sudo zip python-dev && apt-get upgrade
-RUN pip install --upgrade --user awscli
+RUN apt-get -y -qq update
+RUN apt-get -y -qq install python3.4-dev
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.4
+RUN pip install awscli --upgrade --user
+RUN apt-get upgrade
