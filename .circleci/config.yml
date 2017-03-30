@@ -47,5 +47,4 @@ jobs:
         - store_test_results:
             path: ~/rian/test-results
         - deploy:
-            command:
-                - sh ~/rian/scripts/circleci/aws-code-deploy.sh
+            command: sh ~/rian/scripts/circleci/aws-code-deploy.sh
