@@ -1,10 +1,11 @@
+const dockerMongo = process.env.DOCKER ? 'mongodb' : 'localhost';
 const config = {
-	mongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/rian',
+	mongoURL: process.env.MONGO_URL || `mongodb://${dockerMongo}:27017/rian`, // mongodb for docker
 	port: process.env.PORT || 8000,
 	facebookAuth : {
 	    'clientID'      : '183216738826974', // your App ID
 	    'clientSecret'  : '8b227a26867fdc7ce8cc43f6a989733f', // your App Secret
-	    'callbackURL'   : "http://localhost:8000/auth/facebook/callback"
+	    'callbackURL'   : "http://0.0.0.0:8000/auth/facebook/callback"
 	}
     // 'twitterAuth' : {
     //     'consumerKey'       : 'your-consumer-key-here',

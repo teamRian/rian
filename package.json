@@ -178,10 +178,14 @@
     "mocha": "mocha --compilers js:babel-core/register --require ./testSetup.js  ./test/*.spec.js",
     "mocha:watch": "npm test -- -w",
     "start:dev-aws": "cross-env process.env.PORT=80 BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch server",
+    "start:aws": "process.env.PORT=80 NODE_ENV=development node index.js",
     "start:please": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch server --inspect",
-    "start:cache": "cross-env NODE_ENV=development babel-watch index.js --watch server --inspect",
+    "start:cache": "NODE_ENV=development babel-watch index.js --watch server --inspect",
     "start:prod": "cross-env NODE_ENV=production babel-watch index.js --watch server --inspect",
-    "start:inspect": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch --inspect server"
+    "start:inspect": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch --inspect server",
+    "start:docker": "DOCKER=true NODE_ENV=development babel-watch index.js --watch server --inspect"
+
+
   },
   "jest": {
     "collectCoverageFrom": [
