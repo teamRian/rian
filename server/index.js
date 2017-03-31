@@ -104,7 +104,6 @@ import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { pubsub } from './pubsub/pubsub.js';
 
-
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 app.use('/graphiql', graphiqlExpress({
@@ -114,6 +113,24 @@ app.use('/graphiql', graphiqlExpress({
 const subscriptionManager = new SubscriptionManager({
   schema,
   pubsub: pubsub,
+  setupFunctions: {
+    //어떤 서브스크립션에 대한 검증인가
+    commentAdded: (options, args) => ({ //이렇게 리턴으로 서브스크립션 key를 가지고 있는 옵젝을 리턴해야함.
+      commentAdded: {
+        filter: comment => {
+          //comment로 들어오는게 지금 pubsub으로 보내야되는 값
+          //args는 최초에 서브스크립션을 찍었을때 들어온 variables들.
+          console.log("Filter", comment.commentAdded.chatRoom === args.chatRoom, comment, args)
+          if (comment.commentAdded.chatRoom === args.chatRoom) { 
+            return true 
+          } else {
+            return false
+          } 
+
+        }
+      }
+    })
+  }
 });
 
 
