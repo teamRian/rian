@@ -602,5 +602,4 @@ note "You can follow your deployment at: https://console.aws.amazon.com/codedepl
 #       fi
 
 #       sleep 2
-   done
-fi
+# fi
