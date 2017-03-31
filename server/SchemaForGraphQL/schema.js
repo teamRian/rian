@@ -15,7 +15,7 @@ type Repo {
   comments(id: Int!): Comment
 }
 
-type Comment {
+type Comment{
   id: Int!
   content: String
 }
@@ -25,12 +25,18 @@ type Query {
    entry(repoFullName: String!): Repo
 }
 
+type Message {
+  chatRoom: Int!
+  id: Int!
+  content: String
+}
+
 type Mutation {
-   addChannel(name: String!): [Channel]
+   sendMessages(chatRoom:Int!, id: Int!, content: String): Message
 }
 
 type Subscription{
-   commentAdded(repoFullName: String! id: Int!): [Comment]
+   commentAdded(chatRoom: String!, id: Int!): Message
 }
 
 schema {
@@ -43,8 +49,6 @@ enum Test {
 	rock
 	metal
 }
-
-
 `;
 
 
