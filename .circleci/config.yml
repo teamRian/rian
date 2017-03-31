@@ -1,16 +1,35 @@
 version: 2
 jobs:
   build:
-    docker:
-        - image: yarnpkg/dev:latest
     working_directory: ~/rian
+    docker:
+        - image: ceruberu/rian-primary:0.0.6
+    environment:
+            AWS_CODE_DEPLOY_REGION: ap-northeast-2
+            AWS_CODE_DEPLOY_APPLICATION_NAME: "rian-application"
+            AWS_CODE_DEPLOY_DEPLOYMENT_CONFIG_NAME: CodeDeployDefault.AllAtOnce
+            AWS_CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: "rian-deploy-group"
+            AWS_CODE_DEPLOY_SERVICE_ROLE_ARN: "arn:aws:iam::161388893601:role/rian-role-admin"
+            AWS_CODE_DEPLOY_EC2_TAG_FILTERS: "Key=rian,Value=projects,Type=KEY_AND_VALUE"
+            AWS_CODE_DEPLOY_S3_FILENAME: "${CIRCLE_BUILD_NUM}#${CIRCLE_SHA1:0:7}.zip"
+            AWS_CODE_DEPLOY_S3_BUCKET: rian-s3-dev
+            AWS_CODE_DEPLOY_S3_KEY_PREFIX: "production-rian"
+            AWS_CODE_DEPLOY_S3_LIMIT_BUCKET_FILES: 10
+            AWS_CODE_DEPLOY_S3_SSE: true
+            AWS_CODE_DEPLOY_REVISION_DESCRIPTION: "${CIRCLE_BRANCH} (#${CIRCLE_SHA1:0:7})"
+            AWS_CODE_DEPLOY_DEPLOYMENT_DESCRIPTION: "Deployed via CircleCI on $(date)"
     steps:
         - checkout
+        - run:
+            name: Pre-Dependencies
+            command: mkdir ~/rian/artifacts
         - restore_cache:
             keys: 
               - rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
-              - rian-{{ .Branch }}
+              - rian-{{ .Branch }}-
               - rian-master
+            paths:
+              - ~/.cache/yarn
         - run:
             name: Install Dependencies
             command: yarn install
@@ -22,9 +41,11 @@ jobs:
         - save_cache:
             key: rian-{{ .Branch }}-{{ checksum "yarn.lock" }}
             paths:
-              - "~/.cache/yarn"
+              - ~/.cache/yarn
+        - deploy:
+            command: bash ~/rian/scripts/circleci/aws-code-deploy.sh
         - store_artifacts:
-            path: /artifacts
+            path: ~/rian/artifacts
             destination: prefix
         - store_test_results:
-            path: /test-results
+            path: ~/rian/test-results

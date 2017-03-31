@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /tmp
+hooks:
+  ApplicationStop:
+    - location: scripts/aws/ApplicationStop.sh
+      timeout: 30
+      runas: ubuntu
+  AfterInstall:
+    - location: scripts/aws/AfterInstall.sh
+      timeout: 30
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/aws/ApplicationStart.sh
+      timeout: 30
+      runas: ubuntu
+  # ValidateService:
+  #   - location:     
+  #     timeout: 
+  #     runas:
+  #   - location: 
+  #     timeout:
+  #     runas:
