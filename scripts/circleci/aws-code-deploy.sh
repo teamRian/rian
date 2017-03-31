@@ -97,6 +97,7 @@ installAwsCli() {
   runCommand "sudo pip install awscli"
 }
 
+<<<<<<< HEAD
 # vercomp() {
 #   if [[ $1 == $2 ]]
 #   then
@@ -129,6 +130,40 @@ installAwsCli() {
 #   done
 #   return 0
 # }
+=======
+vercomp() {
+  if [[ $1 == $2 ]]
+  then
+    return 0
+  fi
+  local IFS=.
+  local i ver1=($1) ver2=($2)
+  
+  # fill empty fields in ver1 with zeros
+  for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+  do
+    ver1[i]=0
+  done
+  
+  for ((i=0; i<${#ver1[@]}; i++))
+  do
+    if [[ -z ${ver2[i]} ]]
+    then
+      # fill empty fields in ver2 with zeros
+      ver2[i]=0
+    fi
+    if ((10#${ver1[i]} > 10#${ver2[i]}))
+    then
+      return 1
+    fi
+    if ((10#${ver1[i]} < 10#${ver2[i]}))
+    then
+      return 2
+    fi
+  done
+  return 0
+}
+>>>>>>> 208b2a9ceec35365175d133cb9ec3923a6dfba96
 
 # Check variables
 
@@ -161,6 +196,7 @@ if ! typeExists "aws"; then
   success "Installing AWS CLI $(aws --version 2>&1) succeeded"
 else
   # aws-cli 1.9.8 is required for proper SSE syntax
+<<<<<<< HEAD
   # AWS_FULL_VER=$(aws --version 2>&1)
   # AWS_VER=$(echo $AWS_FULL_VER | sed -e 's/aws-cli\///' | sed -e 's/ Python.*//') 
   # vercomp $AWS_VER "1.9.8"
@@ -168,6 +204,15 @@ else
   #   h2 "Installing updated AWS CLI version ($AWS_VER < 1.9.8)"
   #   installAwsCli
   # fi 
+=======
+  AWS_FULL_VER=$(aws --version 2>&1)
+  AWS_VER=$(echo $AWS_FULL_VER | sed -e 's/aws-cli\///' | sed -e 's/ Python.*//') 
+  vercomp $AWS_VER "1.9.8"
+  if [[ $? == 2 ]]; then
+    h2 "Installing updated AWS CLI version ($AWS_VER < 1.9.8)"
+    installAwsCli
+  fi 
+>>>>>>> 208b2a9ceec35365175d133cb9ec3923a6dfba96
   
   success "Dependencies met $(aws --version 2>&1)"
 fi
