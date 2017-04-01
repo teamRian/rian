@@ -6,6 +6,7 @@ if [ -f "$file" ]
 then
 	echo "$file found, close docker and remove existing files"
 	sudo docker-compose down
+	printf 'y' | sudo docker-compose rm --all
 	sudo rm -rf ~/rian
 	mkdir -p ~/rian
 else
@@ -13,6 +14,7 @@ else
 	sudo rm -rf ~/rian
 	mkdir -p ~/rian
 fi
+sudo service docker restart
 
 
 
