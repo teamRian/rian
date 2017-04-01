@@ -8,10 +8,10 @@ hooks:
     - location: scripts/aws/ApplicationStop.sh
       timeout: 30
       runas: ubuntu
-  AfterInstall:
-    - location: scripts/aws/AfterInstall.sh
-      timeout: 30
-      runas: ubuntu
+  # AfterInstall:
+  #   - location: scripts/aws/AfterInstall.sh
+  #     timeout: 30
+  #     runas: ubuntu
   ApplicationStart:
     - location: scripts/aws/ApplicationStart.sh
       timeout: 30
