@@ -9,6 +9,7 @@ then
 	sudo rm -rf ~/rian/*
 else
 	echo "$file not found, continue download bundle"
+	sudo rm -rf ~/rian/*
 fi
 
 
