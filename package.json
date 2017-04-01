@@ -6,7 +6,7 @@
     "apollo-test-utils": "^0.2.2",
     "autoprefixer": "6.7.2",
     "babel-cli": "^6.23.0",
-    "babel-core": "6.22.1",
+    "babel-core": "^6.24.0",
     "babel-eslint": "7.1.1",
     "babel-jest": "18.0.0",
     "babel-loader": "^6.2.10",
@@ -184,8 +184,6 @@
     "start:prod": "cross-env NODE_ENV=production babel-watch index.js --watch server --inspect",
     "start:inspect": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch --inspect server",
     "start:docker": "DOCKER=true NODE_ENV=development babel-watch index.js --watch server --inspect"
-
-
   },
   "jest": {
     "collectCoverageFrom": [
