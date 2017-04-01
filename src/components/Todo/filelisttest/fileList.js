@@ -5,7 +5,7 @@ import moment from 'moment';
 // Import Component
 import FileIcon   from './fileIcon.js';
 import FileTag    from './fileTag.js';
-import FileUpload from './FileUpload.js';
+import FileUpload from './fileUpload.js';
 
 // Import ICON
 import FileSvgIcon from './file_svgIcon';

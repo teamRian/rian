@@ -23,10 +23,10 @@ import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apol
 
 //Main GraphQL Server
 const networkInterface = createNetworkInterface({
-    uri: "http://localhost:8000/graphql"
+    uri: "http://0.0.0.0:8000/graphql"
 });
 //Make subsciption server && Change
-const wsClient = new SubscriptionClient("ws://localhost:8000/subscriptions", {
+const wsClient = new SubscriptionClient("ws://0.0.0.0:8000/subscriptions", {
     reconnect: true
 });
 // Extend the network interface with the WebSocket

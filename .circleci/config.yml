@@ -14,7 +14,7 @@ jobs:
             AWS_CODE_DEPLOY_S3_FILENAME: "${CIRCLE_BUILD_NUM}#${CIRCLE_SHA1:0:7}.zip"
             AWS_CODE_DEPLOY_S3_BUCKET: rian-s3-dev
             AWS_CODE_DEPLOY_S3_KEY_PREFIX: "production-rian"
-            AWS_CODE_DEPLOY_S3_LIMIT_BUCKET_FILES: 10
+            AWS_CODE_DEPLOY_S3_LIMIT_BUCKET_FILES: 3
             AWS_CODE_DEPLOY_S3_SSE: true
             AWS_CODE_DEPLOY_REVISION_DESCRIPTION: "${CIRCLE_BRANCH} (#${CIRCLE_SHA1:0:7})"
             AWS_CODE_DEPLOY_DEPLOYMENT_DESCRIPTION: "Deployed via CircleCI on $(date)"
