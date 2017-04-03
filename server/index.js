@@ -6,6 +6,7 @@ import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 
+console.log(process.env.IP, "IP PROCESS")
 // File Upload 
 var busboy = require('connect-busboy');
 var fs = require('fs-extra');
