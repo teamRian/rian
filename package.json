@@ -183,7 +183,7 @@
     "start:cache": "NODE_ENV=development babel-watch index.js --watch server --inspect",
     "start:prod": "cross-env NODE_ENV=production babel-watch index.js --watch server --inspect",
     "start:inspect": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development babel-watch index.js --watch --inspect server",
-    "start:docker": "DOCKER=true NODE_ENV=development babel-watch index.js --watch server --inspect"
+    "start:docker": "IP=$(curl http://instance-data/latest/meta-data/public-ipv4) DOCKER=true NODE_ENV=development babel-watch index.js"
   },
   "jest": {
     "collectCoverageFrom": [
