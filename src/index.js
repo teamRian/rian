@@ -9,24 +9,21 @@ import { AppContainer } from 'react-hot-loader';
 import './index.css';
 
 // configs in './configureStore.js'
-
+const ip = process.env.DOCKER ? process.env.IP : 0.0.0.0
 //Apollo Socket
 import {
     SubscriptionClient,
     addGraphQLSubscriptions
 } from "subscriptions-transport-ws";
 
-
-
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
 // Create a normal network interface:
-
 //Main GraphQL Server
 const networkInterface = createNetworkInterface({
-    uri: "http://0.0.0.0:8000/graphql"
+    uri: `http://${ip}:8000/graphql`
 });
 //Make subsciption server && Change
-const wsClient = new SubscriptionClient("ws://0.0.0.0:8000/subscriptions", {
+const wsClient = new SubscriptionClient(`ws://${ip}:8000/subscriptions`, {
     reconnect: true
 });
 // Extend the network interface with the WebSocket
