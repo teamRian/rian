@@ -9,7 +9,7 @@ import { AppContainer } from 'react-hot-loader';
 import './index.css';
 
 // configs in './configureStore.js'
-const ip = process.env.DOCKER ? process.env.IP : 0.0.0.0
+const ip = process.env.DOCKER ? process.env.IP : '0.0.0.0';
 //Apollo Socket
 import {
     SubscriptionClient,
