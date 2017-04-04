@@ -93,8 +93,10 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        CLIENT: JSON.stringify(true),
+        'CLIENT': JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development'),
+        'AWS_IP': JSON.stringify(process.env.IP || '0.0.0.0')
+
       }
     }),
   ],

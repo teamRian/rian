@@ -9,9 +9,6 @@ import { AppContainer } from 'react-hot-loader';
 import './index.css';
 
 // configs in './configureStore.js'
-
-// 글로벌awsIP가 false면 0.0.0.0 이다
-const ip = awsIP || '0.0.0.0'; 
 //Apollo Socket
 import {
     SubscriptionClient,
@@ -22,10 +19,10 @@ import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apol
 // Create a normal network interface:
 //Main GraphQL Server
 const networkInterface = createNetworkInterface({
-    uri: `http://${ip}:8000/graphql`
+    uri: `http://${process.env.AWS_IP}:8000/graphql`
 });
 //Make subsciption server && Change
-const wsClient = new SubscriptionClient(`ws://${ip}:8000/subscriptions`, {
+const wsClient = new SubscriptionClient(`ws://${process.env.AWS_IP}:8000/subscriptions`, {
     reconnect: true
 });
 // Extend the network interface with the WebSocket
