@@ -32,7 +32,7 @@ export default function(app, passport) {
 
             req.logIn(user, function(err) {
               if (err) { return next(err); }
-              return res.redirect('/');
+              return res.redirect('/me');
             });
           })(req, res, next);
     });

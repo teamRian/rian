@@ -10,16 +10,23 @@ import { projectGet, projectPost } from '../actions/ProjectActions';
 
 // Import Component
 import Header from '../components/Rian/Header';
-import Navigation from '../components/Rian/Navigation.js'
+import { MeNavigation, ProjectNavigation } from '../components/Rian/Navigation.js'
 import CalendarComponent from './Calendar/Calendar.js';
-import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
+import CalendarSubComponent from './Calendar/CalendarSub.js';
+import NoteEditor from './NoteEditor/NoteEditorContainer';
+import NotetimelineContainer from './NoteTimeline/NotetimelineContainer';
+import WhiteBoardComponent from './WhiteBoard/WhiteBoardContainer.js';
 import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
 import firebase from 'firebase';
 import firebaseConfig from '../../config/firebaseConfig';
 import LogIn from '../components/Rian/LogIn';
 import '../styles/Rian.css';
 
-import { Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 
 class RianApp extends Component {
@@ -59,39 +66,74 @@ class RianApp extends Component {
 		if(this.props.User.loading){
 			return <div>Loading...</div>
 		}
-		console.log(this.props, "RIAN PROPS");
-		const { children } = this.props
 		const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
 
 		return (
+			<Router>
 
+				<div className="App">
+					<Header 
+						User={this.props.User}
+						Project={this.props.Project}
+						projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
+						changeMode={this.props.changeMode}
+					/>
+					<div className="MainWrapper">
+						<div className="Navigation">
+							<Route path="/projectPage" component={ProNav} />
+							<Route path="/me" component={MeNav} />
+							<Route path="/me/calendar" component={CalendarSub} />
 
-			<div className="App">
-				<Header 
-					User={this.props.User}
-					Project={this.props.Project}
-					projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
-					changeMode={this.props.changeMode}
-				/>
-				<div className="MainWrapper">
-					<div className="Navigation">
-						<Navigation clickShowChat={()=>this.clickShowChat()} />
-						<div className="classShowChat" style={ShowMe}>		
-							<FirebaseChatContainer UserId={this.props.User._id} />		
+						</div>
+						<div className="MainContent">
+							<Route path="/projectPage" component={ProjectWrapper} />
+							<Route path="/" component={PersonalWrapper} />
 						</div>
 					</div>
-					<div className="MainContent">
-						<Route path="/calendar" render={()=><div>CALENDAR</div>} />
-					</div>
+
 				</div>
-			</div>
+
+			</Router>
 		)
 	}
 
 }
 
-const Calendar = () => {
+							// <div className="classShowChat" style={ShowMe}>		
+							// 	<FirebaseChatContainer UserId={this.props.User._id} />		
+							// </div>
+const MeNav = () => {	
+	return <MeNavigation />
+}
+
+const ProNav = () => {	
+	return <ProjectNavigation />
+}
+
+const PersonalWrapper = () => {
+	return	<div className="MainContent">
+						<Route path="/me/calendar" component={Calendar} />
+						<Route path="/me/editor" component={Note} />
+				  </div>
+}
+const ProjectWrapper = () => {
+	return 	<div className="MainContent">
+							<Route path="/projectPage/whiteBoard" component={WhiteBoard} />
+					</div>
+}
+
+const WhiteBoard = () => {
+	return <WhiteBoardComponent />
+}
+const Calendar = (match) => {
+	console.log(match, "CALENDAR MATCH");
 	return <CalendarComponent />
+}
+const CalendarSub = () => {
+	return <CalendarSubComponent />
+}
+const Note = (match) =>{
+	return <NoteEditor />
 }
 
 function mapState(state) {
