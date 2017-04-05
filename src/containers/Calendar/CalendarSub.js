@@ -3,55 +3,22 @@ import { connect } from "react-redux";
 import { calendarRequest, calendarPost, calendarChangeWeek, calendarChangeMonth, calendarSelectDate, calendarToggle } from "../../actions/CalendarActions";
 import { Button } from "react-bootstrap";
 import MotionMenu from "react-motion-menu";
-import FlexCalendarHeader from "../../components/FlexCalendar/FlexCalendarHeader";
-import FlexMonth from "../../components/FlexCalendar/FlexMonth";
-import FlexCalendarPostModal from "../../components/FlexCalendar/FlexCalendarPostModal"; 
-import FlexCalendarColorBrick from "../../components/FlexCalendar/FlexCalendarColorBrick";
-import FlexPalette from "../../components/FlexCalendar/FlexPalette";
-import { CirclePicker } from "react-color";
+import FlexCalendarHeader from "../../components/FlexCalendar/Sub/FlexCalendarHeader";
+import FlexMonth from "../../components/FlexCalendar/Sub/FlexMonth";
 import "../../styles/FlexCalendar.css";
 
 class CalendarSub extends Component {
 	constructor(props){
 		super(props);
 	}
-
-	clickToggle(){
-		this.props.Calendar.kind === "month"
-		? this.props.calendarToggle("week")
-		: this.props.calendarToggle("month");
-	}
+	// clickToggle(){
+	// 	this.props.Calendar.kind === "month"
+	// 	? this.props.calendarToggle("week")
+	// 	: this.props.calendarToggle("month");
+	// }
 	render() {
 		return (
 			<div id="CalendarSide">
-				<Button onClick={()=>this.clickToggle.bind(this)()}>
-				{this.props.Calendar.kind.toUpperCase()}
-				</Button>
-				<FlexCalendarPostModal
-						User={this.props.User}
-						Calendar={this.props.Calendar}
-						calendarPost={(form)=>this.props.calendarPost.bind(this)(form)}/>
-				<MotionMenu
-					type="circle"
-					margin={60}
-					openSpeed={50}>
-					<Button>HEY</Button>
-					<div className="colorBrick"/>
-					<div className="colorBrick"/>
-					<div className="colorBrick"/>
-					<div className="colorBrick"/>
-				</MotionMenu>
-				<br/>
-				<br/>
-				<br/>
-				<FlexCalendarColorBrick 
-						Calendar={this.props.Calendar} 
-						calendarToggle={()=>this.clickToggle.bind(this)()}
-						text={"HEY!!!!"} 
-						id={1}
-						color={"lightgreen"}
-						durationLength={2}
-				/>
 				<FlexCalendarHeader
 					User={this.props.User}
 					Calendar={this.props.Calendar}

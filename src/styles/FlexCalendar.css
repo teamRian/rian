@@ -1,7 +1,4 @@
-ul#weekDays{
-	padding: 0px 5px 0px 5px;
-	margin-bottom: 0;
-}
+
 
 ul.week {
 	padding: 0;
@@ -11,18 +8,8 @@ ul.week {
 #FlexCalendar {
 	display:flex;
 	flex:1;
-	flex-direction: column;
 	height:100%;
 	min-height:100%;
-}
-
-#FlexCalendarHeader {
-	display:flex;
-	flex-direction: column;
-	height:10%;
-	justify-content: center;
-	align-items: stretch;
-	font-size:25px;
 }
 
 #FlexCalendarWeek {
@@ -32,18 +19,21 @@ ul.week {
 	flex:0 0 1850px;
 }
 
-#weekDays {
+#FlexContainer {
 	display:flex;
-	flex: 0 0 50px;
-}
-#DateControl {
-	display:flex;
+	flex-direction: column;
 	flex:1;
-	height:10%;
-	background-color: #ffe6e9;
-	justify-content: space-around;
-	align-items: center;
-	font-size:25px;
+}
+#FlexInboxContainer {
+	display: flex;
+	flex-direction: column;
+	flex:0 150 300px;
+}
+#FlexCreateBox{
+	flex:1;
+}
+#FlexInbox{
+	flex:1.2;
 }
 
 #FlexCalendarBody {
@@ -94,16 +84,7 @@ ul.week {
 	width:100%;
 	height:100%;
 }
-.weekDay{
-	display:flex;
-	flex: 1;
-	margin:8px;
-	align-items: center;
-	justify-content: center;
-	border-radius: 5px;
-	background-color: LightCoral;
-	color: white;
-}
+
 /*
 .weekEnd{
 	display:flex;
@@ -143,21 +124,6 @@ ul.week {
 	pointer-events: none; /* MAGIC!!!!!! */
 }
 
-.day {
-	display:flex;
-	padding:5px;
-	margin:8px 8px 8px 8px;
-	flex:1;
-	background: white;
-	border-top: 1px solid rgba(236,236,236,1);
-	border-radius:5px;
-	align-items: top;
-	justify-content: flex-end;
-}
-
-.day:hover{
-	background-color: #ebfaff;
-}
 
 .weeklyDay {
 	display:flex;
@@ -212,13 +178,97 @@ ul.week {
 	height:100%;
 	z-index:3;
 }
-/*.plan p {
-	cursor:default;
-	user-select:none;
-}*/
-/* transform MAGIC!
-div.colorBrick:hover {
-	transform: scale(2);
+
+/* CALENDAR SIDE */
+#CalendarSide {
+	display:flex;
+	flex-direction: column;
+	flex:1;
 }
-*/
+
+#FlexCalendarHeader {
+	display:flex;
+	flex-direction: column;
+	margin-top:10px;
+	height:7%;
+	justify-content: center;
+	align-items: stretch;
+	font-size:25px;
+}
+
+#DateControl {
+	display:flex;
+	flex:1;
+	justify-content: space-around;
+	align-items: center;
+	font-size:20px;
+}
+
+.DateMonitor {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.DateText{
+	text-align:center;
+	margin: 0px;
+}
+
+.DateText span {
+	font-size: 14px;
+}
+
+#SideMonth {
+	display:flex;
+	flex-direction: column;
+}
+
+ul#weekDays{
+	display:flex;
+	padding: 0;
+	margin-bottom: 0;
+	opacity: 0.8;
+}
+
+.weekDay{
+	display:flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
+ul.subWeek {
+	padding: 0;
+	margin-bottom: 0;
+}
+.subWeek {
+	display: flex;
+	flex:0 0 30px;
+	justify-content: space-around;
+}
+.subDay {
+	display:flex;
+	flex:1;
+	background: white;
+	align-items: center;
+	justify-content: center;
+}
+
+.subDay:hover{
+	background-color: #ebfaff;
+}
+
+.holiday.subDay{
+	color: lightcoral;
+	border-color: lightcoral;
+}
+.today.subDay {
+	color: seagreen;
+	border-color: seagreen;
+}
+.selected.subDay {
+	color: goldenrod;
+	border-color: goldenrod;
+	background-color: #fcf6e9;
+}
 

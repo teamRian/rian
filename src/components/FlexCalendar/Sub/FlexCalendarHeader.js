@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Modal, Glyphicon } from "react-bootstrap";
-import FlexCalendarPostModal from "./FlexCalendarPostModal";
 import { Calendar as calen } from "calendar";
 
 export default class FlexCalendarHeader extends Component {
@@ -142,23 +141,15 @@ export default class FlexCalendarHeader extends Component {
     return (
       <div id="FlexCalendarHeader">
         <div id="DateControl">
-          <Button
-            type="button"
-            className="btn btn-default"
-            onClick={() => this.change("left")}
-          >
-            <Glyphicon glyph="menu-left" />
-          </Button>
-          <span>
-            {months[this.props.Calendar.month - 1]} {this.props.Calendar.year}
-          </span>
-          <Button
-            type="button"
-            className="btn btn-default"
-            onClick={() => this.change("right")}
-          >
-            <Glyphicon glyph="menu-right" />
-          </Button>
+          <Glyphicon glyph="menu-left" onClick={() => this.change("left")} />
+          <div className="DateMonitor">
+            <p className="DateText">
+              <span>{this.props.Calendar.year}</span>
+              <br/>
+              {this.props.Calendar.month - 1}
+            </p>
+          </div>
+          <Glyphicon glyph="menu-right" onClick={() => this.change("right")} />
         </div>
       </div>
     );

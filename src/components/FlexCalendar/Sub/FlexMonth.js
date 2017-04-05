@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
-import { planUpdateComplete } from "../../actions/PlanActions";
+import { planUpdateComplete } from "../../../actions/PlanActions";
 
 
 class FlexMonth extends Component {
@@ -34,13 +34,21 @@ class FlexMonth extends Component {
 
 	render() {
 		const { Calendar } = this.props;
+		const dayday = ["일","월","화","수","목","금","토"];
+
 		return (
-		<div className='month'>
+		<div id="SideMonth">
+			<ul id="weekDays">
+	      { 
+					dayday.map((day, n)=>{
+							 return <li key={day} className='weekDay'>{day}</li>;})
+				}
+	    </ul>
 			{Calendar.monthDays.map((weeks,i)=>{
-				return (<ul key={`week${i}`} className={`week week${i}`}>
+				return (<ul key={`week${i}`} className={`subWeek week${i}`}>
 					{ weeks.map((day,k)=>{
 						let dayClass = classNames({
-							day: true,
+							subDay: true,
 							[`month${day.month}`]: true,
 							[`week${day.week}`]: true,
 							[`week${day.day}`]: true,

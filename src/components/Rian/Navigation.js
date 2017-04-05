@@ -1,26 +1,24 @@
 import React from 'react';
 
-import { browserHistory } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 import '../../styles/Navigation.css';
 
 class Navigation extends React.Component {
-
-
+  constructor(props){
+    super(props);
+    console.log(props, "PROPS!!! NAV")
+  }
   clickLink(link){
     browserHistory.push(link);
   }
-
-
-
   render() {
     return (
       <div id="nav-bar">
-        <div onClick={()=>this.clickLink('/calendar')}>캘린더</div>
-        <div onClick={()=>this.clickLink('/todolist')}>투두</div>
-        <div onClick={()=>this.clickLink('/editor')}>노트</div>
-        <div onClick={()=>this.props.clickShowChat()}>채팅</div>
-        <div onClick={()=>this.clickLink('/whiteboard')}>화이트보드</div>
+        <NavLink to='/home'>HOME</NavLink>
+        <NavLink to='/calendar'>캘린더</NavLink>
+        <NavLink to='/editor'>노트</NavLink>
+        <NavLink to='/whiteboard'>화이트보드</NavLink>
       </div>
     )
   }
