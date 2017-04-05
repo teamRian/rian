@@ -1,17 +1,15 @@
 import React, { Component, PropTypes } from "react";
 // import { Calendar } from "calendar";
 // import {Motion, spring, StaggeredMotion, TransitionMotion} from "react-motion";
-import FlexMonth from "./FlexMonth";
 import FlexWeek from "./FlexWeek";
 import { connect } from "react-redux";
-import { getStampFire } from "./Utils/FlexUtils.js";
 import {
   planChildAdded,
   planChildRemoved,
   planChildChanged,
   planUpdateComplete
-} from "../../actions/PlanActions";
-import { planEpicRequestData } from "../../epics/PlanEpic";
+} from "../../../actions/PlanActions";
+import { planEpicRequestData } from "../../../epics/PlanEpic";
 import moment from "moment";
 import database from "firebase/database";
 
