@@ -4,24 +4,25 @@ import { NavLink } from 'react-router-dom';
 
 import '../../styles/Navigation.css';
 
-class Navigation extends React.Component {
-  constructor(props){
-    super(props);
-    console.log(props, "PROPS!!! NAV")
-  }
-  clickLink(link){
-    browserHistory.push(link);
-  }
+export class MeNavigation extends React.Component {
   render() {
     return (
       <div id="nav-bar">
-        <NavLink to='/home'>HOME</NavLink>
-        <NavLink to='/calendar'>캘린더</NavLink>
-        <NavLink to='/editor'>노트</NavLink>
-        <NavLink to='/whiteboard'>화이트보드</NavLink>
+        <NavLink to='/me'>HOME</NavLink>
+        <NavLink to='/me/editor'>NOTE</NavLink>
+        <NavLink to='/me/calendar'>CALENDAR</NavLink>
       </div>
     )
   }
 }
 
-export default Navigation;
+export class ProjectNavigation extends React.Component {
+  render() {
+    return (
+      <div id="nav-bar">
+        <NavLink to='/projectPage'>HOME</NavLink>
+        <NavLink to='/projectPage/whiteboard'>BOARD</NavLink>
+      </div>
+    )
+  }
+}

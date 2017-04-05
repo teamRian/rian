@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import {Button} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
 import moment from 'moment';
 
 import '../../styles/Header.css';
@@ -46,10 +46,10 @@ class Header extends React.Component {
 
     return (
       <div className="Header">
-        <div className='headerMenu' id='home' onClick={()=>this.clickHome()}>RIAN</div>
+        <NavLink to="/me" className='headerMenu' id='home'>RIAN</NavLink>
         {Projects.map((project,i)=>{
         	return (
-        		<div key={project.projectName} className='headerMenu' onClick={()=>this.clickProject(project._id)}>{project.projectName}</div>
+        		<NavLink to="/projectPage" key={project.projectName} className='headerMenu'></NavLink>
         	)
         })}
         <Button id='addButton' onClick={()=>this.clickNewProject()}>+</Button>
