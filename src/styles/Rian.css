@@ -23,7 +23,7 @@
 
 .MainWrapper {
   display:flex;
-
+  flex:1;
 }
 
 .Navigation {
