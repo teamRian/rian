@@ -20,7 +20,7 @@ export const resolvers = {
     entry(obj, args, context){
       console.log('Repo', obj, args, context)
       let newObj = {}
-      newObj.repoFullName = "Yes Iam Docker"
+      newObj.repoFullName = "Yes I am Docker"
       return newObj
     }
   },

@@ -99,7 +99,7 @@ app.use('/file', files);
 //GraphQL Server 
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import { SubscriptionManager, PubSub } from 'graphql-subscriptions';
-import { schema } from './schemaForGraphQL/schema.js';
+import { schema } from './qlSchema/schema.js';
 import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { pubsub } from './pubsub/pubsub.js';
@@ -210,7 +210,7 @@ app.get('/chat', (req,res)=>{
 app.get('/whiteboard', (req,res)=>{
   res.redirect('/#/whiteboard')
 })
-app.get('/checkAuth', isLoggedIn,(req, res) => {
+app.get('/checkAuth', isLoggedIn, (req, res) => {
   res.status(200).send(req.session);
 })
 
