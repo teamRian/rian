@@ -4,20 +4,22 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
 // Import Actions
+import { changeMode } from '../actions/ModeActions';
 import { userCheckAuth, userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
 import { projectGet, projectPost } from '../actions/ProjectActions';
 
 // Import Component
 import Header from '../components/Rian/Header';
 import Navigation from '../components/Rian/Navigation.js'
-import Calendar from './Calendar/Calendar.js';
-import TodoContainer from './Todo/TodoContainer.js';
+import CalendarComponent from './Calendar/Calendar.js';
 import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
 import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
 import firebase from 'firebase';
 import firebaseConfig from '../../config/firebaseConfig';
 import LogIn from '../components/Rian/LogIn';
 import '../styles/Rian.css';
+
+import { Route } from 'react-router-dom'
 
 
 class RianApp extends Component {
@@ -57,38 +59,44 @@ class RianApp extends Component {
 		if(this.props.User.loading){
 			return <div>Loading...</div>
 		}
-		const { main, side } = this.props
+		console.log(this.props, "RIAN PROPS");
+		const { children } = this.props
 		const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
 
 		return (
 
 
 			<div className="App">
-						<div className="Header">
-							<Header 
-								User={this.props.User}
-								Project={this.props.Project}
-								projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
-							/>
+				<Header 
+					User={this.props.User}
+					Project={this.props.Project}
+					projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
+					changeMode={this.props.changeMode}
+				/>
+				<div className="MainWrapper">
+					<div className="Navigation">
+						<Navigation clickShowChat={()=>this.clickShowChat()} />
+						<div className="classShowChat" style={ShowMe}>		
+							<FirebaseChatContainer UserId={this.props.User._id} />		
 						</div>
-						<div className="Navigation">
-							<Navigation clickShowChat={()=>this.clickShowChat()} />
-							{side}
-							<div className="classShowChat" style={ShowMe}>		
-								<FirebaseChatContainer UserId={this.props.User._id} />		
-							</div>
-						</div>
-						<div className="MainContent">
-							{main}
-						</div>
+					</div>
+					<div className="MainContent">
+						<Route path="/calendar" render={()=><div>CALENDAR</div>} />
+					</div>
+				</div>
 			</div>
 		)
 	}
 
 }
 
+const Calendar = () => {
+	return <CalendarComponent />
+}
+
 function mapState(state) {
 	return {
+		Mode: state.Mode,
 		User: state.User,
 		Project: state.Project
 	};
@@ -96,6 +104,9 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
 	return {
+		changeMode: (mode) => {
+			dispatch(changeMode(mode))
+		},
 		userCheckAuth: ()=> {
 			dispatch(userCheckAuth())
 		},

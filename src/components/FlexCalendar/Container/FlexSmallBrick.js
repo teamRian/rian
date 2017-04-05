@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import ItemTypes from '../../constants/ItemTypes';
+import ItemTypes from '../../../constants/ItemTypes';
 import { DropTarget } from 'react-dnd';
-import '../../styles/FlexCalendar.css';
-// import from './Utils/FlexDnD';
 
 const smallBrickTarget = {
   // canDrop(props, monitor){

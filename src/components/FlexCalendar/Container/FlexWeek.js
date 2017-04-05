@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
-import FlexSmallBrick from "./FlexSmallBrick";
 import FlexWeekDay from "./FlexWeekDay";
-import { planEpicRequestPost } from "../../epics/PlanEpic";
+import { planEpicRequestPost } from "../../../epics/PlanEpic";
 import moment from "moment";
 
 class FlexWeek extends Component {
