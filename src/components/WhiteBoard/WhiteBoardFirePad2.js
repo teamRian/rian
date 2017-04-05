@@ -44,7 +44,7 @@ class WhiteBoardFirePad extends React.Component{
 
     this.takenLines = {};
     this.projectId = 1;
-    this.userId = this.props.user.username || this.props.user.facebook.id;
+    this.userId = this.props.user.username || this.props.user.facebook._id;
 
     //this.firepadRef = firebase.database().ref('chan/whiteboard/'+projectId);
     this.firepadRef = firebase.database().ref('chan/whiteboard/test/local/'+this.projectId);

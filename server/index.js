@@ -209,7 +209,7 @@ app.get('/chat', (req,res)=>{
 app.get('/whiteboard', (req,res)=>{
   res.redirect('/#/whiteboard')
 })
-app.get('/checkAuth', isLoggedIn,(req, res) => {
+app.get('/checkAuth', isLoggedIn, (req, res) => {
   res.status(200).send(req.session);
 })
 

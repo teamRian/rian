@@ -1,8 +1,10 @@
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import User from "./models/User";
 import config from "./config";
-const facebookAuth = config.facebookAuth;
 import firebase from 'firebase'
+import moment from 'moment'
+
+const facebookAuth = config.facebookAuth;
 
 const firebaseConfig = {
     apiKey: "AIzaSyBX3jBV3-jGNqLwhSznY864MfPlp5H89Tw",
@@ -47,7 +49,7 @@ export default function(passport) {
 		// asynchronous
 		process.nextTick(function() {
 		// find the user in the database based on their facebook id
-		User.findOne({ "facebook.id" : profile.id }, function(err, user) {
+		User.findOne({ "facebook._id" : profile.id }, function(err, user) {
 			// if there is an error, stop everything and return that
 			// if an error connecting to the database
 			if (err) return done(err);
@@ -60,24 +62,55 @@ export default function(passport) {
 				
 				// set all of the facebook information in our user model
 				var userEmail = profile.email || profile.emails[0].value || "null";
-				newUser.facebook.id = profile.id; // set the users facebook id                   
+				newUser.facebook._id = profile.id; // set the users facebook id                   
 				newUser.facebook.token = token; // we will save the token that facebook provides to the user                    
 				newUser.facebook.name = profile.name.givenName + " " + profile.name.familyName; // look at the passport user profile to see how names are returned
 				newUser.facebook.email = userEmail; // facebook can return multiple emails so we'll take the first
 				newUser.facebook.picture = profile.photos[0].value;
 				// save our user to the database
 
-				var mongooseId
+
 				newUser.save(function(err) {
 					if (err) throw err;
 					// if successful, return the new user]
 					//find mongooseid to make firebase users profile ID
 						
-					var updates = {}
-					updates[newUser._id] = { ChatRoom: {"-KfVQAHzPd8iiwS3RdLh": true}, facebook: { id:profile.id, token:token, email:userEmail, picture: profile.photos[0].value } }
-					firebase.database().ref('users/').update(updates)
-					return done(null, newUser);
+					//make personal notes Database in Firebase
+					console.log("in")
 
+					//After making profile in MongoDB, will make Note Database in firebase
+					const userid = newUser._id.toString()
+					const timestamp =  moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+					const noteUpdate = {}
+					noteUpdate.title = "Rian에 오신 것을 환영합니다."
+					noteUpdate['created_at'] = timestamp
+					noteUpdate['final_modified_at']= timestamp
+           			noteUpdate.snippet= "환영합니다."
+            		noteUpdate.thumbnailUrl= ""
+            		noteUpdate.share= {}
+            		noteUpdate.share[userid] = true
+
+            		
+
+            		//make First Note
+            		const newNotePush = firebase.database().ref('notes/' + userid + '/' + 'note').push()
+            		const newNotekey = newNotePush.key
+            		firebase.database().ref('notes/' + userid + '/' + 'note' + '/' + newNotekey)
+            			.set(noteUpdate)
+            			.then(()=>{
+            			   const indexUpdate = {}
+						   indexUpdate['note_location'] = newNotePush.key
+						   indexUpdate['created_at'] = timestamp
+						   indexUpdate['final_modified_at'] = timestamp
+						   indexUpdate.author = userid
+						   indexUpdate.share = {}
+						   indexUpdate.share[userid] = true
+						   //make First Note's Timeline Instance
+            			   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
+            			   firebase.database().ref('notes/' + userid + '/' + 'index' + '/' + newIndexkey)
+            			       .set(indexUpdate)
+            			   return done(null, newUser);
+            			})
 				});
 
 				//set users info to firebase	
