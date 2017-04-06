@@ -25,7 +25,8 @@ import '../styles/Rian.css';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom'
 
 
@@ -55,50 +56,79 @@ class RianApp extends Component {
 	}
 
 	render() {
-		if(this.props.User._id === null && this.props.User.loading === false){
-			return (
-				<LogIn
-					userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
-					userLogIn={(form)=>this.props.userLogIn.bind(this)(form)}
-				/>
-			)
-		}
-		if(this.props.User.loading){
-			return <div>Loading...</div>
-		}
-		const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
+		const { User, Project, projectGet, changeMode, userSignUp, userLogIn } = this.props;
+		console.log( User, "USER!!!");
+		// if(this.props.User._id === null && this.props.User.loading === false){
+		// 	return (
+		// 		<LogIn
+		// 			userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
+		// 			userLogIn={(form)=>this.props.userLogIn.bind(this)(form)}
+		// 		/>
+		// 	)
+		// }
+		// if(this.props.User.loading){
+		// 	return <div>Loading...</div>
+		// }
+		// const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
 
 		return (
 			<Router>
+					<Route path="/:type?/:subpage?" render={({match})=>(
+						User._id === null
+						? <LogIn
+								userSignUp={(form)=>userSignUp.bind(this)(form)}
+								userLogIn={(form)=>userLogIn.bind(this)(form)}/>
+						: <div className="App">
+								<Header 
+									User={User}
+									Project={Project}
+									projectGet={(userId)=>projectGet.bind(this)(userId)}
+									changeMode={changeMode}
+								/>
 
-				<div className="App">
-					<Header 
-						User={this.props.User}
-						Project={this.props.Project}
-						projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
-						changeMode={this.props.changeMode}
-					/>
-					<div className="MainWrapper">
-						<div className="Navigation">
-							<Route path="/projectPage" component={ProNav} />
-							<Route path="/me" component={MeNav} />
-							<Route path="/me/calendar" component={CalendarSub} />
+								<div className="MainWrapper">
+									<div className="Navigation">
+										<Switch>
+											<Route path="/projectPage" component={ProNav} />
+											<Route path="/me" component={MeNav} />
+										</Switch>
+										<Route path="/me/calendar" component={CalendarSub} />
+										<Route path="/me/editor" component={NoteSub} />
+									</div>
+									<div className="MainContent">
+										<Switch>
+											<Route path="/projectPage" component={ProjectWrapper} />
+											<Route path="/" component={PersonalWrapper} />
+										</Switch>
+									</div>
+								</div>
+							</div>
 
-						</div>
-						<div className="MainContent">
-							<Route path="/projectPage" component={ProjectWrapper} />
-							<Route path="/" component={PersonalWrapper} />
-						</div>
-					</div>
-
-				</div>
-
+					)} />
 			</Router>
 		)
 	}
 
 }
 
+					// <Header 
+					// 	User={this.props.User}
+					// 	Project={this.props.Project}
+					// 	projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
+					// 	changeMode={this.props.changeMode}
+					// />
+					// <div className="MainWrapper">
+					// 	<div className="Navigation">
+					// 		<Route path="/projectPage" component={ProNav} />
+					// 		<Route path="/me" component={MeNav} />
+					// 		<Route path="/me/calendar" component={CalendarSub} />
+					// 		<Route path="/me/editor" component={NoteSub} />
+					// 	</div>
+					// 	<div className="MainContent">
+					// 		<Route path="/projectPage" component={ProjectWrapper} />
+					// 		<Route path="/" component={PersonalWrapper} />
+					// 	</div>
+					// </div>
 							// <div className="classShowChat" style={ShowMe}>		
 							// 	<FirebaseChatContainer UserId={this.props.User._id} />		
 							// </div>
@@ -112,13 +142,15 @@ const ProNav = () => {
 
 const PersonalWrapper = () => {
 	return	<div className="MainContent">
+						<Route exact path="/me" component={MeHome} />
 						<Route path="/me/calendar" component={Calendar} />
 						<Route path="/me/editor" component={Note} />
 				  </div>
 }
 const ProjectWrapper = () => {
 	return 	<div className="MainContent">
-							<Route path="/projectPage/whiteBoard" component={WhiteBoard} />
+						<Route exact path="/projectPage" component={ProHome} />
+						<Route path="/projectPage/whiteBoard" component={WhiteBoard} />
 					</div>
 }
 
@@ -134,6 +166,15 @@ const CalendarSub = () => {
 }
 const Note = (match) =>{
 	return <NoteEditor />
+}
+const NoteSub = () =>{
+	return <NotetimelineContainer />
+}
+const MeHome = () => {
+	return <div> WELCOME </div>
+}
+const ProHome = () => {
+	return <div> WELCOME </div>
 }
 
 function mapState(state) {
