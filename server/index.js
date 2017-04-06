@@ -123,7 +123,30 @@ const subscriptionManager = new SubscriptionManager({
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
 app.use('/project', projects);
-app.get('/', function(req, res, next){
+
+passportRoutes(app, passport);
+
+app.get('/calendar', (req,res)=>{
+  res.redirect('/#/calendar');
+})
+app.get('/editor', (req,res)=>{
+  res.redirect('/#/editor');
+})
+app.get('/chat', (req,res)=>{
+  res.redirect('/#/chat')
+})
+app.get('/whiteboard', (req,res)=>{
+  res.redirect('/#/whiteboard')
+})
+app.get('/checkAuth', isLoggedIn, (req, res) => {
+  // res.status(200).send(req.session);
+  res.redirect('/');
+})
+// app.get('*', (req,res)=>{
+//   res.redirect('/')
+// })
+
+app.get('*', function(req, res, next){
   // const head = Helmet.rewind();
   res.status(200).end(
 
@@ -172,34 +195,6 @@ app.get('/', function(req, res, next){
   `
     );
 })
-
-passportRoutes(app, passport);
-
-app.get('/calendar', (req,res)=>{
-  res.redirect('/#/calendar');
-})
-app.get('/editor', (req,res)=>{
-  res.redirect('/#/editor');
-})
-app.get('/chat', (req,res)=>{
-  res.redirect('/#/chat')
-})
-app.get('/whiteboard', (req,res)=>{
-  res.redirect('/#/whiteboard')
-})
-app.get('/checkAuth', isLoggedIn, (req, res) => {
-  // res.status(200).send(req.session);
-  res.redirect('/#/me');
-})
-// app.get('*', (req,res)=>{
-//   res.redirect('/')
-// })
-app.get('/me', (req,res)=>{
-  res.redirect('#/me');
-})
-
-
-
 
 
 
