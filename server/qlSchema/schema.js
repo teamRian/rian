@@ -2,9 +2,26 @@ import {
   makeExecutableSchema,
   addMockFunctionsToSchema,
 } from 'graphql-tools';
+import GraphQLJSON from 'graphql-type-json'
 
 import { resolvers } from '../resolvers/resolvers.js';
 const typeDefs = `
+type Query {
+   noteTimeline: JSON
+   channels(id: Test!): [Channel]
+   entry(repoFullName: String!): Repo
+}
+
+type Mutation {
+   sendMessages(chatRoom:Int!, id: Int!, content: String): Message
+}
+
+type Subscription{
+   commentAdded(chatRoom: String!, id: Int!): Message
+}
+
+scalar JSON
+
 type Channel {
    id: String!                
    user: String
@@ -20,23 +37,10 @@ type Comment{
   content: String
 }
 
-type Query {
-   channels(id: Test!): [Channel]
-   entry(repoFullName: String!): Repo
-}
-
 type Message {
   chatRoom: Int!
   id: Int!
   content: String
-}
-
-type Mutation {
-   sendMessages(chatRoom:Int!, id: Int!, content: String): Message
-}
-
-type Subscription{
-   commentAdded(chatRoom: String!, id: Int!): Message
 }
 
 schema {

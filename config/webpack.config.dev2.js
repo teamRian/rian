@@ -99,6 +99,16 @@ module.exports = {
 
       }
     }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        unused: true 
+      },
+      mangle: false,    
+      beautify: true,  
+      output: {
+        comments: true  
+      }
+    })
   ],
 
   node: {

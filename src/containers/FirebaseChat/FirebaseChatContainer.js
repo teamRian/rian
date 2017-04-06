@@ -5,7 +5,7 @@ import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 
 
-class FirebaseChatContainer extends Component {
+class ChatContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -30,7 +30,6 @@ class FirebaseChatContainer extends Component {
     }
 
     changeFocusOn(){
-
         this.setState((prevState, props)=>{
             focus: true
         })
@@ -87,7 +86,7 @@ class FirebaseChatContainer extends Component {
     }
 }
 
-FirebaseChatContainer.propTypes = {
+ChatContainer.propTypes = {
         subscribeToNewComments: PropTypes.func.isRequired,
 }
 
@@ -181,11 +180,8 @@ export default compose(
     sendMsg,
 	withData,
 	connect(mapState, mapDispatch)
-)(FirebaseChatContainer)
+)(ChatContainer)
 
-
-// const ListWithData = withCloneList(FirebaseChatContainer);
-// export default connect(mapState, mapDispatch)(ListWithData);
 
 
 
