@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
-import ItemTypes from '../../constants/ItemTypes';
+import ItemTypes from '../../../constants/ItemTypes';
 
 class FlexDraggable extends Component {
   constructor(props){

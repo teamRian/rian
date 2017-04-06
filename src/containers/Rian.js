@@ -4,20 +4,30 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
 // Import Actions
+import { changeMode } from '../actions/ModeActions';
 import { userCheckAuth, userSignUp, userLogIn, userLogOut } from '../actions/UserActions';
 import { projectGet, projectPost } from '../actions/ProjectActions';
 
 // Import Component
 import Header from '../components/Rian/Header';
-import Navigation from '../components/Rian/Navigation.js'
-import Calendar from './Calendar/Calendar.js';
-import TodoContainer from './Todo/TodoContainer.js';
-import WhiteBoard from './WhiteBoard/WhiteBoardContainer.js';
+import { MeNavigation, ProjectNavigation } from '../components/Rian/Navigation.js'
+import CalendarComponent from './Calendar/Calendar.js';
+import CalendarSubComponent from './Calendar/CalendarSub.js';
+import NoteEditor from './NoteEditor/NoteEditorContainer';
+import NotetimelineContainer from './NoteTimeline/NotetimelineContainer';
+import WhiteBoardComponent from './WhiteBoard/WhiteBoardContainer.js';
 import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
 import firebase from 'firebase';
 import firebaseConfig from '../../config/firebaseConfig';
 import LogIn from '../components/Rian/LogIn';
 import '../styles/Rian.css';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from 'react-router-dom'
 
 
 class RianApp extends Component {
@@ -46,49 +56,130 @@ class RianApp extends Component {
 	}
 
 	render() {
-		if(this.props.User._id === null && this.props.User.loading === false){
-			return (
-				<LogIn
-					userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
-					userLogIn={(form)=>this.props.userLogIn.bind(this)(form)}
-				/>
-			)
-		}
-		if(this.props.User.loading){
-			return <div>Loading...</div>
-		}
-		const { main, side } = this.props
-		const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
+		const { User, Project, projectGet, changeMode, userSignUp, userLogIn } = this.props;
+		console.log( User, "USER!!!");
+		// if(this.props.User._id === null && this.props.User.loading === false){
+		// 	return (
+		// 		<LogIn
+		// 			userSignUp={(form)=>this.props.userSignUp.bind(this)(form)}
+		// 			userLogIn={(form)=>this.props.userLogIn.bind(this)(form)}
+		// 		/>
+		// 	)
+		// }
+		// if(this.props.User.loading){
+		// 	return <div>Loading...</div>
+		// }
+		// const ShowMe = this.state.showChat ? { visibility: 'visible' } : { visibility: 'hidden' };
 
 		return (
+			<Router>
+					<Route path="/:type?/:subpage?" render={({match})=>(
+						User._id === null
+						? <LogIn
+								userSignUp={(form)=>userSignUp.bind(this)(form)}
+								userLogIn={(form)=>userLogIn.bind(this)(form)}/>
+						: <div className="App">
+								<Header 
+									User={User}
+									Project={Project}
+									projectGet={(userId)=>projectGet.bind(this)(userId)}
+									changeMode={changeMode}
+								/>
 
-
-			<div className="App">
-						<div className="Header">
-							<Header 
-								User={this.props.User}
-								Project={this.props.Project}
-								projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
-							/>
-						</div>
-						<div className="Navigation">
-							<Navigation clickShowChat={()=>this.clickShowChat()} />
-							{side}
-							<div className="classShowChat" style={ShowMe}>		
-								<FirebaseChatContainer UserId={this.props.User._id} />		
+								<div className="MainWrapper">
+									<div className="Navigation">
+										<Switch>
+											<Route path="/projectPage" component={ProNav} />
+											<Route path="/me" component={MeNav} />
+										</Switch>
+										<Route path="/me/calendar" component={CalendarSub} />
+										<Route path="/me/editor" component={NoteSub} />
+									</div>
+									<div className="MainContent">
+										<Switch>
+											<Route path="/projectPage" component={ProjectWrapper} />
+											<Route path="/" component={PersonalWrapper} />
+										</Switch>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div className="MainContent">
-							{main}
-						</div>
-			</div>
+
+					)} />
+			</Router>
 		)
 	}
 
 }
 
+					// <Header 
+					// 	User={this.props.User}
+					// 	Project={this.props.Project}
+					// 	projectGet={(userId)=>this.props.projectGet.bind(this)(userId)}
+					// 	changeMode={this.props.changeMode}
+					// />
+					// <div className="MainWrapper">
+					// 	<div className="Navigation">
+					// 		<Route path="/projectPage" component={ProNav} />
+					// 		<Route path="/me" component={MeNav} />
+					// 		<Route path="/me/calendar" component={CalendarSub} />
+					// 		<Route path="/me/editor" component={NoteSub} />
+					// 	</div>
+					// 	<div className="MainContent">
+					// 		<Route path="/projectPage" component={ProjectWrapper} />
+					// 		<Route path="/" component={PersonalWrapper} />
+					// 	</div>
+					// </div>
+							// <div className="classShowChat" style={ShowMe}>		
+							// 	<FirebaseChatContainer UserId={this.props.User._id} />		
+							// </div>
+const MeNav = () => {	
+	return <MeNavigation />
+}
+
+const ProNav = () => {	
+	return <ProjectNavigation />
+}
+
+const PersonalWrapper = () => {
+	return	<div className="MainContent">
+						<Route exact path="/me" component={MeHome} />
+						<Route path="/me/calendar" component={Calendar} />
+						<Route path="/me/editor" component={Note} />
+				  </div>
+}
+const ProjectWrapper = () => {
+	return 	<div className="MainContent">
+						<Route exact path="/projectPage" component={ProHome} />
+						<Route path="/projectPage/whiteBoard" component={WhiteBoard} />
+					</div>
+}
+
+const WhiteBoard = () => {
+	return <WhiteBoardComponent />
+}
+const Calendar = (match) => {
+	console.log(match, "CALENDAR MATCH");
+	return <CalendarComponent />
+}
+const CalendarSub = () => {
+	return <CalendarSubComponent />
+}
+const Note = (match) =>{
+	return <NoteEditor />
+}
+const NoteSub = () =>{
+	return <NotetimelineContainer />
+}
+const MeHome = () => {
+	return <div> WELCOME </div>
+}
+const ProHome = () => {
+	return <div> WELCOME </div>
+}
+
 function mapState(state) {
 	return {
+		Mode: state.Mode,
 		User: state.User,
 		Project: state.Project
 	};
@@ -96,6 +187,9 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
 	return {
+		changeMode: (mode) => {
+			dispatch(changeMode(mode))
+		},
 		userCheckAuth: ()=> {
 			dispatch(userCheckAuth())
 		},

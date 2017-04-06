@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import {Button} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
 import moment from 'moment';
 
 import '../../styles/Header.css';
@@ -15,7 +15,21 @@ class Header extends React.Component {
     //onClick 이벤트로 뉴프로젝트 컴포넌트를 쏴줌
   	browserHistory.push('/newProject');
   }
-
+  clickProject(projectID){
+    // browserHistory.push('/project');
+    const projectAction = {
+      isProject: true,
+      currentProject: projectID
+    }
+    this.props.changeMode(projectAction);
+  }
+  clickHome(){
+    const projectAction = {
+      isProject: false,
+      currentProject: null
+    }
+    this.props.changeMode(projectAction);
+  }
   componentDidMount(){
     // 헤더가 마운트 될때 프로젝트를 가져온다
   	this.props.projectGet(this.props.User._id)
@@ -31,11 +45,11 @@ class Header extends React.Component {
     const Projects = this.props.Project.projects;
 
     return (
-      <div id="header">
-        <div className='headerMenu' id='home'>RIAN</div>
+      <div className="Header">
+        <NavLink to="/me" className='headerMenu' id='home'>RIAN</NavLink>
         {Projects.map((project,i)=>{
         	return (
-        		<div key={project.projectName} className='headerMenu'>{project.projectName}</div>
+        		<NavLink to="/projectPage" key={project.projectName} className='headerMenu'></NavLink>
         	)
         })}
         <Button id='addButton' onClick={()=>this.clickNewProject()}>+</Button>

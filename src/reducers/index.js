@@ -1,36 +1,27 @@
 import { combineReducers } from 'redux'
-import {
-	// SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
-	// REQUEST_POSTS, RECEIVE_POSTS
-} from '../actions'
 
 // Import Reducers
+import * as ModeReducer from './ModeReducer';
 import * as UserReducer from './UserReducer';
+import * as ProjectReducer from './ProjectReducer';
 import * as CalendarReducer from './CalendarReducer';
 import * as PlanReducer from './PlanReducer';
-import * as TodosReducer from './TodosReducer.js';
-import * as FileManagementReducer from './FileManagementReducer.js';
-import * as ProjectReducer from './ProjectReducer';
 import * as NoteEditorReducer from './NoteEditorReducer';
 import * as WhiteBoardReducer from './WhiteBoardReducer';
 import { firebaseStateReducer } from 'react-redux-firebase';
 import * as NoteTimelineReducer from './NoteTimelineReducer';
 import * as FirebaseChatReducer from './FirebaseChatReducer'
 
-
-
-
 export const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
+		ModeReducer,
 		UserReducer,
-		TodosReducer,
 		ProjectReducer,
 		CalendarReducer,
 		PlanReducer,
 		NoteEditorReducer,
 		WhiteBoardReducer,
-		FileManagementReducer,
   	{firebase: firebaseStateReducer},
   	NoteTimelineReducer,
   	FirebaseChatReducer,

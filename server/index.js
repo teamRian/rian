@@ -6,10 +6,6 @@ import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 
-// File Upload 
-var busboy = require('connect-busboy');
-var fs = require('fs-extra');
-
 // Webpack Requirements
 import webpack from 'webpack';
 import config from '../config/webpack.config.dev2';
@@ -18,9 +14,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Initialize the Express App
 const app = new express();
-
-// File Upload
-app.use(busboy());
 
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
@@ -46,7 +39,6 @@ import { fetchComponentData } from './util/fetchData';
 //import posts from './routes/post.routes';
 import users from './routes/user.routes';
 import plans from './routes/plan.routes';
-import files from './routes/file.routes';
 import passportConfig from './passport';
 import passportRoutes from './routes/auth.routes';
 import chatLogs from './routes/chatlogs.routes';
@@ -75,7 +67,6 @@ app.use(cors());
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
-// app.use(Express.static(path.resolve(__dirname, '../dist')));
 
 app.use(session({
   cookie : {
@@ -90,11 +81,6 @@ app.use(passport.session());
 //app.use('/api', posts);
 app.use('/user', users);
 app.use('/plan', plans);
-
-
-app.use(express.static(__dirname+'/file'))
-// File Management
-app.use('/file', files);
 
 //GraphQL Server 
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
@@ -136,11 +122,31 @@ const subscriptionManager = new SubscriptionManager({
 
 // chatlogs endpoint
 app.use('/chatLog', chatLogs);
-
 app.use('/project', projects);
 
-app.get('/', function(req, res, next){
+passportRoutes(app, passport);
 
+app.get('/calendar', (req,res)=>{
+  res.redirect('/#/calendar');
+})
+app.get('/editor', (req,res)=>{
+  res.redirect('/#/editor');
+})
+app.get('/chat', (req,res)=>{
+  res.redirect('/#/chat')
+})
+app.get('/whiteboard', (req,res)=>{
+  res.redirect('/#/whiteboard')
+})
+app.get('/checkAuth', isLoggedIn, (req, res) => {
+  // res.status(200).send(req.session);
+  res.redirect('/');
+})
+// app.get('*', (req,res)=>{
+//   res.redirect('/')
+// })
+
+app.get('*', function(req, res, next){
   // const head = Helmet.rewind();
   res.status(200).end(
 
@@ -187,44 +193,8 @@ app.get('/', function(req, res, next){
       </body>
     </html>
   `
-
-
     );
 })
-
-passportRoutes(app, passport);
-
-app.get('/calendar', (req,res)=>{
-  res.redirect('/#/calendar');
-})
-app.get('/todolist', (req,res)=>{
-  res.redirect('/#/todolist');
-})
-app.get('/editor', (req,res)=>{
-  res.redirect('/#/editor');
-})
-app.get('/chat', (req,res)=>{
-  res.redirect('/#/chat')
-})
-app.get('/whiteboard', (req,res)=>{
-  res.redirect('/#/whiteboard')
-})
-app.get('/checkAuth', isLoggedIn, (req, res) => {
-  res.status(200).send(req.session);
-})
-
-// FILE MANAGEMENT
-app.get('/files', (req,res) => {
-  res.redirect('/#/files')
-})
-
-app.get('*', (req,res)=>{
-  res.redirect('/')
-})
-
-
-
-
 
 
 

@@ -10,20 +10,26 @@
 
 .App {
   display:flex;
+  flex-direction: column;
   height:100vh;
 }
 
 .Header {
-  flex: 0 0 100px;
-  height:100vh;
-  border-right: 1px solid rgba(236,236,236,1);
+  flex: 0 0 60px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MainWrapper {
+  display:flex;
+  flex:1;
 }
 
 .Navigation {
   display:flex;
   flex-direction: column;
-  flex: 0 0 300px;
-  height:100vh;
+  flex: 0 0 200px;
   border-right: 1px solid rgba(236,236,236,1);
 
 }
@@ -34,41 +40,4 @@
   align-items:stretch;
   left:400px;
   flex:1;
-  height:100vh;
 }
-
-
-/*.App {
-  text-align: center;
-}
-
-form {
-  text-align: left;
-}
-
-.form-group {
-  text-align: left;
-}
-
-.btn.btn-sm {
-  margin-bottom: 30px;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-.changeNameBtn {
-  margin-bottom: 30px;
-}
-
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}*/
