@@ -188,12 +188,15 @@ app.get('/whiteboard', (req,res)=>{
   res.redirect('/#/whiteboard')
 })
 app.get('/checkAuth', isLoggedIn, (req, res) => {
-  res.status(200).send(req.session);
+  // res.status(200).send(req.session);
+  res.redirect('/#/me');
 })
-app.get('*', (req,res)=>{
-  res.redirect('/')
+// app.get('*', (req,res)=>{
+//   res.redirect('/')
+// })
+app.get('/me', (req,res)=>{
+  res.redirect('#/me');
 })
-
 
 
 
