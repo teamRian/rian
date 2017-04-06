@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import ComponentStyleTimelineBox
   from "../../components/NoteTimeline/ComponentStyleTimelineBox.js";
 import {
-  updateTimelineRender,
   changeTimelineUpdate
 } from "../../actions/NoteTimelineActions.js";
 import {
@@ -68,6 +67,10 @@ class NoteTimelineContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    //Store에 있는 Note Timeline을 Clear해야함
+  }
+
   infiniteTimelineLoader(props) {
     var renderTimeline = props.timeline.map((a, index) => {
       // this.props.oneOfTimelineGet(a.id, a.timelineNum)
@@ -122,7 +125,6 @@ function mapDispatch(dispatch) {
       console.log("------------------Cancle---------------------------");
       dispatch(noteOneCancle());
     },
-    timelineRenderRequest: a => dispatch(updateTimelineRender(a)),
     changeRenderedNote: a => dispatch(changeRenderedNote(a)),
     changEditorState: a => dispatch(changEditorState(a)),
     changeTimelineUpdate: a => dispatch(changeTimelineUpdate(a))

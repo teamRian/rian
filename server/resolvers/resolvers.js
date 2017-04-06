@@ -1,5 +1,5 @@
 import { pubsub } from '../pubsub/pubsub.js';
-
+const GraphQLJSON = require('graphql-type-json');
 
 const entry2 = [{
   repoFullName: "test",
@@ -8,10 +8,6 @@ const entry2 = [{
     content: 'soccer',
   }]
 }];
-
-
-
-
 
 
 export const resolvers = {
@@ -48,8 +44,7 @@ export const resolvers = {
     }
   },
 
-
-
+  JSON: GraphQLJSON,
 
   Repo: {
     comments(obj, args, context){
