@@ -1,9 +1,9 @@
 import User from '../models/User';
-import Plan from '../models/Plan';
 import url from 'url';
 
 export function userCheck(req,res){
-  User.findOne({username: req.body.form.username}) 
+  console.log("BODY FORM::: ", req.body.form)
+  User.findOne({email: req.body.form.username}) 
     .exec((err, user)=>{
       if(err) console.log(err);
 
@@ -21,8 +21,20 @@ export function userCheck(req,res){
     })
 }
 
-export function userLogIn(req,res){
-  User.findOne({username: req.body.form.username})
+export function userLogIn(body,res){
+  User.findOne({email: body.form.email})
+    .exec((err, user)=>{
+      if(err) console.log(err);
+      if(user === null){
+        res.status(300).send('USER DOESNT EXIST')
+      } else {
+        res.json(user);
+      }
+    })
+}
+
+export function userFacebookLogIn(body,res){
+  User.findOne({_id: body.passport.user})
     .exec((err, user)=>{
       if(err) console.log(err);
       if(user === null){

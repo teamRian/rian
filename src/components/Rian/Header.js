@@ -52,8 +52,7 @@ class Header extends React.Component {
         		<NavLink to="/projectPage" key={project.projectName} className='headerMenu'></NavLink>
         	)
         })}
-        <Button id='addButton' onClick={()=>this.clickNewProject()}>+</Button>
-
+        <NavLink id='addButton' to="/newProject">+</NavLink>
       </div>
     )
   }

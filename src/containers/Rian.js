@@ -20,6 +20,7 @@ import FirebaseChatContainer from './FirebaseChat/FirebaseChatContainer.js';
 import firebase from 'firebase';
 import firebaseConfig from '../../config/firebaseConfig';
 import LogIn from '../components/Rian/LogIn';
+import NewProject from '../components/Rian/NewProject';
 import '../styles/Rian.css';
 
 import {
@@ -74,7 +75,7 @@ class RianApp extends Component {
 		return (
 			<Router>
 					<Route path="/:type?/:subpage?" render={({match})=>(
-						User._id === null
+						User.email === null
 						? <LogIn
 								userSignUp={(form)=>userSignUp.bind(this)(form)}
 								userLogIn={(form)=>userLogIn.bind(this)(form)}/>
@@ -145,6 +146,7 @@ const PersonalWrapper = () => {
 						<Route exact path="/me" component={MeHome} />
 						<Route path="/me/calendar" component={Calendar} />
 						<Route path="/me/editor" component={Note} />
+						<Route path="/newProject" component={NewPro} />
 				  </div>
 }
 const ProjectWrapper = () => {
@@ -176,7 +178,9 @@ const MeHome = () => {
 const ProHome = () => {
 	return <div> WELCOME </div>
 }
-
+const NewPro = () => {
+	return <NewProject />
+}
 function mapState(state) {
 	return {
 		Mode: state.Mode,

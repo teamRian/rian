@@ -35,15 +35,13 @@ import passport from 'passport';
 
 // Import required modules
 //import routes from '../src/routes';
-import { fetchComponentData } from './util/fetchData';
 //import posts from './routes/post.routes';
-import users from './routes/user.routes';
-import plans from './routes/plan.routes';
+import users from './routes/User.routes';
+import plans from './routes/Plan.routes';
 import passportConfig from './passport';
-import passportRoutes from './routes/auth.routes';
+import passportRoutes from './routes/Auth.routes';
 import chatLogs from './routes/chatlogs.routes';
-import projects from './routes/project.routes';
-import dummyData from './dummyData';
+import projects from './routes/Project.routes';
 import serverConfig from './config';
 
 // Set native promises as mongoose promise
@@ -55,9 +53,6 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
     throw error;
   }
-
-  // feed some dummy data in DB.
-  dummyData();
 });
 
 passportConfig(passport);
@@ -139,8 +134,8 @@ app.get('/whiteboard', (req,res)=>{
   res.redirect('/#/whiteboard')
 })
 app.get('/checkAuth', isLoggedIn, (req, res) => {
-  // res.status(200).send(req.session);
-  res.redirect('/');
+  res.status(200).send(req.session);
+  // res.redirect('/');
 })
 // app.get('*', (req,res)=>{
 //   res.redirect('/')
