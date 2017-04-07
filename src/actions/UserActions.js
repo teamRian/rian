@@ -22,6 +22,7 @@ export function userCheckAuth(){
 		dispatch(userRequestCheckAuth())
 		return axios.get('/checkAuth')
 			.then(res =>{
+				console.log("CHECK AUTH RES.DATA ", res.data);
 				dispatch(userLogIn(res.data))
 			})
 			.catch(err=>{console.log(err)
@@ -58,6 +59,7 @@ export function userSignUp(form){
 		dispatch(userRequestSignUp())
 		return axios.post('/user/signUp', {form})
       			.then(res => {
+      				console.log("SignUP RES.DATA ", res.data);
         			dispatch(userLogIn(res.data))
       			})
       			.catch(err => {
@@ -76,15 +78,17 @@ export function userRequestLogIn(){
 	}
 }
 
-export function userSuccessLogIn(res){
-
+export function userSuccessLogIn(data){
+	console.log("SUCCESS_LOGIN: ",data);
 	return {
 		type: USER_SUCCESS_LOG_IN,
 		loading: false,
-		username: res.username,
-		_id: res._id,
-		projects: res.projects,
-		facebook: res.facebook
+		email: data.email,
+		_id: data._id,
+		facebook_id: data.facebook_id,
+		picture: data.picture,
+		token: data.token,
+		name: data.name
 	}
 }
 
@@ -95,11 +99,13 @@ export function userFailLogIn(){
 	}
 }
 
-export function userLogIn(form){
+export function userLogIn(user){
 	return function(dispatch){
 		dispatch(userRequestLogIn())
-		return axios.post('/user/logIn', {form})
+		// user = coockie + passport : objectID
+		return axios.post('/user/logIn', user)
 			.then(res=>{
+				console.log("USERLOGIN, with DATA", res.data);
 				dispatch(userSuccessLogIn(res.data))
 			})
 			.catch(err=>{
@@ -111,7 +117,12 @@ export function userLogIn(form){
 export function userLogOut(){
 	return {
 		type: USER_LOG_OUT,
-		username: null,
-		_id: null
+		_id: null,
+		email: null,
+		name: null,
+		picture: null,
+		token: null,
+		loading: false,
+		facebook_id: null
 	}
 }

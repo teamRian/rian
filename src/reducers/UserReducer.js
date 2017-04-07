@@ -1,10 +1,11 @@
 var UserState = {
 	_id: null,
-	username: null,
-	profilePhoto: null,
+	email: null,
+	name: null,
+	picture: null,
 	token: null,
 	loading: false,
-	projects: []
+	facebook_id: null
 }
 
 export function User(state = UserState, action) {
@@ -21,9 +22,11 @@ export function User(state = UserState, action) {
 			return Object.assign({}, state, {
 				loading: action.loading,
 				_id: action._id,
-				username: action.username,
-				projects: action.projects,
-				facebook: action.facebook
+				email: action.email,
+				name: action.name,
+				facebook_id: action.facebook_id,
+				token: action.token,
+			  picture: action.picture
 			})
 		case "USER_FAIL_LOG_IN":
 			return Object.assign({}, state, {
@@ -37,7 +40,7 @@ export function User(state = UserState, action) {
 		case "USER_SUCCESS_SIGN_UP":
 			return Object.assign({}, state, {
 				loading: action.loading,
-				_userId: action._userId
+				_id: action._id
 				// username: action.username,
 				// profilePhoto: action.profilePhoto,
 				// token: action.token
@@ -48,8 +51,13 @@ export function User(state = UserState, action) {
 			})
 		case "USER_LOG_OUT":
 			return Object.assign({}, state, {
+				loading: action.loading,
 				_id: action._id,
-				username: action.username
+				email: action.email,
+				name: action.name,
+				facebook_id: action.facebook_id,
+				token: action.token,
+			  picture: action.picture
 			})
 		default:
 			return state
