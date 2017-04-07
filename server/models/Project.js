@@ -2,21 +2,14 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise
 
-const ProjectSchema = new Schema({
-
-	name: String,
-	creator_id : { type: Schema.Types.ObjectId, ref: 'User'},
-	member: [{ type: Schema.Types.ObjectId, ref: "User"}],
-	leader: { type: Schema.Types.ObjectId, ref: "User"}, 
-	chat: { type: Schema.Types.ObjectId, ref: "Chat" },
-	
+const Project = new Schema({
+	name: { type: String, required: true },
+	creator : { type: Schema.Types.ObjectId, ref: 'Users'},
+	member: [{ type: Schema.Types.ObjectId, ref: "Users"}], 
+	chatroom: { type: Schema.Types.ObjectId, ref: "Chatrooms" },
+	whiteboard: [{ type: Schema.Types.ObjectId, ref: "Whiteboards" }],
+	created_at: { type: 'Date', default: Date.now, required: true }
 });
 
-
-
-
-
- 
-export default mongoose.model('Projects', ProjectSchema)
-
+export default mongoose.model('Projects', Project);
 

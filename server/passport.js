@@ -49,24 +49,24 @@ export default function(passport) {
 		// asynchronous
 		process.nextTick(function() {
 		// find the user in the database based on their facebook id
-		User.findOne({ "facebook._id" : profile.id }, function(err, user) {
+		User.findOne({ "facebook_id" : profile.id }, function(err, user) {
 			// if there is an error, stop everything and return that
 			// if an error connecting to the database
 			if (err) return done(err);
 			// if the user is found, then log them in
 			if (user) {
+				console.log("USER FOUND: ", user);
 				return done(null, user); // user found, return that user
 			} else {
 				// if there is no user found with that facebook id, create them
 				var newUser = new User();
 				
 				// set all of the facebook information in our user model
-				var userEmail = profile.email || profile.emails[0].value || "null";
-				newUser.facebook._id = profile.id; // set the users facebook id                   
-				newUser.facebook.token = token; // we will save the token that facebook provides to the user                    
-				newUser.facebook.name = profile.name.givenName + " " + profile.name.familyName; // look at the passport user profile to see how names are returned
-				newUser.facebook.email = userEmail; // facebook can return multiple emails so we'll take the first
-				newUser.facebook.picture = profile.photos[0].value;
+				newUser.facebook_id = profile.id; // set the users facebook id                   
+				newUser.token = token; // we will save the token that facebook provides to the user                    
+				newUser.name = profile.name.givenName + " " + profile.name.familyName; // look at the passport user profile to see how names are returned
+				newUser.email = profile.email || profile.emails[0].value || "null"; // facebook can return multiple emails so we'll take the first
+				newUser.picture = profile.photos[0].value;
 				// save our user to the database
 
 
@@ -85,32 +85,32 @@ export default function(passport) {
 					noteUpdate.title = "Rian에 오신 것을 환영합니다."
 					noteUpdate['created_at'] = timestamp
 					noteUpdate['final_modified_at']= timestamp
-           			noteUpdate.snippet= "환영합니다."
-            		noteUpdate.thumbnailUrl= ""
-            		noteUpdate.share= {}
-            		noteUpdate.share[userid] = true
+     			noteUpdate.snippet= "환영합니다."
+      		noteUpdate.thumbnailUrl= ""
+      		noteUpdate.share= {}
+      		noteUpdate.share[userid] = true
 
-            		
+      		
 
-            		//make First Note
-            		const newNotePush = firebase.database().ref('notes/' + userid + '/' + 'note').push()
-            		const newNotekey = newNotePush.key
-            		firebase.database().ref('notes/' + userid + '/' + 'note' + '/' + newNotekey)
-            			.set(noteUpdate)
-            			.then(()=>{
-            			   const indexUpdate = {}
-						   indexUpdate['note_location'] = newNotePush.key
-						   indexUpdate['created_at'] = timestamp
-						   indexUpdate['final_modified_at'] = timestamp
-						   indexUpdate.author = userid
-						   indexUpdate.share = {}
-						   indexUpdate.share[userid] = true
-						   //make First Note's Timeline Instance
-            			   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
-            			   firebase.database().ref('notes/' + userid + '/' + 'index' + '/' + newIndexkey)
-            			       .set(indexUpdate)
-            			   return done(null, newUser);
-            			})
+      		//make First Note
+      		const newNotePush = firebase.database().ref('notes/' + userid + '/' + 'note').push()
+      		const newNotekey = newNotePush.key
+      		firebase.database().ref('notes/' + userid + '/' + 'note' + '/' + newNotekey)
+      			.set(noteUpdate)
+      			.then(()=>{
+      			   const indexUpdate = {}
+			   indexUpdate['note_location'] = newNotePush.key
+			   indexUpdate['created_at'] = timestamp
+			   indexUpdate['final_modified_at'] = timestamp
+			   indexUpdate.author = userid
+			   indexUpdate.share = {}
+			   indexUpdate.share[userid] = true
+			   //make First Note's Timeline Instance
+      			   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
+      			   firebase.database().ref('notes/' + userid + '/' + 'index' + '/' + newIndexkey)
+      			       .set(indexUpdate)
+      			   return done(null, newUser);
+      			})
 				});
 
 				//set users info to firebase	

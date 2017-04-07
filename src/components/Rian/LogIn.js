@@ -10,10 +10,10 @@ export default class LogIn extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if(this.username.value.length === 0) {
-      alert("아이디를 입력하세요")
+    if(this.email.value.length === 0) {
+      alert("이메일을 입력하세요")
     } else {
-      this.props.userLogIn({username:this.username.value})
+      this.props.userLogIn({email:this.email.value})
     }
   }
 
@@ -54,9 +54,9 @@ export default class LogIn extends Component {
             <FormControl 
               autoFocus
               componentClass="input" 
-              placeholder="아이디" 
+              placeholder="이메일" 
               onKeyPress={(e)=>this.handleKeyPress(e)}
-              inputRef={ref => {this.username = ref}} />
+              inputRef={ref => {this.email= ref}} />
         </div>
             <Button bsStyle="primary" onClick={(e)=>this.handleSubmit(e)}>로그인</Button>
             <a href="/auth/facebook" className="btn btn-primary">Facebook</a>

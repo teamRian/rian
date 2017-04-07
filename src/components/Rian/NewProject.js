@@ -13,13 +13,15 @@ class NewProject extends Component {
   handleSubmit(e){
   	e.preventDefault();
 
-  	const projectName = this.title.value;
-  	const _creatorId = this.props.User._id;
- 	  const _creatorUsername = this.props.User.username;
- 	  const users = [this.props.User._id];
-  	const project = { projectName, _creatorId, _creatorUsername, users};
-
-  	if(projectName.length === 0){
+  	const name = this.title.value;
+  	const creator = this.props.User._id;
+ 	  const member = [this.props.User._id];
+  	const project = { name, creator, member};
+    // add chatroom here! 
+    // const chatroom =
+    // add whiteboard here! 
+    // const whiteboard =
+  	if(name.length === 0){
   		alert('제목을 입력하세요');
   	} else {
   		this.props.projectPost(project)
