@@ -35,7 +35,6 @@ import users from './routes/User.routes';
 import plans from './routes/Plan.routes';
 import passportConfig from './passport';
 import passportRoutes from './routes/Auth.routes';
-import chatLogs from './routes/chatlogs.routes';
 import projects from './routes/Project.routes';
 import serverConfig from './config';
 
