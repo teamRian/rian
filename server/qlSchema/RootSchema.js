@@ -2,13 +2,12 @@ import {
   makeExecutableSchema,
   addMockFunctionsToSchema,
 } from 'graphql-tools';
-import GraphQLJSON from 'graphql-type-json'
 
-import { resolvers } from '../resolvers/resolvers.js';
-const typeDefs = `
+import resolver from '../resolvers/RootResolver.js';
+const RootSchema = `
 type Query {
    noteTimeline: JSON
-   channels(id: Test!): [Channel]
+   channels: [Channel]
    entry(repoFullName: String!): Repo
 }
 
@@ -48,14 +47,11 @@ schema {
    mutation: Mutation
    subscription: Subscription
 }
-
-enum Test {
-	rock
-	metal
-}
 `;
 
+const schema = makeExecutableSchema({ 
+	typeDefs: [RootSchema], 
+	resolver
+});
 
-
-const schema = makeExecutableSchema({ typeDefs, resolvers });
 export { schema }

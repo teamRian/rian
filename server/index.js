@@ -24,26 +24,18 @@ if (process.env.NODE_ENV === 'development') {
 
 // React And Redux Setup
 // import { configureStore } from '../client/store';
-import { configureStore } from '../src/store/configureStore';
 
-import { Provider } from 'react-redux';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
 import passport from 'passport';
 // import Helmet from 'react-helmet';
 
 // Import required modules
 //import routes from '../src/routes';
-import { fetchComponentData } from './util/fetchData';
 //import posts from './routes/post.routes';
 import users from './routes/user.routes';
 import plans from './routes/plan.routes';
 import passportConfig from './passport';
 import passportRoutes from './routes/auth.routes';
-import chatLogs from './routes/chatlogs.routes';
 import projects from './routes/project.routes';
-import dummyData from './dummyData';
 import serverConfig from './config';
 
 // Set native promises as mongoose promise
@@ -57,7 +49,6 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   }
 
   // feed some dummy data in DB.
-  dummyData();
 });
 
 passportConfig(passport);
@@ -85,7 +76,7 @@ app.use('/plan', plans);
 //GraphQL Server 
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import { SubscriptionManager, PubSub } from 'graphql-subscriptions';
-import { schema } from './qlSchema/schema.js';
+import { schema } from './qlSchema/RootSchema.js';
 import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { pubsub } from './pubsub/pubsub.js';
@@ -121,7 +112,6 @@ const subscriptionManager = new SubscriptionManager({
 
 
 // chatlogs endpoint
-app.use('/chatLog', chatLogs);
 app.use('/project', projects);
 
 passportRoutes(app, passport);

@@ -1,4 +1,5 @@
 import { pubsub } from '../pubsub/pubsub.js';
+import { merge } from 'lodash';
 const GraphQLJSON = require('graphql-type-json');
 
 const entry2 = [{
@@ -10,7 +11,7 @@ const entry2 = [{
 }];
 
 
-export const resolvers = {
+const RootResolver = {
 
   Query: {
     entry(obj, args, context){
@@ -56,14 +57,9 @@ export const resolvers = {
     }
   },
 
-
-
 };
 
-
-
-
-
+export default merge(RootResolver)
 
 
 
