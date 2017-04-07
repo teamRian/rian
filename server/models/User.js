@@ -17,8 +17,7 @@ const UserSchema = new Schema({
 
  	projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
  	plans: [{ type: Schema.Types.ObjectId, ref: 'Plan' }],
- 	mynote: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
- 	notification: { type: Schema.Types.ObjectId, ref: 'Notification' }
+ 	notification: { type: Schema.Types.ObjectId, ref: 'Notifications' }
 
 });
 
