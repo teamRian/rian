@@ -128,13 +128,18 @@ app.get('/whiteboard', (req,res)=>{
 })
 app.get('/checkAuth', isLoggedIn, (req, res) => {
   res.status(200).send(req.session);
-  // res.redirect('/');
 })
-// app.get('*', (req,res)=>{
-//   res.redirect('/')
-// })
+app.get('/login', (req,res)=>{
+  return res.sendFile(path.resolve(__dirname+'/../login/login.html'));
+})
+app.get('/favicon.ico', (req, res)=>{
+  res.status(200).send("OK");
+})
 
-app.get('*', function(req, res, next){
+app.get('/', (req,res)=>{
+  res.redirect('/me');
+})
+app.get('*',isLoggedIn, function(req, res, next){
   // const head = Helmet.rewind();
   res.status(200).end(
 
@@ -216,11 +221,11 @@ function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
       console.log('LOG IN CHECK')
-
       return next();
     } else {
-      console.log('LOG IN FAILED')
-      res.status(404).send('Not Logged In, FAIL');
+      console.log('LOG IN FAILED', req.path); 
+      req.session.returnTo = req.path; 
+      res.redirect('/login');
     }
 
     // if they aren't redirect them to the home page

@@ -12,10 +12,10 @@ export function projectRequestGet(){
 	}
 }
 
-export function projectSuccessGet(res){
+export function projectSuccessGet(projects){
 	return {
 		type: PROJECT_SUCCESS_GET,
-		projects: res.projects,
+		projects: projects,
 		loading: false
 	}
 }
@@ -27,11 +27,11 @@ export function projectFailGet(err){
 	}
 }
 
-export function projectGet(userId){
+export function projectGet(_id){
 	return function(dispatch){
 		dispatch(projectRequestGet())
 		return axios.get('/project/getProjects', {
-			params: { userId }
+			params: { _id }
 		})
   			.then(res => {
     			dispatch(projectSuccessGet(res.data))
@@ -66,16 +66,14 @@ export function projectFailPost(err){
 
 export function projectPost(project){
 	return function(dispatch){
-		
 		dispatch(projectRequestPost())
-
 		return axios.post('/project/newProject', {project})
-      			.then(res => {
-        			dispatch(projectSuccessPost(res.data))
-      			})
-      			.catch(err => {
-        			dispatch(projectFailPost(err));
-      			})
+			.then(res => {
+  			dispatch(projectSuccessPost(res.data))
+			})
+			.catch(err => {
+  			dispatch(projectFailPost(err));
+			})
 	}
 }
 
