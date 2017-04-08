@@ -22,17 +22,24 @@ export default function(app, passport) {
     // =====================================
     // route for facebook authentication and login
     app.get('/auth/facebook',
-        passport.authenticate('facebook', { scope : ['public_profile','email'] }));
+        passport.authenticate('facebook', { 
+            callbackURL: 'facebook/callback', // facebook puts _-_ if no callback URL is defined
+            scope : ['public_profile','email']
+        })
+    );
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback', function(req, res, next){
+        console.log("FACEBOOK req.PATH :", req.path)
         passport.authenticate('facebook', function(err, user, info){
             if (err) { return next(err); }
             if (!user) { return res.redirect('/login'); }
 
             req.logIn(user, function(err) {
               if (err) { return next(err); }
-              return res.redirect('/me');
+              console.log("REQ.SESSION.RETURNTO: ", req.session.returnTo);
+              res.redirect(req.session.returnTo || '/me');
+              delete req.session.returnTo;
             });
           })(req, res, next);
     });
