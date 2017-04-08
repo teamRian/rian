@@ -1,33 +1,33 @@
-#Navigation {
-
+.Navigation {
+  padding: 5px;
 }
 
 #nav-bar {
-    display: flex; 
-    align-items: stretch;
-    flex: 0 0 50px;
+  display: flex; 
+  align-items: stretch;
+  flex: 0 0 50px;
 }
 
 #nav-bar a {
-    display:flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    cursor: pointer;
+  display:flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  cursor: pointer;
 }
 #nav-bar a.active {
-    display:flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    cursor: pointer;
+  display:flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  cursor: pointer;
 }
 #nav-bar a:hover{
-    color:white;
-    background-color: #337ab7;
+  color:white;
+  background-color: #337ab7;
 }
 #nav-bar #nav-whiteboard {
-    flex:1.5;
+  flex:1.5;
 }
