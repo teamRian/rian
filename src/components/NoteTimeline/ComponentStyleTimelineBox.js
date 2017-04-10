@@ -30,7 +30,7 @@ class TemplineBox extends Component {
         if (nextProps.TimelineUpdate) {
             //전체 타임라인 업데이트일 경우
             // console.log("Timeline Update")
-            this.changeLoadingComplete(false);
+            // this.changeLoadingComplete(false);
             //새로운 타임라인 아이디로 요청을 보낸다.
             this.props.oneOfTimelineGet(
                 nextProps.inforlocation,
@@ -81,7 +81,7 @@ class TemplineBox extends Component {
                               this.props.createAt +
                               "###" +
                               this.props.timelineNum
-                        : this.props.timelinekey}
+                        : "Loading"}
                 </div>
                 <div className="timelineContent">
                     <p>

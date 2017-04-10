@@ -103,7 +103,7 @@ class RockofRianEditor extends Component {
 			   inforUpdate.thumbnailUrl = ""
 			   inforUpdate.share = {}
 			   inforUpdate.share[user] = true  
-			   console.log("newInforkey", userAddress + firebaseInfor, inforUpdate)
+			   // console.log("newInforkey", userAddress + firebaseInfor, inforUpdate)
   			   firebase.database().ref(userAddress + firebaseInfor)
   			       .set(inforUpdate)
   			       .then(()=>{
@@ -122,7 +122,7 @@ class RockofRianEditor extends Component {
 					   indexUpdate.share = {}
 					   indexUpdate.share[user] = true
 				       //make First Note's Timeline Instance
-				        console.log("newIndexkey", userAddress + firebaseIndex, indexUpdate)
+				        // console.log("newIndexkey", userAddress + firebaseIndex, indexUpdate)
 	      			   firebase.database().ref(userAddress + firebaseIndex)
 	      			       .set(indexUpdate)
 	      			       .then(()=>{
