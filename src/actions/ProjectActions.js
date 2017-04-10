@@ -30,7 +30,7 @@ export function projectFailGet(err){
 export function projectGet(_id){
 	return function(dispatch){
 		dispatch(projectRequestGet())
-		return axios.get('/project/getProjects', {
+		return axios.get('/api/project/getProjects', {
 			params: { _id }
 		})
   			.then(res => {
@@ -67,7 +67,7 @@ export function projectFailPost(err){
 export function projectPost(project){
 	return function(dispatch){
 		dispatch(projectRequestPost())
-		return axios.post('/project/newProject', {project})
+		return axios.post('/api/project/newProject', {project})
 			.then(res => {
   			dispatch(projectSuccessPost(res.data))
 			})
@@ -103,7 +103,7 @@ export function projectDelete(form){
 	
 	dispatch(projectRequestDelete())
 
-	return axios.delete('/project/newProject', {form})
+	return axios.delete('/api/project/newProject', {form})
   			.then(res => {
     			dispatch(projectSuccessDelete(res.data))
   			})

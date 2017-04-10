@@ -5,7 +5,6 @@ import { DragDropContext } from "react-dnd";
 import createBrowserHistory from "history/createBrowserHistory";
 const history = createBrowserHistory();
 // Import Actions
-import { changeMode } from "../actions/ModeActions";
 import {
   userCheckAuth,
   userSignUp,
@@ -16,10 +15,8 @@ import { projectGet, projectPost } from "../actions/ProjectActions";
 
 // Import Component
 import Header from "../components/Rian/Header";
-import {
-  MeNavigation,
-  ProjectNavigation
-} from "../components/Rian/Navigation.js";
+import MeNavigation from "../components/Rian/MeNavigation.js";
+import ProjectNavigation from "../components/Rian/ProjectNavigation.js"
 import CalendarComponent from "./Calendar/Calendar.js";
 import CalendarSubComponent from "./Calendar/CalendarSub.js";
 import NoteEditor from "./NoteEditor/NoteEditorContainer";
@@ -68,7 +65,6 @@ class RianApp extends Component {
       User,
       Project,
       projectGet,
-      changeMode,
       userSignUp,
       userLogIn
     } = this.props;
@@ -76,7 +72,7 @@ class RianApp extends Component {
       <Router history={history}>
         <Route
           path="/:type?/:subpage?"
-          render={({ match }) => (
+          render={(props) => (
             <div className="App">
               <Header User={User} />
               {User._id === null || User.loading === true
@@ -86,15 +82,45 @@ class RianApp extends Component {
                 : <div className="MainWrapper">
                     <div className="Navigation">
                       <Switch>
-                        <Route path="/projectPage" component={ProNav} />
-                        <Route path="/me" component={MeNav} />
+                        <Route path="/project/:projectId" render={ props =>(
+                            <ProjectNavigation {...props} />
+                        )} />
+                        <Route path="/me" render={ props =>(
+                            <MeNavigation {...props} />
+                        )} />
                       </Switch>
-                      <Route path="/me/calendar" component={CalendarSub} />
-                      <Route path="/me/editor" component={NoteSub} />
+                      <Switch>
+                        <Route path="/me/calendar" render={ props=>(
+                          <CalendarSubComponent />
+                        )} />
+                        <Route path="/me/note" render={ props=>(
+                          <NotetimelineContainer />
+                        )} />
+                      </Switch>
                     </div>
                     <div className="MainContent">
                       <Switch>
-                        <Route path="/projectPage" component={ProjectWrapper} />
+                        <Route exact path="/me" render={ props=>(
+                          <div> WELCOME </div>
+                        )} />
+                        <Route exact path="/me/calendar" render={ props=>(
+                          <CalendarComponent />
+                        )} />
+                        <Route exact path="/me/note" render={ props=>(
+                          <NoteEditor />
+                        )} />
+                        <Route exact path="/me/new_project" render={ props=>(
+                          <NewProject />
+                        )} />
+                        <Route exact path="/project/:projectId" render={ props=>(
+                          <div> Project Home </div>
+                        )} />
+                        <Route exact path="/project/:projectId/whiteboard" render={ props=>(
+                          <WhiteBoardComponent />
+                        )} />
+                        <Route exact path="/project/:projectId/file" render={ props=>(
+                          <div> Project File </div>
+                        )} />
                         <Route path="/" component={PersonalWrapper} />
                       </Switch>
                     </div>
@@ -107,60 +133,19 @@ class RianApp extends Component {
   }
 }
 
-const MeNav = () => {
-  return <MeNavigation />;
-};
-
-const ProNav = () => {
-  return <ProjectNavigation />;
-};
-
 const PersonalWrapper = () => {
   return (
     <div className="MainContent">
       <Route exact path="/me" component={MeHome} />
       <Route path="/me/calendar" component={Calendar} />
-      <Route path="/me/editor" component={Note} />
-      <Route path="/me/newProject" component={NewPro} />
-    </div>
-  );
-};
-const ProjectWrapper = () => {
-  return (
-    <div className="MainContent">
-      <Route exact path="/projectPage" component={ProHome} />
-      <Route path="/pπrojectPage/whiteBoard" component={WhiteBoard} />
+      <Route path="/me/note" component={Note} />
+      <Route path="/me/new_project" component={NewPro} />
     </div>
   );
 };
 
-const WhiteBoard = () => {
-  return <WhiteBoardComponent />;
-};
-const Calendar = match => {
-  return <CalendarComponent />;
-};
-const CalendarSub = () => {
-  return <CalendarSubComponent />;
-};
-const Note = match => {
-  return <NoteEditor />;
-};
-const NoteSub = () => {
-  return <NotetimelineContainer />;
-};
-const MeHome = () => {
-  return <div> WELCOME </div>;
-};
-const ProHome = () => {
-  return <div> WELCOME </div>;
-};
-const NewPro = () => {
-  return <NewProject />;
-};
 function mapState(state) {
   return {
-    Mode: state.Mode,
     User: state.User,
     Project: state.Project
   };
@@ -168,9 +153,6 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
-    changeMode: mode => {
-      dispatch(changeMode(mode));
-    },
     userCheckAuth: () => {
       dispatch(userCheckAuth());
     },
@@ -183,8 +165,8 @@ function mapDispatch(dispatch) {
     userLogOut: () => {
       dispatch(userLogOut());
     },
-    projectGet: userId => {
-      dispatch(projectGet(userId));
+    projectGet: projectId => {
+      dispatch(projectGet(projectId));
     }
   };
 }

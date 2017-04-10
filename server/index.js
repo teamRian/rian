@@ -68,8 +68,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 //app.use('/api', posts);
-app.use('/user', users);
-app.use('/plan', plans);
+app.use('/api/user', users);
+app.use('/api/plan', plans);
+app.use('/api/project', projects);
 
 //GraphQL Server 
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
@@ -79,10 +80,10 @@ import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { pubsub } from './pubsub/pubsub.js';
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use('/api/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql'
+app.use('/api/graphiql', graphiqlExpress({
+  endpointURL: '/api/graphql'
 }));
 
 const subscriptionManager = new SubscriptionManager({
@@ -110,23 +111,9 @@ const subscriptionManager = new SubscriptionManager({
 
 
 // chatlogs endpoint
-app.use('/project', projects);
-
 passportRoutes(app, passport);
 
-app.get('/calendar', (req,res)=>{
-  res.redirect('/#/calendar');
-})
-app.get('/editor', (req,res)=>{
-  res.redirect('/#/editor');
-})
-app.get('/chat', (req,res)=>{
-  res.redirect('/#/chat')
-})
-app.get('/whiteboard', (req,res)=>{
-  res.redirect('/#/whiteboard')
-})
-app.get('/checkAuth', isLoggedIn, (req, res) => {
+app.get('/api/checkAuth', isLoggedIn, (req, res) => {
   res.status(200).send(req.session);
 })
 app.get('/login', (req,res)=>{

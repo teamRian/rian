@@ -28,7 +28,7 @@ export function userCheckAuth() {
   return function(dispatch) {
     dispatch(userRequestCheckAuth());
     return axios
-      .get("/checkAuth")
+      .get("/api/checkAuth")
       .then(res => {
         dispatch(userLogIn(res.data));
       })
@@ -66,7 +66,7 @@ export function userSignUp(form) {
   return function(dispatch) {
     dispatch(userRequestSignUp());
     return axios
-      .post("/user/signUp", { form })
+      .post("/api/user/signUp", { form })
       .then(res => {
         dispatch(userLogIn(res.data));
       })
@@ -111,7 +111,7 @@ export function userLogIn(user) {
     dispatch(userRequestLogIn());
     // user = coockie + passport : objectID
     return axios
-      .post("/user/logIn", user)
+      .post("/api/user/logIn", user)
       .then(res => {
         dispatch(userSuccessLogIn(res.data));
       })
@@ -160,7 +160,7 @@ export function userAddProject(project) {
   return function(dispatch) {
     dispatch(userRequestAddProject());
     return axios
-      .post("/project/newProject", { project })
+      .post("/api/project/newProject", { project })
       .then(res => {
         const { _id, name } = project;
         let newProject = { _id, name };

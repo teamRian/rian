@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 
 // Import Reducers
-import * as ModeReducer from './ModeReducer';
 import * as UserReducer from './UserReducer';
 import * as ProjectReducer from './ProjectReducer';
 import * as CalendarReducer from './CalendarReducer';
@@ -15,7 +14,6 @@ import * as FirebaseChatReducer from './FirebaseChatReducer'
 export const rootReducer = combineReducers(
 	Object.assign(
 		{}, 
-		ModeReducer,
 		UserReducer,
 		ProjectReducer,
 		CalendarReducer,

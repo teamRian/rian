@@ -11,11 +11,11 @@ class Header extends React.Component {
     super(props);
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.User.projects.length === this.props.User.projects.length + 1
-    ) {
-      this.props.history.push("/projectPage");
-    }
+    // if (
+    //   nextProps.User.projects.length === this.props.User.projects.length + 1
+    // ) {
+    //   this.props.history.push("/project");
+    // }
   }
   render() {
     const { projects, loading, _id } = this.props.User;
@@ -27,12 +27,12 @@ class Header extends React.Component {
         <NavLink to="/me" className="headerMenu" id="home">RIAN</NavLink>
         {projects.map((project, i) => {
           return (
-            <NavLink to="/projectPage" key={project._id} className="headerMenu">
+            <NavLink to={`/project/${project._id}`} key={project._id} className="headerMenu">
               {project.name}
             </NavLink>
           );
         })}
-        <NavLink id="addButton" to="/me/newProject">+</NavLink>
+        <NavLink id="addButton" to="/me/new_project">+</NavLink>
       </div>
     );
   }
