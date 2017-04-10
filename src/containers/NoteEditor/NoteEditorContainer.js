@@ -14,7 +14,7 @@ import * as noteEpic from "../../epics/NoteEpic";
 
 class NoteEditorContainer extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.nowRenderedNote !== nextProps.nowRenderedNote) {
+    if (this.props.notelocation !== nextProps.notelocation) {
       console.log("RenderNoteEditor");
       return true;
     } else if (this.props.onEditor !== nextProps.onEditor) {
@@ -38,7 +38,9 @@ class NoteEditorContainer extends Component {
           >
             <RockofRian
               user={this.props.userid}
-              nowRenderedNote={this.props.nowRenderedNote}
+              notelocation={this.props.notelocation}
+              indexlocation={this.props.indexlocation}
+              inforlocation={this.props.inforlocation}
               changeRenderedNote={this.props.changeRenderedNote}
               allofTimelineGet={this.props.allofTimelineGet}
             />
@@ -61,7 +63,9 @@ function mapState(state) {
     data: state.NoteEditor.data,
     userid: state.User._id,
     onEditor: state.NoteEditor.onEditor,
-    nowRenderedNote: state.NoteEditor.nowRenderedNote
+    notelocation: state.NoteEditor.notelocation,
+    inforlocation: state.NoteEditor.inforlocation,
+    indexlocation: state.NoteEditor.indexlocation
   };
 }
 

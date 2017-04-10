@@ -3,7 +3,6 @@ import User from "./models/User";
 import config from "./config";
 import firebase from 'firebase'
 import moment from 'moment'
-
 const facebookAuth = config.facebookAuth;
 
 const firebaseConfig = {
@@ -80,37 +79,59 @@ export default function(passport) {
 
 					//After making profile in MongoDB, will make Note Database in firebase
 					const userid = newUser._id.toString()
-					const timestamp =  moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
-					const noteUpdate = {}
-					noteUpdate.title = "Rian에 오신 것을 환영합니다."
-					noteUpdate['created_at'] = timestamp
-					noteUpdate['final_modified_at']= timestamp
-     			noteUpdate.snippet= "환영합니다."
-      		noteUpdate.thumbnailUrl= ""
-      		noteUpdate.share= {}
-      		noteUpdate.share[userid] = true
+					// const offsetRef = firebase.database().ref(".info/serverTimeOffset");
+				
+					// offsetRef.on("value", function(snap) {
+					// 	var offset = snap.val();
+						var timestamp = moment().unix()	  
+						const noteUpdate = {}
+		      			noteUpdate.share= {}
+		      			noteUpdate.share[userid] = true
 
-      		
+			      		//make First Note
+			      		const newNotePush = firebase.database().ref('notes/' + userid + '/' + 'note').push().key
+			      		
+			      		
+			      		firebase.database().ref('notes/' + userid + '/' + 'note' + '/' + newNotePush)
+			      			.set(noteUpdate)
+			      			.then(()=>{
+			      			  
+			      			   var newInforkey = firebase.database().ref('notes/' + userid + '/' + 'infor').push().key 	
+			      			   const inforUpdate = {}
+			      			   inforUpdate.title = "Rian에 오신 것을 환영합니다."
+							   inforUpdate.created_at = timestamp
+							   inforUpdate.final_modified_at = timestamp
+		     				   inforUpdate.snippet= "환영합니다."
+		      				   inforUpdate.thumbnailUrl= ""
+		      				   inforUpdate.share= {}
+		      				   inforUpdate.share[userid] = true
+		      				   console.log("HERE2") 
+			      			   firebase.database().ref('notes/' + userid + '/' + 'infor' + '/' + newInforkey)
+			      			       .set(inforUpdate)
+			      			       .then(()=>{
+			      			       										       console.log("Here123123")
 
-      		//make First Note
-      		const newNotePush = firebase.database().ref('notes/' + userid + '/' + 'note').push()
-      		const newNotekey = newNotePush.key
-      		firebase.database().ref('notes/' + userid + '/' + 'note' + '/' + newNotekey)
-      			.set(noteUpdate)
-      			.then(()=>{
-      			   const indexUpdate = {}
-			   indexUpdate['note_location'] = newNotePush.key
-			   indexUpdate['created_at'] = timestamp
-			   indexUpdate['final_modified_at'] = timestamp
-			   indexUpdate.author = userid
-			   indexUpdate.share = {}
-			   indexUpdate.share[userid] = true
-			   //make First Note's Timeline Instance
-      			   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
-      			   firebase.database().ref('notes/' + userid + '/' + 'index' + '/' + newIndexkey)
-      			       .set(indexUpdate)
-      			   return done(null, newUser);
-      			})
+			      			       	   const indexUpdate = {}
+			      			       	   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
+			      			       	   indexUpdate.index_location = newIndexkey
+					      			   indexUpdate.infor_location = newInforkey
+									   indexUpdate.note_location = newNotePush
+									   indexUpdate.created_at = timestamp
+									   indexUpdate.final_modified_at = timestamp
+									   indexUpdate.author = userid
+									   indexUpdate.share = {}
+									   indexUpdate.share[userid] = true
+								       //make First Note's Timeline Instance
+								       console.log("Here3")
+					      			   firebase.database().ref('notes/' + userid + '/' + 'index' + '/' + newIndexkey)
+					      			       .set(indexUpdate)    
+					      			   return done(null, newUser);
+			      			       })
+			      			  
+			      			})	
+
+				//	});
+			
 				});
 
 				//set users info to firebase	
