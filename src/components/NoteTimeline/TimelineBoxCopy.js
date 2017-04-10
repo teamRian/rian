@@ -14,10 +14,10 @@ class TemplineBox extends Component {
     componentDidMount() {
         // console.log('tempbox Didmount', this.props.timelinekey)
         //만약 해당 타임라인에 데이터가 없으면
-        if (!this.props.title) {
+        if (!this.props.timeline.title) {
             this.props.oneOfTimelineGet(
-                this.props.inforlocation,
-                this.props.timelineNum
+                this.props.timelineId,
+                this.props.timelinekey
             );
         } else {
             //데이터가 있으면
@@ -33,14 +33,14 @@ class TemplineBox extends Component {
             this.changeLoadingComplete(false);
             //새로운 타임라인 아이디로 요청을 보낸다.
             this.props.oneOfTimelineGet(
-                nextProps.inforlocation,
-                nextProps.timelineNum
+                nextProps.timelineId,
+                nextProps.timelinekey
             );
         } else {
             // console.log("Props Update")
             //타임라인 아이디 없데이트가 아니고 개별 업데이트일 경우
 
-            if (!this.state.LoadingComplete && nextProps.title) {
+            if (!this.state.LoadingComplete && nextProps.timeline.title) {
                 //그전에 내용이 없는 로딩상태였다가 첫번째로 받은 경우
                 // console.log('props hcage')
                 this.changeLoadingComplete(true);
@@ -71,22 +71,22 @@ class TemplineBox extends Component {
                 key={this.props.timelinekey}
                 onClick={() => {
                     this.props.changEditorState(true);
-                    this.props.changeRenderedNote(this.props.notelocation, this.props.inforlocation, this.props.indexlocation);
-                    this.props.allofTimelineGet("final_modified_at");
+                    this.props.changeRenderedNote(this.props.timelineId);
+                    this.props.allofTimelineGet("final_modified");
                 }}
             >
                 <div className="timelineTitle">
                     {this.state.LoadingComplete
-                        ? this.props.title +
-                              this.props.createAt +
+                        ? this.props.timeline.title +
+                              this.props.timeline.create_at +
                               "###" +
-                              this.props.timelineNum
+                              this.props.timelinekey
                         : this.props.timelinekey}
                 </div>
                 <div className="timelineContent">
                     <p>
                         {this.state.LoadingComplete
-                            ? this.props.snippet
+                            ? this.props.timeline.content.slice(0, 160)
                             : "Loading"}
                     </p>
                 </div>

@@ -32,7 +32,7 @@ class Header extends React.Component {
   }
   componentDidMount(){
     // 헤더가 마운트 될때 프로젝트를 가져온다
-  	this.props.projectGet(this.props.User._id)
+  	// this.props.projectGet(this.props.User._id)
   }	
 
   // componentWillReceiveProps(nextProps){

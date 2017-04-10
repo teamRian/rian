@@ -7,14 +7,11 @@ import {
 
 
 var TimelineState = {
-
 	timeline: null,
-	timelineRender: null,
 	status: "Loading",
 	HowManyNote: 0,
 	TimelineUpdate: false,
-	HowSorting: 'final_modified'
-	
+	HowSorting: 'final_modified'	
 }
 
 
@@ -22,23 +19,10 @@ export function NoteTimeline(state = TimelineState, action) {
 
 	switch (action.type){
 		case NOTE_TIMELINE_SUCCESS:
-			var timelineArray = []
-			for (var key in action.data) {
-				timelineArray[Number(key)] = action.data[key]
-			}
-			
-			timelineArray.reverse()
-	
-			if (action.howSorting === 'final_modified') {
-
-				timelineArray.map( (a, index) => { a.timelineNum = index; return a } )
-			} 
-			// console.log('Soon Update timelnie', timelineArray)
-
 			return Object.assign({}, state, {
-				timeline: timelineArray,
+				timeline: action.data,
 				status: "SUCCESS",
-				HowManyNote: timelineArray.length,
+				HowManyNote: action.data.length,
 				HowSorting: 'final_modified',
 				TimelineUpdate: true
 			})

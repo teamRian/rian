@@ -12,11 +12,13 @@ export function changEditorState(value){
 
 
 
-export function changeRenderedNote(value){
+export function changeRenderedNote(notelocation, inforlocation, indexlocation){
 	   
 	return { 
 		type: NOTE_RENDER_CHANGE, 
-		data: value 
+		notelocation: notelocation,
+		inforlocation: inforlocation,
+		indexlocation: indexlocation, 
 	}
 }
 

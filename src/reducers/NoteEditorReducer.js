@@ -3,10 +3,10 @@ import { NOTE_RENDER_CHANGE, NOTE_EDITOR_STATE } from '../constants/index.js'
 
 
 var NoteState = {
-	data: "",
-	status: "",
 	onEditor: false,
-	nowRenderedNote: null
+	notelocation: null,
+	inforlocation: null,
+	indexlocation: null, 
 }
 
 
@@ -19,7 +19,9 @@ export function NoteEditor(state = NoteState, action) {
 			})
 		case NOTE_RENDER_CHANGE:
 			return Object.assign({}, state, {
-				nowRenderedNote: action.data
+				notelocation: action.notelocation,
+				inforlocation: action.inforlocation,
+				indexlocation: action.indexlocation
 			})
 		default:
 			return state

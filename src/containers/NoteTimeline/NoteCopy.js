@@ -10,13 +10,11 @@ import {
   changEditorState
 } from "../../actions/NoteEditorActions.js";
 import {
-  noteGetMyOwnServer,
   noteGet,
   noteOneGet,
   noteCancle,
   noteOneCancle
 } from "../../epics/NoteEpic";
-import { graphql, compose, withApollo } from "react-apollo";
 import Infinite from "react-infinite";
 import "./css/timeline.css";
 
@@ -29,7 +27,7 @@ class NoteTimelineContainer extends Component {
       browserSize: window.innerHeight - 52
     };
     window.addEventListener("resize", () => {
-      // console.log(window.innerHeight);
+      console.log(window.innerHeight);
       this.setState((prevState, props) => {
         return {
           browserSize: window.innerHeight - 52
@@ -40,22 +38,21 @@ class NoteTimelineContainer extends Component {
 
   componentDidMount() {
     //서버에 타임라인 요청(마지막 수정 기준 순서로 렌더링)
-    this.props.allofTimelineGet("final_modified_at");
+    this.props.allofTimelineGet("final_modified");
     //요게 서버에서 받아오면 첫번째 프롭스 업데이트가 될 것이다.
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps)
     if (nextProps.TimelineUpdate) {
       //Timeline 전체를 새로 받아왔을 경우
-      // console.log('First Update')
+      console.log('First Update')
       this.setState((prevState, props) => {
         return {
           renderTimeline: this.infiniteTimelineLoader(nextProps)
         };
       });
     } else {
-      // console.log("Changing Timeline")
+      console.log("Changing Timeline")
       this.setState((prevState, props) => {
         return {
           renderTimeline: this.infiniteTimelineLoader(nextProps)
@@ -76,16 +73,13 @@ class NoteTimelineContainer extends Component {
 
   infiniteTimelineLoader(props) {
     var renderTimeline = props.timeline.map((a, index) => {
+      // this.props.oneOfTimelineGet(a.id, a.timelineNum)
       return (
         <ComponentStyleTimelineBox
           key={a.timelineNum}
-          timelineNum={a.timelineNum}
-          notelocation={a.note_location}
-          inforlocation={a.infor_location}
-          indexlocation={a.index_location}
-          title={a.title}
-          snippet={a.snippet}
-          createAt={a.created_at}
+          timelineId={a.id}
+          timelinekey={a.timelineNum}
+          timeline={a}
           changEditorState={props.changEditorState}
           changeRenderedNote={props.changeRenderedNote}
           allofTimelineGet={props.allofTimelineGet}
@@ -124,22 +118,17 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
-    allofTimelineGet: sorting => dispatch(noteGetMyOwnServer(sorting)),
+    allofTimelineGet: sorting => dispatch(noteGet(sorting)),
     oneOfTimelineGet: (a, b) => dispatch(noteOneGet(a, b)),
     noteCancle: () => dispatch(noteCancle()),
     noteOneCancle: () => {
       console.log("------------------Cancle---------------------------");
       dispatch(noteOneCancle());
     },
-    changeRenderedNote: (a, b, c) => dispatch(changeRenderedNote(a, b, c)),
+    changeRenderedNote: a => dispatch(changeRenderedNote(a)),
     changEditorState: a => dispatch(changEditorState(a)),
     changeTimelineUpdate: a => dispatch(changeTimelineUpdate(a))
   };
 }
 
-var ApolloNoteTimelineContatiner = withApollo(NoteTimelineContainer)
-export default connect(mapState, mapDispatch)(ApolloNoteTimelineContatiner)
-
-
-
-
+export default connect(mapState, mapDispatch)(NoteTimelineContainer);

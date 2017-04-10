@@ -37,7 +37,7 @@ import passportConfig from './passport';
 import passportRoutes from './routes/Auth.routes';
 import projects from './routes/Project.routes';
 import serverConfig from './config';
-
+import notes from './routes/notes.routes'
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -133,6 +133,8 @@ app.get('/checkAuth', isLoggedIn, (req, res) => {
 // app.get('*', (req,res)=>{
 //   res.redirect('/')
 // })
+app.use('/api/notes', notes) 
+
 
 app.get('*', function(req, res, next){
   // const head = Helmet.rewind();

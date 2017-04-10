@@ -1,10 +1,7 @@
-import Firepad from 'firepad';
-import firebase from 'firebase';
 import moment from 'moment'
 
 
-export function setFirepad(NoteNum, userid, firepad, firepadRef){
-
+export function setFirepad(firepad, firepadRef, userAddress, firebaseIndex, firebaseInfor){
 
     firepad.on('ready', function(){
       console.log("firepad ready")
@@ -16,22 +13,36 @@ export function setFirepad(NoteNum, userid, firepad, firepadRef){
     });
 
     firepad.on('synced', function(){
-      var nowTime = moment().format('MMMM Do YYYY h:mm:ss a')
-      var tempText = firepad.getText()
-      //updateNote
-      var updateNote = {}
-      updateNote.finalmodified_at = nowTime 
-      updateNote.title = tempText.slice(0, tempText.indexOf('\n'))
-      updateNote.content = tempText.slice(tempText.indexOf('\n'), 160)
-     
-      updateNote.finalmodified_at = nowTime 
-      firepadRef.update(updateNote)
-      //updateTimeline
-      var updateTimeline = {}
-      updateTimeline.finalmodified_at = nowTime
-      firebase.database().ref('users/' + userid + '/timeline/' + NoteNum)
-        .update(updateTimeline)
-    })
+    
+    
+       var timestamp = moment().unix()
+       var tempText = firepad.getText()
+
+        //updateIndex // 업데이트 노트랑 한번에 할 수 없을까요?
+        const indexUpdate = {}
+        indexUpdate.final_modified_at = timestamp
+        firebase.database().ref(userAddress + firebaseIndex)
+          .update(indexUpdate)
+          .then(()=>{
+              //updateNoteInfor
+              var inforUpdate = {}
+              inforUpdate.final_modified_at = timestamp
+              inforUpdate.title = tempText.slice(0, tempText.indexOf('\n'))
+              inforUpdate.snippet = tempText.slice(tempText.indexOf('\n'), 160)
+              firebase.database().ref(userAddress + firebaseInfor)
+                .update(inforUpdate) 
+                .then(()=>{
+                    console.log("UpdateNoteInfor", inforUpdate, firebaseInfor)
+
+                })
+
+
+          })
+
+  
+              
+    });
+   
 
 
 }
