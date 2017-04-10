@@ -10,13 +10,6 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentWillReceiveProps(nextProps) {
-    // if (
-    //   nextProps.User.projects.length === this.props.User.projects.length + 1
-    // ) {
-    //   this.props.history.push("/project");
-    // }
-  }
   render() {
     const { projects, loading, _id } = this.props.User;
     if (_id === null || loading === true) {

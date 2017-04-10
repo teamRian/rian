@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 import { userAddProject } from "../../actions/UserActions";
 import "../../styles/NewProject.css";
 
@@ -43,24 +43,7 @@ class NewProject extends Component {
                 inputRef={ref => {
                   this.title = ref;
                 }}
-              /> <br />
-              <h5>작성자</h5>
-              <FormControl
-                componentClass="input"
-                placeholder="작성자를 입력하세요"
-                inputRef={ref => {
-                  this.author = ref;
-                }}
-              /> <br />
-
-              <h5>참여자</h5>
-              <FormControl
-                componentClass="input"
-                placeholder="참여자를 입력하세요"
-                inputRef={ref => {
-                  this.player = ref;
-                }}
-              /> <br />
+              />
             </FormGroup>
           </Form>
         </div>

@@ -75,7 +75,7 @@ class RianApp extends Component {
           render={(props) => (
             <div className="App">
               <Header User={User} />
-              {User._id === null || User.loading === true
+              {User._id === null || User.loading === "AUTH"
                 ? <div className="loaderWrapper">
                     <div className="loader">Loading...</div>
                   </div>
@@ -83,10 +83,10 @@ class RianApp extends Component {
                     <div className="Navigation">
                       <Switch>
                         <Route path="/project/:projectId" render={ props =>(
-                            <ProjectNavigation {...props} />
+                          <ProjectNavigation {...props} />
                         )} />
                         <Route path="/me" render={ props =>(
-                            <MeNavigation {...props} />
+                          <MeNavigation {...props} />
                         )} />
                       </Switch>
                       <Switch>

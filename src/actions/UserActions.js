@@ -20,7 +20,7 @@ import firebaseConfig from "../../config/firebaseConfig";
 export function userRequestCheckAuth() {
   return {
     type: USER_REQUEST_CHECK_AUTH,
-    loading: true
+    loading: "AUTH"
   };
 }
 
@@ -44,7 +44,7 @@ export function userCheckAuth() {
 export function userRequestSignUp() {
   return {
     type: USER_REQUEST_SIGN_UP,
-    loading: true
+    loading: "AUTH"
   };
 }
 
@@ -139,20 +139,23 @@ export function userLogOut() {
 
 export function userRequestAddProject() {
   return {
-    type: USER_REQUEST_ADD_PROJECT
+    type: USER_REQUEST_ADD_PROJECT,
+    loading: false
   };
 }
 
 export function userSuccessAddProject(project) {
   return {
     type: USER_SUCCESS_ADD_PROJECT,
-    projects: project
+    projects: project,
+    loading: "ADD"
   };
 }
 
 export function UserFailAddProject() {
   return {
-    type: USER_FAIL_ADD_PROJECT
+    type: USER_FAIL_ADD_PROJECT,
+    loading: false
   };
 }
 
@@ -161,8 +164,8 @@ export function userAddProject(project) {
     dispatch(userRequestAddProject());
     return axios
       .post("/api/project/newProject", { project })
-      .then(res => {
-        const { _id, name } = project;
+      .then( response => {
+        const { _id, name } = response.data;
         let newProject = { _id, name };
         dispatch(userSuccessAddProject(newProject));
       })

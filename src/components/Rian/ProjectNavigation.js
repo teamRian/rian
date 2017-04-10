@@ -15,9 +15,9 @@ class ProjectNavigation extends Component {
     const { match } = this.props;
     return (
       <div id="nav-bar">
-        <NavLink to={`/project/${match.params.projectId}`}>HOME</NavLink>
-        <NavLink to={`/project/${match.params.projectId}/whiteboard`}>BOARD</NavLink>
-        <NavLink to={`/project/${match.params.projectId}/file`}>FILE</NavLink>
+        <NavLink exact className="link" to={`/project/${match.params.projectId}`}>HOME</NavLink>
+        <NavLink exact className="link" to={`/project/${match.params.projectId}/whiteboard`}>BOARD</NavLink>
+        <NavLink exact className="link" to={`/project/${match.params.projectId}/file`}>FILE</NavLink>
       </div>
     )
   }

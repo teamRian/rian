@@ -1,5 +1,6 @@
 .HolyGrail {
 	display:flex;
+	width:100%;
 	flex-direction:column;
 	justify-content: center;
 	min-height: 100vh;
@@ -7,7 +8,7 @@
 
 .HolyGrailHeader {
 	display:flex;
-	flex:0 0 100px;
+	flex: 1;
 	align-items:center;
 	justify-content: center;
 	border-bottom: 1px solid rgba(236,236,236,1);
@@ -17,7 +18,7 @@
 	display:flex;
 	padding:10px;
 	flex-direction: column;
-	flex:1;
+	flex:6;
 	height:100%;
 }
 
@@ -25,7 +26,7 @@
 	display:flex;
 	padding:10px;
 	justify-content: flex-end;
-	flex: 0 0 100px;
+	flex: 1;
 	border-top: 1px solid rgba(236,236,236,1);
 
 }

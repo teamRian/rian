@@ -11,9 +11,9 @@ class MeNavigation extends Component {
   render() {
     return (
       <div id="nav-bar">
-        <NavLink to='/me'>HOME</NavLink>
-        <NavLink to='/me/note'>NOTE</NavLink>
-        <NavLink to='/me/calendar'>CALENDAR</NavLink>
+        <NavLink exact className="link" to='/me'>HOME</NavLink>
+        <NavLink exact className="link" to='/me/note'>NOTE</NavLink>
+        <NavLink exact className="link" to='/me/calendar'>CALENDAR</NavLink>
       </div>
     )
   }
