@@ -1,5 +1,3 @@
-export const MODE_CHANGE = "MODE_CHANGE";
-
 export const NOTE_WRITE = "NOTE_WRITE";
 
 // USER ACTIONS
