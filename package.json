@@ -117,6 +117,7 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "path": "^0.12.7",
+    "prettier": "^0.22.0",
     "qrcode.react": "^0.6.1",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",

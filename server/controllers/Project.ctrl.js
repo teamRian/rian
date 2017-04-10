@@ -2,20 +2,25 @@ import User from '../models/User';
 import Project from '../models/Project';
 import url from 'url';
 
-// export function projectGet(req,res){
-//   let query = url.parse(req.url, true).query.userId;
-//   User.findById(query)
-//     .populate('projects')
-//     .then(projects=>res.json(projects))
-//     .catch(err=>console.log(err));
-// }
+export function projectGet(req,res){
+  // query === User._id
+  let query = url.parse(req.url, true).query._id;
+  console.log("PROJECT GET QUERY : ", query);
+  User
+    .findById(query)
+    .populate('projects')
+    .then(user=>{
+      // user = User
+      res.json(user.projects)
+    })
+    .catch(err=>console.log(err));
+}
 
 export function projectPost(req,res){
   var post = new Project(req.body.project);
 
   post.save()
     .then(project=>{
-      console.log("INSIDE PROJECT POST SERVER::", project)
       User.findByIdAndUpdate(project.creator,
         {$push: {projects: project._id}},
         ()=>res.json(project))
