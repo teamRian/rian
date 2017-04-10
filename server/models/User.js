@@ -13,7 +13,8 @@ const User = new Schema({
   naver_id: String,
   kakao_id: String,
   google_id: String,
-  created_at: { type: 'Date', default: Date.now, required: true },
+  projects: [{ type: Schema.Types.ObjectId, ref: "Projects" }],
+  created_at: { type: 'Date', default: Date.now, required: true }
 });
  
 export default mongoose.model('Users', User)

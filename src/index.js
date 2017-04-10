@@ -19,10 +19,10 @@ import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apol
 // Create a normal network interface:
 //Main GraphQL Server
 const networkInterface = createNetworkInterface({
-    uri: `http://${process.env.AWS_IP}:8000/graphql`
+    uri: `http://${process.env.AWS_IP}:8000/api/graphql`
 });
 //Make subsciption server && Change
-const wsClient = new SubscriptionClient(`ws://${process.env.AWS_IP}:8000/subscriptions`, {
+const wsClient = new SubscriptionClient(`ws://${process.env.AWS_IP}:8000/api/subscriptions`, {
     reconnect: true
 });
 // Extend the network interface with the WebSocket
