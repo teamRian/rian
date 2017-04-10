@@ -32,7 +32,7 @@ export function setFirepad(firepad, firepadRef, userAddress, firebaseIndex, fire
               firebase.database().ref(userAddress + firebaseInfor)
                 .update(inforUpdate) 
                 .then(()=>{
-                    console.log("UpdateNoteInfor", inforUpdate, firebaseInfor)
+                    // console.log("UpdateNoteInfor", inforUpdate, firebaseInfor)
 
                 })
 

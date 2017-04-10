@@ -37,7 +37,7 @@ import passportConfig from './passport';
 import passportRoutes from './routes/Auth.routes';
 import projects from './routes/Project.routes';
 import serverConfig from './config';
-import notes from './routes/notes.routes'
+import notes from './routes/Notes.routes'
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
