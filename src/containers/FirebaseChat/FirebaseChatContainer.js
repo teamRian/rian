@@ -138,6 +138,7 @@ const COMMENTS_SUBSCRIPTION = gql`
     }
 `;
 
+
 const sendMsg = graphql(SEND_MESSAGE, { name: "SendMessage"} )
 
 
