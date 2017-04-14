@@ -88,6 +88,7 @@ class RianApp extends Component {
                         <Route path="/me" render={ props =>(
                           <MeNavigation {...props} />
                         )} />
+                      
                       </Switch>
                       <Switch>
                         <Route path="/me/calendar" render={ props=>(
