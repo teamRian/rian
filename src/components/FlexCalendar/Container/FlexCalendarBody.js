@@ -21,24 +21,24 @@ class FlexCalendarBody extends Component {
   }
 
   componentDidMount() {
-    const { User, Project } = this.props;
-    this.ref = this.getStampFire();
+    // const { User, Project } = this.props;
+    // this.ref = this.getStampFire();
   }
 
   componentWillUnmount() {
     // Unmount 될 때 파이어베이스 통신을 제거합시다
-    this.ref.forEach(item => item.off());
+    // this.ref.forEach(item => item.off());
   }
 
   componentWillReceiveProps(nextProps) {
     // 달이 바뀌면 기존 연결을 갱신하죠
-    if (nextProps.Calendar.month !== this.props.Calendar.month) {
-      if (this.ref) {
-        const { User, Project } = nextProps;
-        this.ref.forEach(item => item.off());
-        this.ref = this.getStampFire(nextProps);
-      }
-    }
+    // if (nextProps.Calendar.month !== this.props.Calendar.month) {
+    //   if (this.ref) {
+    //     const { User, Project } = nextProps;
+    //     this.ref.forEach(item => item.off());
+    //     this.ref = this.getStampFire(nextProps);
+    //   }
+    // }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -49,72 +49,72 @@ class FlexCalendarBody extends Component {
     // }
   }
 
-  getStampFire(nextProps) {
-    const { Calendar, User, Project } = nextProps || this.props;
-    const { monthDays } = Calendar;
-    const totalRefs = [];
+  // getStampFire(nextProps) {
+  //   const { Calendar, User, Project } = nextProps || this.props;
+  //   const { monthDays } = Calendar;
+  //   const totalRefs = [];
 
-    // TimeStamp 쿼리를 준비한다
-    const firstDay = monthDays[0][0];
-    const lastDay = monthDays[monthDays.length - 1][6];
-    const startStamp = moment([
-      firstDay.year,
-      firstDay.month + 1,
-      firstDay.day,
-      0
-    ]).format("X");
-    const lastStamp = moment([
-      lastDay.year,
-      lastDay.month + 1,
-      lastDay.day,
-      24
-    ]).format("X");
+  //   // TimeStamp 쿼리를 준비한다
+  //   const firstDay = monthDays[0][0];
+  //   const lastDay = monthDays[monthDays.length - 1][6];
+  //   const startStamp = moment([
+  //     firstDay.year,
+  //     firstDay.month + 1,
+  //     firstDay.day,
+  //     0
+  //   ]).format("X");
+  //   const lastStamp = moment([
+  //     lastDay.year,
+  //     lastDay.month + 1,
+  //     lastDay.day,
+  //     24
+  //   ]).format("X");
 
-    // 유저 자신의 파이어베이스 통신을 준비해요
-    const db = database();
-    let ref = db.ref(`duck/users/${User._id}/plans`);
-    ref = ref.orderByChild("timeStamp").startAt(startStamp).endAt(lastStamp);
-    totalRefs.push(ref);
-    console.log("TIMESTAMP", startStamp, lastStamp);
+  //   // 유저 자신의 파이어베이스 통신을 준비해요
+  //   const db = database();
+  //   let ref = db.ref(`duck/users/${User._id}/plans`);
+  //   ref = ref.orderByChild("timeStamp").startAt(startStamp).endAt(lastStamp);
+  //   totalRefs.push(ref);
+  //   console.log("TIMESTAMP", startStamp, lastStamp);
 
-    ref.on("child_added", snap => {
-      if (!this.props.Plan.loading) {
-        this.props.planChildAdded({[snap.key]:snap.val()});
-      }
-    });
-    ref.on("child_changed", snap => {
-      console.log("CHANGED EVENT!", snap.val());
-      this.props.planChildChanged({[snap.key]:snap.val()});
-    });
-    ref.on("child_removed", snap => {
-      console.log("REMOVED EVENT!", snap.val());
-    });
+  //   ref.on("child_added", snap => {
+  //     if (!this.props.Plan.loading) {
+  //       this.props.planChildAdded({[snap.key]:snap.val()});
+  //     }
+  //   });
+  //   ref.on("child_changed", snap => {
+  //     console.log("CHANGED EVENT!", snap.val());
+  //     this.props.planChildChanged({[snap.key]:snap.val()});
+  //   });
+  //   ref.on("child_removed", snap => {
+  //     console.log("REMOVED EVENT!", snap.val());
+  //   });
 
-    // 유저가 속해 있는 프로젝트들의 통신도 준비해야겠죠?
-    const projectsRefArray = [];
-    Project.projects.forEach(item => {
-      projectsRefArray.push(db.ref(`duck/projects/${item._id}/plans`));
-    });
+  //   // 유저가 속해 있는 프로젝트들의 통신도 준비해야겠죠?
+  //   const projectsRefArray = [];
+  //   Project.projects.forEach(item => {
+  //     projectsRefArray.push(db.ref(`duck/projects/${item._id}/plans`));
+  //   });
 
-    const projectsRefPromises = [];
-    projectsRefArray.forEach(projectRef => {
-      projectRef = projectRef
-        .orderByChild("timeStamp")
-        .startAt(startStamp)
-        .endAt(lastStamp);
-      totalRefs.push(projectRef);
+  //   const projectsRefPromises = [];
+  //   projectsRefArray.forEach(projectRef => {
+  //     projectRef = projectRef
+  //       .orderByChild("timeStamp")
+  //       .startAt(startStamp)
+  //       .endAt(lastStamp);
+  //     totalRefs.push(projectRef);
 
-      projectRef.on("child_added", snap => {
-        if (!this.props.Calendar.loading) {
-        }
-      });
-      projectRef.on("child_changed", snap => {});
-      projectRef.on("child_removed", snap => {});
-    });
+  //     projectRef.on("child_added", snap => {
+  //       if (!this.props.Calendar.loading) {
+  //       }
+  //     });
+  //     projectRef.on("child_changed", snap => {});
+  //     projectRef.on("child_removed", snap => {});
+  //   });
 
-    this.props.planEpicRequestData(totalRefs);
-    return totalRefs;
-  }
+  //   this.props.planEpicRequestData(totalRefs);
+  //   return totalRefs;
+  // }
 
   render() {
     return (

@@ -9,7 +9,8 @@ import {
   USER_LOG_OUT,
   USER_REQUEST_ADD_PROJECT,
   USER_SUCCESS_ADD_PROJECT,
-  USER_FAIL_ADD_PROJECT
+  USER_FAIL_ADD_PROJECT,
+  USER_REGISTER_EMAIL
 } from "../constants";
 import axios from "axios";
 import firebase from "firebase";
@@ -90,12 +91,14 @@ export function userSuccessLogIn(data) {
     type: USER_SUCCESS_LOG_IN,
     loading: false,
     email: data.email,
+    email_verified: data.email_verified,
     _id: data._id,
     facebook_id: data.facebook_id,
     picture: data.picture,
     token: data.token,
     name: data.name,
-    projects: data.projects
+    projects: data.projects,
+		last_login: data.last_login
   };
 }
 
@@ -126,12 +129,14 @@ export function userLogOut() {
     type: USER_LOG_OUT,
     _id: null,
     email: null,
+    email_verified: null,
     name: null,
     picture: null,
     token: null,
     loading: false,
     facebook_id: null,
-    projects: []
+    projects: [],
+    last_login: null
   };
 }
 
@@ -173,4 +178,15 @@ export function userAddProject(project) {
         dispatch(UserFailAddProject(err));
       });
   };
+}
+
+/*----------  USER EMAIL REGISTER  ----------*/
+
+export function userRegisterEmail(user) {
+	return {
+		type: USER_REGISTER_EMAIL,
+		loading: false,
+		email: user.email,
+		email_verified: user.email_verified
+	}
 }

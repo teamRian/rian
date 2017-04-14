@@ -3,7 +3,7 @@ import * as ProjectController from '../controllers/Project.ctrl';
 const router = new Router();
 
 // Get all Project
-router.route('/getProjects').get((req,res)=>{
+router.route('/getProject').get((req,res)=>{
 	ProjectController.projectGet(req,res);
 });
 

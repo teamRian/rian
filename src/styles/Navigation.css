@@ -38,3 +38,21 @@
 #nav-bar #nav-whiteboard {
   flex:1.5;
 }
+
+.profileCard {
+  display:flex;
+  flex-direction: column;
+}
+
+.profileCard div {
+  flex:1;
+}
+
+.addMember {
+  display:flex;
+  flex: 0 0 100px;
+  border-radius:5px;
+  justify-content: center;
+  background-color: lightcoral;
+
+}

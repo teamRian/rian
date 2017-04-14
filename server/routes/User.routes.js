@@ -19,4 +19,8 @@ router.route('/logIn').post((req,res)=>{
 	}
 });
 
+router.route('/registerEmail').post((req,res)=>{
+	UserController.emailCheck(req,res);
+});
+
 export default router;
