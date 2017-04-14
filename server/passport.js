@@ -44,22 +44,22 @@ export default function(passport) {
 	},
 
 		// facebook will send back the token and profile
-	function(token, refreshToken, profile, done) {
+		(token, refreshToken, profile, done)=> {
 		// asynchronous
-		process.nextTick(function() {
+		process.nextTick(()=>{
 		// find the user in the database based on their facebook id
-		User.findOne({ "facebook_id" : profile.id }, function(err, user) {
-			// if there is an error, stop everything and return that
-			// if an error connecting to the database
+		User.findOne({ "facebook_id" : profile.id }, (err, user)=>{
 			if (err) return done(err);
-			// if the user is found, then log them in
 			if (user) {
-				console.log("USER FOUND: ", user);
-				return done(null, user); // user found, return that user
+				// 유저를 찾았다면 라스트 로그인을 갱신시키고 로그인을 한다
+				user.last_login = moment().unix();
+				user.save((err, updatedUser)=>{
+					if (err) throw err;
+					return done(null, updatedUser);
+				});
 			} else {
-				// if there is no user found with that facebook id, create them
+				// 유저를 못찾았다면 유저를 만든다
 				var newUser = new User();
-				
 				// set all of the facebook information in our user model
 				newUser.facebook_id = profile.id; // set the users facebook id                   
 				newUser.token = token; // we will save the token that facebook provides to the user                    
@@ -67,15 +67,12 @@ export default function(passport) {
 				newUser.email = profile.email || profile.emails[0].value || "null"; // facebook can return multiple emails so we'll take the first
 				newUser.picture = profile.photos[0].value;
 				// save our user to the database
-
-
 				newUser.save(function(err) {
 					if (err) throw err;
 					// if successful, return the new user]
 					//find mongooseid to make firebase users profile ID
 						
 					//make personal notes Database in Firebase
-					console.log("in")
 
 					//After making profile in MongoDB, will make Note Database in firebase
 					const userid = newUser._id.toString()
@@ -109,8 +106,7 @@ export default function(passport) {
 			      			   firebase.database().ref('notes/' + userid + '/' + 'infor' + '/' + newInforkey)
 			      			       .set(inforUpdate)
 			      			       .then(()=>{
-			      			       										       console.log("Here123123")
-
+			      			       		 console.log("Here123123")
 			      			       	   const indexUpdate = {}
 			      			       	   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
 			      			       	   indexUpdate.index_location = newIndexkey

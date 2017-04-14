@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
+import flash from 'connect-flash';
+import { isLoggedIn, checkSessionCheckProject } from './utils/serverUtils.js';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -56,6 +58,7 @@ app.use(cors());
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+app.use(flash());
 
 app.use(session({
   cookie : {
@@ -128,9 +131,44 @@ app.get('/favicon.ico', (req, res)=>{
 app.get('/', (req,res)=>{
   res.redirect('/me');
 })
-app.get('*',isLoggedIn, function(req, res, next){
+app.get('/invite/*', checkSessionCheckProject, (req,res,next)=>{
+  return shootStatic(res);
+})
+
+app.get('*',isLoggedIn, (req, res, next)=>{
   // const head = Helmet.rewind();
-  res.status(200).end(
+  return shootStatic(res);
+})
+
+
+
+
+
+
+// start app
+const server = createServer(app);
+server.listen(serverConfig.port, (error) => {
+  if (!error) {
+    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
+  }
+  new SubscriptionServer({
+      subscriptionManager: subscriptionManager,
+      onConnect: () => {
+        console.log('Subscription Connect Success')
+      },
+    }, {
+      server: server,
+      path: '/api/subscriptions',
+    });
+
+});
+
+
+
+export default app;
+
+function shootStatic(res){
+   res.status(200).end(
 
 `
     <!doctype html>
@@ -176,50 +214,5 @@ app.get('*',isLoggedIn, function(req, res, next){
     </html>
   `
     );
-})
-
-
-
-
-
-
-// start app
-const server = createServer(app);
-server.listen(serverConfig.port, (error) => {
-  if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
-  }
-  new SubscriptionServer({
-      subscriptionManager: subscriptionManager,
-      onConnect: () => {
-        console.log('Subscription Connect Success')
-      },
-    }, {
-      server: server,
-      path: '/subscriptions',
-    });
-
-});
-
-
-
-export default app;
-
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated()){
-      console.log('LOG IN CHECK')
-      return next();
-    } else {
-      console.log('LOG IN FAILED', req.path); 
-      req.session.returnTo = req.path; 
-      res.redirect('/login');
-    }
-
-    // if they aren't redirect them to the home page
 }
-
-
-
 

@@ -17,9 +17,6 @@ hooks:
       timeout: 30
       runas: ubuntu
   # ValidateService:
-  #   - location:     
-  #     timeout: 
-  #     runas:
-  #   - location: 
-  #     timeout:
-  #     runas:
+  #   - location: scripts/aws/ValidateService.sh    
+  #     timeout: 30
+  #     runas: ubuntu

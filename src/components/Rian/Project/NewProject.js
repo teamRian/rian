@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { userAddProject } from "../../actions/UserActions";
-import "../../styles/NewProject.css";
+import { userAddProject } from "../../../actions/UserActions";
+import "../../../styles/NewProject.css";
 
 class NewProject extends Component {
   constructor(props) {

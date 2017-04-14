@@ -4,31 +4,6 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
 import createBrowserHistory from "history/createBrowserHistory";
 const history = createBrowserHistory();
-// Import Actions
-import {
-  userCheckAuth,
-  userSignUp,
-  userLogIn,
-  userLogOut
-} from "../actions/UserActions";
-import { projectGet, projectPost } from "../actions/ProjectActions";
-
-// Import Component
-import Header from "../components/Rian/Header";
-import MeNavigation from "../components/Rian/MeNavigation.js";
-import ProjectNavigation from "../components/Rian/ProjectNavigation.js"
-import CalendarComponent from "./Calendar/Calendar.js";
-import CalendarSubComponent from "./Calendar/CalendarSub.js";
-import NoteEditor from "./NoteEditor/NoteEditorContainer";
-import NotetimelineContainer from "./NoteTimeline/NotetimelineContainer";
-import WhiteBoardComponent from "./WhiteBoard/WhiteBoardContainer.js";
-import FirebaseChatContainer from "./FirebaseChat/FirebaseChatContainer.js";
-import firebase from "firebase";
-import firebaseConfig from "../../config/firebaseConfig";
-import LogIn from "../components/Rian/LogIn";
-import NewProject from "../components/Rian/NewProject";
-import "../styles/Rian.css";
-
 import {
   BrowserRouter as Router,
   Route,
@@ -36,6 +11,54 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
+
+/*----------  ACTIONS  ----------*/
+import {
+  userCheckAuth,
+  userSignUp,
+  userLogIn,
+  userLogOut,
+  userRegisterEmail
+} from "../actions/UserActions";
+import {
+  projectGet,
+  projectPost,
+  projectDetach
+} from "../actions/ProjectActions";
+
+/*============================
+=            RIAN            =
+============================*/
+import Header from "../components/Rian/Header";
+import FirebaseChatContainer from "./FirebaseChat/FirebaseChatContainer.js";
+
+/*----------  ME NAVIGATION  ----------*/
+import MeNavigation from "../components/Rian/Me/MeNavigation.js";
+import MeNavHome from "../components/Rian/Me/MeNavHome.js";
+import CalendarSubComponent from "./Calendar/CalendarSub.js";
+import NotetimelineContainer from "./NoteTimeline/NotetimelineContainer";
+
+/*----------  PROJECT NAVIGATION  ----------*/
+import ProjectNavigation from "../components/Rian/Project/ProjectNavigation.js";
+import ProjectNavHome from "../components/Rian/Project/ProjectNavHome";
+import ProjectNavNote from "../components/Rian/Project/ProjectNavNote";
+import ProjectNavFile from "../components/Rian/Project/ProjectNavFile";
+
+/*----------  ME MAIN  ----------*/
+import MeHome from "../components/Rian/Me/MeHome";
+import CalendarComponent from "./Calendar/Calendar.js";
+import NoteEditor from "./NoteEditor/NoteEditorContainer";
+
+/*----------  PROJECT MAIN  ----------*/
+import WhiteBoardComponent from "./WhiteBoard/WhiteBoardContainer.js";
+import NewProject from "../components/Rian/Project/NewProject";
+import ProjectAddMember from "../components/Rian/Project/ProjectAddMember";
+
+/*----------  EXTRA  ----------*/
+import firebase from "firebase";
+import firebaseConfig from "../../config/firebaseConfig";
+import "../styles/Rian.css";
+
 
 class RianApp extends Component {
   constructor(props) {
@@ -54,6 +77,10 @@ class RianApp extends Component {
       firebase.initializeApp(firebaseConfig);
     }
   }
+
+  componentDidMount() {
+    console.log(this.props, "CDM");
+  }
   clickShowChat() {
     this.setState((prevState, props) => ({
       showChat: !prevState.showChat
@@ -61,20 +88,19 @@ class RianApp extends Component {
   }
 
   render() {
-    const {
-      User,
-      Project,
-      projectGet,
-      userSignUp,
-      userLogIn
-    } = this.props;
+    const { User, Project, projectGet, userSignUp, userLogIn } = this.props;
     return (
       <Router history={history}>
         <Route
           path="/:type?/:subpage?"
-          render={(props) => (
+          render={props => (
             <div className="App">
-              <Header User={User} />
+              <Header
+                User={User}
+                Project={Project}
+                projectGet={this.props.projectGet}
+                projectDetach={this.props.projectDetach}
+              />
               {User._id === null || User.loading === "AUTH"
                 ? <div className="loaderWrapper">
                     <div className="loader">Loading...</div>
@@ -82,47 +108,97 @@ class RianApp extends Component {
                 : <div className="MainWrapper">
                     <div className="Navigation">
                       <Switch>
-                        <Route path="/project/:projectId" render={ props =>(
-                          <ProjectNavigation {...props} />
-                        )} />
-                        <Route path="/me" render={ props =>(
-                          <MeNavigation {...props} />
-                        )} />
-                      
+                        <Route
+                          path="/project/:projectId"
+                          render={props => <ProjectNavigation {...props} />}
+                        />
+                        <Route
+                          path="/me"
+                          render={props => <MeNavigation {...props} />}
+                        />
                       </Switch>
                       <Switch>
-                        <Route path="/me/calendar" render={ props=>(
-                          <CalendarSubComponent />
-                        )} />
-                        <Route path="/me/note" render={ props=>(
-                          <NotetimelineContainer />
-                        )} />
+                        <Route
+                          exact
+                          path="/me"
+                          render={props => <MeNavHome />}
+                        />
+                        <Route
+                          exact
+                          path="/me/calendar"
+                          render={props => <CalendarSubComponent />}
+                        />
+                        <Route
+                          exact
+                          path="/me/note"
+                          render={props => <NotetimelineContainer />}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId"
+                          render={props => (
+                            <ProjectNavHome User={User} Project={Project} />
+                          )}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId/note"
+                          render={props => <ProjectNavNote />}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId/file"
+                          render={props => <ProjectNavFile />}
+                        />
                       </Switch>
                     </div>
                     <div className="MainContent">
                       <Switch>
-                        <Route exact path="/me" render={ props=>(
-                          <div> WELCOME </div>
-                        )} />
-                        <Route exact path="/me/calendar" render={ props=>(
-                          <CalendarComponent />
-                        )} />
-                        <Route exact path="/me/note" render={ props=>(
-                          <NoteEditor />
-                        )} />
-                        <Route exact path="/me/new_project" render={ props=>(
-                          <NewProject />
-                        )} />
-                        <Route exact path="/project/:projectId" render={ props=>(
-                          <div> Project Home </div>
-                        )} />
-                        <Route exact path="/project/:projectId/whiteboard" render={ props=>(
-                          <WhiteBoardComponent />
-                        )} />
-                        <Route exact path="/project/:projectId/file" render={ props=>(
-                          <div> Project File </div>
-                        )} />
-                        <Route path="/" component={PersonalWrapper} />
+                        <Route
+                          exact
+                          path="/me"
+                          render={props => (
+                            <MeHome
+                              User={User}
+                              userRegisterEmail={this.props.userRegisterEmail}
+                            />
+                          )}
+                        />
+                        <Route
+                          exact
+                          path="/me/calendar"
+                          render={props => <CalendarComponent />}
+                        />
+                        <Route
+                          exact
+                          path="/me/note"
+                          render={props => <NoteEditor />}
+                        />
+                        <Route
+                          exact
+                          path="/me/new_project"
+                          render={props => <NewProject />}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId"
+                          render={props => <div> Project Home </div>}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId/whiteboard"
+                          render={props => <WhiteBoardComponent />}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId/file"
+                          render={props => <div> Project File </div>}
+                        />
+                        <Route
+                          exact
+                          path="/project/:projectId/add_member"
+                          render={props => <ProjectAddMember User={User} Project={Project}/>}
+                        />
                       </Switch>
                     </div>
                   </div>}
@@ -133,17 +209,6 @@ class RianApp extends Component {
     );
   }
 }
-
-const PersonalWrapper = () => {
-  return (
-    <div className="MainContent">
-      <Route exact path="/me" component={MeHome} />
-      <Route path="/me/calendar" component={Calendar} />
-      <Route path="/me/note" component={Note} />
-      <Route path="/me/new_project" component={NewPro} />
-    </div>
-  );
-};
 
 function mapState(state) {
   return {
@@ -168,6 +233,12 @@ function mapDispatch(dispatch) {
     },
     projectGet: projectId => {
       dispatch(projectGet(projectId));
+    },
+    projectDetach: () => {
+      dispatch(projectDetach());
+    },
+    userRegisterEmail: user => {
+      dispatch(userRegisterEmail(user));
     }
   };
 }

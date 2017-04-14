@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom';
 
-import '../../styles/Navigation.css';
+import '../../../styles/Navigation.css';
 
 class MeNavigation extends Component {
   constructor(props){
