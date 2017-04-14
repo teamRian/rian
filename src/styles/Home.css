@@ -1,9 +1,35 @@
 .Home {
-	display:flex;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 	height: 100%;
-	justify-content: center;
-	align-items:center;
-	text-align:center;
+	text-align: center;
 	font-size: 30px;
 	font-family: Arial, "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.EmailVerify {
+	display:flex;
+	height:20%;
+	background-color: grey;
+	opacity: 0.5;
+	z-index: 100;
+	position:absolute;
+	text-align:center;
+}
+
+.EmailVerifyContent {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 9;
+
+}
+
+.EmailVerifyButton {
+	flex: 1;
+}
+
+.EmailVerifyInput {
+
 }

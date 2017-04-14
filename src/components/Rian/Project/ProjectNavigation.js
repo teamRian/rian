@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom';
 
-import '../../styles/Navigation.css';
+import '../../../styles/Navigation.css';
 
-import { projectGet } from "../../actions/ProjectActions";
+import { projectGet } from "../../../actions/ProjectActions";
 
 class ProjectNavigation extends Component {
   constructor(props){
@@ -16,7 +16,7 @@ class ProjectNavigation extends Component {
     return (
       <div id="nav-bar">
         <NavLink exact className="link" to={`/project/${match.params.projectId}`}>HOME</NavLink>
-        <NavLink exact className="link" to={`/project/${match.params.projectId}/whiteboard`}>BOARD</NavLink>
+        <NavLink exact className="link" to={`/project/${match.params.projectId}/note`}>NOTE</NavLink>
         <NavLink exact className="link" to={`/project/${match.params.projectId}/file`}>FILE</NavLink>
       </div>
     )
