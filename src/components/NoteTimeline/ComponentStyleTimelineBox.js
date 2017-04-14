@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 class TemplineBox extends Component {
+    
     constructor(props) {
         super(props);
 

@@ -8,7 +8,6 @@ import {Grid, Row, Col, Clearfix} from 'react-bootstrap';
 //Components
 //import WhiteBoardTitle from './WhiteBoardTitle';
 //import WhiteBoardPanel from './WhiteBoardPanel';
-import WhiteBoardPanels from './WhiteBoardPanels';
 //import WhiteBoardState from './WhiteBoardState';
 import WhiteBoardFirePad from './WhiteBoardFirePad2';
 import RichBox from './RichBox';
