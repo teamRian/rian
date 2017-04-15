@@ -1,0 +1,29 @@
+.add_member {
+	display:flex;
+	flex:1;
+	flex-direction: column;
+}
+
+.add_link {
+	display:flex;
+	flex:1;
+	justify-content: center;
+	align-items: stretch;
+	padding:20%;
+} 
+
+.current_link {
+	display: flex;
+	flex:1;
+	border: 1px solid black;
+	border-radius: 5px;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.add_options{
+	flex:2;
+	justify-content: center;
+	align-items: center;
+}

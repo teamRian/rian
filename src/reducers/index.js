@@ -11,7 +11,7 @@ import { firebaseStateReducer } from 'react-redux-firebase';
 import * as NoteTimelineReducer from './NoteTimelineReducer';
 import * as FirebaseChatReducer from './FirebaseChatReducer'
 
-export const rootReducer = combineReducers(
+export default combineReducers(
 	Object.assign(
 		{}, 
 		UserReducer,
@@ -24,5 +24,4 @@ export const rootReducer = combineReducers(
   	NoteTimelineReducer,
   	FirebaseChatReducer,
 	))
-
 

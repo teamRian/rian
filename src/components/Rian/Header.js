@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import moment from "moment";
 import { withRouter } from "react-router";
-
+import { TransitionMotion, spring, presets } from "react-motion";
 import "../../styles/Header.css";
 
 class Header extends React.Component {
@@ -19,39 +18,45 @@ class Header extends React.Component {
       // 프로젝트를 가져오자
       const nextProject = next[2];
       if (nextProject !== Project._id) {
-        this.props.projectGet(nextProject);
+        this.props.projectEpicRequestData(nextProject);
       }
     } else if (!isProject && Project._id) {
       // 프로젝트
-      this.props.projectDetach();
+      this.props.projectEpicCancleData();
     }
   }
+
   render() {
-    const { projects, loading, _id } = this.props.User;
-    const { Project, projectGet } = this.props;
-    if (_id === null || loading === true) {
-      return <div className="Header" />;
-    }
+    const { User, Project, projectGet } = this.props;
+    const { projects, loading, _id } = User;
+    console.log(projects);
     return (
       <div className="Header">
-        <NavLink to="/me" className="headerMenu" id="home" key="me">
-          RIAN
-        </NavLink>
-        {projects.map((project, i) => {
-          return (
-            <NavLink
-              to={`/project/${project._id}`}
-              key={project._id}
-              className="headerMenu"
-            >
-              {project.name}
-            </NavLink>
-          );
-        })}
-        <NavLink id="addButton" to="/me/new_project" key="button">+</NavLink>
+        
+        <TransitionMotion
+          styles={this.getStyles()}
+          willLeave={this.willLeave}
+          willEnter={this.willEnter}
+        >
+        {styles=>
+          <div className="HeaderHoverMenu">
+            {
+              styles.map(config=>{
+                console.log(config, " STYLES CONFIG ");
+                return (<NavLink to="/me" key={config.key} style={{...config.style, border: '1px solid'}}>
+                  {config.data.name}
+                </NavLink>)
+              })
+            }
+          </div>
+        }
+        </TransitionMotion>
       </div>
     );
   }
 }
-
+        // <HeaderHoverMenu 
+        //   User={User}
+        //   Project={Project}
+        // />
 export default withRouter(Header);

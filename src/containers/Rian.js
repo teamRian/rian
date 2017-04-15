@@ -21,11 +21,15 @@ import {
   userRegisterEmail
 } from "../actions/UserActions";
 import {
-  projectGet,
   projectPost,
-  projectDetach
+  projectDetach,
+  projectLinkMakeOrExtend
 } from "../actions/ProjectActions";
-
+import {
+  projectEpicRequestData,
+  projectEpicCancleData,
+  projectEpicRequestLink
+} from "../epics/ProjectEpic";
 /*============================
 =            RIAN            =
 ============================*/
@@ -64,7 +68,6 @@ class RianApp extends Component {
   constructor(props) {
     super(props);
     console.log(props, "RIAN APP PROPS");
-    this.props.userCheckAuth();
     this.state = {
       showChat: false
     };
@@ -98,8 +101,9 @@ class RianApp extends Component {
               <Header
                 User={User}
                 Project={Project}
-                projectGet={this.props.projectGet}
                 projectDetach={this.props.projectDetach}
+                projectEpicRequestData={this.props.projectEpicRequestData}
+                projectEpicCancleData={this.props.projectEpicCancleData}
               />
               {User._id === null || User.loading === "AUTH"
                 ? <div className="loaderWrapper">
@@ -197,7 +201,13 @@ class RianApp extends Component {
                         <Route
                           exact
                           path="/project/:projectId/add_member"
-                          render={props => <ProjectAddMember User={User} Project={Project}/>}
+                          render={props => (
+                            <ProjectAddMember 
+                              User={User} 
+                              Project={Project}
+                              projectEpicRequestLink={this.props.projectEpicRequestLink}
+                            />
+                          )}
                         />
                       </Switch>
                     </div>
@@ -239,6 +249,18 @@ function mapDispatch(dispatch) {
     },
     userRegisterEmail: user => {
       dispatch(userRegisterEmail(user));
+    },
+    linkMakeOrExtend: link => {
+      dispatch(linkMakeOrExtend(link));
+    },
+    projectEpicRequestData: _id => {
+      dispatch(projectEpicRequestData(_id));
+    },
+    projectEpicCancleData: () => {
+      dispatch(projectEpicCancleData());
+    },
+    projectEpicRequestLink: (link, _id, creator) => {
+      dispatch(projectEpicRequestLink(link, _id, creator));
     }
   };
 }

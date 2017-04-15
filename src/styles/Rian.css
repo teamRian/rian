@@ -9,21 +9,20 @@
 }
 
 .App {
-  display:flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 70px auto;
   height:100vh;
 }
 
 .Header {
-  flex: 0 0 60px;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .MainWrapper {
-  display:flex;
-  flex:1;
+  display: grid;
+  grid-template-columns: 200px auto;
 }
 
 .Navigation {

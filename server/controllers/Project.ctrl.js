@@ -8,6 +8,7 @@ export function projectGet(req, res) {
   let query = url.parse(req.url, true).query._id;
   Project.findById(query)
     .populate("member", "email last_login name picture _id")
+    .populate("link")
     .then(project => res.json(project))
     .catch(err => console.log(err));
 }
@@ -31,6 +32,22 @@ export function projectPost(req, res) {
     .catch(err => console.log(err));
 }
 
+export async function projectIsMember(req, res, next) {
+  // console.log("PROJECT IS MEMBER");
+  try {
+    const sessionUser = req.session.passport.user;
+    const project = await Project.findById(req.path.split("/")[2])
+    const user = await User.findById(sessionUser).populate("projects", "name chatroom");
+    const member = project.member.map(objectId=>objectId.toString());
+    const check = member.includes(sessionUser);
+    res.locals.Project = project;
+    res.locals.User = user;
+    next();
+  } catch (e) {
+    res.redirect('/me');
+  }
+}
+
 export function projectCheckMember(req, res, next) {
   const sessionUser = req.session.passport.user;
   Project.findById(req.path.split("/")[2], (err, project) => {
@@ -52,6 +69,16 @@ export function projectCheckMember(req, res, next) {
             });
         }));
   });
+}
+
+export async function projectLink(req, res, next) {
+  const { _id, link, creator } = req.body;
+  let newLink;
+  newLink = link === undefined
+  ? await Link.create({creator, project_id:_id})
+  : await Link.update({_id}) 
+  await Project.update({_id}, { $set: {link: newLink}});
+  return next()
 }
 
 // export function projectDelete(req,res){

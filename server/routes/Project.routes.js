@@ -14,4 +14,8 @@ router.route('/newProject').post((req,res)=>{
 router.route('/deleteProject').delete((req,res)=>{
 	ProjectController.projectDelete(req,res);
 })
+
+router.route('/link_create').post((req,res)=>{
+	ProjectController.projectLink(req,res);
+})
 export default router;
