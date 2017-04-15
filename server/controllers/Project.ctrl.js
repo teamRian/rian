@@ -74,13 +74,10 @@ export function projectCheckMember(req, res, next) {
 export async function projectLink(req, res, next) {
   const { _id, link, creator } = req.body;
   let newLink;
-  console.log("async projectLink: ", link);
   newLink = link === undefined
   ? await Link.create({creator, project_id:_id})
   : await Link.update({_id}) 
-
   await Project.update({_id}, { $set: {link: newLink}});
-
   return next()
 }
 

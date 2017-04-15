@@ -9,7 +9,6 @@ import {
 
 export function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log("IS LOGGED IN");
     next();
   } else {
     req.session.returnTo = req.path;
@@ -27,7 +26,6 @@ export async function isUser(req, res, next) {
   }
 }
 export function isMember(req, res, next) {
-  console.log("IS MEMBER");
   return projectIsMember(req, res, next);
 }
 
@@ -43,7 +41,6 @@ export function handleRender(req, res, next) {
   const preloadedState = { ...res.locals };
   const store = createStore(rootReducer, preloadedState);
   const finalState = store.getState();
-  console.log("HANDLE RENDER FINAL STATE: ", finalState);
   res.send(renderFullPage(finalState));
 }
 
