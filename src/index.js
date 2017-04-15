@@ -6,7 +6,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 import './index.css';
-
+import firebase from "firebase";
+import firebaseConfig from "../config/firebaseConfig";
 // configs in './configureStore.js'
 //Apollo Socket
 import {
@@ -35,7 +36,7 @@ export const client = new ApolloClient({
 });
 
 
-
+firebase.initializeApp(firebaseConfig);
 const store = configureStore() 
 console.log("FIRST STORE", store.getState())
 

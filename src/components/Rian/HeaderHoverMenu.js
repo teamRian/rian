@@ -1,88 +1,155 @@
-// import React, { Component } from "react";
-// import { withRouter } from "react-router";
-// import { NavLink } from "react-router-dom";
-// import { TransitionMotion, spring, presets } from "react-motion";
+import React, { Component } from "react";
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
+import { TransitionMotion, spring, presets } from "react-motion";
 
-// class HeaderHoverMenu extends Component {
-// 	constructor(props){
-// 		super(props);
-// 		this.state = {
-// 			menuActive: false,
-// 			currentHome: HomeLink
-// 		};
-		
-// 	}
+class HeaderHoverMenu extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			menuActive: false,
+			top: 70
+		};
+		this.handleMouseClick = this.handleMouseClick.bind(this);
+		this.handleMouseEnter = this.handleMouseEnter.bind(this);
+		this.handleMouseLeave = this.handleMouseLeave.bind(this);
+	}
+	handleMouseClick(key) {
+		this.setState({
+			menuActive:false,
+			top:70
+		})
+		this.props.history.push(key);
+	}
+	handleMouseEnter() {
+		this.setState({
+			menuActive: true,
+			top:70
+		});
+	}
+	handleMouseLeave() {
+		this.setState({
+			menuActive: false,
+			top:70
+		});
+	}
+	getStyles(topPx) {
+		const { User, Project, location } = this.props;
+		let top = topPx;
+		let { projects } = User;
+		const { _id, name } = Project;
+		const isProject = Project._id === null ? false : true;
+		const opacity = this.state.menuActive ? 1 : 0;
+		let styleArray = [];
+		let stringProjects = projects.map(project => project._id.toString());
+		if (isProject) {
+			styleArray.push({
+				key: `/project/${_id}`,
+				data: { name },
+				style: { height: 70 }
+			});
+			if (!this.state.menuActive) {
+				return styleArray;
+			}
+			if (Project._id !== location.pathname.split("/")[2]){
+				return styleArray;
+			}
+			let currentIndex = stringProjects.indexOf(_id);
+			styleArray.push({
+				key: `/me`,
+				data: { name: "rian" },
+				style: {
+					height: spring(70),
+					top: spring(top),
+					opacity: spring(opacity)
+				}
+			});
+			top += 70;
+			projects.forEach((item,i) => {
+				if(i === currentIndex){
+					return;
+				}
+				styleArray.push({
+					key: `/project/${item._id}`,
+					data: { name: item.name },
+					style: {
+						height: spring(70),
+						top: spring(top),
+						opacity: spring(opacity)
+					}
+				});
+				top += 70;
+			});
+		} else {
+			styleArray.push({
+				key: `/me`,
+				data: { name: "rian" },
+				style: { height: 70 }
+			});
+			if (!this.state.menuActive) {
+				return styleArray;
+			}
+			projects.forEach((item,i) => {
+				styleArray.push({
+					key: `/project/${item._id}`,
+					data: { name: item.name },
+					style: {
+						height: spring(70),
+						top: spring(top),
+						opacity: spring(opacity)
+					}
+				});
+				top +=70;
+			});
+		}
+		return styleArray;
+	}
 
-//   getStyles(){
-//   	const { User, Project } = this.props;
-//     const { projects } = User;
-//     const { _id, name } = Project;
-//     const HomeButton = {
-//     	key: "/me",
-//     	data: {name:"Rian"},
-//     	style: { flex:1 }
-//     }
-//     if(_id){
-//     	const isProject = true
-//     } else {
-//     	return [HomeButton]
-//     }	
+	willEnter() {
+		return {
+			top: 70,
+			height: 0,
+			opacity: 0
+		};
+	}
 
-//     const firstButton = isProject 
-//     ? [{
-//       key: `/project/${_id}`,
-//       data: { name },
-//       style: { flex: 1 }
-//     }, HomeButton]
-//     : [HomeButton];
-//     if(isProject){
-//     	for (let i of projects){
-//     		if(projects[i]._id === _id){
-//     			projects.splice(i,1);
-//     		}
-//     	}
-//     }
-//     let styleArray;
-//     console.log(projects,"PROJECTs");
-//     if(projects.length > 0){
-//       styleArray = firstButton.concat(
-//       	projects.map(project=> ({
-//           key: `/project/${project._id}`,
-//           data: {name:project.name},
-//           style: {flex: 0}
-//         }))
-//       )
-//     }
-//     return styleArray;
-//   }
+	willLeave() {
+		return {
+			top: 70,
+			height: 0,
+			opacity: 0
+		};
+	}
 
-//   willEnter() {
-//     return {
-//       flex: 0,
-//       opacity: 1
-//     };
-//   }
+	render() {
+		return (
+			<TransitionMotion
+				styles={this.getStyles(70)}
+				willLeave={this.willLeave}
+				willEnter={this.willEnter}
+			>
+				{styles => (
+					<div
+						className="project-list"
+						onMouseEnter={this.handleMouseEnter}
+						onMouseLeave={this.handleMouseLeave}
+					>
+						{styles.map(config => {
+							return (
+								<div
+									key={config.key}
+									style={{ ...config.style }}
+									onClick={()=>this.handleMouseClick(config.key)}
+									>
+									{config.data.name}
+								</div>
+							);
+						})}
+					</div>
+				)}
+			</TransitionMotion>
+		);
+	}
+}
 
-//   willLeave() {
-//     return {
-//       flex: spring(0),
-//       opacity: spring(0)
-//     };
-//   }
-
-// 	render() {
-// 		return (
-// 			<div className="HeaderHoverMenu">
-// 			 <TransitionMotion
-//           styles={this.getStyles()}
-//           willLeave={this.willLeave}
-//           willEnter={this.willEnter}
-//         >
-
-//         </TransitionMotion>
-//        </div>
-// 		);
-// 	}
-// }
-
-// export default withRouter(HeaderHoverMenu);
+export default HeaderHoverMenu;

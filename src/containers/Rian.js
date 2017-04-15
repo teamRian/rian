@@ -59,15 +59,12 @@ import NewProject from "../components/Rian/Project/NewProject";
 import ProjectAddMember from "../components/Rian/Project/ProjectAddMember";
 
 /*----------  EXTRA  ----------*/
-import firebase from "firebase";
-import firebaseConfig from "../../config/firebaseConfig";
 import "../styles/Rian.css";
 
 
 class RianApp extends Component {
   constructor(props) {
     super(props);
-    console.log(props, "RIAN APP PROPS");
     this.state = {
       showChat: false
     };
@@ -81,9 +78,6 @@ class RianApp extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log(this.props, "CDM");
-  }
   clickShowChat() {
     this.setState((prevState, props) => ({
       showChat: !prevState.showChat
@@ -111,16 +105,6 @@ class RianApp extends Component {
                   </div>
                 : <div className="MainWrapper">
                     <div className="Navigation">
-                      <Switch>
-                        <Route
-                          path="/project/:projectId"
-                          render={props => <ProjectNavigation {...props} />}
-                        />
-                        <Route
-                          path="/me"
-                          render={props => <MeNavigation {...props} />}
-                        />
-                      </Switch>
                       <Switch>
                         <Route
                           exact
