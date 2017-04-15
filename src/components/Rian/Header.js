@@ -3,7 +3,6 @@ import { NavLink, Redirect } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { TransitionMotion, spring, presets } from "react-motion";
-// import HeaderHoverMenu from "./HeaderHoverMenu";
 import "../../styles/Header.css";
 
 class Header extends React.Component {
@@ -33,21 +32,25 @@ class Header extends React.Component {
     console.log(projects);
     return (
       <div className="Header">
-        <NavLink to="/me" className="headerMenu" id="home" key="me">
-          RIAN
-        </NavLink>
-        {projects.map((project, i) => {
-          return (
-            <NavLink
-              to={`/project/${project._id}`}
-              key={project._id}
-              className="headerMenu"
-            >
-              {project.name}
-            </NavLink>
-          );
-        })}
-        <NavLink id="addButton" to="/me/new_project" key="button">+</NavLink>
+        
+        <TransitionMotion
+          styles={this.getStyles()}
+          willLeave={this.willLeave}
+          willEnter={this.willEnter}
+        >
+        {styles=>
+          <div className="HeaderHoverMenu">
+            {
+              styles.map(config=>{
+                console.log(config, " STYLES CONFIG ");
+                return (<NavLink to="/me" key={config.key} style={{...config.style, border: '1px solid'}}>
+                  {config.data.name}
+                </NavLink>)
+              })
+            }
+          </div>
+        }
+        </TransitionMotion>
       </div>
     );
   }
@@ -57,6 +60,3 @@ class Header extends React.Component {
         //   Project={Project}
         // />
 export default withRouter(Header);
-
-
-
