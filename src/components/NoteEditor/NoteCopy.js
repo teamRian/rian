@@ -8,8 +8,6 @@ import moment from 'moment'
 
 
 
-
-
 class RockofRianEditor extends Component {
 
 	constructor(props) {

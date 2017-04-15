@@ -32,6 +32,22 @@ export function projectPost(req, res) {
     .catch(err => console.log(err));
 }
 
+export async function projectIsMember(req, res, next) {
+  // console.log("PROJECT IS MEMBER");
+  try {
+    const sessionUser = req.session.passport.user;
+    const project = await Project.findById(req.path.split("/")[2])
+    const user = await User.findById(sessionUser).populate("projects", "name chatroom");
+    const member = project.member.map(objectId=>objectId.toString());
+    const check = member.includes(sessionUser);
+    res.locals.Project = project;
+    res.locals.User = user;
+    next();
+  } catch (e) {
+    res.redirect('/me');
+  }
+}
+
 export function projectCheckMember(req, res, next) {
   const sessionUser = req.session.passport.user;
   Project.findById(req.path.split("/")[2], (err, project) => {
