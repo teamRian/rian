@@ -1,4 +1,5 @@
 const makeNoteInitialState = async (done, newUser, userid, timestamp, firebase)=>{
+					
 					const noteUpdate = {}
 		      		noteUpdate.share= {}
 		      		noteUpdate.share[userid] = true

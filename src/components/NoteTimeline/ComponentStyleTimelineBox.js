@@ -73,7 +73,7 @@ class TemplineBox extends Component {
                 onClick={() => {
                     this.props.changEditorState(true);
                     this.props.changeRenderedNote(this.props.notelocation, this.props.inforlocation, this.props.indexlocation);
-                    this.props.allofTimelineGet("final_modified_at");
+                    this.props.allofTimelineGet("final_modified_at"); 
                 }}
             >
                 <div className="timelineTitle">
