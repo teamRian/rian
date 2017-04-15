@@ -1,8 +1,4 @@
 import {
-  PROJECT_REQUEST_GET,
-  PROJECT_SUCCESS_GET,
-  PROJECT_FAIL_GET,
-  PROJECT_REQUEST_POST,
   PROJECT_SUCCESS_POST,
   PROJECT_FAIL_POST,
   PROJECT_REQUEST_DELETE,
@@ -11,51 +7,6 @@ import {
   PROJECT_DETACH
 } from "../constants";
 import axios from "axios";
-
-export function projectRequestGet() {
-  return {
-    type: PROJECT_REQUEST_GET,
-    loading: true
-  };
-}
-
-export function projectSuccessGet(project) {
-  return {
-    type: PROJECT_SUCCESS_GET,
-    _id: project._id,
-    name: project.name,
-    creator: project.creator,
-    member: project.member,
-    link: project.link,
-    chatroom: project.chatroom,
-    whiteboard: project.whiteboard,
-    created_at: project.created_at,
-    loading: false
-  };
-}
-
-export function projectFailGet(err) {
-  return {
-    type: PROJECT_FAIL_GET,
-    loading: false
-  };
-}
-
-export function projectGet(_id) {
-  return function(dispatch) {
-    dispatch(projectRequestGet());
-    return axios
-      .get("/api/project/getProject", {
-        params: { _id }
-      })
-      .then(res => {
-        dispatch(projectSuccessGet(res.data));
-      })
-      .catch(err => {
-        dispatch(projectFailGet(err));
-      });
-  };
-}
 
 export function projectDetach() {
   return {

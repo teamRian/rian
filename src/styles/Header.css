@@ -12,6 +12,11 @@
     border: 1px solid rgba(200,200,200,1);
 }
 
+.HeaderHoverMenu {
+    display:flex;
+    flex: 0 0 200px;
+    flex-direction: column;
+}
 
 #addButton {
     display:flex;   
