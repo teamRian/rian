@@ -1,8 +1,9 @@
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import User from "./models/User";
 import config from "./config";
-import firebase from 'firebase'
 import moment from 'moment'
+import firebase from 'firebase'
+import makeNoteInitialState from './utils/makeFirebaseState' 
 const facebookAuth = config.facebookAuth;
 
 const firebaseConfig = {
@@ -80,53 +81,11 @@ export default function(passport) {
 				
 					// offsetRef.on("value", function(snap) {
 					// 	var offset = snap.val();
-						var timestamp = moment().unix()	  
-						const noteUpdate = {}
-		      			noteUpdate.share= {}
-		      			noteUpdate.share[userid] = true
+					var timestamp = moment().unix()	  
 
-			      		//make First Note
-			      		const newNotePush = firebase.database().ref('notes/' + userid + '/' + 'note').push().key
-			      		
-			      		
-			      		firebase.database().ref('notes/' + userid + '/' + 'note' + '/' + newNotePush)
-			      			.set(noteUpdate)
-			      			.then(()=>{
-			      			  
-			      			   var newInforkey = firebase.database().ref('notes/' + userid + '/' + 'infor').push().key 	
-			      			   const inforUpdate = {}
-			      			   inforUpdate.title = "Rian에 오신 것을 환영합니다."
-							   inforUpdate.created_at = timestamp
-							   inforUpdate.final_modified_at = timestamp
-		     				   inforUpdate.snippet= "환영합니다."
-		      				   inforUpdate.thumbnailUrl= ""
-		      				   inforUpdate.share= {}
-		      				   inforUpdate.share[userid] = true
-		      				   console.log("HERE2") 
-			      			   firebase.database().ref('notes/' + userid + '/' + 'infor' + '/' + newInforkey)
-			      			       .set(inforUpdate)
-			      			       .then(()=>{
-			      			       		 console.log("Here123123")
-			      			       	   const indexUpdate = {}
-			      			       	   var newIndexkey = firebase.database().ref('notes/' + userid + '/' + 'index').push().key
-			      			       	   indexUpdate.index_location = newIndexkey
-					      			   indexUpdate.infor_location = newInforkey
-									   indexUpdate.note_location = newNotePush
-									   indexUpdate.created_at = timestamp
-									   indexUpdate.final_modified_at = timestamp
-									   indexUpdate.author = userid
-									   indexUpdate.share = {}
-									   indexUpdate.share[userid] = true
-								       //make First Note's Timeline Instance
-								       console.log("Here3")
-					      			   firebase.database().ref('notes/' + userid + '/' + 'index' + '/' + newIndexkey)
-					      			       .set(indexUpdate)    
-					      			   return done(null, newUser);
-			      			       })
-			      			  
-			      			})	
+			
+			    	makeNoteInitialState(done, newUser, userid, timestamp, firebase)
 
-				//	});
 			
 				});
 

@@ -5,7 +5,6 @@ import configureStore from './store/configureStore';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
-
 import './index.css';
 
 // configs in './configureStore.js'
