@@ -23,7 +23,6 @@ const enhancer = compose(
   ),
   DevTools.instrument()
 );
-
 // compose = Composes functions from right to left.
 
 export default function configureStore() {

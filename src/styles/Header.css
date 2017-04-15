@@ -1,22 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Barrio|Righteous');
 
-.headerMenu {
-    display:flex;
-    flex: 0 0 80px;
-    height: 60%;
-    font-size: 23px;
-    font-weight: lighter;
-    align-items: center;
-    justify-content: center;
-    border-radius:5px;
-    border: 1px solid rgba(200,200,200,1);
+.project-list {
+    list-style-type: none;
+    flex:1;
+    padding: 0;
+    margin: 0;
 }
 
-.HeaderHoverMenu {
-    display:flex;
-    flex:1;
-    flex-direction: column;
+.project-list div {
+    display: flex;
+    /*margin: 0 auto;*/
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: lightcoral;
+   /* height: 70px;*/
+    width: 200px;
+    font-weight: thin;
+    font-size:large;
 }
+
 
 #addButton {
     display:flex;   

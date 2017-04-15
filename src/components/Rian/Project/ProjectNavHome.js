@@ -9,11 +9,11 @@ export default class ProjectNavHome extends Component {
     const { member, _id } = this.props.Project;
     return (
       <div>
-        {member.map(user => {
+        {member.map( (user,i) => {
           return (
-            <div className="profileCard" key={user._id}>
-              <div>{user.name}</div>
-              <div>{user.email}</div>
+            <div className="profileCard" key={i}>
+              <div key="name">{user.name}</div>
+              <div key="email">{user.email}</div>
             </div>
           );
         })}

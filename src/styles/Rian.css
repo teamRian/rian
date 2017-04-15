@@ -15,9 +15,8 @@
 }
 
 .Header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 200px 500px auto;
 }
 
 .MainWrapper {

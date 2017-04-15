@@ -4,15 +4,13 @@
 
 #nav-bar {
   display: flex; 
-  align-items: stretch;
-  flex: 0 0 50px;
 }
 
 #nav-bar a {
   display:flex;
   flex: 1;
   justify-content: center;
-  align-items: center;
+  align-items: center;  
   background-color: white;
   color: lightcoral;
   cursor: pointer;

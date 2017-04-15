@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { NavLink, Redirect } from "react-router-dom";
+import { Route, NavLink, Switch } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { TransitionMotion, spring, presets } from "react-motion";
 import "../../styles/Header.css";
+import HeaderHoverMenu from "./HeaderHoverMenu";
+import MeNavigation from "./Me/MeNavigation";
+import ProjectNavigation from "./Project/ProjectNavigation";
 
 class Header extends React.Component {
   constructor(props) {
@@ -13,8 +16,7 @@ class Header extends React.Component {
     const { location, Project, User } = nextProps;
     const next = location.pathname.split("/");
     const isProject = next[1] === "project";
-
-    if (User._id !== null && isProject && Project.loading === false) {
+    if (isProject && !Project.loading) {
       // 프로젝트를 가져오자
       const nextProject = next[2];
       if (nextProject !== Project._id) {
@@ -27,32 +29,48 @@ class Header extends React.Component {
   }
 
   render() {
-    const { User, Project, projectGet } = this.props;
+    const { User, Project, projectGet, match, history, location } = this.props;
     const { projects, loading, _id } = User;
-    console.log(projects);
     return (
       <div className="Header">
-        <NavLink to="/me" className="headerMenu" id="home" key="me">
-          RIAN
-        </NavLink>
-        {projects.map((project, i) => {
-          return (
-            <NavLink
-              to={`/project/${project._id}`}
-              key={project._id}
-              className="headerMenu"
-            >
-              {project.name}
-            </NavLink>
-          );
-        })}
-        <NavLink id="addButton" to="/me/new_project" key="button">+</NavLink>
+        <HeaderHoverMenu
+          User={User}
+          Project={Project}
+          match={match}
+          history={history}
+          location={location}
+        />
+        <Switch>
+          <Route
+            path="/project/:projectId"
+            render={props => <ProjectNavigation {...props} />}
+          />
+          <Route
+            path="/me"
+            render={props => <MeNavigation {...props} />}
+          />
+        </Switch>
       </div>
     );
   }
 }
-// <HeaderHoverMenu
-//   User={User}
-//   Project={Project}
-// />
+
+// <div className="HeaderHoverMenu">
+          
+//           <NavLink to="/me" className="headerMenu" id="home" key="me">
+//             RIAN
+//           </NavLink>
+//           {projects.map((project, i) => {
+//             return (
+//               <NavLink
+//                 to={`/project/${project._id}`}
+//                 key={project._id}
+//                 className="headerMenu"
+//               >
+//                 {project.name}
+//               </NavLink>
+//             );
+//           })}
+//           <NavLink className="headerMenu" to="/me/new_project" key="button">+</NavLink>
+//         </div>
 export default withRouter(Header);
