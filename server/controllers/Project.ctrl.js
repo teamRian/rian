@@ -8,6 +8,7 @@ export function projectGet(req, res) {
   let query = url.parse(req.url, true).query._id;
   Project.findById(query)
     .populate("member", "email last_login name picture _id")
+    .populate("link")
     .then(project => res.json(project))
     .catch(err => console.log(err));
 }
@@ -52,6 +53,19 @@ export function projectCheckMember(req, res, next) {
             });
         }));
   });
+}
+
+export async function projectLink(req, res, next) {
+  const { _id, link, creator } = req.body;
+  let newLink;
+  console.log("async projectLink: ", link);
+  newLink = link === undefined
+  ? await Link.create({creator, project_id:_id})
+  : await Link.update({_id}) 
+
+  await Project.update({_id}, { $set: {link: newLink}});
+
+  return next()
 }
 
 // export function projectDelete(req,res){

@@ -17,8 +17,7 @@
 .Header {
   flex: 0 0 60px;
   display:flex;
-  justify-content: center;
-  align-items: center;
+  align-items: stretch;
 }
 
 .MainWrapper {
