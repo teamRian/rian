@@ -1,6 +1,6 @@
 import setFirepad from './setFirepad.js'
 
-const LoadNote = async (userAddress, Firepad, notelocation, indexlocation, inforlocation)=>{
+const LoadNote = async function (userAddress, Firepad, notelocation, indexlocation, inforlocation){
 
 	const firepadRef = await firebase.database().ref(userAddress + '/' + 'note' + '/' + notelocation)
 	this.codeMirror = CodeMirror.fromTextArea(this.refs.firepadContainer, { 

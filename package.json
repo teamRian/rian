@@ -22,7 +22,7 @@
     "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-0": "^6.22.0",
     "babel-register": "^6.23.0",
-    "babel-runtime": "^6.20.0",
+    "babel-runtime": "^6.23.0",
     "babel-watch": "^2.0.6",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "chai": "^3.5.0",
@@ -85,6 +85,11 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-es2017-node7": "^0.5.2",
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
     "bufferutil": "^3.0.0",
@@ -217,13 +222,17 @@
   "babel": {
     "presets": [
       "react",
+      "es2017-node7/webpack2",
       "es2015",
       "stage-0",
       "flow"
     ],
     "plugins": [
       "transform-decorators-legacy",
-      "transform-class-properties"
+      "transform-class-properties",
+      "transform-runtime",
+      "transform-regenerator",
+      "syntax-async-functions"
     ]
   }
 }

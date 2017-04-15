@@ -61,7 +61,7 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           cacheDirectory: true, //cache directory = node_modules/.cache
-          presets: ['es2015', 'react'],
+          presets: ['es2017-node7/webpack2', 'react'],
         }
       }, 
       {

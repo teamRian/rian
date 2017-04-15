@@ -11,7 +11,7 @@ const setFirepad = async (firepad, firepadRef, userAddress, firebaseIndex, fireb
       }
     });
 
-    firepad.on('synced', function(){
+    firepad.on('synced', async function (){
 
       var timestamp = moment().unix()
       var tempText = firepad.getText()

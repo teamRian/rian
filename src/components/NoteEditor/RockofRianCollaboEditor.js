@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Firepad from 'firepad';
 import firebase from 'firebase';
-import { makeNewNote } from './util/makeNewNote'
-import { LoadNote } from './util/LoadNote'
+import makeNewNote from './util/makeNewNote'
+import LoadNote from './util/LoadNote'
 //import './css/RockofRianStyle.css';
 //import './css/firepad.css';
 
@@ -16,6 +16,8 @@ class RockofRianEditor extends Component {
 		this.firepad
 		this.codeMirror 
 		this.firePadrender = this.firePadrender.bind(this)
+		this.makeNewNote = makeNewNote.bind(this)
+		this.LoadNote = LoadNote.bind(this)
 	}	
 		
 	
@@ -61,10 +63,10 @@ class RockofRianEditor extends Component {
 		const { user, notelocation, indexlocation, inforlocation } = this.props
         const userAddress = 'notes/' + user
 
-        if ( !this.props.notelocation ) {     	
-    	   makeNewNote(user, userAddress, firebase, Firepad)
+        if ( !this.props.notelocation ) {   
+    	  this.makeNewNote(user, userAddress, firebase, Firepad)
         } else {
-           LoadNote(userAddress, Firepad, notelocation, indexlocation, inforlocation)	
+          this.LoadNote(userAddress, Firepad, notelocation, indexlocation, inforlocation)	
         }
    
 	}

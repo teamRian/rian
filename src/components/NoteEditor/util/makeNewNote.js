@@ -1,6 +1,6 @@
 import moment from 'moment'
 import setFirepad from './setFirepad.js'
-const makeNewNote = async (user, userAddress, firebase, Firepad) => {
+const makeNewNote = async function (user, userAddress, firebase, Firepad){
 
 	const timestamp =  moment().unix()
 
@@ -58,6 +58,8 @@ const makeNewNote = async (user, userAddress, firebase, Firepad) => {
 	)
 
 }
+
+
 
 
   		
