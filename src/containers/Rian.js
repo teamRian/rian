@@ -68,7 +68,6 @@ class RianApp extends Component {
   constructor(props) {
     super(props);
     console.log(props, "RIAN APP PROPS");
-    this.props.userCheckAuth();
     this.state = {
       showChat: false
     };
