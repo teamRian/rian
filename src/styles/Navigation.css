@@ -11,26 +11,21 @@
   flex: 1;
   justify-content: center;
   align-items: center;  
-  background-color: white;
-  color: lightcoral;
+  color: black;
   cursor: pointer;
-  border-radius: 5px;
 }
 #nav-bar a.active {
   display:flex;
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: white;
   cursor: pointer;
-  background-color: lightcoral;
-  color: white;
-  border-radius: 5px;
+  color: #23D886;
+  text-decoration: none;
 }
 
 #nav-bar a:hover{
-  color:white;
-  background-color: #337ab7;
+  text-decoration: none;
 }
 
 #nav-bar #nav-whiteboard {
@@ -51,6 +46,6 @@
   flex: 0 0 100px;
   border-radius:5px;
   justify-content: center;
-  background-color: lightcoral;
+  background-color: #23D886;
 
 }

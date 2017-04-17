@@ -1,3 +1,8 @@
+.timelineContainer {
+  flex: 1;
+  background-color: grey;
+}
+
 .parentWaypoint {
   display: flex;
   flex-direction: column;

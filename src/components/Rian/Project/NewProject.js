@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
-import { connect } from "react-redux";
-import { userAddProject } from "../../../actions/UserActions";
+import { withRouter } from "react-router";
 import "../../../styles/NewProject.css";
 
 class NewProject extends Component {
@@ -12,7 +11,8 @@ class NewProject extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
+    const { User, history, userAddProject } = this.props;
+    console.log(this.props,"HANDLE SUBMIT");
     const name = this.title.value;
     const creator = this.props.User._id;
     const member = [this.props.User._id];
@@ -23,7 +23,7 @@ class NewProject extends Component {
     if (name.length === 0) {
       alert("제목을 입력하세요");
     } else {
-      this.props.userAddProject(project);
+      userAddProject(project, this.props.history);
     }
   }
 
@@ -62,18 +62,4 @@ class NewProject extends Component {
   }
 }
 
-function mapState(state) {
-  return {
-    User: state.User
-  };
-}
-
-function mapDispatch(dispatch) {
-  return {
-    userAddProject: form => {
-      dispatch(userAddProject(form));
-    }
-  };
-}
-
-export default connect(mapState, mapDispatch)(NewProject);
+export default withRouter(NewProject);

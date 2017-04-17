@@ -68,28 +68,31 @@ class TemplineBox extends Component {
         return (
             <div
                 className="timelinebox"
-                style={{ height: "150px", width: "100%" }}
                 key={this.props.timelinekey}
                 onClick={() => {
                     this.props.changEditorState(true);
                     this.props.changeRenderedNote(this.props.notelocation, this.props.inforlocation, this.props.indexlocation);
                     this.props.allofTimelineGet("final_modified_at"); 
                 }}
-            >
-                <div className="timelineTitle">
-                    {this.state.LoadingComplete
-                        ? this.props.title +
-                              this.props.createAt +
-                              "###" +
-                              this.props.timelineNum
-                        : "Loading"}
-                </div>
-                <div className="timelineContent">
-                    <p>
+            >   
+                <div className="timelineNote">
+                    <div className="timelineTitle">
                         {this.state.LoadingComplete
-                            ? this.props.snippet
+                            ? this.props.title +
+                                  this.props.createAt +
+                                  "###" +
+                                  this.props.timelineNum
                             : "Loading"}
-                    </p>
+                    </div>
+                    <div className="timelineContent">
+                        <p>
+                            {this.state.LoadingComplete
+                                ? this.props.snippet
+                                : "Loading"}
+                        </p>
+                    </div>
+                </div>
+                <div className="timelineDate">
                 </div>
             </div>
         );

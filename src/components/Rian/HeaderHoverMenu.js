@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { TransitionMotion, spring, presets } from "react-motion";
+import { TransitionMotion, spring, presets } from  "react-motion";
 
 class HeaderHoverMenu extends Component {
 	constructor(props) {
@@ -34,6 +34,14 @@ class HeaderHoverMenu extends Component {
 		});
 	}
 	getStyles(topPx) {
+		const newProject = (top) => ({
+			key: '/me/new_project',
+			data: { name: "Add Project"},
+			style: { 
+				height: 70,					
+				top: spring(top, {stiffness: 300, damping: 50} )
+			}
+		});
 		const { User, Project, location } = this.props;
 		let top = topPx;
 		let { projects } = User;
@@ -59,9 +67,8 @@ class HeaderHoverMenu extends Component {
 				key: `/me`,
 				data: { name: "rian" },
 				style: {
-					height: spring(70),
-					top: spring(top),
-					opacity: spring(opacity)
+					height: 70,
+					top: spring(top, {stiffness: 300, damping: 50} )
 				}
 			});
 			top += 70;
@@ -73,9 +80,8 @@ class HeaderHoverMenu extends Component {
 					key: `/project/${item._id}`,
 					data: { name: item.name },
 					style: {
-						height: spring(70),
-						top: spring(top),
-						opacity: spring(opacity)
+						height: 70,
+						top: spring(top, {stiffness: 300, damping: 50} )
 					}
 				});
 				top += 70;
@@ -94,14 +100,14 @@ class HeaderHoverMenu extends Component {
 					key: `/project/${item._id}`,
 					data: { name: item.name },
 					style: {
-						height: spring(70),
-						top: spring(top),
-						opacity: spring(opacity)
+						height: 70,
+						top: spring(top, {stiffness: 300, damping: 50} )
 					}
 				});
 				top +=70;
 			});
 		}
+		styleArray.push(newProject(top));
 		return styleArray;
 	}
 

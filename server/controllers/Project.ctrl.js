@@ -13,23 +13,20 @@ export function projectGet(req, res) {
     .catch(err => console.log(err));
 }
 
-export function projectPost(req, res) {
+export async function projectPost(req, res) {
+  console.log(req.body.project, " : PROEJCT POST");
   // Project Add
-  const post = new Project(req.body.project);
-  post
-    .save()
-    .then(project => {
-       const newLink = {
-        creator: req.body.project.creator,
-        projectId
-      }
-      User.findByIdAndUpdate(
-        project.creator,
-        { $push: { projects: project._id } },
-        () => res.json(project)
-      );
-    })
-    .catch(err => console.log(err));
+  try {
+    const post = new Project(req.body.project);
+    const project = await post.save();
+    User.findByIdAndUpdate(
+      project.creator,
+      { $push: { projects: project._id } },
+      () => res.json(project)
+    );
+  } catch (e) {
+    res.direct('/me/new_project');
+  }
 }
 
 export async function projectIsMember(req, res, next) {
