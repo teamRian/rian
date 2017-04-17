@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { Route, NavLink, Switch } from "react-router-dom";
 import { Button } from "react-bootstrap";
@@ -9,10 +10,21 @@ import MeNavigation from "./Me/MeNavigation";
 import ProjectNavigation from "./Project/ProjectNavigation";
 
 class Header extends React.Component {
+  props:{
+    User: Object,
+    Project: Object,
+    location: Object,
+    match: Object,
+    history: Object,
+    projectDetach: Function,
+    projectEpicRequestData: Function,
+    projectEpicCancleData: Function
+  };
+
   constructor(props) {
     super(props);
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Object) {
     const { location, Project, User } = nextProps;
     const next = location.pathname.split("/");
     const isProject = next[1] === "project";
@@ -29,7 +41,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { User, Project, projectGet, match, history, location } = this.props;
+    const { User, Project, match, history, location } = this.props;
     const { projects, loading, _id } = User;
     return (
       <div className="Header">

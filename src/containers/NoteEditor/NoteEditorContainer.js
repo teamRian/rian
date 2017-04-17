@@ -30,7 +30,7 @@ class NoteEditorContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="editorContainer">
         {this.props.onEditor &&
           <div
             ref="Editor"

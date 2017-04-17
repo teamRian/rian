@@ -26,13 +26,13 @@ class NoteTimelineContainer extends Component {
     this.infiniteTimelineLoader = this.infiniteTimelineLoader.bind(this);
     this.state = {
       renderTimeline: "Waiting you",
-      browserSize: window.innerHeight - 52
+      browserSize: window.innerHeight - 150
     };
     window.addEventListener("resize", () => {
       // console.log(window.innerHeight);
       this.setState((prevState, props) => {
         return {
-          browserSize: window.innerHeight - 52
+          browserSize: window.innerHeight - 150
         };
       });
     });
@@ -96,6 +96,7 @@ class NoteTimelineContainer extends Component {
     });
     return (
       <Infinite
+        className="infinite"
         containerHeight={this.state.browserSize}
         elementHeight={150}
         timeScrollStateLastsForAfterUserScrolls={0}
@@ -107,7 +108,10 @@ class NoteTimelineContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="timelineContainer">
+        <div className="timelineSearch">
+          검색하기
+        </div>
         {this.state.renderTimeline}
       </div>
     );

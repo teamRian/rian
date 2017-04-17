@@ -10,21 +10,30 @@
 
 .App {
   display: grid;
-  grid-template-rows: 70px auto;
+  grid-template-rows: [header] 70px [header-end] auto [end];
+  grid-template-columns: [first] 2fr [second] 3fr [third] 7fr [forth];
   height:100vh;
+  min-width: 1500px;
 }
 
 .Header {
   display: grid;
-  grid-template-columns: 200px 500px auto;
+
+  grid-column-start: first;
+  grid-column-end: forth;
+  grid-template-columns: 2fr 3fr 7fr;
 }
 
 .MainWrapper {
   display: grid;
-  grid-template-columns: 200px auto;
+  grid-template-columns: 2fr 10fr;
 }
 
-.Navigation {
+.left {
+  grid-row-start: header-end;
+  grid-row-end: end;
+  grid-column-start: first;
+  grid-column-end: second;
   display:flex;
   flex-direction: column;
   flex: 0 0 200px;
@@ -32,7 +41,24 @@
 
 }
 
-.MainContent {
+.middle {
+  grid-row-start: header-end;
+  grid-row-end: end;
+  grid-column-start: second;
+  grid-column-end: third;
+  display:flex;
+  justify-content: center;
+  align-items:stretch;
+  left:400px;
+  padding: 5px;
+  flex:1;
+}
+
+.right {
+  grid-row-start: header-end;
+  grid-row-end: end;
+  grid-column-start: third;
+  grid-column-end: forth;
   display:flex;
   justify-content: center;
   align-items:stretch;

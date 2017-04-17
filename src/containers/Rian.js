@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
@@ -18,7 +18,8 @@ import {
   userSignUp,
   userLogIn,
   userLogOut,
-  userRegisterEmail
+  userRegisterEmail,
+  userAddProject
 } from "../actions/UserActions";
 import {
   projectPost,
@@ -61,7 +62,6 @@ import ProjectAddMember from "../components/Rian/Project/ProjectAddMember";
 /*----------  EXTRA  ----------*/
 import "../styles/Rian.css";
 
-
 class RianApp extends Component {
   constructor(props) {
     super(props);
@@ -85,7 +85,18 @@ class RianApp extends Component {
   }
 
   render() {
-    const { User, Project, projectGet, userSignUp, userLogIn } = this.props;
+    const {
+      User,
+      Project,
+      projectGet,
+      userSignUp,
+      userLogIn,
+      userAddProject,
+      userRegisterEmail,
+      projectEpicRequestData,
+      projectEpicCancleData,
+      projectEpicRequestLink
+    } = this.props;
     return (
       <Router history={history}>
         <Route
@@ -95,16 +106,15 @@ class RianApp extends Component {
               <Header
                 User={User}
                 Project={Project}
-                projectDetach={this.props.projectDetach}
-                projectEpicRequestData={this.props.projectEpicRequestData}
-                projectEpicCancleData={this.props.projectEpicCancleData}
+                projectEpicRequestData={projectEpicRequestData}
+                projectEpicCancleData={projectEpicCancleData}
               />
               {User._id === null || User.loading === "AUTH"
-                ? <div className="loaderWrapper">
+                ? <section className="loaderWrapper">
                     <div className="loader">Loading...</div>
-                  </div>
-                : <div className="MainWrapper">
-                    <div className="Navigation">
+                  </section>
+                : [
+                    <div className="left">
                       <Switch>
                         <Route
                           exact
@@ -118,11 +128,6 @@ class RianApp extends Component {
                         />
                         <Route
                           exact
-                          path="/me/note"
-                          render={props => <NotetimelineContainer />}
-                        />
-                        <Route
-                          exact
                           path="/project/:projectId"
                           render={props => (
                             <ProjectNavHome User={User} Project={Project} />
@@ -130,17 +135,28 @@ class RianApp extends Component {
                         />
                         <Route
                           exact
-                          path="/project/:projectId/note"
-                          render={props => <ProjectNavNote />}
-                        />
-                        <Route
-                          exact
                           path="/project/:projectId/file"
                           render={props => <ProjectNavFile />}
                         />
                       </Switch>
-                    </div>
-                    <div className="MainContent">
+                    </div>,
+                    
+                    <div className="middle">
+                      <Switch>
+                        <Route
+                          exact
+                          path="/me/note"
+                          render={props => <NotetimelineContainer />}
+                        />
+                        <Route
+                          exact
+                          path="/me/calendar"
+                          render={props => <CalendarComponent />}
+                        />
+                      </Switch>
+                    </div>,
+
+                    <div className="right">
                       <Switch>
                         <Route
                           exact
@@ -148,14 +164,9 @@ class RianApp extends Component {
                           render={props => (
                             <MeHome
                               User={User}
-                              userRegisterEmail={this.props.userRegisterEmail}
+                              userRegisterEmail={userRegisterEmail}
                             />
                           )}
-                        />
-                        <Route
-                          exact
-                          path="/me/calendar"
-                          render={props => <CalendarComponent />}
                         />
                         <Route
                           exact
@@ -164,8 +175,18 @@ class RianApp extends Component {
                         />
                         <Route
                           exact
+                          path="/project/:projectId/note"
+                          render={props => <ProjectNavNote />}
+                        />
+                        <Route
+                          exact
                           path="/me/new_project"
-                          render={props => <NewProject />}
+                          render={props => (
+                            <NewProject
+                              User={User}
+                              userAddProject={userAddProject}
+                            />
+                          )}
                         />
                         <Route
                           exact
@@ -186,16 +207,16 @@ class RianApp extends Component {
                           exact
                           path="/project/:projectId/add_member"
                           render={props => (
-                            <ProjectAddMember 
-                              User={User} 
+                            <ProjectAddMember
+                              User={User}
                               Project={Project}
-                              projectEpicRequestLink={this.props.projectEpicRequestLink}
+                              projectEpicRequestLink={projectEpicRequestLink}
                             />
                           )}
                         />
                       </Switch>
                     </div>
-                  </div>}
+                  ]}
             </div>
           )}
         />
@@ -225,11 +246,11 @@ function mapDispatch(dispatch) {
     userLogOut: () => {
       dispatch(userLogOut());
     },
+    userAddProject: (project, history) => {
+      dispatch(userAddProject(project, history));
+    },
     projectGet: projectId => {
       dispatch(projectGet(projectId));
-    },
-    projectDetach: () => {
-      dispatch(projectDetach());
     },
     userRegisterEmail: user => {
       dispatch(userRegisterEmail(user));
