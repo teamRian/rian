@@ -1,0 +1,32 @@
+.HolyGrail {
+	display:flex;
+	width:100%;
+	flex-direction:column;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+.HolyGrailHeader {
+	display:flex;
+	flex: 1;
+	align-items:center;
+	justify-content: center;
+	border-bottom: 1px solid rgba(236,236,236,1);
+
+}
+.HolyGrailBody {
+	display:flex;
+	padding:10px;
+	flex-direction: column;
+	flex:6;
+	height:100%;
+}
+
+.HolyGrailFooter {
+	display:flex;
+	padding:10px;
+	justify-content: flex-end;
+	flex: 1;
+	border-top: 1px solid rgba(236,236,236,1);
+
+}
