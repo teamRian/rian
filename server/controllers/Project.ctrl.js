@@ -33,7 +33,10 @@ export async function projectIsMember(req, res, next) {
   // console.log("PROJECT IS MEMBER");
   try {
     const sessionUser = req.session.passport.user;
-    const project = await Project.findById(req.path.split("/")[2])
+    const project = await Project
+      .findById(req.path.split("/")[2])
+      .populate("member", "email last_login name picture _id")
+      .populate("link")
     const user = await User.findById(sessionUser).populate("projects", "name chatroom");
     const member = project.member.map(objectId=>objectId.toString());
     const check = member.includes(sessionUser);

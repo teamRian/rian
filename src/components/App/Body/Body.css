@@ -1,0 +1,47 @@
+.body-wrapper{
+
+}
+
+
+.body-3-calendar {
+  display: grid; 
+  grid-template-columns: [first] 2fr [second] 7fr [third] 3fr [forth] 0fr [fifth];
+}
+.body-3 {
+	display: grid; 
+  grid-template-columns: [first] 2fr [second] 3fr [third] 7fr [forth] 0fr [fifth];
+}
+.body-2 {
+	display: grid; 
+  grid-template-columns: [first] 0fr [second] 3fr [third] 7fr [forth] 2fr [fifth];
+}
+.body-1 {
+	display: grid; 
+  grid-template-columns: [first] 0fr [second] 0fr [third] 10fr [forth] 2fr [fifth];
+}
+
+.left {
+  grid-column-start: first;
+  grid-column-end: second;
+  display:flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(236,236,236,1);
+}
+
+.middle {
+  grid-column-start: second;
+  grid-column-end: third;
+  display:flex;
+  justify-content: center;
+  align-items:stretch;
+  flex:1;
+}
+
+.right {
+  grid-column-start: third;
+  grid-column-end: forth;
+  display:flex;
+  justify-content: center;
+  align-items:stretch;
+  flex:1;
+}

@@ -2,36 +2,19 @@ div {
   font-family: "Noto Sans", "Noto Sans CJK KR", sans-serif;
 }
 
-#logIn {
-  display:flex;
-  height:100vh;
-  justify-content: center;
-  align-items:center;
-}
-
-#logIn Button {
-  margin:20px;
-}
-
 .app-3 {
   display: grid;
   grid-template-rows: [header] 70px [header-end] auto [end];
-  /*grid-template-columns: [first] 1fr [second];*/
   height:100vh;
   min-width: 1500px;
+  min-height: 800px;
 }
 
-.Header {
+.header {
   display: grid;
-/*  grid-column-start: first;
-  grid-column-end: second;*/
   grid-template-columns: 2fr 3fr 7fr;
 }
 
-.MainWrapper {
-  display: grid;
-  grid-template-columns: 2fr 10fr;
-}
 
 /* LOADING SPINNER */
 

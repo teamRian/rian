@@ -174,7 +174,7 @@ export function userAddProject(project, history) {
       await dispatch(userSuccessAddProject(newProject));
       history.push(`/project/${_id}`)
     } catch (e) {
-      dispatch(UserFailAddProject(err));
+      dispatch(UserFailAddProject(e));
     }
 
       
