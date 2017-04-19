@@ -3,7 +3,7 @@ import { persistState } from "redux-devtools";
 import rootReducer from "../reducers";
 import rootEpic from "../epics";
 import { createEpicMiddleware } from "redux-observable";
-import DevTools from "../containers/DevTools";
+import DevTools from "../components/DevTools";
 import thunkMiddleware from "redux-thunk";
 import promiseMiddleware from "redux-promise";
 import createLogger from "redux-logger";

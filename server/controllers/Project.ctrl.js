@@ -13,30 +13,30 @@ export function projectGet(req, res) {
     .catch(err => console.log(err));
 }
 
-export function projectPost(req, res) {
+export async function projectPost(req, res) {
+  console.log(req.body.project, " : PROEJCT POST");
   // Project Add
-  const post = new Project(req.body.project);
-  post
-    .save()
-    .then(project => {
-       const newLink = {
-        creator: req.body.project.creator,
-        projectId
-      }
-      User.findByIdAndUpdate(
-        project.creator,
-        { $push: { projects: project._id } },
-        () => res.json(project)
-      );
-    })
-    .catch(err => console.log(err));
+  try {
+    const post = new Project(req.body.project);
+    const project = await post.save();
+    User.findByIdAndUpdate(
+      project.creator,
+      { $push: { projects: project._id } },
+      () => res.json(project)
+    );
+  } catch (e) {
+    res.direct('/me/new_project');
+  }
 }
 
 export async function projectIsMember(req, res, next) {
   // console.log("PROJECT IS MEMBER");
   try {
     const sessionUser = req.session.passport.user;
-    const project = await Project.findById(req.path.split("/")[2])
+    const project = await Project
+      .findById(req.path.split("/")[2])
+      .populate("member", "email last_login name picture _id")
+      .populate("link")
     const user = await User.findById(sessionUser).populate("projects", "name chatroom");
     const member = project.member.map(objectId=>objectId.toString());
     const check = member.includes(sessionUser);

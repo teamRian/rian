@@ -1,0 +1,28 @@
+
+#CalendarHeader {
+	display:flex;
+	height:7%;
+	justify-content: space-around;
+	align-items: center;
+	font-size:20px;
+}
+
+.DateMonitor {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.DateText{
+	text-align:center;
+	margin: 0px;
+}
+
+.DateText span {
+	font-size: 14px;
+}
+
+#SideMonth {
+	display:flex;
+	flex-direction: column;
+}

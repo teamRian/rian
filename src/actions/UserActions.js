@@ -164,19 +164,20 @@ export function UserFailAddProject() {
   };
 }
 
-export function userAddProject(project) {
-  return function(dispatch) {
+export function userAddProject(project, history) {
+  return async function(dispatch) {
     dispatch(userRequestAddProject());
-    return axios
-      .post("/api/project/newProject", { project })
-      .then( response => {
-        const { _id, name } = response.data;
-        let newProject = { _id, name };
-        dispatch(userSuccessAddProject(newProject));
-      })
-      .catch(err => {
-        dispatch(UserFailAddProject(err));
-      });
+    try {
+      const response = await axios.post("/api/project/newProject", { project });
+      const { _id, name } = response.data;
+      let newProject = { _id, name };
+      await dispatch(userSuccessAddProject(newProject));
+      history.push(`/project/${_id}`)
+    } catch (e) {
+      dispatch(UserFailAddProject(e));
+    }
+
+      
   };
 }
 

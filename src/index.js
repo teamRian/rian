@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Root from './containers/Root';
+import Root from './components/Root';
 import configureStore from './store/configureStore';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux';
@@ -54,11 +54,11 @@ render(
 
 
 if (module.hot) {
-  module.hot.accept('./containers/Root', () => {
+  module.hot.accept('./components/Root', () => {
     // If you use Webpack 2 in ES modules mode, you can
     // use <App /> here rather than require() a <NextApp />.
 
-    const NextApp = require('./containers/Root').default; // eslint-disable-line global-require
+    const NextApp = require('./components/Root').default; // eslint-disable-line global-require
     render(
       <ApolloProvider client={client}>
           <AppContainer>
